@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم معلم العلوم - المناهج العلمية لجميع الصفوف</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --science-primary: #2196F3;
+            --science-secondary: #1976D2;
+            --science-light: #E3F2FD;
+            --biology: #4CAF50;
+            --chemistry: #FF9800;
+            --physics: #F44336;
+            --earth-science: #795548;
+            --astronomy: #9C27B0;
+            --environment: #009688;
+            --grade1: #FF6B6B;
+            --grade2: #4ECDC4;
+            --grade3: #45B7D1;
+            --grade4: #96CEB4;
+            --grade5: #FECA57;
+            --dark: #2C3E50;
+            --light: #ECF0F1;
+            --gradient: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "⚗️🧪🔬";
+            position: absolute;
+            font-size: 4rem;
+            opacity: 0.1;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--science-primary);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .school-info h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .school-info p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .teacher-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255,255,255,0.15);
+            padding: 0.8rem 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .teacher-avatar {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: var(--science-primary);
+        }
+
+        /* Main Layout */
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 110px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: white;
+            box-shadow: 3px 0 15px rgba(0,0,0,0.08);
+            padding: 1.5rem 0;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 2rem;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s;
+            margin: 0.5rem 1rem;
+            border-radius: 10px;
+            border-right: 4px solid transparent;
+        }
+
+        .menu-item:hover {
+            background: var(--science-light);
+            color: var(--science-primary);
+            border-right-color: var(--science-primary);
+            transform: translateX(-5px);
+        }
+
+        .menu-item.active {
+            background: var(--gradient);
+            color: white;
+            border-right-color: white;
+        }
+
+        .menu-item i {
+            margin-left: 1rem;
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .badge {
+            background: #FF5252;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-right: auto;
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .welcome-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--science-primary);
+        }
+
+        .welcome-section h1 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .welcome-section p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Science Stats */
+        .science-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card.biology {
+            border-top: 4px solid var(--biology);
+        }
+
+        .stat-card.chemistry {
+            border-top: 4px solid var(--chemistry);
+        }
+
+        .stat-card.physics {
+            border-top: 4px solid var(--physics);
+        }
+
+        .stat-card.earth {
+            border-top: 4px solid var(--earth-science);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .stat-card.biology .stat-icon {
+            background: var(--biology);
+        }
+
+        .stat-card.chemistry .stat-icon {
+            background: var(--chemistry);
+        }
+
+        .stat-card.physics .stat-icon {
+            background: var(--physics);
+        }
+
+        .stat-card.earth .stat-icon {
+            background: var(--earth-science);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card.biology .stat-value {
+            color: var(--biology);
+        }
+
+        .stat-card.chemistry .stat-value {
+            color: var(--chemistry);
+        }
+
+        .stat-card.physics .stat-value {
+            color: var(--physics);
+        }
+
+        .stat-card.earth .stat-value {
+            color: var(--earth-science);
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Science Tabs */
+        .science-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .science-tab {
+            padding: 1rem 1.5rem;
+            background: white;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .science-tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .science-tab.active {
+            color: white;
+            border-color: transparent;
+        }
+
+        .science-tab.biology.active {
+            background: var(--biology);
+        }
+
+        .science-tab.chemistry.active {
+            background: var(--chemistry);
+        }
+
+        .science-tab.physics.active {
+            background: var(--physics);
+        }
+
+        .science-tab.earth.active {
+            background: var(--earth-science);
+        }
+
+        /* Grade Tabs */
+        .grade-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .grade-tab {
+            padding: 1rem 1.5rem;
+            background: white;
+            border: 2px solid var(--science-light);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .grade-tab:hover {
+            border-color: var(--science-primary);
+            transform: translateY(-2px);
+        }
+
+        .grade-tab.active {
+            background: var(--science-primary);
+            color: white;
+            border-color: var(--science-primary);
+        }
+
+        /* Lessons Grid */
+        .lessons-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .lesson-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: var(--science-primary);
+        }
+
+        .lesson-card.biology:hover {
+            border-color: var(--biology);
+        }
+
+        .lesson-card.chemistry:hover {
+            border-color: var(--chemistry);
+        }
+
+        .lesson-card.physics:hover {
+            border-color: var(--physics);
+        }
+
+        .lesson-header {
+            padding: 1.5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lesson-card.biology .lesson-header {
+            background: linear-gradient(135deg, var(--biology), #388E3C);
+        }
+
+        .lesson-card.chemistry .lesson-header {
+            background: linear-gradient(135deg, var(--chemistry), #F57C00);
+        }
+
+        .lesson-card.physics .lesson-header {
+            background: linear-gradient(135deg, var(--physics), #D32F2F);
+        }
+
+        .lesson-card.earth .lesson-header {
+            background: linear-gradient(135deg, var(--earth-science), #5D4037);
+        }
+
+        .lesson-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-subject {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .lesson-content {
+            padding: 1.5rem;
+        }
+
+        .lesson-desc {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .lesson-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .lesson-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-family: 'Cairo';
+        }
+
+        .btn-primary {
+            background: var(--science-primary);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background: var(--science-secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: var(--dark);
+            border: 1px solid #dee2e6;
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        /* Experiments Section */
+        .experiments-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .experiments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .experiment-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid;
+            transition: all 0.3s;
+        }
+
+        .experiment-card.biology {
+            border-left-color: var(--biology);
+        }
+
+        .experiment-card.chemistry {
+            border-left-color: var(--chemistry);
+        }
+
+        .experiment-card.physics {
+            border-left-color: var(--physics);
+        }
+
+        .experiment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .experiment-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .experiment-desc {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .experiment-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        /* Programs Section */
+        .programs-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .program-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: var(--dark);
+            border: 2px dashed #dee2e6;
+        }
+
+        .program-card:hover {
+            background: white;
+            border-color: var(--science-primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .program-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--science-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: var(--science-primary);
+        }
+
+        .program-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .program-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-active {
+            background: #d6f5e8;
+            color: #43A047;
+        }
+
+        .status-upcoming {
+            background: #fff4e6;
+            color: #FF9800;
+        }
+
+        .status-completed {
+            background: #e0f7ff;
+            color: #1E88E5;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .lessons-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 1rem;
+            }
+            
+            .sidebar-menu {
+                display: flex;
+                overflow-x: auto;
+                gap: 0.5rem;
+            }
+            
+            .menu-item {
+                white-space: nowrap;
+                margin: 0;
+                padding: 0.8rem 1.2rem;
+            }
+            
+            .content {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .science-stats,
+            .lessons-grid,
+            .programs-grid,
+            .experiments-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .science-tabs,
+            .grade-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .lesson-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 1rem;
+            }
+            
+            .logo {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            
+            .school-info h1 {
+                font-size: 1.4rem;
+            }
+            
+            .welcome-section,
+            .lessons-section,
+            .experiments-section,
+            .programs-section {
+                padding: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-atom"></i>
+                </div>
+                <div class="school-info">
+                    <h1>منصة العلوم التعليمية</h1>
+                    <p>تجارب تفاعلية - دروس علمية - منهج متكامل</p>
+                </div>
+            </div>
+            <div class="teacher-info">
+                <div class="teacher-avatar">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div>
+                    <div style="font-weight: 600;">د. أحمد العلمي</div>
+                    <div style="font-size: 0.9rem; opacity: 0.9;">مدرس العلوم</div>
+                </div>
+                <div style="margin-right: auto; margin-left: 1rem;">
+                    <div id="current-time" style="font-size: 1.1rem;"></div>
+                    <div style="font-size: 0.8rem; opacity: 0.8;">توقيت المختبر العلمي</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="#" class="menu-item active">
+                        <i class="fas fa-home"></i>
+                        <span>الرئيسية</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>الطلاب</span>
+                        <span class="badge">24</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-flask"></i>
+                        <span>المختبر الافتراضي</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-seedling"></i>
+                        <span>علم الأحياء</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-atom"></i>
+                        <span>الكيمياء</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-bolt"></i>
+                        <span>الفيزياء</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-globe-asia"></i>
+                        <span>علوم الأرض</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>التقارير</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-tasks"></i>
+                        <span>الواجبات</span>
+                        <span class="badge">8</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>الجدول الدراسي</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>الإعدادات</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Welcome Section -->
+            <section class="welcome-section fade-in">
+                <h1>مرحباً بك في مختبر العلوم الافتراضي 🧪</h1>
+                <p>إدارة الدروس العلمية والتجارب التفاعلية للصفوف من الأول إلى الخامس</p>
+                <div class="science-tabs">
+                    <div class="science-tab biology active" onclick="showScience('biology')">
+                        <i class="fas fa-seedling"></i>
+                        علم الأحياء
+                    </div>
+                    <div class="science-tab chemistry" onclick="showScience('chemistry')">
+                        <i class="fas fa-flask"></i>
+                        الكيمياء
+                    </div>
+                    <div class="science-tab physics" onclick="showScience('physics')">
+                        <i class="fas fa-bolt"></i>
+                        الفيزياء
+                    </div>
+                    <div class="science-tab earth" onclick="showScience('earth')">
+                        <i class="fas fa-globe-asia"></i>
+                        علوم الأرض
+                    </div>
+                </div>
+            </section>
+
+            <!-- Science Statistics -->
+            <div class="science-stats fade-in">
+                <div class="stat-card biology">
+                    <div class="stat-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <div class="stat-value">92%</div>
+                    <div class="stat-label">معدل النجاح في الأحياء</div>
+                </div>
+                <div class="stat-card chemistry">
+                    <div class="stat-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="stat-value">85%</div>
+                    <div class="stat-label">معدل النجاح في الكيمياء</div>
+                </div>
+                <div class="stat-card physics">
+                    <div class="stat-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="stat-value">88%</div>
+                    <div class="stat-label">معدل النجاح في الفيزياء</div>
+                </div>
+                <div class="stat-card earth">
+                    <div class="stat-icon">
+                        <i class="fas fa-globe-asia"></i>
+                    </div>
+                    <div class="stat-value">90%</div>
+                    <div class="stat-label">معدل النجاح في علوم الأرض</div>
+                </div>
+            </div>
+
+            <!-- Grade Tabs -->
+            <div class="grade-tabs fade-in">
+                <div class="grade-tab active" onclick="showGrade('grade1')">
+                    <i class="fas fa-1"></i>
+                    الصف الأول
+                </div>
+                <div class="grade-tab" onclick="showGrade('grade2')">
+                    <i class="fas fa-2"></i>
+                    الصف الثاني
+                </div>
+                <div class="grade-tab" onclick="showGrade('grade3')">
+                    <i class="fas fa-3"></i>
+                    الصف الثالث
+                </div>
+                <div class="grade-tab" onclick="showGrade('grade4')">
+                    <i class="fas fa-4"></i>
+                    الصف الرابع
+                </div>
+                <div class="grade-tab" onclick="showGrade('grade5')">
+                    <i class="fas fa-5"></i>
+                    الصف الخامس
+                </div>
+            </div>
+
+            <!-- Grade 1 Lessons -->
+            <div id="grade1-content" class="grade-content">
+                <section class="lessons-section fade-in">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-graduation-cap"></i>
+                            دروس الصف الأول - علم الأحياء
+                        </h2>
+                        <button class="btn btn-primary" onclick="addNewLesson('grade1')">
+                            <i class="fas fa-plus"></i>
+                            إضافة درس جديد
+                        </button>
+                    </div>
+                    <div class="lessons-grid">
+                        <!-- Lesson 1 -->
+                        <div class="lesson-card biology">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <h3 class="lesson-title">أجزاء النبات</h3>
+                                <div class="lesson-subject">علم الأحياء - الوحدة الأولى</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    تعرف على أجزاء النبات المختلفة: الجذر، الساق، الأوراق، الزهرة. تجارب عملية مع النباتات الحية.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 4 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 15 تمرين</span>
+                                </div>
+                                <span class="status-badge status-active">نشط</span>
+                                <div class="lesson-actions">
+                                    <button class="btn btn-primary">
+                                        <i class="fas fa-play"></i> بدء الدرس
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="viewLessonDetails('plant_parts')">
+                                        <i class="fas fa-info-circle"></i> التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lesson 2 -->
+                        <div class="lesson-card biology">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-paw"></i>
+                                </div>
+                                <h3 class="lesson-title">الحيوانات الأليفة</h3>
+                                <div class="lesson-subject">علم الأحياء - الوحدة الثانية</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    تعرف على الحيوانات الأليفة وكيفية العناية بها. مقارنة بين الثدييات والطيور والزواحف.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 3 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 12 تمرين</span>
+                                </div>
+                                <span class="status-badge status-active">نشط</span>
+                                <div class="lesson-actions">
+                                    <button class="btn btn-primary">
+                                        <i class="fas fa-play"></i> بدء الدرس
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="viewLessonDetails('pets')">
+                                        <i class="fas fa-info-circle"></i> التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lesson 3 -->
+                        <div class="lesson-card chemistry">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <h3 class="lesson-title">حالات المادة</h3>
+                                <div class="lesson-subject">الكيمياء - الوحدة الأولى</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    تعرف على حالات المادة الثلاث: الصلبة، السائلة، الغازية. تجارب بسيطة على التغيرات الحرارية.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 5 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 18 تمرين</span>
+                                </div>
+                                <span class="status-badge status-completed">مكتمل</span>
+                                <div class="lesson-actions">
+                                    <button class="btn btn-primary">
+                                        <i class="fas fa-redo"></i> مراجعة
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="viewResults('matter_states')">
+                                        <i class="fas fa-chart-bar"></i> النتائج
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Grade 2 Lessons -->
+            <div id="grade2-content" class="grade-content" style="display: none;">
+                <section class="lessons-section fade-in">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-graduation-cap"></i>
+                            دروس الصف الثاني - الكيمياء
+                        </h2>
+                        <button class="btn btn-primary" onclick="addNewLesson('grade2')">
+                            <i class="fas fa-plus"></i>
+                            إضافة درس جديد
+                        </button>
+                    </div>
+                    <div class="lessons-grid">
+                        <!-- Lesson 1 -->
+                        <div class="lesson-card chemistry">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-flask"></i>
+                                </div>
+                                <h3 class="lesson-title">الخواص الكيميائية</h3>
+                                <div class="lesson-subject">الكيمياء - الوحدة الأولى</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    دراسة الخواص الكيميائية للمواد: القابلية للاشتعال، التفاعل مع الأحماض، التغيرات الكيميائية.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 6 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 20 تمرين</span>
+                                </div>
+                                <span class="status-badge status-active">نشط</span>
+                                <div class="lesson-actions">
+                                    <button class="btn btn-primary">
+                                        <i class="fas fa-play"></i> بدء الدرس
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="viewLessonDetails('chemical_props')">
+                                        <i class="fas fa-info-circle"></i> التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lesson 2 -->
+                        <div class="lesson-card physics">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-magnet"></i>
+                                </div>
+                                <h3 class="lesson-title">المغناطيسية</h3>
+                                <div class="lesson-subject">الفيزياء - الوحدة الأولى</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    تعرف على خصائص المغناطيس، الأقطاب المغناطيسية، استخدامات المغناطيس في الحياة اليومية.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 4 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 15 تمرين</span>
+                                </div>
+                                <span class="status-badge status-upcoming">قادم</span>
+                                <div class="lesson-actions">
+                                    <button class="btn btn-primary">
+                                        <i class="fas fa-eye"></i> معاينة
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="scheduleLesson('magnetism')">
+                                        <i class="fas fa-calendar"></i> جدولة
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Experiments Section -->
+            <section class="experiments-section fade-in">
+                <h2 class="section-title">
+                    <i class="fas fa-vial"></i>
+                    التجارب العلمية القادمة
+                </h2>
+                <div class="experiments-grid">
+                    <div class="experiment-card biology">
+                        <div class="experiment-title">فحص خلايا البصل تحت المجهر</div>
+                        <p class="experiment-desc">استخدام المجهر لفحص خلايا البصل ورؤية النواة والجدار الخلوي</p>
+                        <div class="experiment-meta">
+                            <span><i class="far fa-calendar"></i> 15 ديسمبر</span>
+                            <span><i class="fas fa-users"></i> الصف الرابع</span>
+                        </div>
+                    </div>
+                    <div class="experiment-card chemistry">
+                        <div class="experiment-title">تفاعل الخل مع صودا الخبز</div>
+                        <p class="experiment-desc">تجربة تفاعل حمض مع قاعدة وملاحظة فوران ثاني أكسيد الكربون</p>
+                        <div class="experiment-meta">
+                            <span><i class="far fa-calendar"></i> 18 ديسمبر</span>
+                            <span><i class="fas fa-users"></i> الصف الخامس</span>
+                        </div>
+                    </div>
+                    <div class="experiment-card physics">
+                        <div class="experiment-title">بناء دائرة كهربائية بسيطة</div>
+                        <p class="experiment-desc">بناء دائرة كهربائية باستخدام بطارية ومصباح وأسلاك</p>
+                        <div class="experiment-meta">
+                            <span><i class="far fa-calendar"></i> 20 ديسمبر</span>
+                            <span><i class="fas fa-users"></i> الصف الثالث</span>
+                        </div>
+                    </div>
+                    <div class="experiment-card earth">
+                        <div class="experiment-title">تشكيل الصخور الرسوبية</div>
+                        <p class="experiment-desc">تجربة محاكاة عملية تكوين الصخور الرسوبية</p>
+                        <div class="experiment-meta">
+                            <span><i class="far fa-calendar"></i> 22 ديسمبر</span>
+                            <span><i class="fas fa-users"></i> الصف الثاني</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Programs Section -->
+            <section class="programs-section fade-in">
+                <h2 class="section-title">
+                    <i class="fas fa-puzzle-piece"></i>
+                    البرامج العلمية الإضافية
+                </h2>
+                <div class="programs-grid">
+                    <a href="#" class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3 class="program-title">برنامج الأحياء</h3>
+                        <p class="program-desc">دراسة الكائنات الحية ووظائفها وبيئاتها</p>
+                    </a>
+                    <a href="#" class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h3 class="program-title">برنامج الكيمياء</h3>
+                        <p class="program-desc">دراسة المادة وتفاعلاتها وخصائصها</p>
+                    </a>
+                    <a href="#" class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="program-title">برنامج الفيزياء</h3>
+                        <p class="program-desc">دراسة المادة والطاقة والحركة والقوى</p>
+                    </a>
+                    <a href="#" class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-globe-asia"></i>
+                        </div>
+                        <h3 class="program-title">برنامج علوم الأرض</h3>
+                        <p class="program-desc">دراسة كوكب الأرض والظواهر الطبيعية</p>
+                    </a>
+                    <a href="#" class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 class="program-title">برنامج علوم الفضاء</h3>
+                        <p class="program-desc">دراسة الكواكب والنجوم والمجرات</p>
+                    </a>
+                    <a href="#" class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-tree"></i>
+                        </div>
+                        <h3 class="program-title">برنامج البيئة</h3>
+                        <p class="program-desc">دراسة النظم البيئية والحفاظ عليها</p>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Update Current Time
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('ar-SA', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('current-time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Show Science Tab
+        function showScience(scienceType) {
+            // Update active tab
+            document.querySelectorAll('.science-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Add active class to clicked tab
+            document.querySelector(`.science-tab.${scienceType}`).classList.add('active');
+            
+            // Here you would typically filter lessons by science type
+            const scienceNames = {
+                'biology': 'علم الأحياء',
+                'chemistry': 'الكيمياء',
+                'physics': 'الفيزياء',
+                'earth': 'علوم الأرض'
+            };
+            
+            showNotification(`عرض دروس ${scienceNames[scienceType]}`);
+        }
+
+        // Show Grade Content
+        function showGrade(gradeId) {
+            // Update active tab
+            document.querySelectorAll('.grade-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Add active class to clicked tab
+            document.querySelector(`.grade-tab[onclick="showGrade('${gradeId}')"]`).classList.add('active');
+            
+            // Hide all grade contents
+            document.querySelectorAll('.grade-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // Show selected grade content
+            document.getElementById(`${gradeId}-content`).style.display = 'block';
+        }
+
+        // Add New Lesson
+        function addNewLesson(grade) {
+            const gradeNames = {
+                'grade1': 'الصف الأول',
+                'grade2': 'الصف الثاني',
+                'grade3': 'الصف الثالث',
+                'grade4': 'الصف الرابع',
+                'grade5': 'الصف الخامس'
+            };
+            
+            const formHTML = `
+                <div style="padding: 20px; text-align: right;">
+                    <h3 style="color: #2196F3; margin-bottom: 20px;">إضافة درس جديد لـ ${gradeNames[grade]}</h3>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: #555;">عنوان الدرس:</label>
+                        <input type="text" id="lessonTitle" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: #555;">التخصص العلمي:</label>
+                        <select id="lessonScience" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px;">
+                            <option value="biology">علم الأحياء</option>
+                            <option value="chemistry">الكيمياء</option>
+                            <option value="physics">الفيزياء</option>
+                            <option value="earth">علوم الأرض</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: #555;">وصف الدرس:</label>
+                        <textarea id="lessonDesc" style="width: 100%; height: 100px; padding: 10px; border: 2px solid #ddd; border-radius: 8px;"></textarea>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: #555;">المدة (ساعات):</label>
+                        <input type="number" id="lessonDuration" min="1" max="10" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px;">
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button onclick="saveLesson()" style="flex: 1; padding: 12px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer;">حفظ</button>
+                        <button onclick="window.close()" style="flex: 1; padding: 12px; background: #f5f5f5; color: #333; border: none; border-radius: 8px; cursor: pointer;">إلغاء</button>
+                    </div>
+                </div>
+            `;
+            
+            const popup = window.open('', 'إضافة درس جديد', 'width=500,height=500');
+            popup.document.write(`
+                <html dir="rtl">
+                <head>
+                    <title>إضافة درس جديد</title>
+                    <style>
+                        body { font-family: 'Cairo', sans-serif; margin: 0; }
+                    </style>
+                </head>
+                <body>${formHTML}</body>
+                </html>
+            `);
+            
+            // Define saveLesson function in popup
+            popup.saveLesson = function() {
+                const title = popup.document.getElementById('lessonTitle').value;
+                const science = popup.document.getElementById('lessonScience').value;
+                const desc = popup.document.getElementById('lessonDesc').value;
+                const duration = popup.document.getElementById('lessonDuration').value;
+                
+                if (title && science && desc && duration) {
+                    alert('تم إضافة الدرس بنجاح!');
+                    popup.close();
+                } else {
+                    alert('يرجى ملء جميع الحقول');
+                }
+            };
+        }
+
+        // View Lesson Details
+        function viewLessonDetails(lessonId) {
+            const details = {
+                'plant_parts': {
+                    title: 'أجزاء النبات',
+                    description: 'درس تعليمي شامل عن أجزاء النبات ووظائفها',
+                    students: '24 طالب',
+                    progress: '85%',
+                    nextSession: 'غداً 10:00 صباحاً'
+                },
+                'pets': {
+                    title: 'الحيوانات الأليفة',
+                    description: 'درس عن أنواع الحيوانات الأليفة وكيفية العناية بها',
+                    students: '24 طالب',
+                    progress: '78%',
+                    nextSession: 'بعد غد 11:00 صباحاً'
+                },
+                'chemical_props': {
+                    title: 'الخواص الكيميائية',
+                    description: 'درس متقدم عن الخواص الكيميائية للمواد',
+                    students: '20 طالب',
+                    progress: '65%',
+                    nextSession: 'اليوم 2:00 مساءً'
+                }
+            };
+            
+            const lesson = details[lessonId] || {
+                title: 'تفاصيل الدرس',
+                description: 'لا توجد معلومات متاحة',
+                students: '0 طالب',
+                progress: '0%',
+                nextSession: 'غير محدد'
+            };
+            
+            const modalHTML = `
+                <div style="padding: 20px; text-align: right;">
+                    <h3 style="color: #2196F3; margin-bottom: 20px;">${lesson.title}</h3>
+                    
+                    <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <strong>الوصف:</strong> ${lesson.description}
+                    </div>
+                    
+                    <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <strong>عدد الطلاب:</strong> ${lesson.students}
+                    </div>
+                    
+                    <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <strong>التقدم:</strong> ${lesson.progress}
+                    </div>
+                    
+                    <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <strong>الجلسة القادمة:</strong> ${lesson.nextSession}
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <button onclick="window.close()" style="width: 100%; padding: 12px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer;">إغلاق</button>
+                    </div>
+                </div>
+            `;
+            
+            const popup = window.open('', 'تفاصيل الدرس', 'width=400,height=400');
+            popup.document.write(`
+                <html dir="rtl">
+                <head>
+                    <title>تفاصيل الدرس</title>
+                    <style>
+                        body { font-family: 'Cairo', sans-serif; margin: 0; }
+                    </style>
+                </head>
+                <body>${modalHTML}</body>
+                </html>
+            `);
+        }
+
+        // View Student Results
+        function viewResults(lessonId) {
+            const resultsHTML = `
+                <div style="padding: 20px; text-align: right;">
+                    <h3 style="color: #2196F3; margin-bottom: 20px;">نتائج الطلاب</h3>
+                    
+                    <div style="max-height: 300px; overflow-y: auto; margin-bottom: 20px;">
+                        <div style="background: #e8f5e9; padding: 10px; margin: 5px 0; border-radius: 6px; border-right: 4px solid #4caf50;">
+                            <strong>أحمد محمد</strong> - 95%
+                        </div>
+                        <div style="background: #e8f5e9; padding: 10px; margin: 5px 0; border-radius: 6px; border-right: 4px solid #4caf50;">
+                            <strong>سارة خالد</strong> - 92%
+                        </div>
+                        <div style="background: #fff3e0; padding: 10px; margin: 5px 0; border-radius: 6px; border-right: 4px solid #ff9800;">
+                            <strong>فاطمة علي</strong> - 85%
+                        </div>
+                        <div style="background: #fff3e0; padding: 10px; margin: 5px 0; border-radius: 6px; border-right: 4px solid #ff9800;">
+                            <strong>عبدالله سعيد</strong> - 78%
+                        </div>
+                        <div style="background: #ffebee; padding: 10px; margin: 5px 0; border-radius: 6px; border-right: 4px solid #f44336;">
+                            <strong>مريم حسن</strong> - 65%
+                        </div>
+                    </div>
+                    
+                    <div style="background: #2196F3; color: white; padding: 15px; border-radius: 8px; text-align: center;">
+                        <strong>المعدل العام:</strong> 83%
+                    </div>
+                </div>
+            `;
+            
+            const popup = window.open('', 'نتائج الطلاب', 'width=350,height=400');
+            popup.document.write(`
+                <html dir="rtl">
+                <head>
+                    <title>نتائج الطلاب</title>
+                    <style>
+                        body { font-family: 'Cairo', sans-serif; margin: 0; }
+                    </style>
+                </head>
+                <body>${resultsHTML}</body>
+                </html>
+            `);
+        }
+
+        // Schedule Lesson
+        function scheduleLesson(lessonId) {
+            const scheduleHTML = `
+                <div style="padding: 20px; text-align: right;">
+                    <h3 style="color: #2196F3; margin-bottom: 20px;">جدولة درس</h3>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: #555;">التاريخ:</label>
+                        <input type="date" id="scheduleDate" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: #555;">الوقت:</label>
+                        <input type="time" id="scheduleTime" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: #555;">نوع الجلسة:</label>
+                        <select id="scheduleType" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px;">
+                            <option value="online">عن بُعد</option>
+                            <option value="lab">مختبر</option>
+                            <option value="classroom">فصل دراسي</option>
+                        </select>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button onclick="confirmSchedule()" style="flex: 1; padding: 12px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer;">تأكيد</button>
+                        <button onclick="window.close()" style="flex: 1; padding: 12px; background: #f5f5f5; color: #333; border: none; border-radius: 8px; cursor: pointer;">إلغاء</button>
+                    </div>
+                </div>
+            `;
+            
+            const popup = window.open('', 'جدولة درس', 'width=400,height=350');
+            popup.document.write(`
+                <html dir="rtl">
+                <head>
+                    <title>جدولة درس</title>
+                    <style>
+                        body { font-family: 'Cairo', sans-serif; margin: 0; }
+                    </style>
+                </head>
+                <body>${scheduleHTML}</body>
+                </html>
+            `);
+            
+            popup.confirmSchedule = function() {
+                const date = popup.document.getElementById('scheduleDate').value;
+                const time = popup.document.getElementById('scheduleTime').value;
+                const type = popup.document.getElementById('scheduleType').value;
+                
+                if (date && time) {
+                    alert('تم جدولة الدرس بنجاح!');
+                    popup.close();
+                } else {
+                    alert('يرجى ملء جميع الحقول');
+                }
+            };
+        }
+
+        // Show Notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                background: #2196F3;
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                z-index: 1000;
+                font-family: 'Cairo';
+                animation: slideIn 0.3s ease-out;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-info-circle"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            // Add animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(-100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add hover effects
+            document.querySelectorAll('.lesson-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Add click effects to buttons
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('mousedown', function() {
+                    this.style.transform = 'translateY(1px)';
+                });
+                
+                btn.addEventListener('mouseup', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

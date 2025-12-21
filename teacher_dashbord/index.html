@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم المعلم - جميع المواد الدراسية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --arabic: #1E88E5;
+            --islamic: #43A047;
+            --math: #FF9800;
+            --science: #E91E63;
+            --english: #9C27B0;
+            --social: #795548;
+            --art: #F44336;
+            --sports: #4CAF50;
+            --primary: #4361ee;
+            --light: #f8f9fa;
+            --dark: #2d3748;
+            --gradient: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e2e8f0 100%);
+            color: var(--dark);
+            min-height: 100vh;
+        }
+
+        /* التصميم الرئيسي */
+        .teacher-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* الشريط الجانبي */
+        .sidebar {
+            width: 320px;
+            background: white;
+            box-shadow: 2px 0 15px rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 25px;
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-header h2 {
+            margin-bottom: 5px;
+            font-size: 22px;
+        }
+
+        .sidebar-header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .teacher-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            margin: 15px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .teacher-avatar {
+            width: 60px;
+            height: 60px;
+            background: white;
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 22px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .teacher-info h4 {
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .teacher-info small {
+            opacity: 0.8;
+            font-size: 13px;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 25px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-right: 3px solid transparent;
+            margin: 5px 0;
+        }
+
+        .menu-item:hover {
+            background: #f0f4ff;
+            color: var(--primary);
+            border-right-color: var(--primary);
+        }
+
+        .menu-item.active {
+            background: var(--primary);
+            color: white;
+            border-right-color: white;
+        }
+
+        .menu-item i {
+            margin-left: 12px;
+            width: 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .badge {
+            background: #ef476f;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-right: auto;
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            flex: 1;
+            margin-right: 320px;
+            padding: 25px;
+        }
+
+        /* الشريط العلوي */
+        .top-bar {
+            background: white;
+            padding: 20px 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .page-title h1 {
+            color: var(--dark);
+            margin-bottom: 8px;
+            font-size: 28px;
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* المواد الدراسية */
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .subject-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .subject-header {
+            padding: 25px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subject-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transform: translate(30px, -30px);
+        }
+
+        .subject-header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .subject-title {
+            font-size: 22px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subject-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subject-description {
+            font-size: 14px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subject-content {
+            padding: 20px;
+        }
+
+        .subject-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stat-item h4 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-item p {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .subject-grades {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .grade-badge {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .grade-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .grade-badge.active {
+            border-color: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .subject-actions {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .subject-btn {
+            padding: 10px 25px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .subject-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        /* برامج المادة */
+        .programs-container {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .programs-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .programs-title {
+            color: var(--dark);
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .grades-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .grade-tab {
+            padding: 10px 20px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+
+        .grade-tab:hover {
+            background: #e9ecef;
+        }
+
+        .grade-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .programs-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .program-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            transition: all 0.3s;
+            border-right: 4px solid;
+        }
+
+        .program-card:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .program-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .program-name {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .program-grade {
+            font-size: 14px;
+            color: #666;
+            background: rgba(0,0,0,0.05);
+            padding: 3px 10px;
+            border-radius: 15px;
+        }
+
+        .program-status {
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-active { background: #d6f5e8; color: #43A047; }
+        .status-completed { background: #e0f7ff; color: #1E88E5; }
+        .status-pending { background: #fff4e6; color: #FF9800; }
+
+        .program-progress {
+            margin: 15px 0;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .program-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .program-btn {
+            padding: 8px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-start { background: #4CAF50; color: white; }
+        .btn-view { background: #2196F3; color: white; }
+        .btn-assign { background: #FF9800; color: white; }
+
+        /* الإجراءات السريعة */
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .quick-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 25px 15px;
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--dark);
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .quick-action:hover {
+            background: white;
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .quick-action i {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        /* الشريط الجانبي للمواد */
+        .sidebar-subjects {
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .subjects-nav-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .subject-nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            transition: all 0.3s;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .subject-nav-item:hover {
+            background: #f0f4ff;
+            transform: translateX(-5px);
+        }
+
+        .subject-nav-item.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .subject-nav-badge {
+            position: absolute;
+            left: 15px;
+            background: rgba(0,0,0,0.1);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+
+        .subject-nav-item.active .subject-nav-badge {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* التذييل */
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #666;
+            font-size: 14px;
+            margin-top: 40px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        /* التأثيرات */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        /* تحسينات للشريط الجانبي */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 280px;
+            }
+            .main-content {
+                margin-right: 280px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+                overflow-x: hidden;
+            }
+            .sidebar-header h2,
+            .sidebar-header p,
+            .teacher-info,
+            .menu-item span,
+            .subjects-nav-title span,
+            .subject-nav-item span,
+            .subject-nav-badge {
+                display: none;
+            }
+            .menu-item,
+            .subject-nav-item {
+                justify-content: center;
+                padding: 20px;
+            }
+            .menu-item i,
+            .subject-nav-item i {
+                margin: 0;
+                font-size: 20px;
+            }
+            .teacher-profile {
+                justify-content: center;
+                padding: 15px;
+            }
+            .teacher-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+            .main-content {
+                margin-right: 70px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-bar {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            .subjects-grid,
+            .programs-list,
+            .quick-grid {
+                grid-template-columns: 1fr;
+            }
+            .subject-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .grades-tabs {
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 15px;
+            }
+            .programs-container,
+            .subject-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="teacher-container">
+        <!-- الشريط الجانبي -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>منصة المعلم</h2>
+                <p>جميع المواد الدراسية</p>
+                <div class="teacher-profile">
+                    <div class="teacher-avatar">م</div>
+                    <div class="teacher-info">
+                        <h4>محمد أحمد</h4>
+                        <small>معلم جميع المواد</small>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-menu">
+                <a href="#" class="menu-item active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>لوحة التحكم</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>طلابي</span>
+                    <span class="badge">24</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>الجلسات</span>
+                    <span class="badge">3</span>
+                </a>
+                
+                <!-- قائمة المواد الدراسية -->
+                <div class="sidebar-subjects">
+                    <div class="subjects-nav-title">
+                        <i class="fas fa-book"></i>
+                        <span>المواد الدراسية</span>
+                    </div>
+                    <div class="subject-nav-item active" data-subject="arabic">
+                        <i class="fas fa-book-open" style="color: #1E88E5;"></i>
+                        <span>اللغة العربية</span>
+                        <span class="subject-nav-badge">4</span>
+                    </div>
+                    <div class="subject-nav-item" data-subject="islamic">
+                        <i class="fas fa-mosque" style="color: #43A047;"></i>
+                        <span>التربية الإسلامية</span>
+                        <span class="subject-nav-badge">3</span>
+                    </div>
+                    <div class="subject-nav-item" data-subject="math">
+                        <i class="fas fa-calculator" style="color: #FF9800;"></i>
+                        <span>الرياضيات</span>
+                        <span class="subject-nav-badge">5</span>
+                    </div>
+                    <div class="subject-nav-item" data-subject="science">
+                        <i class="fas fa-flask" style="color: #E91E63;"></i>
+                        <span>العلوم</span>
+                        <span class="subject-nav-badge">4</span>
+                    </div>
+                    <div class="subject-nav-item" data-subject="english">
+                        <i class="fas fa-language" style="color: #9C27B0;"></i>
+                        <span>اللغة الإنجليزية</span>
+                        <span class="subject-nav-badge">3</span>
+                    </div>
+                </div>
+                
+                <a href="#" class="menu-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>التقارير</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-cog"></i>
+                    <span>الإعدادات</span>
+                </a>
+                <a href="#" class="menu-item" style="margin-top: 20px;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>تسجيل الخروج</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- المحتوى الرئيسي -->
+        <div class="main-content">
+            <!-- الشريط العلوي -->
+            <div class="top-bar fade-in">
+                <div class="page-title">
+                    <h1>مرحباً محمد أحمد 👨‍🏫</h1>
+                    <p>لوحة التحكم الشاملة لجميع المواد الدراسية للصفوف من الأول إلى الخامس</p>
+                </div>
+                <div class="quick-actions">
+                    <div style="color: #666; font-size: 14px;">
+                        <i class="fas fa-clock"></i>
+                        <span id="current-time">10:30</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- جميع المواد الدراسية -->
+            <div class="subjects-grid">
+                <!-- اللغة العربية -->
+                <div class="subject-card fade-in" id="subject-arabic">
+                    <div class="subject-header" style="background: #1E88E5;">
+                        <div class="subject-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3 class="subject-title">اللغة العربية</h3>
+                        <p class="subject-description">قراءة، كتابة، قواعد، إملاء</p>
+                    </div>
+                    <div class="subject-content">
+                        <div class="subject-stats">
+                            <div class="stat-item">
+                                <h4>15</h4>
+                                <p>برنامج</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>5</h4>
+                                <p>مرحلة</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>85%</h4>
+                                <p>متابعة</p>
+                            </div>
+                        </div>
+                        <div class="subject-grades">
+                            <span class="grade-badge active" style="background: #FF6B6B; color: white;" onclick="showGradePrograms('arabic', 'grade1')">
+                                <i class="fas fa-1"></i> الأول
+                            </span>
+                            <span class="grade-badge" style="background: #48CAE4; color: white;" onclick="showGradePrograms('arabic', 'grade2')">
+                                <i class="fas fa-2"></i> الثاني
+                            </span>
+                            <span class="grade-badge" style="background: #52B788; color: white;" onclick="showGradePrograms('arabic', 'grade3')">
+                                <i class="fas fa-3"></i> الثالث
+                            </span>
+                            <span class="grade-badge" style="background: #FF9E00; color: white;" onclick="showGradePrograms('arabic', 'grade4')">
+                                <i class="fas fa-4"></i> الرابع
+                            </span>
+                            <span class="grade-badge" style="background: #9D4EDD; color: white;" onclick="showGradePrograms('arabic', 'grade5')">
+                                <i class="fas fa-5"></i> الخامس
+                            </span>
+                        </div>
+                        <div class="subject-actions">
+                            <a href="arabic_dashboard.html" class="subject-btn" onclick="showSubject('arabic')">
+                                <i class="fas fa-play-circle"></i> بدء تدريس اللغة العربية
+                            </a>
+                        </div>
+                    </div>
+                </div>
+<!--english dashboard-->
+              <div class="subject-card fade-in" id="subject-arabic">
+                    <div class="subject-header" style="background: #1E88E5;">
+                        <div class="subject-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3 class="subject-title">اللغة E</h3>
+                        <p class="subject-description">قراءة، كتابة، قواعد، إملاء</p>
+                    </div>
+                    <div class="subject-content">
+                        <div class="subject-stats">
+                            <div class="stat-item">
+                                <h4>15</h4>
+                                <p>برنامج</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>5</h4>
+                                <p>مرحلة</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>85%</h4>
+                                <p>متابعة</p>
+                            </div>
+                        </div>
+                        <div class="subject-grades">
+                            <span class="grade-badge active" style="background: #FF6B6B; color: white;" onclick="showGradePrograms('arabic', 'grade1')">
+                                <i class="fas fa-1"></i> الأول
+                            </span>
+                            <span class="grade-badge" style="background: #48CAE4; color: white;" onclick="showGradePrograms('arabic', 'grade2')">
+                                <i class="fas fa-2"></i> الثاني
+                            </span>
+                            <span class="grade-badge" style="background: #52B788; color: white;" onclick="showGradePrograms('arabic', 'grade3')">
+                                <i class="fas fa-3"></i> الثالث
+                            </span>
+                            <span class="grade-badge" style="background: #FF9E00; color: white;" onclick="showGradePrograms('arabic', 'grade4')">
+                                <i class="fas fa-4"></i> الرابع
+                            </span>
+                            <span class="grade-badge" style="background: #9D4EDD; color: white;" onclick="showGradePrograms('arabic', 'grade5')">
+                                <i class="fas fa-5"></i> الخامس
+                            </span>
+                        </div>
+                        <div class="subject-actions">
+                            <a href="english_dashboard.html" class="subject-btn" onclick="showSubject('arabic')">
+                                <i class="fas fa-play-circle"></i> بدء تدريس اللغة E
+                            </a>
+                        </div>
+                    </div>
+                </div>
+  
+                <!-- التربية الإسلامية -->
+                <div class="subject-card fade-in" id="subject-islamic">
+                    <div class="subject-header" style="background: #43A047;">
+                        <div class="subject-icon">
+                            <i class="fas fa-mosque"></i>
+                        </div>
+                        <h3 class="subject-title">التربية الإسلامية</h3>
+                        <p class="subject-description">قرآن، حديث، فقه، سيرة</p>
+                    </div>
+                    <div class="subject-content">
+                        <div class="subject-stats">
+                            <div class="stat-item">
+                                <h4>12</h4>
+                                <p>برنامج</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>5</h4>
+                                <p>مرحلة</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>92%</h4>
+                                <p>متابعة</p>
+                            </div>
+                        </div>
+                        <div class="subject-grades">
+                            <span class="grade-badge active" style="background: #FF6B6B; color: white;" onclick="showGradePrograms('islamic', 'grade1')">
+                                <i class="fas fa-1"></i> الأول
+                            </span>
+                            <span class="grade-badge" style="background: #48CAE4; color: white;" onclick="showGradePrograms('islamic', 'grade2')">
+                                <i class="fas fa-2"></i> الثاني
+                            </span>
+                            <span class="grade-badge" style="background: #52B788; color: white;" onclick="showGradePrograms('islamic', 'grade3')">
+                                <i class="fas fa-3"></i> الثالث
+                            </span>
+                            <span class="grade-badge" style="background: #FF9E00; color: white;" onclick="showGradePrograms('islamic', 'grade4')">
+                                <i class="fas fa-4"></i> الرابع
+                            </span>
+                            <span class="grade-badge" style="background: #9D4EDD; color: white;" onclick="showGradePrograms('islamic', 'grade5')">
+                                <i class="fas fa-5"></i> الخامس
+                            </span>
+                        </div>
+                        <div class="subject-actions">
+                            <a href="islamic_dashboard.html" class="subject-btn" onclick="showSubject('islamic')">
+                                <i class="fas fa-play-circle"></i> بدء تدريس التربية الإسلامية
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- الرياضيات -->
+                <div class="subject-card fade-in" id="subject-math">
+                    <div class="subject-header" style="background: #FF9800;">
+                        <div class="subject-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3 class="subject-title">الرياضيات</h3>
+                        <p class="subject-description">أعداد، عمليات، هندسة، قياس</p>
+                    </div>
+                    <div class="subject-content">
+                        <div class="subject-stats">
+                            <div class="stat-item">
+                                <h4>18</h4>
+                                <p>برنامج</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>5</h4>
+                                <p>مرحلة</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>78%</h4>
+                                <p>متابعة</p>
+                            </div>
+                        </div>
+                        <div class="subject-grades">
+                            <span class="grade-badge active" style="background: #FF6B6B; color: white;" onclick="showGradePrograms('math', 'grade1')">
+                                <i class="fas fa-1"></i> الأول
+                            </span>
+                            <span class="grade-badge" style="background: #48CAE4; color: white;" onclick="showGradePrograms('math', 'grade2')">
+                                <i class="fas fa-2"></i> الثاني
+                            </span>
+                            <span class="grade-badge" style="background: #52B788; color: white;" onclick="showGradePrograms('math', 'grade3')">
+                                <i class="fas fa-3"></i> الثالث
+                            </span>
+                            <span class="grade-badge" style="background: #FF9E00; color: white;" onclick="showGradePrograms('math', 'grade4')">
+                                <i class="fas fa-4"></i> الرابع
+                            </span>
+                            <span class="grade-badge" style="background: #9D4EDD; color: white;" onclick="showGradePrograms('math', 'grade5')">
+                                <i class="fas fa-5"></i> الخامس
+                            </span>
+                        </div>
+                        <div class="subject-actions">
+                            <a href="math_dashboard.html" class="subject-btn" onclick="showSubject('math')">
+                                <i class="fas fa-play-circle"></i> بدء تدريس الرياضيات
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- العلوم -->
+                <div class="subject-card fade-in" id="subject-science">
+                    <div class="subject-header" style="background: #E91E63;">
+                        <div class="subject-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h3 class="subject-title">العلوم</h3>
+                        <p class="subject-description">طبيعة، كائنات، تجارب، اكتشافات</p>
+                    </div>
+                    <div class="subject-content">
+                        <div class="subject-stats">
+                            <div class="stat-item">
+                                <h4>14</h4>
+                                <p>برنامج</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>5</h4>
+                                <p>مرحلة</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>81%</h4>
+                                <p>متابعة</p>
+                            </div>
+                        </div>
+                        <div class="subject-grades">
+                            <span class="grade-badge active" style="background: #FF6B6B; color: white;" onclick="showGradePrograms('science', 'grade1')">
+                                <i class="fas fa-1"></i> الأول
+                            </span>
+                            <span class="grade-badge" style="background: #48CAE4; color: white;" onclick="showGradePrograms('science', 'grade2')">
+                                <i class="fas fa-2"></i> الثاني
+                            </span>
+                            <span class="grade-badge" style="background: #52B788; color: white;" onclick="showGradePrograms('science', 'grade3')">
+                                <i class="fas fa-3"></i> الثالث
+                            </span>
+                            <span class="grade-badge" style="background: #FF9E00; color: white;" onclick="showGradePrograms('science', 'grade4')">
+                                <i class="fas fa-4"></i> الرابع
+                            </span>
+                            <span class="grade-badge" style="background: #9D4EDD; color: white;" onclick="showGradePrograms('science', 'grade5')">
+                                <i class="fas fa-5"></i> الخامس
+                            </span>
+                        </div>
+                        <div class="subject-actions">
+                            <a href="sinces_dashboard.html" class="subject-btn" onclick="showSubject('science')">
+                                <i class="fas fa-play-circle"></i> بدء تدريس العلوم
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- حاوية البرامج -->
+            <div id="programs-container" class="programs-container" style="display: none;">
+                <div class="programs-header">
+                    <h2 class="programs-title">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span id="current-subject-title">اللغة العربية</span>
+                    </h2>
+                </div>
+                
+                <div class="grades-tabs">
+                    <div class="grade-tab active" onclick="filterPrograms('all')">جميع المراحل</div>
+                    <div class="grade-tab" onclick="filterPrograms('grade1')">الصف الأول</div>
+                    <div class="grade-tab" onclick="filterPrograms('grade2')">الصف الثاني</div>
+                    <div class="grade-tab" onclick="filterPrograms('grade3')">الصف الثالث</div>
+                    <div class="grade-tab" onclick="filterPrograms('grade4')">الصف الرابع</div>
+                    <div class="grade-tab" onclick="filterPrograms('grade5')">الصف الخامس</div>
+                </div>
+                
+                <div class="programs-list" id="programs-list">
+                    <!-- ستظهر البرامج هنا -->
+                </div>
+            </div>
+
+            <!-- الإجراءات السريعة -->
+            <div class="programs-container fade-in">
+                <div class="programs-header">
+                    <h2 class="programs-title">
+                        <i class="fas fa-bolt"></i> إجراءات سريعة
+                    </h2>
+                </div>
+
+                <div class="quick-grid">
+                    <a href="#" class="quick-action">
+                        <i class="fas fa-user-plus"></i>
+                        <span>إضافة طالب جديد</span>
+                    </a>
+                    <a href="#" class="quick-action">
+                        <i class="fas fa-book-medical"></i>
+                        <span>إنشاء درس جديد</span>
+                    </a>
+                    <a href="#" class="quick-action">
+                        <i class="fas fa-tasks"></i>
+                        <span>تخصيص واجب</span>
+                    </a>
+                    <a href="#" class="quick-action">
+                        <i class="fas fa-clipboard-check"></i>
+                        <span>تقييم جديد</span>
+                    </a>
+                    <a href="#" class="quick-action">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>تقرير أداء</span>
+                    </a>
+                    <a href="#" class="quick-action">
+                        <i class="fas fa-comments"></i>
+                        <span>الرسائل الجديدة</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- التذييل -->
+            <div class="footer fade-in">
+                <p>© 2023 منصة تعليم وتأهيل أطفال التوحد - لوحة تحكم المعلم</p>
+                <p>الإصدار 4.0 | آخر تحديث: 2023-12-18 | الوقت: <span id="live-time"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // بيانات البرامج
+        const programsData = {
+            arabic: {
+                grade1: [
+                    {name: 'الحروف الهجائية', progress: 85, status: 'active'},
+                    {name: 'القراءة البسيطة', progress: 70, status: 'active'},
+                    {name: 'كتابة الحروف', progress: 90, status: 'completed'},
+                    {name: 'المفردات الأساسية', progress: 65, status: 'active'}
+                ],
+                grade2: [
+                    {name: 'الجمل القصيرة', progress: 78, status: 'active'},
+                    {name: 'الإملاء البسيط', progress: 82, status: 'active'}
+                ],
+                grade3: [
+                    {name: 'الفهم القرائي', progress: 75, status: 'active'},
+                    {name: 'التعبير الكتابي', progress: 68, status: 'active'}
+                ]
+            },
+            islamic: {
+                grade1: [
+                    {name: 'سور قصيرة', progress: 92, status: 'completed'},
+                    {name: 'أركان الإسلام', progress: 85, status: 'active'},
+                    {name: 'الأخلاق الإسلامية', progress: 88, status: 'active'}
+                ],
+                grade2: [
+                    {name: 'أحاديث نبوية', progress: 80, status: 'active'},
+                    {name: 'أركان الإيمان', progress: 75, status: 'active'}
+                ]
+            },
+            math: {
+                grade1: [
+                    {name: 'تعرف الأرقام', progress: 95, status: 'completed'},
+                    {name: 'الجمع البسيط', progress: 85, status: 'active'},
+                    {name: 'الطرح البسيط', progress: 80, status: 'active'}
+                ],
+                grade2: [
+                    {name: 'جدول الضرب', progress: 75, status: 'active'},
+                    {name: 'القسمة البسيطة', progress: 65, status: 'active'}
+                ]
+            },
+            science: {
+                grade1: [
+                    {name: 'أجزاء الجسم', progress: 90, status: 'completed'},
+                    {name: 'الحواس الخمس', progress: 85, status: 'active'}
+                ],
+                grade2: [
+                    {name: 'الكائنات الحية', progress: 82, status: 'active'},
+                    {name: 'الطقس والفصول', progress: 75, status: 'active'}
+                ]
+            }
+        };
+
+        // بيانات المواد
+        const subjectsData = {
+            arabic: {
+                name: 'اللغة العربية',
+                icon: 'fa-book-open',
+                color: '#1E88E5',
+                description: 'قراءة، كتابة، قواعد، إملاء'
+            },
+            islamic: {
+                name: 'التربية الإسلامية',
+                icon: 'fa-mosque',
+                color: '#43A047',
+                description: 'قرآن، حديث، فقه، سيرة'
+            },
+            math: {
+                name: 'الرياضيات',
+                icon: 'fa-calculator',
+                color: '#FF9800',
+                description: 'أعداد، عمليات، هندسة، قياس'
+            },
+            science: {
+                name: 'العلوم',
+                icon: 'fa-flask',
+                color: '#E91E63',
+                description: 'طبيعة، كائنات، تجارب، اكتشافات'
+            },
+            english: {
+                name: 'اللغة الإنجليزية',
+                icon: 'fa-language',
+                color: '#9C27B0',
+                description: 'قراءة، كتابة، محادثة، قواعد'
+            }
+        };
+
+        let currentSubject = 'arabic';
+        let currentGrade = 'all';
+
+        // تحديث الوقت الحي
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('ar-SA', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('current-time').textContent = timeString;
+            document.getElementById('live-time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // إظهار مادة محددة
+        function showSubject(subjectKey) {
+            currentSubject = subjectKey;
+            const subject = subjectsData[subjectKey];
+            
+            // تحديث العنوان
+            document.getElementById('current-subject-title').textContent = subject.name;
+            
+            // إظهار حاوية البرامج
+            document.getElementById('programs-container').style.display = 'block';
+            
+            // تحديث لون التبويبات
+            document.querySelectorAll('.grade-tab').forEach(tab => {
+                tab.style.borderColor = subject.color;
+            });
+            
+            // عرض البرامج
+            filterPrograms('all');
+            
+            // إضافة تأثير
+            const container = document.getElementById('programs-container');
+            container.style.animation = 'none';
+            setTimeout(() => {
+                container.style.animation = 'fadeInUp 0.5s ease-out';
+            }, 10);
+        }
+
+        // تصفية البرامج حسب المرحلة
+        function filterPrograms(grade) {
+            currentGrade = grade;
+            
+            // تحديث التبويبات النشطة
+            document.querySelectorAll('.grade-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // تحديث شارات المراحل
+            document.querySelectorAll('.grade-badge').forEach(badge => {
+                badge.classList.remove('active');
+            });
+            
+            // عرض البرامج
+            displayPrograms();
+        }
+
+        // عرض البرامج
+        function displayPrograms() {
+            const programsList = document.getElementById('programs-list');
+            const subjectPrograms = programsData[currentSubject] || {};
+            let programsHTML = '';
+            
+            if (currentGrade === 'all') {
+                // عرض جميع البرامج لجميع المراحل
+                Object.entries(subjectPrograms).forEach(([grade, programs]) => {
+                    const gradeName = grade === 'grade1' ? 'الصف الأول' :
+                                     grade === 'grade2' ? 'الصف الثاني' :
+                                     grade === 'grade3' ? 'الصف الثالث' :
+                                     grade === 'grade4' ? 'الصف الرابع' : 'الصف الخامس';
+                    
+                    programs.forEach(program => {
+                        programsHTML += createProgramCard(program, gradeName);
+                    });
+                });
+            } else {
+                // عرض برامج مرحلة محددة
+                const gradePrograms = subjectPrograms[currentGrade] || [];
+                const gradeName = currentGrade === 'grade1' ? 'الصف الأول' :
+                                 currentGrade === 'grade2' ? 'الصف الثاني' :
+                                 currentGrade === 'grade3' ? 'الصف الثالث' :
+                                 currentGrade === 'grade4' ? 'الصف الرابع' : 'الصف الخامس';
+                
+                gradePrograms.forEach(program => {
+                    programsHTML += createProgramCard(program, gradeName);
+                });
+            }
+            
+            programsList.innerHTML = programsHTML || '<p style="text-align:center; color:#666; padding:40px;">لا توجد برامج متاحة لهذه المرحلة</p>';
+        }
+
+        // إنشاء بطاقة برنامج
+        function createProgramCard(program, gradeName) {
+            const subjectColor = subjectsData[currentSubject].color;
+            const statusClass = `status-${program.status}`;
+            const statusText = program.status === 'active' ? 'نشط' :
+                              program.status === 'completed' ? 'مكتمل' : 'قيد الانتظار';
+            
+            return `
+            <div class="program-card" style="border-right-color: ${subjectColor}">
+                <div class="program-header">
+                    <div>
+                        <div class="program-name">${program.name}</div>
+                        <div class="program-grade">${gradeName}</div>
+                    </div>
+                    <div class="program-status ${statusClass}">${statusText}</div>
+                </div>
+                <div class="program-progress">
+                    <div class="progress-info">
+                        <span>التقدم</span>
+                        <span>${program.progress}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${program.progress}%; background: ${subjectColor};"></div>
+                    </div>
+                </div>
+                <div class="program-actions">
+                    <a href="#" class="program-btn btn-start">
+                        <i class="fas fa-play"></i> بدء الدرس
+                    </a>
+                    <a href="#" class="program-btn btn-view">
+                        <i class="fas fa-eye"></i> عرض التفاصيل
+                    </a>
+                    <a href="#" class="program-btn btn-assign">
+                        <i class="fas fa-user-plus"></i> تخصيص للطلاب
+                    </a>
+                </div>
+            </div>
+            `;
+        }
+
+        // إظهار برامج مرحلة محددة عند النقر على شارة
+        function showGradePrograms(subjectKey, grade) {
+            showSubject(subjectKey);
+            setTimeout(() => {
+                filterPrograms(grade);
+            }, 100);
+        }
+
+        // تأثيرات عند التحميل
+        document.addEventListener('DOMContentLoaded', () => {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach((element, index) => {
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+
+            // إظهار اللغة العربية افتراضياً
+            showSubject('arabic');
+
+            // إضافة تفاعل للبطاقات
+            document.querySelectorAll('.subject-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-5px)';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                });
+            });
+
+            // إضافة تفاعل لقائمة المواد الجانبية
+            document.querySelectorAll('.subject-nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('.subject-nav-item').forEach(i => {
+                        i.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    const subjectId = this.getAttribute('data-subject');
+                    const subjectElement = document.getElementById(`subject-${subjectId}`);
+                    if (subjectElement) {
+                        subjectElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Learning Game - With Error Sound</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --dark: #2C3E50;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FFDEE9 0%, #B5FFFC 100%);
+            margin: 0; padding: 20px; display: flex; justify-content: center; min-height: 100vh;
+        }
+        .app-container {
+            max-width: 900px; width: 100%; background: rgba(255, 255, 255, 0.9);
+            border-radius: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            padding: 30px; text-align: center;
+        }
+        .family-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 15px; margin-bottom: 30px;
+        }
+        .family-card {
+            background: white; border: 3px solid #eee; border-radius: 20px;
+            padding: 15px; cursor: pointer; transition: 0.3s;
+        }
+        .family-card:hover { transform: scale(1.05); border-color: var(--primary); }
+        .family-card img { width: 80px; height: 80px; border-radius: 50%; }
+        .quiz-section {
+            background: white; padding: 25px; border-radius: 30px; border: 4px dashed var(--primary);
+        }
+        #target-name { font-size: 45px; color: var(--primary); font-weight: 900; display: block; margin: 10px 0; }
+        .feedback { font-size: 24px; font-weight: bold; height: 40px; margin-top: 10px; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        .wrong-anim { animation: shake 0.3s; color: var(--danger); }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div style="text-align: right; margin-bottom: 10px;">
+        <button onclick="toggleMusic()" style="cursor:pointer; padding:10px; border-radius:20px; border:none; background:var(--secondary); color:white;">
+            <i class="fas fa-music"></i> Music On/Off
+        </button>
+    </div>
+    
+    <h1>English Family Game</h1>
+    <div class="family-grid" id="familyGrid"></div>
+
+    <div class="quiz-section">
+        <h2>Where is:</h2>
+        <span id="target-name">...</span>
+        <div id="feedback" class="feedback"></div>
+    </div>
+</div>
+
+<audio id="bg-music" loop src="https://www.soundjay.com/free-music/sounds/barn-beat-01.mp3"></audio>
+<audio id="applause-sound" src="https://www.soundjay.com/human/sounds/applause-01.mp3"></audio>
+<audio id="success-chime" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3"></audio>
+<audio id="error-sound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
+
+<script>
+    const familyMembers = [
+        { name: 'Dad', arabic: 'بابا', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png' },
+        { name: 'Mom', arabic: 'ماما', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140047.png' },
+        { name: 'Uncle', arabic: 'العم', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140061.png' },
+        { name: 'Aunt', arabic: 'العمة', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140045.png' },
+        { name: 'Grandpa', arabic: 'الجد', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140052.png' },
+        { name: 'Grandma', arabic: 'الجدة', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140051.png' }
+    ];
+
+    let currentTarget = "";
+
+    function initApp() {
+        const grid = document.getElementById('familyGrid');
+        familyMembers.forEach(member => {
+            const card = document.createElement('div');
+            card.className = 'family-card';
+            card.onclick = () => handleChoice(member.name);
+            card.innerHTML = `<img src="${member.img}"><h3>${member.name}</h3>`;
+            grid.appendChild(card);
+        });
+        generateQuestion();
+    }
+
+    function generateQuestion() {
+        const random = familyMembers[Math.floor(Math.random() * familyMembers.length)];
+        currentTarget = random.name;
+        document.getElementById('target-name').textContent = currentTarget;
+        document.getElementById('feedback').textContent = "";
+        document.getElementById('feedback').className = "feedback";
+    }
+
+    function handleChoice(selectedName) {
+        const feedback = document.getElementById('feedback');
+        
+        if(selectedName === currentTarget) {
+            // حالة الإجابة الصحيحة
+            feedback.textContent = "Correct! 👏";
+            feedback.style.color = "var(--success)";
+            document.getElementById('success-chime').play();
+            document.getElementById('applause-sound').play();
+            setTimeout(generateQuestion, 2000);
+        } else {
+            // حالة الإجابة الخاطئة - إضافة الصوت هنا
+            feedback.textContent = "Wrong! That's " + selectedName;
+            feedback.className = "feedback wrong-anim";
+            
+            // تشغيل صوت الخطأ (تنبيه)
+            const errorSound = document.getElementById('error-sound');
+            errorSound.currentTime = 0;
+            errorSound.play();
+            
+            // نطق اسم الخطأ للتنبيه
+            speak("No, that is " + selectedName);
+        }
+    }
+
+    function speak(text) {
+        const msg = new SpeechSynthesisUtterance(text);
+        msg.lang = 'en-US';
+        window.speechSynthesis.speak(msg);
+    }
+
+    let musicPlaying = false;
+    function toggleMusic() {
+        const m = document.getElementById('bg-music');
+        if(!musicPlaying) { m.play(); musicPlaying=true; }
+        else { m.pause(); musicPlaying=false; }
+    }
+
+    window.onload = initApp;
+</script>
+
+</body>
+</html>

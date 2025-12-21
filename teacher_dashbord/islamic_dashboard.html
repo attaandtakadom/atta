@@ -1,0 +1,1880 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم المعلم - التربية الإسلامية لجميع الصفوف</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --islamic-primary: #2E7D32;
+            --islamic-secondary: #1B5E20;
+            --islamic-light: #E8F5E9;
+            --quran: #1565C0;
+            --hadeeth: #C62828;
+            --aqeedah: #6A1B9A;
+            --fiqh: #F57C00;
+            --seerah: #00897B;
+            --grade1: #FF6B6B;
+            --grade2: #48CAE4;
+            --grade3: #52B788;
+            --grade4: #FF9E00;
+            --grade5: #9D4EDD;
+            --light: #f8f9fa;
+            --dark: #2d3748;
+            --gradient: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+            --gold: #D4AF37;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', 'Amiri', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e2e8f0 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="%232E7D32" fill-opacity="0.03" d="M50,0 C22.4,0 0,22.4 0,50 C0,77.6 22.4,100 50,100 C77.6,100 100,77.6 100,50 C100,22.4 77.6,0 50,0 Z M50,90 C27.9,90 10,72.1 10,50 C10,27.9 27.9,10 50,10 C72.1,10 90,27.9 90,50 C90,72.1 72.1,90 50,90 Z"/></svg>');
+        }
+
+        /* الشريط العلوي */
+        .top-bar {
+            background: var(--gradient);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .top-bar::before {
+            content: "﷽";
+            position: absolute;
+            font-size: 80px;
+            opacity: 0.1;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Amiri';
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: white;
+            padding: 5px;
+            border: 2px solid var(--gold);
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .school-info h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            font-family: 'Amiri', serif;
+        }
+
+        .school-info p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .teacher-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            z-index: 1;
+        }
+
+        .teacher-avatar {
+            width: 45px;
+            height: 45px;
+            background: white;
+            color: var(--islamic-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            border: 2px solid var(--gold);
+        }
+
+        /* المحتوى الرئيسي */
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 90px);
+        }
+
+        /* الشريط الجانبي */
+        .sidebar {
+            width: 280px;
+            background: white;
+            box-shadow: 2px 0 15px rgba(0,0,0,0.08);
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .sidebar::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-right: 4px solid transparent;
+            margin: 5px 15px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            background: var(--islamic-light);
+            color: var(--islamic-primary);
+            border-right-color: var(--islamic-primary);
+        }
+
+        .menu-item.active {
+            background: var(--islamic-primary);
+            color: white;
+            border-right-color: var(--gold);
+        }
+
+        .menu-item i {
+            margin-left: 12px;
+            width: 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .badge {
+            background: var(--gold);
+            color: var(--dark);
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-right: auto;
+            font-weight: bold;
+        }
+
+        /* حاوية المحتوى */
+        .content-container {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+        }
+
+        .page-title {
+            margin-bottom: 30px;
+            position: relative;
+            padding-right: 20px;
+        }
+
+        .page-title h1 {
+            color: var(--dark);
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-family: 'Amiri', serif;
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .page-title::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        /* تبويبات العلوم الشرعية */
+        .science-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .science-tab {
+            padding: 15px 25px;
+            border-radius: 12px;
+            background: white;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .science-tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .science-tab.active {
+            color: white;
+            border-color: transparent;
+        }
+
+        .science-tab.quran.active { background: var(--quran); }
+        .science-tab.hadeeth.active { background: var(--hadeeth); }
+        .science-tab.aqeedah.active { background: var(--aqeedah); }
+        .science-tab.fiqh.active { background: var(--fiqh); }
+        .science-tab.seerah.active { background: var(--seerah); }
+
+        .science-tab .tab-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+
+        /* تبويبات الصفوف */
+        .grades-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .grade-tab {
+            padding: 15px 25px;
+            border-radius: 12px;
+            background: white;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .grade-tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .grade-tab.active {
+            background: var(--islamic-primary);
+            color: white;
+            border-color: var(--gold);
+        }
+
+        .grade-tab .tab-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+
+        /* محتوى الصف */
+        .grade-content {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .grade-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* إحصائيات الصف */
+        .grade-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-top: 4px solid;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: "ﷰ";
+            position: absolute;
+            font-size: 40px;
+            opacity: 0.05;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Amiri';
+        }
+
+        .stat-card.quran { border-color: var(--quran); }
+        .stat-card.hadeeth { border-color: var(--hadeeth); }
+        .stat-card.aqeedah { border-color: var(--aqeedah); }
+        .stat-card.fiqh { border-color: var(--fiqh); }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 24px;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-card.quran .stat-icon { background: var(--quran); }
+        .stat-card.hadeeth .stat-icon { background: var(--hadeeth); }
+        .stat-card.aqeedah .stat-icon { background: var(--aqeedah); }
+        .stat-card.fiqh .stat-icon { background: var(--fiqh); }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-card.quran .stat-value { color: var(--quran); }
+        .stat-card.hadeeth .stat-value { color: var(--hadeeth); }
+        .stat-card.aqeedah .stat-value { color: var(--aqeedah); }
+        .stat-card.fiqh .stat-value { color: var(--fiqh); }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* دروس الصف */
+        .lessons-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lessons-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .section-title {
+            color: var(--dark);
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Amiri', serif;
+        }
+
+        .section-title i {
+            color: var(--gold);
+        }
+
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .lesson-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: var(--islamic-primary);
+        }
+
+        .lesson-card.quran:hover { border-color: var(--quran); }
+        .lesson-card.hadeeth:hover { border-color: var(--hadeeth); }
+        .lesson-card.aqeedah:hover { border-color: var(--aqeedah); }
+        .lesson-card.fiqh:hover { border-color: var(--fiqh); }
+        .lesson-card.seerah:hover { border-color: var(--seerah); }
+
+        .lesson-header {
+            padding: 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lesson-header::after {
+            content: "ﷰ";
+            position: absolute;
+            font-size: 60px;
+            opacity: 0.1;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Amiri';
+        }
+
+        .lesson-card.quran .lesson-header { background: linear-gradient(135deg, var(--quran), #0D47A1); }
+        .lesson-card.hadeeth .lesson-header { background: linear-gradient(135deg, var(--hadeeth), #B71C1C); }
+        .lesson-card.aqeedah .lesson-header { background: linear-gradient(135deg, var(--aqeedah), #4A148C); }
+        .lesson-card.fiqh .lesson-header { background: linear-gradient(135deg, var(--fiqh), #E65100); }
+        .lesson-card.seerah .lesson-header { background: linear-gradient(135deg, var(--seerah), #00695C); }
+
+        .lesson-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lesson-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+            font-family: 'Amiri', serif;
+        }
+
+        .lesson-subject {
+            font-size: 14px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lesson-content {
+            padding: 20px;
+            position: relative;
+        }
+
+        .lesson-desc {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .lesson-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .lesson-status {
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-active { background: #d6f5e8; color: #43A047; }
+        .status-completed { background: #e0f7ff; color: #1E88E5; }
+        .status-upcoming { background: #fff4e6; color: #FF9800; }
+
+        .lesson-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .lesson-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .lesson-btn.primary {
+            background: var(--islamic-primary);
+            color: white;
+            border: 2px solid var(--gold);
+        }
+
+        .lesson-btn.primary:hover {
+            background: var(--islamic-secondary);
+            transform: translateY(-2px);
+        }
+
+        .lesson-btn.secondary {
+            background: #f8f9fa;
+            color: var(--dark);
+            border: 2px solid #dee2e6;
+        }
+
+        .lesson-btn.secondary:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        /* قسم الحفظ والتلاوة */
+        .hifz-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--quran);
+        }
+
+        .hifz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .hifz-card {
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            padding: 20px;
+            border-radius: 12px;
+            border-right: 4px solid var(--quran);
+            transition: all 0.3s;
+        }
+
+        .hifz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .hifz-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+            font-family: 'Amiri', serif;
+            font-size: 18px;
+        }
+
+        .hifz-desc {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .hifz-progress {
+            height: 8px;
+            background: #E0E0E0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .hifz-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--quran), #1565C0);
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+
+        .hifz-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* برامج إضافية */
+        .programs-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--gold);
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .program-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px dashed #dee2e6;
+            text-decoration: none;
+            color: var(--dark);
+            position: relative;
+        }
+
+        .program-item:hover {
+            background: white;
+            border-color: var(--islamic-primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .program-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--islamic-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 24px;
+            color: var(--islamic-primary);
+            border: 2px solid var(--gold);
+        }
+
+        .program-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-family: 'Amiri', serif;
+        }
+
+        .program-desc {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* التأثيرات */
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* تصميم متجاوب */
+        @media (max-width: 1200px) {
+            .lessons-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+            }
+            .sidebar-menu {
+                display: flex;
+                overflow-x: auto;
+                gap: 10px;
+            }
+            .menu-item {
+                white-space: nowrap;
+                margin: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-bar {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .top-bar::before {
+                display: none;
+            }
+            .lessons-grid,
+            .programs-grid,
+            .grade-stats,
+            .hifz-grid {
+                grid-template-columns: 1fr;
+            }
+            .science-tabs,
+            .grades-tabs {
+                flex-wrap: wrap;
+            }
+            .science-tab,
+            .grade-tab {
+                flex: 1;
+                min-width: 120px;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-container {
+                padding: 15px;
+            }
+            .lessons-section,
+            .programs-section,
+            .hifz-section {
+                padding: 20px;
+            }
+            .lesson-actions {
+                flex-direction: column;
+            }
+            .page-title h1 {
+                font-size: 24px;
+            }
+        }
+
+        /* نص عربي جميل */
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            line-height: 1.8;
+        }
+
+        .quran-text {
+            font-family: 'Amiri', serif;
+            color: var(--quran);
+            font-size: 18px;
+            text-align: center;
+            padding: 10px;
+            background: #E3F2FD;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        /* توقيت الصلاة */
+        .prayer-times {
+            background: linear-gradient(135deg, #2E7D32, #1B5E20);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .prayer-times h3 {
+            margin-bottom: 15px;
+            font-family: 'Amiri', serif;
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+            padding-bottom: 10px;
+        }
+
+        .prayer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .prayer-item {
+            text-align: center;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+        }
+
+        .prayer-name {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .prayer-time {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .current-prayer {
+            background: var(--gold);
+            color: var(--dark);
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- الشريط العلوي -->
+    <div class="top-bar">
+        <div class="logo-container">
+            <div class="logo">
+                <img src="assets/images/logo.jpg" alt="شعار المؤسسة" class="logo">
+            </div>
+            <div class="school-info">
+                <h1>منصة التربية الإسلامية</h1>
+                <p>تعليم القرآن الكريم والعلوم الشرعية لجميع الصفوف</p>
+            </div>
+        </div>
+        <div class="teacher-info">
+            <div class="teacher-avatar">ع</div>
+            <div>
+                <div style="font-weight: 600;">المعلم عمر عبدالله</div>
+                <div style="font-size: 13px; opacity: 0.9;">مدرس التربية الإسلامية</div>
+            </div>
+            <div style="margin-right: auto; margin-left: 20px;">
+                <div id="current-time" style="font-size: 14px;"></div>
+                <div style="font-size: 12px; opacity: 0.8;">توقيت البيضاء </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="main-container">
+        <!-- الشريط الجانبي -->
+        <div class="sidebar">
+            <div class="sidebar-menu">
+                <a href="index.html" class="menu-item active">
+                    <i class="fas fa-mosque"></i>
+                    <span>الرئيسية</span>
+                </a>
+                <a href="students.html" class="menu-item">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>الطلاب</span>
+                    <span class="badge">24</span>
+                </a>
+                <a href="quran.html" class="menu-item">
+                    <i class="fas fa-book-quran"></i>
+                    <span>القرآن الكريم</span>
+                </a>
+                <a href="hadeeth.html" class="menu-item">
+                    <i class="fas fa-book-open"></i>
+                    <span>الحديث الشريف</span>
+                </a>
+                <a href="aqeedah.html" class="menu-item">
+                    <i class="fas fa-star-and-crescent"></i>
+                    <span>العقيدة</span>
+                </a>
+                <a href="fiqh.html" class="menu-item">
+                    <i class="fas fa-balance-scale"></i>
+                    <span>الفقه</span>
+                </a>
+                <a href="seerah.html" class="menu-item">
+                    <i class="fas fa-history"></i>
+                    <span>السيرة النبوية</span>
+                </a>
+                <a href="hifz.html" class="menu-item">
+                    <i class="fas fa-quran"></i>
+                    <span>برنامج الحفظ</span>
+                    <span class="badge">متابعة</span>
+                </a>
+                <a href="reports.html" class="menu-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>التقارير</span>
+                </a>
+                <a href="assignments.html" class="menu-item">
+                    <i class="fas fa-tasks"></i>
+                    <span>الواجبات</span>
+                    <span class="badge">8</span>
+                </a>
+                <a href="prayer.html" class="menu-item">
+                    <i class="fas fa-clock"></i>
+                    <span>أوقات الصلاة</span>
+                </a>
+                <a href="settings.html" class="menu-item">
+                    <i class="fas fa-cog"></i>
+                    <span>الإعدادات</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- حاوية المحتوى -->
+        <div class="content-container">
+            <div class="page-title fade-in">
+                <h1>مرحبًا بك في منصة التربية الإسلامية 🌙</h1>
+                <p>تعليم القرآن الكريم والعلوم الشرعية للصفوف من الأول إلى الخامس</p>
+            </div>
+
+            <!-- توقيت الصلاة -->
+            <div class="prayer-times fade-in">
+                <h3><i class="fas fa-clock"></i> أوقات الصلاة -  </h3>
+                <div class="prayer-grid">
+                    <div class="prayer-item">
+                        <div class="prayer-name">الفجر</div>
+                        <div class="prayer-time" id="fajr-time">04:45</div>
+                    </div>
+                    <div class="prayer-item">
+                        <div class="prayer-name">الشروق</div>
+                        <div class="prayer-time" id="sunrise-time">06:15</div>
+                    </div>
+                    <div class="prayer-item current-prayer">
+                        <div class="prayer-name">الظهر</div>
+                        <div class="prayer-time" id="dhuhr-time">12:30</div>
+                    </div>
+                    <div class="prayer-item">
+                        <div class="prayer-name">العصر</div>
+                        <div class="prayer-time" id="asr-time">15:45</div>
+                    </div>
+                    <div class="prayer-item">
+                        <div class="prayer-name">المغرب</div>
+                        <div class="prayer-time" id="maghrib-time">18:20</div>
+                    </div>
+                    <div class="prayer-item">
+                        <div class="prayer-name">العشاء</div>
+                        <div class="prayer-time" id="isha-time">19:45</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- تبويبات العلوم الشرعية -->
+            <div class="science-tabs fade-in">
+                <div class="science-tab quran active" onclick="showScience('quran')">
+                    <i class="fas fa-book-quran"></i>
+                    القرآن الكريم
+                    <span class="tab-badge">20 درس</span>
+                </div>
+                <div class="science-tab hadeeth" onclick="showScience('hadeeth')">
+                    <i class="fas fa-book-open"></i>
+                    الحديث الشريف
+                    <span class="tab-badge">15 درس</span>
+                </div>
+                <div class="science-tab aqeedah" onclick="showScience('aqeedah')">
+                    <i class="fas fa-star-and-crescent"></i>
+                    العقيدة
+                    <span class="tab-badge">12 درس</span>
+                </div>
+                <div class="science-tab fiqh" onclick="showScience('fiqh')">
+                    <i class="fas fa-balance-scale"></i>
+                    الفقه
+                    <span class="tab-badge">10 دروس</span>
+                </div>
+                <div class="science-tab seerah" onclick="showScience('seerah')">
+                    <i class="fas fa-history"></i>
+                    السيرة النبوية
+                    <span class="tab-badge">8 دروس</span>
+                </div>
+            </div>
+
+            <!-- تبويبات الصفوف -->
+            <div class="grades-tabs fade-in">
+                <div class="grade-tab active" onclick="showGrade('grade1')">
+                    <i class="fas fa-1"></i>
+                    الصف الأول
+                    <span class="tab-badge">12 طالب</span>
+                </div>
+                <div class="grade-tab" onclick="showGrade('grade2')">
+                    <i class="fas fa-2"></i>
+                    الصف الثاني
+                    <span class="tab-badge">10 طلاب</span>
+                </div>
+                <div class="grade-tab" onclick="showGrade('grade3')">
+                    <i class="fas fa-3"></i>
+                    الصف الثالث
+                    <span class="tab-badge">11 طالب</span>
+                </div>
+                <div class="grade-tab" onclick="showGrade('grade4')">
+                    <i class="fas fa-4"></i>
+                    الصف الرابع
+                    <span class="tab-badge">9 طلاب</span>
+                </div>
+                <div class="grade-tab" onclick="showGrade('grade5')">
+                    <i class="fas fa-5"></i>
+                    الصف الخامس
+                    <span class="tab-badge">8 طلاب</span>
+                </div>
+            </div>
+
+            <!-- إحصائيات -->
+            <div class="grade-stats fade-in">
+                <div class="stat-card quran">
+                    <div class="stat-icon">
+                        <i class="fas fa-book-quran"></i>
+                    </div>
+                    <div class="stat-value">92%</div>
+                    <div class="stat-label">معدل النجاح في القرآن</div>
+                </div>
+                <div class="stat-card hadeeth">
+                    <div class="stat-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="stat-value">88%</div>
+                    <div class="stat-label">معدل النجاح في الحديث</div>
+                </div>
+                <div class="stat-card aqeedah">
+                    <div class="stat-icon">
+                        <i class="fas fa-star-and-crescent"></i>
+                    </div>
+                    <div class="stat-value">85%</div>
+                    <div class="stat-label">معدل النجاح في العقيدة</div>
+                </div>
+                <div class="stat-card fiqh">
+                    <div class="stat-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="stat-value">90%</div>
+                    <div class="stat-label">معدل النجاح في الفقه</div>
+                </div>
+            </div>
+
+            <!-- محتوى الصف الأول -->
+            <div id="grade1-content" class="grade-content active">
+                <!-- دروس الصف الأول -->
+                <div class="lessons-section fade-in">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-graduation-cap"></i> دروس الصف الأول
+                        </h2>
+                        <button class="lesson-btn primary" onclick="addNewLesson('grade1')">
+                            <i class="fas fa-plus"></i> إضافة درس جديد
+                        </button>
+                    </div>
+                    <div class="lessons-grid">
+                        <!-- درس سورة الفاتحة -->
+                        <div class="lesson-card quran">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-book-quran"></i>
+                                </div>
+                                <h3 class="lesson-title">سورة الفاتحة</h3>
+                                <div class="lesson-subject">القرآن الكريم - الوحدة الأولى</div>
+                            </div>
+                            <div class="lesson-content">
+                                <div class="quran-text arabic-text">
+                                    ﴿بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ * الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ﴾
+                                </div>
+                                <p class="lesson-desc">
+                                    تعلم قراءة وحفظ سورة الفاتحة مع التجويد البسيط. فهم معاني الآيات ودروسها التربوية.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 6 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 15 تمرين</span>
+                                </div>
+                                <div class="lesson-status status-active">نشط</div>
+                                <div class="lesson-actions">
+                                    <a href="lessons/grade1/fatiha.html" class="lesson-btn primary">
+                                        <i class="fas fa-play"></i> بدء الدرس
+                                    </a>
+                                    <button class="lesson-btn secondary" onclick="viewLessonDetails('fatiha_grade1')">
+                                        <i class="fas fa-info-circle"></i> التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- درس أركان الإسلام -->
+                        <div class="lesson-card aqeedah">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-star-and-crescent"></i>
+                                </div>
+                                <h3 class="lesson-title">أركان الإسلام</h3>
+                                <div class="lesson-subject">العقيدة - الوحدة الأولى</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    تعلم أركان الإسلام الخمسة: الشهادتان، الصلاة، الزكاة، الصوم، الحج. أنشطة تفاعلية لتثبيت المفاهيم.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 8 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 20 تمرين</span>
+                                </div>
+                                <div class="lesson-status status-active">نشط</div>
+                                <div class="lesson-actions">
+                                    <a href="lessons/grade1/islam_pillars.html" class="lesson-btn primary">
+                                        <i class="fas fa-play"></i> بدء الدرس
+                                    </a>
+                                    <button class="lesson-btn secondary" onclick="viewLessonDetails('pillars_grade1')">
+                                        <i class="fas fa-info-circle"></i> التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- درس آداب المسجد -->
+                        <div class="lesson-card fiqh">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-mosque"></i>
+                                </div>
+                                <h3 class="lesson-title">آداب المسجد</h3>
+                                <div class="lesson-subject">الفقه - الوحدة الأولى</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    تعلم آداب دخول المسجد والخروج منه، وآداب الصلاة فيه. أنشطة عملية لتعزيز السلوك الإسلامي.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 5 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 12 تمرين</span>
+                                </div>
+                                <div class="lesson-status status-completed">مكتمل</div>
+                                <div class="lesson-actions">
+                                    <a href="lessons/grade1/mosque_ethics.html" class="lesson-btn primary">
+                                        <i class="fas fa-redo"></i> مراجعة الدرس
+                                    </a>
+                                    <button class="lesson-btn secondary" onclick="viewResults('mosque_grade1')">
+                                        <i class="fas fa-chart-bar"></i> نتائج الطلاب
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- محتوى الصف الثاني -->
+            <div id="grade2-content" class="grade-content">
+                <div class="lessons-section fade-in">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-graduation-cap"></i> دروس الصف الثاني
+                        </h2>
+                        <button class="lesson-btn primary" onclick="addNewLesson('grade2')">
+                            <i class="fas fa-plus"></i> إضافة درس جديد
+                        </button>
+                    </div>
+                    <div class="lessons-grid">
+                        <!-- درس سورة الإخلاص -->
+                        <div class="lesson-card quran">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-book-quran"></i>
+                                </div>
+                                <h3 class="lesson-title">سورة الإخلاص</h3>
+                                <div class="lesson-subject">القرآن الكريم - الوحدة الثانية</div>
+                            </div>
+                            <div class="lesson-content">
+                                <div class="quran-text arabic-text">
+                                    ﴿قُلْ هُوَ اللَّهُ أَحَدٌ * اللَّهُ الصَّمَدُ * لَمْ يَلِدْ وَلَمْ يُولَدْ * وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ﴾
+                                </div>
+                                <p class="lesson-desc">
+                                    حفظ وتفسير سورة الإخلاص، وفهم معنى التوحيد الخالص لله تعالى.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 7 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 18 تمرين</span>
+                                </div>
+                                <div class="lesson-status status-active">نشط</div>
+                                <div class="lesson-actions">
+                                    <a href="lessons/grade2/ikhlas.html" class="lesson-btn primary">
+                                        <i class="fas fa-play"></i> بدء الدرس
+                                    </a>
+                                    <button class="lesson-btn secondary" onclick="viewLessonDetails('ikhlas_grade2')">
+                                        <i class="fas fa-info-circle"></i> التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- درس أركان الإيمان -->
+                        <div class="lesson-card aqeedah">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-star-and-crescent"></i>
+                                </div>
+                                <h3 class="lesson-title">أركان الإيمان</h3>
+                                <div class="lesson-subject">العقيدة - الوحدة الثانية</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    دراسة أركان الإيمان الستة: الإيمان بالله، ملائكته، كتبه، رسله، اليوم الآخر، القدر خيره وشره.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 10 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 25 تمرين</span>
+                                </div>
+                                <div class="lesson-status status-upcoming">قادم</div>
+                                <div class="lesson-actions">
+                                    <a href="lessons/grade2/iman_pillars.html" class="lesson-btn primary">
+                                        <i class="fas fa-eye"></i> معاينة
+                                    </a>
+                                    <button class="lesson-btn secondary" onclick="scheduleLesson('iman_grade2')">
+                                        <i class="fas fa-calendar"></i> جدولة
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- قسم الحفظ والتلاوة -->
+            <div class="hifz-section fade-in">
+                <h2 class="section-title">
+                    <i class="fas fa-quran"></i> برنامج الحفظ والتلاوة
+                </h2>
+                <div class="hifz-grid">
+                    <div class="hifz-card">
+                        <div class="hifz-title">حفظ جزء عم</div>
+                        <p class="hifz-desc">برنامج متكامل لحفظ الجزء الثلاثين من القرآن الكريم</p>
+                        <div class="hifz-progress">
+                            <div class="hifz-progress-bar" style="width: 65%"></div>
+                        </div>
+                        <div class="hifz-meta">
+                            <span>15 طالب</span>
+                            <span>65% مكتمل</span>
+                        </div>
+                    </div>
+                    <div class="hifz-card">
+                        <div class="hifz-title">التجويد المبسط</div>
+                        <p class="hifz-desc">تعلم أحكام التجويد الأساسية للنطق الصحيح</p>
+                        <div class="hifz-progress">
+                            <div class="hifz-progress-bar" style="width: 80%"></div>
+                        </div>
+                        <div class="hifz-meta">
+                            <span>20 طالب</span>
+                            <span>80% مكتمل</span>
+                        </div>
+                    </div>
+                    <div class="hifz-card">
+                        <div class="hifz-title">حفظ الأربعين النووية</div>
+                        <p class="hifz-desc">حفظ الأحاديث النبوية الشريفة مع شرحها</p>
+                        <div class="hifz-progress">
+                            <div class="hifz-progress-bar" style="width: 45%"></div>
+                        </div>
+                        <div class="hifz-meta">
+                            <span>12 طالب</span>
+                            <span>45% مكتمل</span>
+                        </div>
+                    </div>
+                    <div class="hifz-card">
+                        <div class="hifz-title">الترتيل الجماعي</div>
+                        <p class="hifz-desc">جلسات ترتيل جماعي لتحسين التلاوة</p>
+                        <div class="hifz-progress">
+                            <div class="hifz-progress-bar" style="width: 90%"></div>
+                        </div>
+                        <div class="hifz-meta">
+                            <span>25 طالب</span>
+                            <span>90% مكتمل</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- برامج إضافية -->
+            <div class="programs-section fade-in">
+                <h2 class="section-title">
+                    <i class="fas fa-puzzle-piece"></i> برامج إضافية للتربية الإسلامية
+                </h2>
+                <div class="programs-grid">
+                    <a href="programs/quran.html" class="program-item">
+                        <div class="program-icon">
+                            <i class="fas fa-book-quran"></i>
+                        </div>
+                        <h3 class="program-title">برنامج القرآن الكريم</h3>
+                        <p class="program-desc">حفظ وتلاوة وتفسير القرآن الكريم</p>
+                    </a>
+                    <a href="programs/hadeeth.html" class="program-item">
+                        <div class="program-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3 class="program-title">برنامج الحديث الشريف</h3>
+                        <p class="program-desc">دراسة الأحاديث النبوية وشرحها</p>
+                    </a>
+                    <a href="programs/aqeedah.html" class="program-item">
+                        <div class="program-icon">
+                            <i class="fas fa-star-and-crescent"></i>
+                        </div>
+                        <h3 class="program-title">برنامج العقيدة</h3>
+                        <p class="program-desc">تعلم أصول العقيدة الإسلامية</p>
+                    </a>
+                    <a href="programs/fiqh.html" class="program-item">
+                        <div class="program-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h3 class="program-title">برنامج الفقه</h3>
+                        <p class="program-desc">تعلم أحكام العبادات والمعاملات</p>
+                    </a>
+                    <a href="programs/seerah.html" class="program-item">
+                        <div class="program-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <h3 class="program-title">برنامج السيرة النبوية</h3>
+                        <p class="program-desc">دراسة حياة الرسول ﷺ وأصحابه</p>
+                    </a>
+                    <a href="programs/ethics.html" class="program-item">
+                        <div class="program-icon">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <h3 class="program-title">برنامج الأخلاق</h3>
+                        <p class="program-desc">تعلم الأخلاق الإسلامية والآداب</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // تحديث الوقت
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('ar-SA', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('current-time').textContent = timeString;
+            
+            // تحديث توقيت الصلاة الحالي
+            updateCurrentPrayer();
+        }
+        
+        function updateCurrentPrayer() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            
+            // تحديد الصلاة الحالية (هذا مثال مبسط)
+            let currentPrayer = 'dhuhr'; // الظهر كافتراضي
+            
+            // يمكن تطوير هذا المنطق لحساب أوقات الصلاة الحقيقية
+            document.querySelectorAll('.prayer-item').forEach(item => {
+                item.classList.remove('current-prayer');
+            });
+            
+            // في هذا المثال، نحدد أن الظهر هو الصلاة الحالية
+            document.querySelector('#dhuhr-time').closest('.prayer-item').classList.add('current-prayer');
+        }
+        
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // عرض التخصص الشرعي
+        function showScience(scienceType) {
+            // تحديث تبويبات التخصصات
+            document.querySelectorAll('.science-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // تفعيل التبويب المحدد
+            const activeTab = document.querySelector(`.science-tab.${scienceType}`);
+            if (activeTab) {
+                activeTab.classList.add('active');
+            }
+
+            // هنا يمكنك إضافة منطق لتصفية الدروس حسب التخصص
+            const scienceNames = {
+                'quran': 'القرآن الكريم',
+                'hadeeth': 'الحديث الشريف',
+                'aqeedah': 'العقيدة',
+                'fiqh': 'الفقه',
+                'seerah': 'السيرة النبوية'
+            };
+            
+            showNotification(`عرض دروس تخصص: ${scienceNames[scienceType]}`);
+        }
+
+        // عرض محتوى الصف المحدد
+        function showGrade(gradeId) {
+            // تحديث التبويبات النشطة
+            document.querySelectorAll('.grade-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // تفعيل التبويب المحدد
+            const activeTab = document.querySelector(`.grade-tab[onclick="showGrade('${gradeId}')"]`);
+            if (activeTab) {
+                activeTab.classList.add('active');
+            }
+
+            // إخفاء جميع المحتويات
+            document.querySelectorAll('.grade-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // إظهار المحتوى المحدد
+            document.getElementById(`${gradeId}-content`).classList.add('active');
+        }
+
+        // إضافة درس جديد
+        function addNewLesson(grade) {
+            const gradeNames = {
+                'grade1': 'الصف الأول',
+                'grade2': 'الصف الثاني',
+                'grade3': 'الصف الثالث',
+                'grade4': 'الصف الرابع',
+                'grade5': 'الصف الخامس'
+            };
+            
+            const scienceTypes = [
+                { id: 'quran', name: 'القرآن الكريم' },
+                { id: 'hadeeth', name: 'الحديث الشريف' },
+                { id: 'aqeedah', name: 'العقيدة' },
+                { id: 'fiqh', name: 'الفقه' },
+                { id: 'seerah', name: 'السيرة النبوية' },
+                { id: 'ethics', name: 'الأخلاق والآداب' }
+            ];
+            
+            let scienceOptions = scienceTypes.map(type => 
+                `<option value="${type.id}">${type.name}</option>`
+            ).join('');
+            
+            const lessonForm = `
+                <div style="text-align: right; padding: 20px;">
+                    <h3 style="color: #2E7D32; margin-bottom: 20px; font-family: 'Amiri';">إضافة درس جديد لـ ${gradeNames[grade]}</h3>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: #555; font-family: 'Cairo';">عنوان الدرس:</label>
+                        <input type="text" id="lesson-title" style="width: 100%; padding: 10px; border: 2px solid #E0E0E0; border-radius: 8px; font-family: 'Cairo';">
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: #555; font-family: 'Cairo';">التخصص الشرعي:</label>
+                        <select id="lesson-science" style="width: 100%; padding: 10px; border: 2px solid #E0E0E0; border-radius: 8px; font-family: 'Cairo';">
+                            <option value="">اختر التخصص</option>
+                            ${scienceOptions}
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: #555; font-family: 'Cairo';">وصف الدرس:</label>
+                        <textarea id="lesson-desc" style="width: 100%; height: 100px; padding: 10px; border: 2px solid #E0E0E0; border-radius: 8px; font-family: 'Cairo';"></textarea>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: #555; font-family: 'Cairo';">عدد الساعات:</label>
+                        <input type="number" id="lesson-duration" min="1" max="20" style="width: 100%; padding: 10px; border: 2px solid #E0E0E0; border-radius: 8px; font-family: 'Cairo';">
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: #555; font-family: 'Cairo';">آيات أو أحاديث مرتبطة:</label>
+                        <textarea id="lesson-texts" style="width: 100%; height: 60px; padding: 10px; border: 2px solid #E0E0E0; border-radius: 8px; font-family: 'Cairo';"></textarea>
+                    </div>
+                </div>
+            `;
+            
+            const popup = window.open('', 'إضافة درس', 'width=500,height=600');
+            popup.document.write(`
+                <html dir="rtl">
+                <head>
+                    <title>إضافة درس جديد</title>
+                    <style>
+                        body { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; background: #f5f5f5; }
+                        .header { background: linear-gradient(135deg, #2E7D32, #1B5E20); color: white; padding: 20px; text-align: center; font-family: 'Amiri'; }
+                        .content { padding: 20px; }
+                        .buttons { display: flex; gap: 10px; margin-top: 20px; }
+                        .button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Cairo'; }
+                        .primary { background: #2E7D32; color: white; border: 2px solid #D4AF37; }
+                        .secondary { background: #f0f0f0; color: #333; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h2>إضافة درس جديد</h2>
+                        <p>التربية الإسلامية</p>
+                    </div>
+                    <div class="content">
+                        ${lessonForm}
+                        <div class="buttons">
+                            <button class="button primary" onclick="saveLesson()">حفظ الدرس</button>
+                            <button class="button secondary" onclick="window.close()">إلغاء</button>
+                        </div>
+                    </div>
+                    <script>
+                        function saveLesson() {
+                            const title = document.getElementById('lesson-title').value;
+                            const science = document.getElementById('lesson-science').value;
+                            const desc = document.getElementById('lesson-desc').value;
+                            const duration = document.getElementById('lesson-duration').value;
+                            const texts = document.getElementById('lesson-texts').value;
+                            
+                            if (!title || !science || !desc || !duration) {
+                                alert('يرجى ملء جميع الحقول المطلوبة');
+                                return;
+                            }
+                            
+                            alert('تم حفظ الدرس بنجاح! سيتم إضافته إلى لوحة التحكم.');
+                            window.close();
+                        }
+                    <\/script>
+                </body>
+                </html>
+            `);
+        }
+
+        // عرض تفاصيل الدرس
+        function viewLessonDetails(lessonId) {
+            const lessonDetails = {
+                'fatiha_grade1': {
+                    title: 'سورة الفاتحة - الصف الأول',
+                    students: '12 طالب',
+                    completion: '95%',
+                    lastActivity: 'منذ ساعتين',
+                    rating: '★★★★★ (4.8/5)',
+                    nextSession: 'غداً 10:00 صباحاً'
+                },
+                'pillars_grade1': {
+                    title: 'أركان الإسلام - الصف الأول',
+                    students: '12 طالب',
+                    completion: '88%',
+                    lastActivity: 'منذ 3 أيام',
+                    rating: '★★★★☆ (4.2/5)',
+                    nextSession: 'بعد غد 11:00 صباحاً'
+                },
+                'ikhlas_grade2': {
+                    title: 'سورة الإخلاص - الصف الثاني',
+                    students: '10 طلاب',
+                    completion: '92%',
+                    lastActivity: 'اليوم',
+                    rating: '★★★★★ (4.9/5)',
+                    nextSession: 'اليوم 2:00 مساءً'
+                }
+            };
+
+            const details = lessonDetails[lessonId] || {
+                title: 'تفاصيل الدرس',
+                students: '10 طلاب',
+                completion: '80%',
+                lastActivity: 'غير معروف',
+                rating: '★★★☆☆ (3.5/5)',
+                nextSession: 'غير محدد'
+            };
+
+            const modal = `
+                <div style="text-align: right; padding: 20px;">
+                    <h3 style="color: #2E7D32; margin-bottom: 20px; font-family: 'Amiri';">${details.title}</h3>
+                    
+                    <div style="background: #E8F5E9; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-right: 4px solid #2E7D32;">
+                        <strong>عدد الطلاب:</strong> ${details.students}
+                    </div>
+                    
+                    <div style="background: #E8F5E9; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-right: 4px solid #2E7D32;">
+                        <strong>معدل الإنجاز:</strong> ${details.completion}
+                    </div>
+                    
+                    <div style="background: #E8F5E9; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-right: 4px solid #2E7D32;">
+                        <strong>آخر نشاط:</strong> ${details.lastActivity}
+                    </div>
+                    
+                    <div style="background: #E8F5E9; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-right: 4px solid #2E7D32;">
+                        <strong>الجلسة القادمة:</strong> ${details.nextSession}
+                    </div>
+                    
+                    <div style="background: #E8F5E9; padding: 15px; border-radius: 8px; border-right: 4px solid #2E7D32;">
+                        <strong>التقييم العام:</strong> ${details.rating}
+                    </div>
+                    
+                    <div style="margin-top: 20px; text-align: center;">
+                        <button onclick="window.close()" style="padding: 10px 20px; background: #2E7D32; color: white; border: 2px solid #D4AF37; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Cairo';">إغلاق</button>
+                    </div>
+                </div>
+            `;
+
+            const popup = window.open('', 'تفاصيل الدرس', 'width=400,height=450');
+            popup.document.write(`
+                <html dir="rtl">
+                <head>
+                    <title>تفاصيل الدرس</title>
+                    <style>
+                        body { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; background: #f5f5f5; }
+                    </style>
+                </head>
+                <body>${modal}</body>
+                </html>
+            `);
+        }
+
+        // جدولة درس
+        function scheduleLesson(lessonId) {
+            const scheduleForm = `
+                <div style="text-align: right; padding: 20px;">
+                    <h3 style="color: #2E7D32; margin-bottom: 20px; font-family: 'Amiri';">جدولة درس</h3>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: #555; font-family: 'Cairo';">تاريخ الجلسة:</label>
+                        <input type="date" id="schedule-date" style="width: 100%; padding: 10px; border: 2px solid #E0E0E0; border-radius: 8px; font-family: 'Cairo';">
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: #555; font-family: 'Cairo';">وقت الجلسة:</label>
+                        <input type="time" id="schedule-time" style="width: 100%; padding: 10px; border: 2px solid #E0E0E0; border-radius: 8px; font-family: 'Cairo';">
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: #555; font-family: 'Cairo';">نوع الجلسة:</label>
+                        <select id="schedule-type" style="width: 100%; padding: 10px; border: 2px solid #E0E0E0; border-radius: 8px; font-family: 'Cairo';">
+                            <option value="online">عن بُعد</option>
+                            <option value="classroom">في الفصل</option>
+                            <option value="mosque">في المسجد</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: #555; font-family: 'Cairo';">رابط الجلسة (إذا كانت عن بُعد):</label>
+                        <input type="text" id="schedule-link" placeholder="https://meet.google.com/..." style="width: 100%; padding: 10px; border: 2px solid #E0E0E0; border-radius: 8px; font-family: 'Cairo';">
+                    </div>
+                </div>
+            `;
+
+            const popup = window.open('', 'جدولة درس', 'width=400,height=500');
+            popup.document.write(`
+                <html dir="rtl">
+                <head>
+                    <title>جدولة درس</title>
+                    <style>
+                        body { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; background: #f5f5f5; }
+                        .header { background: linear-gradient(135deg, #2E7D32, #1B5E20); color: white; padding: 20px; text-align: center; font-family: 'Amiri'; }
+                        .content { padding: 20px; }
+                        .buttons { display: flex; gap: 10px; margin-top: 20px; }
+                        .button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Cairo'; }
+                        .primary { background: #2E7D32; color: white; border: 2px solid #D4AF37; }
+                        .secondary { background: #f0f0f0; color: #333; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h2>جدولة درس</h2>
+                    </div>
+                    <div class="content">
+                        ${scheduleForm}
+                        <div class="buttons">
+                            <button class="button primary" onclick="saveSchedule()">حفظ الجدولة</button>
+                            <button class="button secondary" onclick="window.close()">إلغاء</button>
+                        </div>
+                    </div>
+                    <script>
+                        function saveSchedule() {
+                            const date = document.getElementById('schedule-date').value;
+                            const time = document.getElementById('schedule-time').value;
+                            const type = document.getElementById('schedule-type').value;
+                            const link = document.getElementById('schedule-link').value;
+                            
+                            if (!date || !time) {
+                                alert('يرجى تحديد التاريخ والوقت');
+                                return;
+                            }
+                            
+                            if (type === 'online' && !link) {
+                                alert('يرجى إدخال رابط الجلسة للجلسات عن بُعد');
+                                return;
+                            }
+                            
+                            alert('تم جدولة الدرس بنجاح! سيتم إرسال الإشعار للطلاب.');
+                            window.close();
+                        }
+                    <\/script>
+                </body>
+                </html>
+            `);
+        }
+
+        // عرض نتائج الطلاب
+        function viewResults(lessonId) {
+            const results = `
+                <div style="text-align: right; padding: 20px;">
+                    <h3 style="color: #2E7D32; margin-bottom: 20px; font-family: 'Amiri';">نتائج الطلاب</h3>
+                    
+                    <div style="max-height: 300px; overflow-y: auto;">
+                        <div style="background: #E8F5E9; padding: 10px; margin: 5px; border-radius: 8px; border-right: 4px solid #4CAF50;">
+                            <strong>أحمد محمد</strong> - 98% ★★★★★
+                        </div>
+                        <div style="background: #E8F5E9; padding: 10px; margin: 5px; border-radius: 8px; border-right: 4px solid #4CAF50;">
+                            <strong>سارة خالد</strong> - 95% ★★★★★
+                        </div>
+                        <div style="background: #FFF3E0; padding: 10px; margin: 5px; border-radius: 8px; border-right: 4px solid #FF9800;">
+                            <strong>فاطمة علي</strong> - 88% ★★★★☆
+                        </div>
+                        <div style="background: #FFF3E0; padding: 10px; margin: 5px; border-radius: 8px; border-right: 4px solid #FF9800;">
+                            <strong>عبدالله سعيد</strong> - 82% ★★★★☆
+                        </div>
+                        <div style="background: #FFEBEE; padding: 10px; margin: 5px; border-radius: 8px; border-right: 4px solid #F44336;">
+                            <strong>مريم حسن</strong> - 75% ★★★☆☆
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; text-align: center; background: #2E7D32; color: white; padding: 15px; border-radius: 8px; border: 2px solid #D4AF37;">
+                        <strong>المعدل العام:</strong> 88% ★★★★☆
+                    </div>
+                    
+                    <div style="margin-top: 15px; font-size: 12px; color: #666; text-align: center;">
+                        <p>عدد الطلاب: 12 | الناجحون: 11 | نسبة النجاح: 92%</p>
+                    </div>
+                </div>
+            `;
+
+            const popup = window.open('', 'نتائج الطلاب', 'width=400,height=500');
+            popup.document.write(`
+                <html dir="rtl">
+                <head>
+                    <title>نتائج الطلاب</title>
+                    <style>
+                        body { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; background: #f5f5f5; }
+                    </style>
+                </head>
+                <body>${results}</body>
+                </html>
+            `);
+        }
+
+        // إظهار إشعار
+        function showNotification(message) {
+            // إنشاء عنصر الإشعار
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                background: linear-gradient(135deg, #2E7D32, #1B5E20);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 1000;
+                font-family: 'Cairo', sans-serif;
+                border-right: 4px solid #D4AF37;
+                animation: slideIn 0.3s ease-out;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-check-circle"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            // إضافة أنيميشن
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(-100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(-100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(notification);
+            
+            // إزالة الإشعار بعد 3 ثواني
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // تأثيرات عند التحميل
+        document.addEventListener('DOMContentLoaded', () => {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach((element, index) => {
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+
+            // إضافة تأثير للبطاقات
+            document.querySelectorAll('.lesson-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-5px)';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                });
+            });
+
+            // إضافة تأثير لبطاقات الحفظ
+            document.querySelectorAll('.hifz-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-5px)';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // إضافة تأثيرات للبرامج
+            document.querySelectorAll('.program-item').forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    item.style.transform = 'translateY(-5px)';
+                });
+                item.addEventListener('mouseleave', () => {
+                    item.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // تنسيق النصوص العربية
+            document.querySelectorAll('.arabic-text').forEach(text => {
+                text.style.fontFamily = "'Amiri', serif";
+            });
+        });
+    </script>
+</body>
+</html>
