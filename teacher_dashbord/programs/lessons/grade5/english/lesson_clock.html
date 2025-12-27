@@ -686,6 +686,59 @@
                 grid-template-columns: 1fr;
             }
         }
+
+/* الساعة التفاعلية - مصححة بدون حلقة */
+.clock-face {
+  width: 350px;
+  height: 350px;
+  position: relative;
+  background: radial-gradient(circle, #fff 0%, #f0f0f0 100%);
+  border-radius: 50%;
+  border: 15px solid var(--clock-color);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  margin: 0 auto;
+}
+
+/* ساعات التمارين - مصححة بدون حلقة */
+.exercise-clock {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  margin: 20px auto;
+  background: radial-gradient(circle, #fff 0%, #f0f0f0 100%);
+  border-radius: 50%;
+  border: 10px solid var(--clock-color);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* الأرقام - مواقفها الطبيعية */
+.clock-number {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-weight: bold;
+  font-size: 24px;
+  color: #333;
+  transform: translate(-50%, -50%);
+}
+
+.exercise-number {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 25px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+  transform: translate(-50%, -50%);
+}
+
+
+
+
     </style>
 </head>
 <body>
@@ -1229,47 +1282,51 @@
 
         // ====================== ساعات التمارين (مصححة) ======================
         function createExerciseClock(clockId, hours, minutes) {
-            const clock = document.getElementById(clockId);
-            if (!clock) return;
-            
-            clock.innerHTML = '';
-            const size = 200;
-            const center = size / 2;
-            
-            // إضافة الأرقام
-            for (let i = 1; i <= 12; i++) {
-                const number = document.createElement('div');
-                number.className = 'exercise-number';
-                const angle = (i * 30 - 90) * (Math.PI / 180);
-                const radius = 75;
-                const x = center + radius * Math.cos(angle);
-                const y = center + radius * Math.sin(angle);
-                number.textContent = i;
-                number.style.left = `${x}px`;
-                number.style.top = `${y}px`;
-                clock.appendChild(number);
-            }
-            
-            // إضافة العقارب
-            const hourDeg = (hours * 30) + (minutes * 0.5);
-            const minuteDeg = minutes * 6;
-            
-            const hourHand = document.createElement('div');
-            hourHand.className = 'exercise-hour-hand';
-            hourHand.style.transform = `translate(-50%, -100%) rotate(${hourDeg}deg)`;
-            
-            const minuteHand = document.createElement('div');
-            minuteHand.className = 'exercise-minute-hand';
-            minuteHand.style.transform = `translate(-50%, -100%) rotate(${minuteDeg}deg)`;
-            
-            const clockCenter = document.createElement('div');
-            clockCenter.className = 'exercise-clock-center';
-            
-            clock.appendChild(hourHand);
-            clock.appendChild(minuteHand);
-            clock.appendChild(clockCenter);
-        }
-
+  const clock = document.getElementById(clockId);
+  if (!clock) return;
+  
+  clock.innerHTML = '';
+  const size = 200;
+  const center = size / 2;
+  
+  // إضافة الأرقام فقط بدون دوائر
+  for (let i = 1; i <= 12; i++) {
+    const number = document.createElement('div');
+    number.className = 'exercise-number';
+    
+    // حساب موقف كل رقم حول المركز
+    const angle = (i * 30 - 90) * (Math.PI / 180);
+    const radius = 75; // نصف قطر لدائرة الأرقام
+    
+    const x = center + radius * Math.cos(angle);
+    const y = center + radius * Math.sin(angle);
+    
+    number.textContent = i;
+    number.style.left = `${x}px`;
+    number.style.top = `${y}px`;
+    
+    clock.appendChild(number);
+  }
+  
+  // إضافة العقارب
+  const hourDeg = (hours * 30) + (minutes * 0.5);
+  const minuteDeg = minutes * 6;
+  
+  const hourHand = document.createElement('div');
+  hourHand.className = 'exercise-hour-hand';
+  hourHand.style.transform = `translate(-50%, -100%) rotate(${hourDeg}deg)`;
+  
+  const minuteHand = document.createElement('div');
+  minuteHand.className = 'exercise-minute-hand';
+  minuteHand.style.transform = `translate(-50%, -100%) rotate(${minuteDeg}deg)`;
+  
+  const clockCenter = document.createElement('div');
+  clockCenter.className = 'exercise-clock-center';
+  
+  clock.appendChild(hourHand);
+  clock.appendChild(minuteHand);
+  clock.appendChild(clockCenter);
+}
         // ====================== تحديث الساعة ======================
         function updateClock() {
             const now = new Date();

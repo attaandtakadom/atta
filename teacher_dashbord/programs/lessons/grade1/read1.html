@@ -1156,12 +1156,33 @@
         }
 
         // تشغيل الصوت
-        function playSound(sound) {
-            const utterance = new SpeechSynthesisUtterance(sound);
-            utterance.lang = 'ar-SA';
-            utterance.rate = 0.8;
-            speechSynthesis.speak(utterance);
-        }
+       function playSound(sound) {
+    // 1. إيقاف أي نطق سابق فوراً (مهم جداً عند تكرار الضغط)
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(sound);
+    
+    // 2. تحديد اللغة بترميز دقيق
+    utterance.lang = 'ar-SA';
+    
+    // 3. البحث عن "صوت عربي" حقيقي داخل نظام الجوال
+    const voices = window.speechSynthesis.getVoices();
+    const arabicVoice = voices.find(v => v.lang.includes('ar'));
+    
+    if (arabicVoice) {
+        utterance.voice = arabicVoice;
+    }
+
+    // 4. ضبط السرعة والحدة (0.8 ممتاز للأطفال)
+    utterance.rate = 0.8;
+    utterance.pitch = 1.1; // صوت أنعم قليلاً
+
+    // 5. التشغيل
+    window.speechSynthesis.speak(utterance);
+}
+
+// 6. إضافة هذا السطر لضمان تحميل الأصوات في الخلفية بمجرد فتح الصفحة
+window.speechSynthesis.getVoices();
 
         function playWordSound() {
             const currentLetter = arabicLetters[currentIdx];

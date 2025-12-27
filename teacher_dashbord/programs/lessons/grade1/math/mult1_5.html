@@ -182,12 +182,34 @@
         }
     }
 
-    function speak(text) {
-        window.speechSynthesis.cancel();
-        const msg = new SpeechSynthesisUtterance(text);
-        msg.lang = 'ar-SA';
-        window.speechSynthesis.speak(msg);
+   function speak(text) {
+    // إلغاء أي نطق مستمر حالياً
+    window.speechSynthesis.cancel();
+
+    const msg = new SpeechSynthesisUtterance(text);
+    
+    // تحديد اللغة بوضوح
+    msg.lang = 'ar-SA'; 
+    
+    // محاولة البحث عن صوت عربي في نظام الجوال
+    const voices = window.speechSynthesis.getVoices();
+    const arabicVoice = voices.find(voice => voice.lang.includes('ar'));
+    
+    if (arabicVoice) {
+        msg.voice = arabicVoice;
     }
+
+    // ضبط السرعة والحدة لتناسب الأطفال
+    msg.rate = 0.9; // أبطأ قليلاً ليكون أوضح
+    msg.pitch = 1.1; // صوت طفولي قليلاً
+
+    window.speechSynthesis.speak(msg);
+}
+
+// هذا السطر ضروري لأن الجوالات لا تحمل الأصوات فوراً
+window.speechSynthesis.onvoiceschanged = () => {
+    window.speechSynthesis.getVoices();
+};
 
     window.onload = generateQuestion;
 </script>
