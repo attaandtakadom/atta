@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعلم الساعة الرقمية الإلكترونية - الصف الخامس</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3A56D4;
+            --accent-color: #FF6B6B;
+            --success-color: #52B788;
+            --warning-color: #FF9E00;
+            --light-color: #f8f9fa;
+            --dark-color: #2d3748;
+            --digital-bg: #0f0f23;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #E8F4FD 0%, #d6e4f0 100%);
+            color: var(--dark-color);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .lesson-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* رأس الدرس */
+        .lesson-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lesson-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .lesson-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lesson-header .lesson-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+        }
+
+        /* التنقل */
+        .lesson-nav {
+            background: var(--light-color);
+            padding: 15px 30px;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* المحتوى الرئيسي */
+        .lesson-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            padding: 30px;
+            min-height: 600px;
+        }
+
+        @media (max-width: 992px) {
+            .lesson-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* القسم الرئيسي */
+        .main-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* القسم الجانبي */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .side-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+
+        /* الساعة الرقمية الرئيسية */
+        .digital-clock-container {
+            margin: 30px auto;
+            text-align: center;
+        }
+
+        .digital-clock-display {
+            font-family: 'Courier New', monospace;
+            font-size: 80px;
+            background: var(--digital-bg);
+            color: #00ff00;
+            padding: 20px 40px;
+            border-radius: 15px;
+            margin: 20px auto;
+            text-align: center;
+            display: inline-block;
+            border: 10px solid #2a2a2a;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            letter-spacing: 5px;
+            position: relative;
+        }
+
+        .digital-clock-display::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff0000);
+            z-index: -1;
+            border-radius: 20px;
+            opacity: 0.5;
+        }
+
+        .time-period {
+            font-size: 30px;
+            color: #ff9900;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* ساعات التمارين الرقمية */
+        .exercise-digital-clock {
+            font-family: 'Courier New', monospace;
+            font-size: 50px;
+            background: var(--digital-bg);
+            color: #00ff00;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin: 15px auto;
+            text-align: center;
+            display: inline-block;
+            border: 5px solid #2a2a2a;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            letter-spacing: 3px;
+            min-width: 200px;
+        }
+
+        /* عناصر التحكم بالصوت */
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .audio-btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            background: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .audio-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .audio-btn.speak {
+            background: var(--success-color);
+        }
+
+        .audio-btn.speak:hover {
+            background: #429c73;
+        }
+
+        /* التمارين */
+        .exercise {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-right: 5px solid var(--primary-color);
+        }
+
+        .exercise-title {
+            color: var(--primary-color);
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .question {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .question-clock-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .option {
+            padding: 12px;
+            background: #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background: #dee2e6;
+            border-color: var(--primary-color);
+        }
+
+        .option input[type="radio"] {
+            margin-left: 10px;
+        }
+
+        .submit-btn {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            margin: 30px auto;
+            font-weight: bold;
+        }
+
+        .submit-btn:hover {
+            background: #429c73;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(66, 156, 115, 0.3);
+        }
+
+        /* النتيجة */
+        .result-box {
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .result-success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .result-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffeaa7;
+        }
+
+        .result-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        /* قائمة الطلاب */
+        .students-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .student-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-right: 4px solid var(--primary-color);
+        }
+
+        .student-progress {
+            width: 100px;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--success-color);
+        }
+
+        /* أزرار صوت صغيرة */
+        .small-audio-btn {
+            padding: 6px 12px;
+            border-radius: 5px;
+            border: none;
+            background: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-right: 5px;
+        }
+
+        .small-audio-btn:hover {
+            background: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        /* مؤشر النطق */
+        .speaking-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            animation: pulse 1s infinite;
+            box-shadow: 0 5px 15px rgba(82, 183, 136, 0.3);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* الصور التعليمية */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .digital-image {
+            background: var(--light-color);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .digital-image:hover {
+            transform: translateY(-5px);
+        }
+
+        .digital-image .digital-clock-small {
+            font-family: 'Courier New', monospace;
+            font-size: 30px;
+            background: var(--digital-bg);
+            color: #00ff00;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 10px auto;
+            border: 3px solid #2a2a2a;
+            display: inline-block;
+        }
+
+        /* بطاقات المنبهات */
+        .alarm-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .alarm-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+        }
+
+        .alarm-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .alarm-time {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+
+        /* المصطلحات */
+        .terms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .term-card {
+            background: var(--light-color);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .term-arabic {
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .term-english {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* تذييل الدرس */
+        .lesson-footer {
+            background: #f8f9fa;
+            padding: 20px;
+            border-top: 2px solid #e9ecef;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* تنسيقات AM/PM */
+        .time-period-toggle {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .period-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 2px solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .period-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .period-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* الاستجابة للشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .lesson-header h1 {
+                font-size: 24px;
+            }
+            
+            .lesson-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .digital-clock-display {
+                font-size: 50px;
+                padding: 15px 25px;
+            }
+            
+            .exercise-digital-clock {
+                font-size: 35px;
+                padding: 10px 20px;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .audio-controls {
+                flex-direction: column;
+            }
+            
+            .audio-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- مؤشر النطق -->
+    <div class="speaking-indicator" id="speakingIndicator">
+        <i class="fas fa-volume-up fa-beat"></i>
+        <span>جاري نطق الوقت...</span>
+    </div>
+
+    <div class="lesson-container">
+        <!-- رأس الدرس -->
+        <div class="lesson-header">
+            <h1>
+                <i class="far fa-clock"></i>
+                تعلم قراءة الساعة الرقمية الإلكترونية باللغة الإنجليزية
+            </h1>
+            <p>درس تفاعلي للصف الخامس - مهارات الوقت والتوقيت الرقمي</p>
+            <div class="lesson-info">
+                <div class="info-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>الصف الخامس</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-book"></i>
+                    <span>مادة اللغة الإنجليزية</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <span>مدة الدرس: 45 دقيقة</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-volume-up"></i>
+                    <span>نطق تفاعلي متوفر</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- شريط التنقل -->
+        <div class="lesson-nav">
+            <div>
+                <a href="../../../../english_dashboard.html" class="nav-btn">
+                    <i class="fas fa-arrow-right"></i> العودة للبرامج
+                </a>
+            </div>
+            <div class="nav-buttons">
+                <a href="#exercises" class="nav-btn">
+                    <i class="fas fa-pencil-alt"></i> التمارين
+                </a>
+                <a href="#students" class="nav-btn">
+                    <i class="fas fa-users"></i> الطلاب
+                </a>
+                <button onclick="window.print()" class="nav-btn">
+                    <i class="fas fa-print"></i> طباعة الدرس
+                </button>
+            </div>
+        </div>
+
+        <!-- المحتوى الرئيسي -->
+        <div class="lesson-content">
+            <!-- القسم الرئيسي -->
+            <div class="main-section">
+                <!-- مقدمة -->
+                <div class="section-title">
+                    <i class="fas fa-info-circle"></i>
+                    مقدمة عن الساعة الرقمية الإلكترونية
+                </div>
+                <p style="font-size: 16px; line-height: 1.8;">في هذا الدرس سوف نتعلم كيفية قراءة الساعة الرقمية الإلكترونية باللغة الإنجليزية وفهم نظام الـ AM وPM. الساعة الرقمية تظهر الوقت بالأرقام وتستخدم على نطاق واسع في الهواتف وأجهزة الكمبيوتر والساعات الإلكترونية.</p>
+
+                <!-- الساعة الرقمية الرئيسية -->
+                <div class="digital-clock-container">
+                    <div class="digital-clock-display" id="mainDigitalClock">
+                        <span id="digitalHours">00</span>:<span id="digitalMinutes">00</span>
+                        <span class="time-period" id="timePeriod">AM</span>
+                    </div>
+                    <div class="time-period-toggle">
+                        <button class="period-btn active" onclick="toggleTimeFormat(12)">12 ساعة</button>
+                        <button class="period-btn" onclick="toggleTimeFormat(24)">24 ساعة</button>
+                    </div>
+                    <div class="audio-controls">
+                        <button class="audio-btn speak" onclick="speakCurrentDigitalTime()">
+                            <i class="fas fa-volume-up"></i> نطق الوقت الحالي
+                        </button>
+                        <button class="audio-btn" onclick="setRandomDigitalTime()">
+                            <i class="fas fa-random"></i> وقت عشوائي
+                        </button>
+                        <button class="audio-btn" onclick="speakRandomDigitalTime()">
+                            <i class="fas fa-bullhorn"></i> نطق وقت عشوائي
+                        </button>
+                    </div>
+                </div>
+
+                <!-- أمثلة تعليمية -->
+                <div class="section-title">
+                    <i class="fas fa-images"></i>
+                    أمثلة على قراءة الساعة الرقمية
+                </div>
+                <div class="image-gallery">
+                    <div class="digital-image">
+                        <div class="digital-clock-small">07:00 AM</div>
+                        <h4>صباحاً</h4>
+                        <p>Seven o'clock in the morning</p>
+                        <button class="small-audio-btn" onclick="speakDigitalExample('07:00 AM')">
+                            <i class="fas fa-volume-up"></i> نطق
+                        </button>
+                    </div>
+                    <div class="digital-image">
+                        <div class="digital-clock-small">02:15 PM</div>
+                        <h4>بعد الظهر</h4>
+                        <p>Quarter past two in the afternoon</p>
+                        <button class="small-audio-btn" onclick="speakDigitalExample('02:15 PM')">
+                            <i class="fas fa-volume-up"></i> نطق
+                        </button>
+                    </div>
+                    <div class="digital-image">
+                        <div class="digital-clock-small">03:30 PM</div>
+                        <h4>بعد الظهر</h4>
+                        <p>Half past three in the afternoon</p>
+                        <button class="small-audio-btn" onclick="speakDigitalExample('03:30 PM')">
+                            <i class="fas fa-volume-up"></i> نطق
+                        </button>
+                    </div>
+                    <div class="digital-image">
+                        <div class="digital-clock-small">10:45 PM</div>
+                        <h4>مساءً</h4>
+                        <p>Quarter to eleven in the evening</p>
+                        <button class="small-audio-btn" onclick="speakDigitalExample('10:45 PM')">
+                            <i class="fas fa-volume-up"></i> نطق
+                        </button>
+                    </div>
+                </div>
+
+                <!-- التمارين -->
+                <div class="section-title" id="exercises">
+                    <i class="fas fa-pencil-alt"></i>
+                    التمارين التفاعلية
+                </div>
+
+                <form id="exerciseForm" method="POST" action="">
+                    <!-- تمرين 1 -->
+                    <div class="exercise">
+                        <div class="exercise-title">
+                            <i class="fas fa-question-circle"></i>
+                            السؤال 1: ما هو الوقت في هذه الساعة الرقمية؟
+                            <button type="button" class="small-audio-btn" onclick="speakDigitalQuestion(1)">
+                                <i class="fas fa-volume-up"></i> سماع السؤال
+                            </button>
+                        </div>
+                        <div class="question">
+                            <div class="question-text">انظر إلى الساعة الرقمية التالية واختر الوقت الصحيح:</div>
+                            <div class="question-clock-container">
+                                <div class="exercise-digital-clock">08:30 AM</div>
+                            </div>
+                        </div>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q1" value="8:00" required>
+                                8:00 - Eight o'clock
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Eight o clock')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q1" value="8:30">
+                                8:30 - Half past eight
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Half past eight')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q1" value="8:15">
+                                8:15 - Quarter past eight
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Quarter past eight')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- تمرين 2 -->
+                    <div class="exercise">
+                        <div class="exercise-title">
+                            <i class="fas fa-question-circle"></i>
+                            السؤال 2: ما معنى "PM" في الساعة الرقمية؟
+                            <button type="button" class="small-audio-btn" onclick="speakDigitalQuestion(2)">
+                                <i class="fas fa-volume-up"></i> سماع السؤال
+                            </button>
+                        </div>
+                        <div class="question">
+                            <div class="question-text">اختر المعنى الصحيح للرمز PM:</div>
+                            <div class="question-clock-container">
+                                <div class="exercise-digital-clock">03:45 PM</div>
+                            </div>
+                        </div>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q2" value="morning" required>
+                                صباحاً
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Morning')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q2" value="afternoon">
+                                بعد الظهر أو مساءً
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Afternoon or evening')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q2" value="night">
+                                منتصف الليل
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Midnight')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- تمرين 3 -->
+                    <div class="exercise">
+                        <div class="exercise-title">
+                            <i class="fas fa-question-circle"></i>
+                            السؤال 3: حول الوقت من نظام 24 ساعة إلى 12 ساعة
+                            <button type="button" class="small-audio-btn" onclick="speakDigitalQuestion(3)">
+                                <i class="fas fa-volume-up"></i> سماع السؤال
+                            </button>
+                        </div>
+                        <div class="question">
+                            <div class="question-text">الساعة الرقمية التالية تظهر الوقت بنظام 24 ساعة، حولها إلى نظام 12 ساعة:</div>
+                            <div class="question-clock-container">
+                                <div class="exercise-digital-clock">15:30</div>
+                            </div>
+                        </div>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q3" value="3:30am" required>
+                                3:30 AM
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Three thirty AM')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q3" value="3:30pm">
+                                3:30 PM
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Three thirty PM')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q3" value="5:30pm">
+                                5:30 PM
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Five thirty PM')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- تمرين 4 -->
+                    <div class="exercise">
+                        <div class="exercise-title">
+                            <i class="fas fa-question-circle"></i>
+                            السؤال 4: ما هو الوقت الصحيح لـ "Quarter to seven in the evening"؟
+                            <button type="button" class="small-audio-btn" onclick="speakDigitalQuestion(4)">
+                                <i class="fas fa-volume-up"></i> سماع السؤال
+                            </button>
+                        </div>
+                        <div class="question">
+                            <div class="question-text">اختر الوقت الرقمي الصحيح للتعبير التالي:</div>
+                            <div class="question-clock-container">
+                                <div class="exercise-digital-clock">??:?? PM</div>
+                            </div>
+                        </div>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q4" value="7:15" required>
+                                7:15 PM
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Seven fifteen PM')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q4" value="6:45">
+                                6:45 PM
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Six forty five PM')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q4" value="7:45">
+                                7:45 PM
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Seven forty five PM')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- تمرين 5 -->
+                    <div class="exercise">
+                        <div class="exercise-title">
+                            <i class="fas fa-question-circle"></i>
+                            السؤال 5: كم الساعة الآن في هذه الساعة الرقمية؟
+                            <button type="button" class="small-audio-btn" onclick="speakDigitalQuestion(5)">
+                                <i class="fas fa-volume-up"></i> سماع السؤال
+                            </button>
+                        </div>
+                        <div class="question">
+                            <div class="question-text">انظر إلى الساعة الرقمية التالية واختر الوقت الصحيح:</div>
+                            <div class="question-clock-container">
+                                <div class="exercise-digital-clock">11:20 PM</div>
+                            </div>
+                        </div>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q5" value="11:20" required>
+                                11:20 - Twenty past eleven
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Twenty past eleven')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q5" value="11:40">
+                                11:40 - Twenty to twelve
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Twenty to twelve')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q5" value="12:20">
+                                12:20 - Twenty past twelve
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Twenty past twelve')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" onclick="checkAnswers(event)">
+                        <i class="fas fa-paper-plane"></i> تسليم الإجابات
+                    </button>
+                </form>
+            </div>
+
+            <!-- القسم الجانبي -->
+            <div class="sidebar">
+                <!-- قائمة الطلاب -->
+                <div class="side-section" id="students">
+                    <div class="section-title">
+                        <i class="fas fa-users"></i>
+                        تقدم الطلاب
+                    </div>
+                    <div class="students-list" id="studentsList">
+                        <!-- سيتم ملؤها بالجافاسكريبت -->
+                    </div>
+                </div>
+
+                <!-- المنبهات اليومية -->
+                <div class="side-section">
+                    <div class="section-title">
+                        <i class="fas fa-bell"></i>
+                        أوقات النشاط اليومية
+                    </div>
+                    <div class="alarm-cards">
+                        <div class="alarm-card">
+                            <i class="fas fa-sun" style="color: #FF9E00; font-size: 24px;"></i>
+                            <div class="alarm-time">07:00 AM</div>
+                            <div class="alarm-text">وقت الاستيقاظ</div>
+                            <button class="small-audio-btn" onclick="speakDigitalTime('07:00 AM')">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </div>
+                        <div class="alarm-card">
+                            <i class="fas fa-school" style="color: #4361ee; font-size: 24px;"></i>
+                            <div class="alarm-time">08:00 AM</div>
+                            <div class="alarm-text">بدء المدرسة</div>
+                            <button class="small-audio-btn" onclick="speakDigitalTime('08:00 AM')">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </div>
+                        <div class="alarm-card">
+                            <i class="fas fa-utensils" style="color: #52B788; font-size: 24px;"></i>
+                            <div class="alarm-time">12:30 PM</div>
+                            <div class="alarm-text">وقت الغداء</div>
+                            <button class="small-audio-btn" onclick="speakDigitalTime('12:30 PM')">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- المصطلحات المهمة -->
+                <div class="side-section">
+                    <div class="section-title">
+                        <i class="fas fa-graduation-cap"></i>
+                        مصطلحات الوقت الرقمي
+                    </div>
+                    <div class="terms-grid">
+                        <div class="term-card">
+                            <div class="term-arabic">صباحاً</div>
+                            <div class="term-english">AM</div>
+                            <button class="small-audio-btn" onclick="speakWord('A M')">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </div>
+                        <div class="term-card">
+                            <div class="term-arabic">مساءً</div>
+                            <div class="term-english">PM</div>
+                            <button class="small-audio-btn" onclick="speakWord('P M')">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </div>
+                        <div class="term-card">
+                            <div class="term-arabic">رقمي</div>
+                            <div class="term-english">Digital</div>
+                            <button class="small-audio-btn" onclick="speakWord('digital')">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </div>
+                        <div class="term-card">
+                            <div class="term-arabic">توقيت</div>
+                            <div class="term-english">Time</div>
+                            <button class="small-audio-btn" onclick="speakWord('time')">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نصائح للتعلم -->
+                <div class="side-section">
+                    <div class="section-title">
+                        <i class="fas fa-lightbulb"></i>
+                        نصائح للتعلم
+                    </div>
+                    <ul style="padding-right: 20px; line-height: 2;">
+                        <li>تدرب على قراءة الساعة الرقمية يومياً</li>
+                        <li>استخدم هاتفك المحمول للتمرن على قراءة الوقت</li>
+                        <li>حاول تحديد مواعيدك بالساعة الرقمية</li>
+                        <li>العب ألعاب تعليمية عن الوقت</li>
+                        <li>استخدم خاصية النطق لتحسين النطق</li>
+                        <li>انتبه للفرق بين AM و PM</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- تذييل الدرس -->
+        <div class="lesson-footer">
+            <p>© 2024 منصة تعليم اللغة الإنجليزية - درس الساعة الرقمية للصف الخامس</p>
+            <p>تم التحديث: <span id="currentDate"></span></p>
+            <p style="margin-top: 10px;">
+                <i class="fas fa-volume-up"></i> خاصية النطق تعمل باستخدام Web Speech API
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // بيانات الطلاب
+        const students = [
+            { id: 1, name: 'محمد أحمد', progress: 85 },
+            { id: 2, name: 'سارة محمد', progress: 92 },
+            { id: 3, name: 'علي حسن', progress: 78 },
+            { id: 4, name: 'فاطمة خالد', progress: 90 },
+            { id: 5, name: 'يوسف علي', progress: 82 },
+            { id: 6, name: 'نورة سعيد', progress: 88 }
+        ];
+
+        // تهيئة الطلاب
+        function initializeStudents() {
+            const studentsList = document.getElementById('studentsList');
+            studentsList.innerHTML = '';
+            
+            students.forEach(student => {
+                const studentItem = document.createElement('div');
+                studentItem.className = 'student-item';
+                studentItem.innerHTML = `
+                    <div>
+                        <strong>${student.name}</strong>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div class="student-progress">
+                            <div class="progress-bar" style="width: ${student.progress}%"></div>
+                        </div>
+                        <span>${student.progress}%</span>
+                    </div>
+                `;
+                studentsList.appendChild(studentItem);
+            });
+        }
+
+        // متغيرات النظام الزمني
+        let timeFormat = 12; // 12 أو 24
+        let currentDigitalTime = {
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
+            period: 'AM'
+        };
+
+        // تحديث الساعة الرقمية الرئيسية
+        function updateDigitalClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            
+            // تحديد الفترة (AM/PM)
+            let period = hours >= 12 ? 'PM' : 'AM';
+            
+            // التحويل لنظام 12 ساعة إذا كان المطلوب
+            if (timeFormat === 12) {
+                hours = hours % 12 || 12;
+            }
+            
+            // تحديث العرض
+            document.getElementById('digitalHours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('digitalMinutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('timePeriod').textContent = timeFormat === 12 ? period : '';
+            
+            // حفظ الوقت الحالي
+            currentDigitalTime = { hours, minutes, seconds, period };
+        }
+
+        // تبديل نظام الوقت
+        function toggleTimeFormat(format) {
+            timeFormat = format;
+            
+            // تحديث أزرار التبديل
+            document.querySelectorAll('.period-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (format === 12) {
+                document.querySelectorAll('.period-btn')[0].classList.add('active');
+                document.getElementById('timePeriod').style.display = 'inline';
+            } else {
+                document.querySelectorAll('.period-btn')[1].classList.add('active');
+                document.getElementById('timePeriod').style.display = 'none';
+            }
+            
+            updateDigitalClock();
+        }
+
+        // تعيين وقت رقمي عشوائي
+        function setRandomDigitalTime() {
+            const randomHours = Math.floor(Math.random() * 24);
+            const randomMinutes = Math.floor(Math.random() * 60);
+            
+            const period = randomHours >= 12 ? 'PM' : 'AM';
+            let displayHours = timeFormat === 12 ? (randomHours % 12 || 12) : randomHours;
+            
+            document.getElementById('digitalHours').textContent = displayHours.toString().padStart(2, '0');
+            document.getElementById('digitalMinutes').textContent = randomMinutes.toString().padStart(2, '0');
+            
+            if (timeFormat === 12) {
+                document.getElementById('timePeriod').textContent = period;
+            }
+            
+            currentDigitalTime = { 
+                hours: displayHours, 
+                minutes: randomMinutes, 
+                seconds: 0, 
+                period 
+            };
+        }
+
+        // نطق الوقت الرقمي الحالي
+        function speakCurrentDigitalTime() {
+            const { hours, minutes, period } = currentDigitalTime;
+            const timeInWords = getDigitalTimeInWords(hours, minutes, period);
+            
+            showSpeakingIndicator();
+            speakText(`The time is ${timeInWords}`);
+        }
+
+        // نطق وقت رقمي عشوائي
+        function speakRandomDigitalTime() {
+            setRandomDigitalTime();
+            setTimeout(() => {
+                speakCurrentDigitalTime();
+            }, 100);
+        }
+
+        // نطق مثال رقمي
+        function speakDigitalExample(timeString) {
+            showSpeakingIndicator();
+            
+            // تحليل الوقت من السلسلة
+            const match = timeString.match(/(\d{2}):(\d{2})\s*(AM|PM)/i);
+            if (match) {
+                let hours = parseInt(match[1]);
+                const minutes = parseInt(match[2]);
+                const period = match[3].toUpperCase();
+                
+                const timeInWords = getDigitalTimeInWords(hours, minutes, period);
+                speakText(timeInWords);
+            } else {
+                speakText(timeString);
+            }
+        }
+
+        // نطق وقت رقمي محدد
+        function speakDigitalTime(timeString) {
+            speakDigitalExample(timeString);
+        }
+
+        // الحصول على الوقت بالكلمات الإنجليزية
+        function getDigitalTimeInWords(hours, minutes, period) {
+            const hourWords = [
+                'twelve', 'one', 'two', 'three', 'four', 'five',
+                'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'
+            ];
+            
+            const periodWords = period === 'AM' ? 'in the morning' : 'in the afternoon';
+            
+            if (minutes === 0) {
+                return `${hourWords[hours % 12]} o'clock ${periodWords}`;
+            } else if (minutes === 15) {
+                return `quarter past ${hourWords[hours % 12]} ${periodWords}`;
+            } else if (minutes === 30) {
+                return `half past ${hourWords[hours % 12]} ${periodWords}`;
+            } else if (minutes === 45) {
+                const nextHour = (hours % 12) === 12 ? 1 : (hours % 12) + 1;
+                return `quarter to ${hourWords[nextHour]} ${periodWords}`;
+            } else if (minutes < 30) {
+                return `${getMinutesInWords(minutes)} past ${hourWords[hours % 12]} ${periodWords}`;
+            } else {
+                const remaining = 60 - minutes;
+                const nextHour = (hours % 12) === 12 ? 1 : (hours % 12) + 1;
+                return `${getMinutesInWords(remaining)} to ${hourWords[nextHour]} ${periodWords}`;
+            }
+        }
+
+        // تحويل الدقائق إلى كلمات
+        function getMinutesInWords(minutes) {
+            const numbers = [
+                'zero', 'one', 'two', 'three', 'four', 'five',
+                'six', 'seven', 'eight', 'nine', 'ten',
+                'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen',
+                'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty',
+                'twenty-one', 'twenty-two', 'twenty-three', 'twenty-four', 'twenty-five',
+                'twenty-six', 'twenty-seven', 'twenty-eight', 'twenty-nine', 'thirty'
+            ];
+            
+            if (minutes <= 30) {
+                return numbers[minutes];
+            } else {
+                return minutes.toString();
+            }
+        }
+
+        // نطق كلمة
+        function speakWord(word) {
+            showSpeakingIndicator();
+            speakText(word);
+        }
+
+        // نطق خيار
+        function speakOption(optionText) {
+            showSpeakingIndicator();
+            speakText(optionText);
+        }
+
+        // نطق سؤال رقمي
+        function speakDigitalQuestion(questionNumber) {
+            const questions = [
+                "What time is shown in this digital clock?",
+                "What does PM mean in digital clock?",
+                "Convert the time from 24-hour format to 12-hour format",
+                "What is the correct digital time for 'Quarter to seven in the evening'?",
+                "What time is shown in this digital clock?"
+            ];
+            
+            if (questions[questionNumber - 1]) {
+                showSpeakingIndicator();
+                speakText(questions[questionNumber - 1]);
+            }
+        }
+
+        // نطق النص باستخدام Web Speech API
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.8;
+                utterance.pitch = 1.0;
+                utterance.volume = 1.0;
+                
+                utterance.onend = function() {
+                    hideSpeakingIndicator();
+                };
+                
+                utterance.onerror = function() {
+                    hideSpeakingIndicator();
+                    alert('حدث خطأ في خاصية النطق. يرجى التأكد من دعم المتصفح لهذه الخاصية.');
+                };
+                
+                speechSynthesis.speak(utterance);
+            } else {
+                hideSpeakingIndicator();
+                alert('المتصفح لا يدعم خاصية النطق الصوتي. يرجى استخدام Chrome أو Edge.');
+            }
+        }
+
+        // عرض مؤشر النطق
+        function showSpeakingIndicator() {
+            const indicator = document.getElementById('speakingIndicator');
+            indicator.style.display = 'flex';
+        }
+
+        // إخفاء مؤشر النطق
+        function hideSpeakingIndicator() {
+            const indicator = document.getElementById('speakingIndicator');
+            indicator.style.display = 'none';
+        }
+
+        // إضافة تأثيرات للخيارات
+        function setupOptionEffects() {
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.option').forEach(o => {
+                        o.style.background = '#e9ecef';
+                        o.style.color = '';
+                        o.style.borderColor = 'transparent';
+                    });
+                    
+                    this.style.background = '#4361ee';
+                    this.style.color = 'white';
+                    this.style.borderColor = '#3A56D4';
+                });
+            });
+        }
+
+        // التحقق من الإجابات
+        function checkAnswers(event) {
+            event.preventDefault();
+            
+            const answers = {
+                q1: '8:30',
+                q2: 'afternoon',
+                q3: '3:30pm',
+                q4: '6:45',
+                q5: '11:20'
+            };
+            
+            let score = 0;
+            const totalQuestions = 5;
+            
+            // التحقق من كل إجابة
+            for (let i = 1; i <= totalQuestions; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selected && selected.value === answers[`q${i}`]) {
+                    score++;
+                }
+            }
+            
+            const percentage = (score / totalQuestions) * 100;
+            let resultClass = 'success';
+            let resultMessage = `نتيجتك: ${score}/${totalQuestions} (${percentage}%)`;
+            
+            if (percentage < 60) {
+                resultClass = 'danger';
+                resultMessage += ' - تحتاج إلى مزيد من التدريب';
+            } else if (percentage < 80) {
+                resultClass = 'warning';
+                resultMessage += ' - جيد، يمكنك التحسن أكثر';
+            } else {
+                resultClass = 'success';
+                resultMessage += ' - ممتاز! أداء رائع';
+            }
+            
+            // عرض النتيجة
+            const resultBox = document.createElement('div');
+            resultBox.className = `result-box result-${resultClass}`;
+            resultBox.innerHTML = `
+                <i class="fas fa-${resultClass === 'success' ? 'check' : 'exclamation'}-circle"></i>
+                ${resultMessage}
+            `;
+            
+            // إدراج النتيجة قبل زر التسليم
+            const submitBtn = document.querySelector('.submit-btn');
+            submitBtn.parentNode.insertBefore(resultBox, submitBtn);
+            
+            // تحديث تقدم الطلاب (محاكاة)
+            if (percentage > 70) {
+                students.forEach(student => {
+                    if (student.progress < 100) {
+                        student.progress += 2;
+                    }
+                });
+                initializeStudents();
+            }
+        }
+
+        // تهيئة الصفحة عند التحميل
+        document.addEventListener('DOMContentLoaded', () => {
+            // تعيين التاريخ الحالي
+            document.getElementById('currentDate').textContent = new Date().toLocaleDateString('ar-SA');
+            
+            // تهيئة الطلاب
+            initializeStudents();
+            
+            // تهيئة الساعة
+            updateDigitalClock();
+            setInterval(updateDigitalClock, 1000);
+            
+            // إعداد التأثيرات
+            setupOptionEffects();
+            
+            // اختبار دعم Web Speech API
+            if (!('speechSynthesis' in window)) {
+                const warning = document.createElement('div');
+                warning.style.cssText = `
+                    background: #fff3cd;
+                    color: #856404;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px;
+                    text-align: center;
+                    border: 1px solid #ffeaa7;
+                `;
+                warning.innerHTML = `
+                    <i class="fas fa-exclamation-triangle"></i>
+                    ملاحظة: خاصية النطق الصوتي غير مدعومة في متصفحك. 
+                    يرجى استخدام Chrome أو Edge للحصول على أفضل تجربة.
+                `;
+                document.querySelector('.main-section').prepend(warning);
+            }
+        });
+    </script>
+</body>
+</html>

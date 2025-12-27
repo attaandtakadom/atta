@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>تحدي جدول الضرب الذكي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --success: #00b894;
+            --danger: #d63031;
+            --bg: #f0f3f7;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            touch-action: manipulation;
+        }
+
+        body {
+            background-color: var(--bg);
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding-bottom: 100px; /* مساحة لأزرار التنقل في الأسفل */
+        }
+
+        /* الإحصائيات */
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .stat-item { text-align: center; flex: 1; }
+        .stat-item span { display: block; font-weight: bold; color: var(--primary); font-size: 1.2rem; }
+
+        /* منطقة السؤال */
+        .quiz-card {
+            background: white;
+            border-radius: 25px;
+            padding: 25px 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 3px solid var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .equation {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #2d3436;
+            margin-bottom: 25px;
+        }
+
+        /* شبكة الأجوبة */
+        .answers-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .answer-btn {
+            background: #fff;
+            border: 2px solid #dfe6e9;
+            padding: 20px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            border-radius: 15px;
+            color: var(--primary);
+            transition: 0.2s;
+        }
+
+        .answer-btn:active { transform: scale(0.95); }
+
+        /* التغذية الراجعة */
+        #message {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            min-height: 25px;
+        }
+
+        /* أزرار التنقل السفلية */
+        .nav-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            padding: 15px;
+            gap: 10px;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 15px;
+            border-radius: 12px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-home { background: #f1f2f6; color: #2d3436; }
+        .btn-next { background: var(--primary); color: white; }
+
+        @keyframes success-pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .correct-anim { animation: success-pop 0.4s; background-color: var(--success) !important; color: white !important; }
+        .wrong-anim { background-color: var(--danger) !important; color: white !important; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+
+    <div class="stats-bar">
+        <div class="stat-item">النقاط <span id="score">0</span></div>
+        <div class="stat-item">المستوى <span id="level">1</span></div>
+    </div>
+
+    <div class="quiz-card" id="mainCard">
+        <div class="equation">
+            <span id="n1">?</span> × <span id="n2">?</span>
+        </div>
+        
+        <div class="answers-grid" id="options">
+            </div>
+        
+        <div id="message"></div>
+    </div>
+</div>
+
+<div class="nav-footer">
+
+
+
+
+    <a href="../../../../math_dashboard.html" class="nav-btn btn-home">
+        <i class="fas fa-home"></i> الرئيسية
+    </a>
+    <a href="sub.html" class="nav-btn btn-next">
+        التالي <i class="fas fa-arrow-left"></i>
+    </a>
+</div>
+
+<audio id="winSnd" src="https://www.soundjay.com/human/applause-01.mp3"></audio>
+<audio id="errSnd" src="https://www.soundjay.com/misc/sounds/fail-trumpet-01.mp3"></audio>
+
+<script>
+    let score = 0;
+    let correctAnswer = 0;
+    let level = 1;
+
+    function playSound(isCorrect) {
+        const snd = document.getElementById(isCorrect ? 'winSnd' : 'errSnd');
+        snd.currentTime = 0;
+        snd.play().catch(e => console.log("Sound blocked until interaction"));
+    }
+
+    function generate() {
+        // زيادة الصعوبة بناء على المستوى
+        let max = level + 5; 
+        const num1 = Math.floor(Math.random() * max) + 1;
+        const num2 = Math.floor(Math.random() * 10) + 1;
+        correctAnswer = num1 * num2;
+
+        document.getElementById('n1').innerText = num1;
+        document.getElementById('n2').innerText = num2;
+        document.getElementById('message').innerText = "";
+
+        let choices = [correctAnswer];
+        while(choices.length < 4) {
+            let fake = (Math.floor(Math.random() * 12) + 1) * (Math.floor(Math.random() * 10) + 1);
+            if(!choices.includes(fake)) choices.push(fake);
+        }
+        choices.sort(() => Math.random() - 0.5);
+
+        const container = document.getElementById('options');
+        container.innerHTML = '';
+        choices.forEach(val => {
+            const btn = document.createElement('button');
+            btn.className = 'answer-btn';
+            btn.innerText = val;
+            btn.onclick = () => check(val, btn);
+            container.appendChild(btn);
+        });
+    }
+
+    function check(val, btn) {
+        const msg = document.getElementById('message');
+        if(val === correctAnswer) {
+            playSound(true);
+            btn.classList.add('correct-anim');
+            msg.innerText = "أحسنت يا بطل! 🌟";
+            msg.style.color = "var(--success)";
+            score += 10;
+            if(score % 50 === 0) level++;
+            
+            document.getElementById('score').innerText = score;
+            document.getElementById('level').innerText = level;
+            
+            setTimeout(generate, 1200);
+        } else {
+            playSound(false);
+            btn.classList.add('wrong-anim');
+            msg.innerText = "حاول مرة أخرى ❌";
+            msg.style.color = "var(--danger)";
+            setTimeout(() => btn.classList.remove('wrong-anim'), 500);
+        }
+    }
+
+    window.onload = generate;
+</script>
+
+</body>
+</html>

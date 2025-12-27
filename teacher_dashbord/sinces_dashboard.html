@@ -1,0 +1,2275 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة العلوم التعليمية - المنهج العلمي لجميع الصفوف</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --science-primary: #2196F3;
+            --science-secondary: #1976D2;
+            --science-light: #E3F2FD;
+            --biology: #4CAF50;
+            --chemistry: #FF9800;
+            --physics: #F44336;
+            --earth-science: #795548;
+            --astronomy: #9C27B0;
+            --environment: #009688;
+            --grade1: #FF6B6B;
+            --grade2: #4ECDC4;
+            --grade3: #45B7D1;
+            --grade4: #96CEB4;
+            --grade5: #FECA57;
+            --grade4-new: #A569BD;
+            --grade5-new: #5DADE2;
+            --dark: #2C3E50;
+            --light: #ECF0F1;
+            --gradient: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "🧪🔬📚";
+            position: absolute;
+            font-size: 4rem;
+            opacity: 0.1;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--science-primary);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .school-info h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .school-info p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .teacher-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255,255,255,0.15);
+            padding: 0.8rem 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .teacher-avatar {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: var(--science-primary);
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            order: 2;
+            margin-right: 1rem;
+            transition: all 0.3s;
+        }
+
+        .menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Main Layout */
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 110px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: white;
+            box-shadow: 3px 0 15px rgba(0,0,0,0.08);
+            padding: 1.5rem 0;
+        }
+
+        .sidebar-header {
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-header h3 {
+            margin: 0;
+            color: var(--dark);
+        }
+
+        .close-menu {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #666;
+            cursor: pointer;
+            padding: 0.25rem;
+        }
+
+        .close-menu:hover {
+            color: var(--science-primary);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 2rem;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s;
+            margin: 0.5rem 1rem;
+            border-radius: 10px;
+            border-right: 4px solid transparent;
+        }
+
+        .menu-item:hover {
+            background: var(--science-light);
+            color: var(--science-primary);
+            border-right-color: var(--science-primary);
+            transform: translateX(-5px);
+        }
+
+        .menu-item.active {
+            background: var(--gradient);
+            color: white;
+            border-right-color: white;
+        }
+
+        .menu-item i {
+            margin-left: 1rem;
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .badge {
+            background: #FF5252;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-right: auto;
+        }
+
+        /* Overlay for mobile menu */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .welcome-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--science-primary);
+        }
+
+        .welcome-section h1 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .welcome-section p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Science Stats */
+        .science-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card.biology {
+            border-top: 4px solid var(--biology);
+        }
+
+        .stat-card.chemistry {
+            border-top: 4px solid var(--chemistry);
+        }
+
+        .stat-card.physics {
+            border-top: 4px solid var(--physics);
+        }
+
+        .stat-card.earth {
+            border-top: 4px solid var(--earth-science);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .stat-card.biology .stat-icon {
+            background: var(--biology);
+        }
+
+        .stat-card.chemistry .stat-icon {
+            background: var(--chemistry);
+        }
+
+        .stat-card.physics .stat-icon {
+            background: var(--physics);
+        }
+
+        .stat-card.earth .stat-icon {
+            background: var(--earth-science);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card.biology .stat-value {
+            color: var(--biology);
+        }
+
+        .stat-card.chemistry .stat-value {
+            color: var(--chemistry);
+        }
+
+        .stat-card.physics .stat-value {
+            color: var(--physics);
+        }
+
+        .stat-card.earth .stat-value {
+            color: var(--earth-science);
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Science Tabs */
+        .science-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .science-tab {
+            padding: 1rem 1.5rem;
+            background: white;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .science-tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .science-tab.active {
+            color: white;
+            border-color: transparent;
+        }
+
+        .science-tab.biology.active {
+            background: var(--biology);
+        }
+
+        .science-tab.chemistry.active {
+            background: var(--chemistry);
+        }
+
+        .science-tab.physics.active {
+            background: var(--physics);
+        }
+
+        .science-tab.earth.active {
+            background: var(--earth-science);
+        }
+
+        /* Grade Tabs */
+        .grade-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .grade-tab {
+            padding: 1rem 1.5rem;
+            background: white;
+            border: 2px solid var(--science-light);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .grade-tab:hover {
+            border-color: var(--science-primary);
+            transform: translateY(-2px);
+        }
+
+        .grade-tab.active {
+            background: var(--science-primary);
+            color: white;
+            border-color: var(--science-primary);
+        }
+
+        .grade-tab.grade4.active {
+            background: var(--grade4-new);
+            border-color: var(--grade4-new);
+        }
+
+        .grade-tab.grade5.active {
+            background: var(--grade5-new);
+            border-color: var(--grade5-new);
+        }
+
+        /* Lessons Grid */
+        .lessons-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .lesson-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: var(--science-primary);
+        }
+
+        .lesson-card.biology:hover {
+            border-color: var(--biology);
+        }
+
+        .lesson-card.chemistry:hover {
+            border-color: var(--chemistry);
+        }
+
+        .lesson-card.physics:hover {
+            border-color: var(--physics);
+        }
+
+        .lesson-header {
+            padding: 1.5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lesson-card.biology .lesson-header {
+            background: linear-gradient(135deg, var(--biology), #388E3C);
+        }
+
+        .lesson-card.chemistry .lesson-header {
+            background: linear-gradient(135deg, var(--chemistry), #F57C00);
+        }
+
+        .lesson-card.physics .lesson-header {
+            background: linear-gradient(135deg, var(--physics), #D32F2F);
+        }
+
+        .lesson-card.earth .lesson-header {
+            background: linear-gradient(135deg, var(--earth-science), #5D4037);
+        }
+
+        .lesson-card.astronomy .lesson-header {
+            background: linear-gradient(135deg, var(--astronomy), #7B1FA2);
+        }
+
+        .lesson-card.environment .lesson-header {
+            background: linear-gradient(135deg, var(--environment), #00796B);
+        }
+
+        .lesson-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-subject {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .lesson-content {
+            padding: 1.5rem;
+        }
+
+        .lesson-desc {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .lesson-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .lesson-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-family: 'Cairo';
+        }
+
+        .btn-primary {
+            background: var(--science-primary);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background: var(--science-secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: var(--dark);
+            border: 1px solid #dee2e6;
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        /* Programs Section */
+        .programs-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .program-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+            color: var(--dark);
+            border: 2px dashed #dee2e6;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .program-card:hover {
+            background: white;
+            border-color: var(--science-primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .program-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--science-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: var(--science-primary);
+        }
+
+        .program-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .program-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-active {
+            background: #d6f5e8;
+            color: #43A047;
+        }
+
+        .status-upcoming {
+            background: #fff4e6;
+            color: #FF9800;
+        }
+
+        .status-completed {
+            background: #e0f7ff;
+            color: #1E88E5;
+        }
+
+        /* Grade Content Sections */
+        .grade-content {
+            display: none;
+        }
+
+        .grade-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .lessons-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .teacher-info {
+                order: 3;
+                width: 100%;
+                margin-top: 1rem;
+                justify-content: center;
+            }
+
+            .header-content {
+                flex-wrap: wrap;
+            }
+
+            /* Sidebar Mobile Styles */
+            .sidebar {
+                position: fixed;
+                top: 0;
+                right: -300px;
+                width: 280px;
+                height: 100vh;
+                background: white;
+                z-index: 999;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+                transition: right 0.3s ease-in-out;
+                overflow-y: auto;
+                padding: 0;
+            }
+            
+            .sidebar.active {
+                right: 0;
+            }
+            
+            .sidebar-header {
+                display: flex;
+            }
+            
+            .sidebar-menu {
+                display: block;
+                padding: 0;
+            }
+            
+            .menu-item {
+                margin: 0.25rem 1rem;
+                white-space: nowrap;
+            }
+            
+            .sidebar-overlay.active {
+                display: block;
+                opacity: 1;
+            }
+
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .content {
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: row;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .school-info h1 {
+                font-size: 1.4rem;
+            }
+
+            .science-stats,
+            .lessons-grid,
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .science-tabs,
+            .grade-tabs {
+                flex-wrap: wrap;
+            }
+
+            .section-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .lesson-actions {
+                flex-direction: column;
+            }
+
+            .welcome-section,
+            .lessons-section,
+            .programs-section {
+                padding: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 1rem;
+            }
+
+            .logo {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .teacher-info {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .grade-tabs {
+                font-size: 0.9rem;
+            }
+
+            .grade-tab {
+                padding: 0.8rem 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        /* تبويبات اللغة العربية - إصدار محسّن للجوال */
+@media (max-width: 768px) {
+    .grades-tabs {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        gap: 8px;
+        padding: 10px 5px 15px;
+        margin: 0 -10px 20px;
+        position: relative;
+    }
+    
+    /* خلفية للتبويبات لتوضيح وجود تمرير */
+    .grades-tabs::before {
+        content: '';
+        position: absolute;
+        right: 0;
+        left: 0;
+        bottom: -2px;
+        height: 2px;
+        background: linear-gradient(90deg, 
+            transparent 0%, 
+            #e2e8f0 20%, 
+            #e2e8f0 80%, 
+            transparent 100%
+        );
+    }
+    
+    .grade-tab {
+        flex: 0 0 auto;
+        min-width: 120px;
+        max-width: 150px;
+        padding: 12px 15px;
+        font-size: 14px;
+        text-align: center;
+        justify-content: center;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin: 0 2px;
+        transition: all 0.3s ease;
+    }
+    
+    .grade-tab i {
+        margin-bottom: 5px;
+        display: block;
+        font-size: 18px;
+    }
+    
+    .grade-tab .tab-badge {
+        display: block;
+        margin-top: 5px;
+        margin-right: 0;
+        font-size: 11px;
+        padding: 3px 8px;
+    }
+    
+    /* تحسين للشاشات الصغيرة جداً */
+    @media (max-width: 480px) {
+        .grade-tab {
+            min-width: 100px;
+            padding: 10px 12px;
+            font-size: 13px;
+        }
+        
+        .grade-tab i {
+            font-size: 16px;
+        }
+        
+        .grade-tab .tab-badge {
+            font-size: 10px;
+            padding: 2px 6px;
+        }
+        
+        .grades-tabs {
+            gap: 5px;
+            padding: 8px 3px 12px;
+        }
+    }
+    
+    @media (max-width: 360px) {
+        .grade-tab {
+            min-width: 90px;
+            padding: 8px 10px;
+            font-size: 12px;
+        }
+        
+        .grade-tab i {
+            font-size: 14px;
+        }
+    }
+    
+    /* تأثير اللمس للجوال */
+    .grade-tab:active {
+        transform: scale(0.95);
+        transition: transform 0.1s;
+    }
+    
+    /* تلميح للمستخدم بوجود تمرير */
+    .grades-tabs::-webkit-scrollbar {
+        height: 4px;
+    }
+    
+    .grades-tabs::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+    }
+    
+    .grades-tabs::-webkit-scrollbar-thumb {
+        background: rgba(33, 150, 243, 0.5);
+        border-radius: 10px;
+    }
+    
+    .grades-tabs::-webkit-scrollbar-thumb:hover {
+        background: rgba(33, 150, 243, 0.7);
+    }
+}
+
+/* إضافة تأثيرات لتحسين تجربة الجوال */
+.grade-tab {
+    touch-action: manipulation; /* يقلل من التأخير على الجوال */
+    user-select: none; /* يمنع تحديد النص عند اللمس */
+}
+
+/* تحسين التبويب النشط للجوال */
+@media (max-width: 768px) {
+    .grade-tab.active {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+    }
+}
+
+/* مؤشر سهمي للتمرير (اختياري) */
+@media (max-width: 768px) {
+    .grades-tabs-container {
+        position: relative;
+    }
+    
+    .scroll-indicator {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 30px;
+        height: 30px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+        cursor: pointer;
+        opacity: 0.8;
+        transition: opacity 0.3s;
+    }
+    
+    .scroll-indicator:hover {
+        opacity: 1;
+    }
+    
+    .scroll-indicator.left {
+        right: 5px;
+    }
+    
+    .scroll-indicator.right {
+        left: 5px;
+    }
+    
+    .scroll-indicator i {
+        color: var(--english-primary);
+        font-size: 16px;
+    }
+}
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-atom"></i>
+                </div>
+                <div class="school-info">
+                    <h1>منصة العلوم التعليمية</h1>
+                    <p>تجارب تفاعلية - دروس علمية - منهج متكامل</p>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="menu-toggle" id="menuToggle" aria-label="فتح/إغلاق القائمة">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="teacher-info">
+                <div class="teacher-avatar">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div>
+                    <div style="font-weight: 600;"> لوحة الطالب </div>
+                    <div style="font-size: 0.9rem; opacity: 0.9;"> العلوم</div>
+                </div>
+                <div style="margin-right: auto; margin-left: 1rem;">
+                    <div id="current-time" style="font-size: 1.1rem;"></div>
+                    <div style="font-size: 0.8rem; opacity: 0.8;">توقيت المختبر العلمي</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h3>القائمة الرئيسية</h3>
+                <button class="close-menu" id="closeMenu" aria-label="إغلاق القائمة">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="index.html" class="menu-item active">
+                        <i class="fas fa-home"></i>
+                        <span>الرئيسية</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>الطلاب</span>
+                        <span class="badge">24</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-flask"></i>
+                        <span>المختبر الافتراضي</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-seedling"></i>
+                        <span>علم الأحياء</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-atom"></i>
+                        <span>الكيمياء</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-bolt"></i>
+                        <span>الفيزياء</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-globe-asia"></i>
+                        <span>علوم الأرض</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>التقارير</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-tasks"></i>
+                        <span>الواجبات</span>
+                        <span class="badge">8</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>الجدول الدراسي</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>الإعدادات</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <!-- Overlay for mobile menu -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Welcome Section -->
+            <section class="welcome-section fade-in">
+                <h1>مرحباً بك في مختبر العلوم الافتراضي 🧪</h1>
+                <p>إدارة الدروس العلمية والتجارب التفاعلية للصفوف من الأول إلى الخامس</p>
+                <div class="science-tabs">
+                    <div class="science-tab biology active" onclick="showScience('biology')">
+                        <i class="fas fa-seedling"></i>
+                        علم الأحياء
+                    </div>
+                    <div class="science-tab chemistry" onclick="showScience('chemistry')">
+                        <i class="fas fa-flask"></i>
+                        الكيمياء
+                    </div>
+                    <div class="science-tab physics" onclick="showScience('physics')">
+                        <i class="fas fa-bolt"></i>
+                        الفيزياء
+                    </div>
+                    <div class="science-tab earth" onclick="showScience('earth')">
+                        <i class="fas fa-globe-asia"></i>
+                        علوم الأرض
+                    </div>
+                </div>
+            </section>
+
+            <!-- Science Statistics -->
+            <div class="science-stats fade-in">
+                <div class="stat-card biology">
+                    <div class="stat-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <div class="stat-value">92%</div>
+                    <div class="stat-label">معدل النجاح في الأحياء</div>
+                </div>
+                <div class="stat-card chemistry">
+                    <div class="stat-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="stat-value">85%</div>
+                    <div class="stat-label">معدل النجاح في الكيمياء</div>
+                </div>
+                <div class="stat-card physics">
+                    <div class="stat-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="stat-value">88%</div>
+                    <div class="stat-label">معدل النجاح في الفيزياء</div>
+                </div>
+                <div class="stat-card earth">
+                    <div class="stat-icon">
+                        <i class="fas fa-globe-asia"></i>
+                    </div>
+                    <div class="stat-value">90%</div>
+                    <div class="stat-label">معدل النجاح في علوم الأرض</div>
+                </div>
+            </div>
+
+            <!-- Grade Tabs -->
+            <div class="grade-tabs fade-in">
+                <div class="grade-tab active" onclick="showGrade('grade1')">
+                    <i class="fas fa-1"></i>
+                    الصف الأول
+                </div>
+                <div class="grade-tab" onclick="showGrade('grade2')">
+                    <i class="fas fa-2"></i>
+                    الصف الثاني
+                </div>
+                <div class="grade-tab" onclick="showGrade('grade3')">
+                    <i class="fas fa-3"></i>
+                    الصف الثالث
+                </div>
+                <div class="grade-tab grade4" onclick="showGrade('grade4')">
+                    <i class="fas fa-4"></i>
+                    الصف الرابع
+                </div>
+                <div class="grade-tab grade5" onclick="showGrade('grade5')">
+                    <i class="fas fa-5"></i>
+                    الصف الخامس
+                </div>
+            </div>
+
+            <!-- Grade 1 Lessons -->
+            <div id="grade1-content" class="grade-content active">
+                <section class="lessons-section fade-in">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-graduation-cap"></i>
+                            دروس الصف الأول - علم الأحياء
+                        </h2><!---
+                        <button class="btn btn-primary" onclick="addNewLesson('grade1')">
+                            <i class="fas fa-plus"></i>
+                            إضافة درس جديد
+                        </button>-->
+                    </div>
+                    <div class="lessons-grid">
+                        <!-- درس النباتات للصف الأول -->
+                        <div class="lesson-card biology" onclick="launchProgram('grade1-plants', 'الصف الأول')">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <h3 class="lesson-title">أجزاء النبات</h3>
+                                <div class="lesson-subject">علم الأحياء - الوحدة الأولى</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    تعرف على أجزاء النبات المختلفة: الجذر، الساق، الأوراق، الزهرة. تجارب عملية مع النباتات الحية.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 4 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 15 تمرين</span>
+                                </div>
+                                <span class="status-badge status-active">نشط</span>
+                                <div class="lesson-actions">
+                                    <button class="btn btn-primary" onclick="launchProgram('grade1-plants', 'الصف الأول')">
+                                        <i class="fas fa-play"></i> افتح البرنامج
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="viewLessonDetails('plant_parts')">
+                                        <i class="fas fa-info-circle"></i> التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- درس الحيوانات للصف الأول -->
+                        <div class="lesson-card biology" onclick="launchProgram('grade1-animals', 'الصف الأول')">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-paw"></i>
+                                </div>
+                                <h3 class="lesson-title">الحيوانات الأليفة</h3>
+                                <div class="lesson-subject">علم الأحياء - الوحدة الثانية</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    تعرف على الحيوانات الأليفة وكيفية العناية بها. مقارنة بين الثدييات والطيور والزواحف.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 3 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 12 تمرين</span>
+                                </div>
+                                <span class="status-badge status-active">نشط</span>
+                                <div class="lesson-actions">
+                                    <button class="btn btn-primary" onclick="launchProgram('grade1-animals', 'الصف الأول')">
+                                        <i class="fas fa-play"></i> افتح البرنامج
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="viewLessonDetails('pets')">
+                                        <i class="fas fa-info-circle"></i> التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- درس المادة للصف الأول -->
+                        <div class="lesson-card chemistry" onclick="launchProgram('grade1-matter', 'الصف الأول')">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <h3 class="lesson-title">حالات المادة</h3>
+                                <div class="lesson-subject">الكيمياء - الوحدة الأولى</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    تعرف على حالات المادة الثلاث: الصلبة، السائلة، الغازية. تجارب بسيطة على التغيرات الحرارية.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 5 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 18 تمرين</span>
+                                </div>
+                                <span class="status-badge status-completed">مكتمل</span>
+                                <div class="lesson-actions">
+                                    <button class="btn btn-primary" onclick="launchProgram('grade1-matter', 'الصف الأول')">
+                                        <i class="fas fa-redo"></i> مراجعة البرنامج
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="viewResults('matter_states')">
+                                        <i class="fas fa-chart-bar"></i> النتائج
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Grade 2 Lessons -->
+            <div id="grade2-content" class="grade-content">
+                <section class="lessons-section fade-in">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-graduation-cap"></i>
+                            دروس الصف الثاني - العلوم العامة
+                        </h2><!--
+                        <button class="btn btn-primary" onclick="addNewLesson('grade2')">
+                            <i class="fas fa-plus"></i>
+                            إضافة درس جديد
+                        </button>-->
+                    </div>
+                    <div class="lessons-grid">
+                        <!-- درس الخصائص الكيميائية للصف الثاني -->
+                        <div class="lesson-card chemistry" onclick="launchProgram('grade2-chemical', 'الصف الثاني')">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-flask"></i>
+                                </div>
+                                <h3 class="lesson-title">الخصائص الكيميائية</h3>
+                                <div class="lesson-subject">الكيمياء - الوحدة الأولى</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    دراسة الخصائص الكيميائية للمواد: القابلية للاشتعال، التفاعل مع الأحماض، التغيرات الكيميائية.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 6 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 20 تمرين</span>
+                                </div>
+                                <span class="status-badge status-active">نشط</span>
+                                <div class="lesson-actions">
+                                    <button class="btn btn-primary" onclick="launchProgram('grade2-chemical', 'الصف الثاني')">
+                                        <i class="fas fa-play"></i> افتح البرنامج
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="viewLessonDetails('chemical_props')">
+                                        <i class="fas fa-info-circle"></i> التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- درس المغناطيسية للصف الثاني -->
+                        <div class="lesson-card physics" onclick="launchProgram('grade2-magnetism', 'الصف الثاني')">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-magnet"></i>
+                                </div>
+                                <h3 class="lesson-title">المغناطيسية</h3>
+                                <div class="lesson-subject">الفيزياء - الوحدة الأولى</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    تعرف على خصائص المغناطيس، الأقطاب المغناطيسية، استخدامات المغناطيس في الحياة اليومية.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 4 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 15 تمرين</span>
+                                </div>
+                                <span class="status-badge status-upcoming">قادم</span>
+                                <div class="lesson-actions">
+                                    <button class="btn btn-primary" onclick="launchProgram('grade2-magnetism', 'الصف الثاني')">
+                                        <i class="fas fa-eye"></i> معاينة البرنامج
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="scheduleLesson('magnetism')">
+                                        <i class="fas fa-calendar"></i> جدولة
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Grade 3 Lessons -->
+            <div id="grade3-content" class="grade-content">
+                <section class="lessons-section fade-in">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-graduation-cap"></i>
+                            دروس الصف الثالث - علوم متوسطة
+                        </h2><!--
+                        <button class="btn btn-primary" onclick="addNewLesson('grade3')">
+                            <i class="fas fa-plus"></i>
+                            إضافة درس جديد
+                        </button>-->
+                    </div>
+                    <div class="lessons-grid">
+                        <!-- درس الدوائر الكهربائية للصف الثالث -->
+                        <div class="lesson-card physics" onclick="launchProgram('grade3-circuits', 'الصف الثالث')">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <h3 class="lesson-title">الدوائر الكهربائية البسيطة</h3>
+                                <div class="lesson-subject">الفيزياء - الوحدة الثانية</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    بناء دوائر كهربائية بسيطة باستخدام البطارية والمصباح والأسلاك. فهم مفهوم الدائرة المفتوحة والمغلقة.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 5 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 18 تمرين</span>
+                                </div>
+                                <span class="status-badge status-active">نشط</span>
+                                <div class="lesson-actions">
+                                    <button class="btn btn-primary" onclick="launchProgram('grade3-circuits', 'الصف الثالث')">
+                                        <i class="fas fa-play"></i> افتح البرنامج
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="viewLessonDetails('simple_circuits')">
+                                        <i class="fas fa-info-circle"></i> التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- درس دورة المياه للصف الثالث -->
+                        <div class="lesson-card earth" onclick="launchProgram('grade3-water', 'الصف الثالث')">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-water"></i>
+                                </div>
+                                <h3 class="lesson-title">دورة المياه في الطبيعة</h3>
+                                <div class="lesson-subject">علوم الأرض - الوحدة الأولى</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    دراسة دورة المياه: التبخر، التكاثف، الهطول، الجريان السطحي. تجارب على تغيرات حالات الماء.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 4 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 16 تمرين</span>
+                                </div>
+                                <span class="status-badge status-completed">مكتمل</span>
+                                <div class="lesson-actions">
+                                    <button class="btn btn-primary" onclick="launchProgram('grade3-water', 'الصف الثالث')">
+                                        <i class="fas fa-redo"></i> مراجعة البرنامج
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="viewResults('water_cycle')">
+                                        <i class="fas fa-chart-bar"></i> النتائج
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Grade 4 Lessons -->
+            <div id="grade4-content" class="grade-content">
+                <section class="lessons-section fade-in">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-graduation-cap"></i>
+                            دروس الصف الرابع - علوم متقدمة
+                        </h2><!--
+                        <button class="btn btn-primary" onclick="addNewLesson('grade4')">
+                            <i class="fas fa-plus"></i>
+                            إضافة درس جديد
+                        </button>-->
+                    </div>
+                    <div class="lessons-grid">
+                        <!-- درس النظام الشمسي للصف الرابع -->
+                        <div class="lesson-card astronomy" onclick="launchProgram('grade4-solar', 'الصف الرابع')">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-moon"></i>
+                                </div>
+                                <h3 class="lesson-title">النظام الشمسي</h3>
+                                <div class="lesson-subject">علوم الفلك - الوحدة الأولى</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    دراسة كواكب النظام الشمسي، خصائص كل كوكب، الكويكبات والمذنبات. رحلة افتراضية عبر المجموعة الشمسية.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 6 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 22 تمرين</span>
+                                </div>
+                                <span class="status-badge status-active">نشط</span>
+                                <div class="lesson-actions">
+                                    <button class="btn btn-primary" onclick="launchProgram('grade4-solar', 'الصف الرابع')">
+                                        <i class="fas fa-play"></i> ابدأ الرحلة
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="viewLessonDetails('solar_system')">
+                                        <i class="fas fa-info-circle"></i> التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- درس القوة والحركة للصف الرابع -->
+                        <div class="lesson-card physics" onclick="launchProgram('grade4-force', 'الصف الرابع')">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                </div>
+                                <h3 class="lesson-title">القوة والحركة</h3>
+                                <div class="lesson-subject">الفيزياء - الوحدة الثالثة</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    فهم مفاهيم القوة والحركة والسرعة والتسارع. تجارب على قوى الدفع والسحب وتأثيرها على الحركة.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 5 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 20 تمرين</span>
+                                </div>
+                                <span class="status-badge status-upcoming">قادم</span>
+                                <div class="lesson-actions">
+                                    <button class="btn btn-primary" onclick="launchProgram('grade4-force', 'الصف الرابع')">
+                                        <i class="fas fa-eye"></i> معاينة البرنامج
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="scheduleLesson('force_motion')">
+                                        <i class="fas fa-calendar"></i> جدولة
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- درس الأنظمة البيئية للصف الرابع -->
+                        <div class="lesson-card environment" onclick="launchProgram('grade4-eco', 'الصف الرابع')">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-recycle"></i>
+                                </div>
+                                <h3 class="lesson-title">الأنظمة البيئية</h3>
+                                <div class="lesson-subject">علوم البيئة - الوحدة الأولى</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    دراسة السلاسل الغذائية، الشبكات الغذائية، التوازن البيئي. تأثير الإنسان على البيئة وطرق المحافظة عليها.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 7 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 25 تمرين</span>
+                                </div>
+                                <span class="status-badge status-active">نشط</span>
+                                <div class="lesson-actions">
+                                    <button class="btn btn-primary" onclick="launchProgram('grade4-eco', 'الصف الرابع')">
+                                        <i class="fas fa-play"></i> افتح البرنامج
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="viewLessonDetails('ecosystems')">
+                                        <i class="fas fa-info-circle"></i> التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Grade 5 Lessons -->
+            <div id="grade5-content" class="grade-content">
+                <section class="lessons-section fade-in">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-graduation-cap"></i>
+                            دروس الصف الخامس - علوم متقدمة
+                        </h2><!--
+                        <button class="btn btn-primary" onclick="addNewLesson('grade5')">
+                            <i class="fas fa-plus"></i>
+                            إضافة درس جديد
+                        </button>-->
+                    </div>
+                    <div class="lessons-grid">
+                        <!-- درس الخلايا للصف الخامس -->
+                        <div class="lesson-card biology" onclick="launchProgram('grade5-cells', 'الصف الخامس')">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-dna"></i>
+                                </div>
+                                <h3 class="lesson-title">الخلية وأجزاؤها</h3>
+                                <div class="lesson-subject">علم الأحياء - الوحدة المتقدمة</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    دراسة تركيب الخلية النباتية والحيوانية، وظائف العضيات الخلوية. استخدام المجهر لفحص الخلايا الحية.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 8 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 28 تمرين</span>
+                                </div>
+                                <span class="status-badge status-active">نشط</span>
+                                <div class="lesson-actions">
+                                    <button class="btn btn-primary" onclick="launchProgram('grade5-cells', 'الصف الخامس')">
+                                        <i class="fas fa-play"></i> افتح البرنامج
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="viewLessonDetails('cell_structure')">
+                                        <i class="fas fa-info-circle"></i> التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- درس الذرات للصف الخامس -->
+                        <div class="lesson-card chemistry" onclick="launchProgram('grade5-atoms', 'الصف الخامس')">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-atom"></i>
+                                </div>
+                                <h3 class="lesson-title">الذرات والجزيئات</h3>
+                                <div class="lesson-subject">الكيمياء - الوحدة المتقدمة</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    مقدمة في التركيب الذري، العناصر والمركبات، الروابط الكيميائية. تجارب على التفاعلات الكيميائية البسيطة.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 7 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 24 تمرين</span>
+                                </div>
+                                <span class="status-badge status-upcoming">قادم</span>
+                                <div class="lesson-actions">
+                                    <button class="btn btn-primary" onclick="launchProgram('grade5-atoms', 'الصف الخامس')">
+                                        <i class="fas fa-eye"></i> معاينة البرنامج
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="scheduleLesson('atoms_molecules')">
+                                        <i class="fas fa-calendar"></i> جدولة
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- درس الطاقة للصف الخامس -->
+                        <div class="lesson-card physics" onclick="launchProgram('grade5-energy', 'الصف الخامس')">
+                            <div class="lesson-header">
+                                <div class="lesson-icon">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <h3 class="lesson-title">الطاقة وأنواعها</h3>
+                                <div class="lesson-subject">الفيزياء - الوحدة المتقدمة</div>
+                            </div>
+                            <div class="lesson-content">
+                                <p class="lesson-desc">
+                                    دراسة أنواع الطاقة: الحركية، الكامنة، الكهربائية، الضوئية. تحولات الطاقة والحفاظ عليها.
+                                </p>
+                                <div class="lesson-meta">
+                                    <span><i class="far fa-clock"></i> 6 ساعات</span>
+                                    <span><i class="fas fa-tasks"></i> 22 تمرين</span>
+                                </div>
+                                <span class="status-badge status-completed">مكتمل</span>
+                                <div class="lesson-actions">
+                                    <button class="btn btn-primary" onclick="launchProgram('grade5-energy', 'الصف الخامس')">
+                                        <i class="fas fa-redo"></i> مراجعة البرنامج
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="viewResults('energy_types')">
+                                        <i class="fas fa-chart-bar"></i> النتائج
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Programs Section -->
+            <section class="programs-section fade-in">
+                <h2 class="section-title">
+                    <i class="fas fa-puzzle-piece"></i>
+                    جميع البرامج التعليمية للصفوف
+                </h2>
+                <p style="color: #666; margin-bottom: 1.5rem; text-align: center;">
+                    انقر على أي برنامج لفتحه مباشرة. جميع البرامج مرتبطة تلقائياً مع دروسها.
+                </p>
+                
+                <!-- الصف الأول -->
+                <h3 style="color: var(--grade1); margin: 2rem 0 1rem 0; border-right: 4px solid var(--grade1); padding-right: 1rem;">
+                    <i class="fas fa-1"></i> برامج الصف الأول
+                </h3>
+                <div class="programs-grid">
+                    <div class="program-card" onclick="launchProgram('grade1-plants', 'الصف الأول')">
+                        <div class="program-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3 class="program-title">أجزاء النبات</h3>
+                        <p class="program-desc">برنامج تفاعلي عن أجزاء النبات</p>
+                        <div class="program-meta" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--grade1);">
+                            <i class="fas fa-graduation-cap"></i> الصف الأول
+                        </div>
+                    </div>
+
+                    <div class="program-card" onclick="launchProgram('grade1-animals', 'الصف الأول')">
+                        <div class="program-icon">
+                            <i class="fas fa-paw"></i>
+                        </div>
+                        <h3 class="program-title">الحيوانات الأليفة</h3>
+                        <p class="program-desc">برنامج عن الحيوانات وكيفية العناية بها</p>
+                        <div class="program-meta" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--grade1);">
+                            <i class="fas fa-graduation-cap"></i> الصف الأول
+                        </div>
+                    </div>
+
+                    <div class="program-card" onclick="launchProgram('grade1-matter', 'الصف الأول')">
+                        <div class="program-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <h3 class="program-title">حالات المادة</h3>
+                        <p class="program-desc">برنامج عن حالات المادة الثلاث</p>
+                        <div class="program-meta" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--grade1);">
+                            <i class="fas fa-graduation-cap"></i> الصف الأول
+                        </div>
+                    </div>
+                </div>
+
+                <!-- الصف الثاني -->
+                <h3 style="color: var(--grade2); margin: 2rem 0 1rem 0; border-right: 4px solid var(--grade2); padding-right: 1rem;">
+                    <i class="fas fa-2"></i> برامج الصف الثاني
+                </h3>
+                <div class="programs-grid">
+                    <div class="program-card" onclick="launchProgram('grade2-chemical', 'الصف الثاني')">
+                        <div class="program-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h3 class="program-title">الخصائص الكيميائية</h3>
+                        <p class="program-desc">برنامج عن خواص المواد الكيميائية</p>
+                        <div class="program-meta" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--grade2);">
+                            <i class="fas fa-graduation-cap"></i> الصف الثاني
+                        </div>
+                    </div>
+
+                    <div class="program-card" onclick="launchProgram('grade2-magnetism', 'الصف الثاني')">
+                        <div class="program-icon">
+                            <i class="fas fa-magnet"></i>
+                        </div>
+                        <h3 class="program-title">المغناطيسية</h3>
+                        <p class="program-desc">برنامج عن خصائص المغناطيس</p>
+                        <div class="program-meta" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--grade2);">
+                            <i class="fas fa-graduation-cap"></i> الصف الثاني
+                        </div>
+                    </div>
+                </div>
+
+                <!-- الصف الثالث -->
+                <h3 style="color: var(--grade3); margin: 2rem 0 1rem 0; border-right: 4px solid var(--grade3); padding-right: 1rem;">
+                    <i class="fas fa-3"></i> برامج الصف الثالث
+                </h3>
+                <div class="programs-grid">
+                    <div class="program-card" onclick="launchProgram('grade3-circuits', 'الصف الثالث')">
+                        <div class="program-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3 class="program-title">الدوائر الكهربائية</h3>
+                        <p class="program-desc">برنامج لبناء دوائر كهربائية</p>
+                        <div class="program-meta" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--grade3);">
+                            <i class="fas fa-graduation-cap"></i> الصف الثالث
+                        </div>
+                    </div>
+
+                    <div class="program-card" onclick="launchProgram('grade3-water', 'الصف الثالث')">
+                        <div class="program-icon">
+                            <i class="fas fa-water"></i>
+                        </div>
+                        <h3 class="program-title">دورة المياه</h3>
+                        <p class="program-desc">برنامج عن دورة المياه في الطبيعة</p>
+                        <div class="program-meta" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--grade3);">
+                            <i class="fas fa-graduation-cap"></i> الصف الثالث
+                        </div>
+                    </div>
+                </div>
+
+                <!-- الصف الرابع -->
+                <h3 style="color: var(--grade4-new); margin: 2rem 0 1rem 0; border-right: 4px solid var(--grade4-new); padding-right: 1rem;">
+                    <i class="fas fa-4"></i> برامج الصف الرابع
+                </h3>
+                <div class="programs-grid">
+                    <div class="program-card" onclick="launchProgram('grade4-solar', 'الصف الرابع')">
+                        <div class="program-icon">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                        <h3 class="program-title">النظام الشمسي</h3>
+                        <p class="program-desc">برنامج رحلة في النظام الشمسي</p>
+                        <div class="program-meta" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--grade4-new);">
+                            <i class="fas fa-graduation-cap"></i> الصف الرابع
+                        </div>
+                    </div>
+
+                    <div class="program-card" onclick="launchProgram('grade4-force', 'الصف الرابع')">
+                        <div class="program-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <h3 class="program-title">القوة والحركة</h3>
+                        <p class="program-desc">برنامج عن القوة والحركة</p>
+                        <div class="program-meta" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--grade4-new);">
+                            <i class="fas fa-graduation-cap"></i> الصف الرابع
+                        </div>
+                    </div>
+
+                    <div class="program-card" onclick="launchProgram('grade4-eco', 'الصف الرابع')">
+                        <div class="program-icon">
+                            <i class="fas fa-recycle"></i>
+                        </div>
+                        <h3 class="program-title">الأنظمة البيئية</h3>
+                        <p class="program-desc">برنامج عن التوازن البيئي</p>
+                        <div class="program-meta" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--grade4-new);">
+                            <i class="fas fa-graduation-cap"></i> الصف الرابع
+                        </div>
+                    </div>
+                </div>
+
+                <!-- الصف الخامس -->
+                <h3 style="color: var(--grade5-new); margin: 2rem 0 1rem 0; border-right: 4px solid var(--grade5-new); padding-right: 1rem;">
+                    <i class="fas fa-5"></i> برامج الصف الخامس
+                </h3>
+                <div class="programs-grid">
+                    <!-- برنامج خلايا الصف الخامس -->
+                    <div class="program-card" onclick="launchProgram('grade5-cells', 'الصف الخامس')">
+                        <div class="program-icon">
+                            <i class="fas fa-dna"></i>
+                        </div>
+                        <h3 class="program-title">خلايا الصف الخامس</h3>
+                        <p class="program-desc">دراسة متقدمة للخلية النباتية والحيوانية</p>
+                        <div class="program-meta" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--grade5-new);">
+                            <i class="fas fa-graduation-cap"></i> الصف الخامس
+                        </div>
+                    </div>
+
+                    <div class="program-card" onclick="launchProgram('grade5-atoms', 'الصف الخامس')">
+                        <div class="program-icon">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <h3 class="program-title">الذرات والجزيئات</h3>
+                        <p class="program-desc">برنامج عن التركيب الذري</p>
+                        <div class="program-meta" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--grade5-new);">
+                            <i class="fas fa-graduation-cap"></i> الصف الخامس
+                        </div>
+                    </div>
+
+                    <div class="program-card" onclick="launchProgram('grade5-energy', 'الصف الخامس')">
+                        <div class="program-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="program-title">الطاقة وأنواعها</h3>
+                        <p class="program-desc">برنامج عن أنواع الطاقة وتحولاتها</p>
+                        <div class="program-meta" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--grade5-new);">
+                            <i class="fas fa-graduation-cap"></i> الصف الخامس
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // ========================================
+        // قاعدة بيانات جميع برامج الصفوف
+        // ========================================
+        const programsDatabase = {
+            // ========== الصف الأول ==========
+            'grade1-plants': {
+                title: 'برنامج أجزاء النبات - الصف الأول',
+                description: 'تعلم أجزاء النبات بشكل تفاعلي',
+                url: '#',
+                available: true,
+                grade: 'الصف الأول',
+                subject: 'علم الأحياء',
+                icon: 'fas fa-leaf'
+            },
+            'grade1-animals': {
+                title: 'برنامج الحيوانات الأليفة - الصف الأول',
+                description: 'تعرف على الحيوانات الأليفة',
+                 url: '#',
+                available: true,
+                grade: 'الصف الأول',
+                subject: 'علم الأحياء',
+                icon: 'fas fa-paw'
+            },
+            'grade1-matter': {
+                title: 'برنامج حالات المادة - الصف الأول',
+                description: 'تعلم حالات المادة الثلاث',
+                url: '#',
+                available: true,
+                grade: 'الصف الأول',
+                subject: 'الكيمياء',
+                icon: 'fas fa-tint'
+            },
+
+            // ========== الصف الثاني ==========
+            'grade2-chemical': {
+                title: 'برنامج الخصائص الكيميائية - الصف الثاني',
+                description: 'تعلم خصائص المواد الكيميائية',
+                url: '#',
+                available: true,
+                grade: 'الصف الثاني',
+                subject: 'الكيمياء',
+                icon: 'fas fa-flask'
+            },
+            'grade2-magnetism': {
+                title: 'برنامج المغناطيسية - الصف الثاني',
+                description: 'تعلم خصائص المغناطيس',
+                url: '#',
+                available: true,
+                grade: 'الصف الثاني',
+                subject: 'الفيزياء',
+                icon: 'fas fa-magnet'
+            },
+
+            // ========== الصف الثالث ==========
+            'grade3-circuits': {
+                title: 'برنامج الدوائر الكهربائية - الصف الثالث',
+                description: 'بناء دوائر كهربائية بسيطة',
+                url: '#',
+                available: true,
+                grade: 'الصف الثالث',
+                subject: 'الفيزياء',
+                icon: 'fas fa-lightbulb'
+            },
+            'grade3-water': {
+                title: 'برنامج دورة المياه - الصف الثالث',
+                description: 'تعلم دورة المياه في الطبيعة',
+                url: '#',
+                available: true,
+                grade: 'الصف الثالث',
+                subject: 'علوم الأرض',
+                icon: 'fas fa-water'
+            },
+
+            // ========== الصف الرابع ==========
+            'grade4-solar': {
+                title: 'برنامج النظام الشمسي - الصف الرابع',
+                description: 'رحلة في النظام الشمسي',
+                url: '#',
+                available: true,
+                grade: 'الصف الرابع',
+                subject: 'علوم الفلك',
+                icon: 'fas fa-moon'
+            },
+            'grade4-force': {
+                title: 'برنامج القوة والحركة - الصف الرابع',
+                description: 'تعلم مفاهيم القوة والحركة',
+                url: '#',
+                available: true,
+                grade: 'الصف الرابع',
+                subject: 'الفيزياء',
+                icon: 'fas fa-tachometer-alt'
+            },
+            'grade4-eco': {
+                title: 'برنامج الأنظمة البيئية - الصف الرابع',
+                description: 'دراسة الأنظمة البيئية',
+                url: '#',
+                available: true,
+                grade: 'الصف الرابع',
+                subject: 'البيئة',
+                icon: 'fas fa-recycle'
+            },
+
+            // ========== الصف الخامس ==========
+            'grade5-cells': {
+                title: 'برنامج خلايا الصف الخامس',
+                description: 'دراسة متقدمة للخلية النباتية والحيوانية',
+                url: 'programs/lessons/grade5/since/gtade5_cells.html',
+                available: true,
+                grade: 'الصف الخامس',
+                subject: 'علم الأحياء',
+                icon: 'fas fa-dna'
+            },
+            'grade5-atoms': {
+                title: 'برنامج الذرات والجزيئات - الصف الخامس',
+                description: 'تعلم التركيب الذري',
+                url: '#',
+                available: true,
+                grade: 'الصف الخامس',
+                subject: 'الكيمياء',
+                icon: 'fas fa-atom'
+            },
+            'grade5-energy': {
+                title: 'برنامج الطاقة وأنواعها - الصف الخامس',
+                description: 'تعلم أنواع الطاقة وتحولاتها',
+                url: '#',
+                available: true,
+                grade: 'الصف الخامس',
+                subject: 'الفيزياء',
+                icon: 'fas fa-bolt'
+            }
+        };
+
+        // ========================================
+        // الدالة الرئيسية لفتح أي برنامج
+        // ========================================
+        function launchProgram(programId, context = '') {
+            const program = programsDatabase[programId];
+            
+            if (!program) {
+                showNotification(`البرنامج "${programId}" غير موجود`, 'error');
+                return;
+            }
+            
+            if (!program.available) {
+                showNotification(`برنامج ${program.title} قيد التطوير`, 'warning');
+                return;
+            }
+            
+            // فتح البرنامج في نافذة جديدة
+            window.open(program.url, '_blank');
+            
+            // إشعار للمستخدم
+            showNotification(`جاري فتح ${program.title} ${context ? `لـ ${context}` : ''}`);
+        }
+
+        // ========================================
+        // نظام الإشعارات
+        // ========================================
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                background: ${type === 'error' ? '#f44336' : (type === 'warning' ? '#FF9800' : '#2196F3')};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                z-index: 1000;
+                font-family: 'Cairo';
+                animation: slideIn 0.3s ease-out;
+                max-width: 400px;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : (type === 'warning' ? 'exclamation-circle' : 'info-circle')}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // ========================================
+        // دوال القائمة والشريط الجانبي
+        // ========================================
+        const menuToggle = document.getElementById('menuToggle');
+        const closeMenu = document.getElementById('closeMenu');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+            document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+        }
+
+        menuToggle.addEventListener('click', toggleSidebar);
+        closeMenu.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        // إغلاق القائمة عند اختيار عنصر (للجوال)
+        document.querySelectorAll('.sidebar-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 992) {
+                    toggleSidebar();
+                }
+            });
+        });
+
+        // ========================================
+        // دوال العرض والتصفية
+        // ========================================
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('ar-SA', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('current-time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        function showScience(scienceType) {
+            document.querySelectorAll('.science-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.science-tab.${scienceType}`).classList.add('active');
+            
+            const scienceNames = {
+                'biology': 'علم الأحياء',
+                'chemistry': 'الكيمياء',
+                'physics': 'الفيزياء',
+                'earth': 'علوم الأرض'
+            };
+            showNotification(`جاري عرض دروس ${scienceNames[scienceType]}`);
+        }
+
+        function showGrade(gradeId) {
+            // Update active tab
+            document.querySelectorAll('.grade-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Add active class to clicked tab
+            const clickedTab = document.querySelector(`.grade-tab[onclick="showGrade('${gradeId}')"]`);
+            if (clickedTab) {
+                clickedTab.classList.add('active');
+            }
+            
+            // Hide all grade contents
+            document.querySelectorAll('.grade-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Show selected grade content
+            const selectedContent = document.getElementById(`${gradeId}-content`);
+            if (selectedContent) {
+                selectedContent.classList.add('active');
+            }
+            
+            const gradeNames = {
+                'grade1': 'الصف الأول',
+                'grade2': 'الصف الثاني',
+                'grade3': 'الصف الثالث',
+                'grade4': 'الصف الرابع',
+                'grade5': 'الصف الخامس'
+            };
+            showNotification(`جاري عرض دروس ${gradeNames[gradeId]}`);
+        }
+
+        // ========================================
+        // دوال إدارة الدروس
+        // ========================================
+        function addNewLesson(grade) {
+            const gradeNames = {
+                'grade1': 'الصف الأول',
+                'grade2': 'الصف الثاني',
+                'grade3': 'الصف الثالث',
+                'grade4': 'الصف الرابع',
+                'grade5': 'الصف الخامس'
+            };
+
+            const formHTML = `
+                <div style="padding: 20px; text-align: right;">
+                    <h3 style="color: #2196F3; margin-bottom: 20px;">إضافة درس جديد لـ ${gradeNames[grade]}</h3>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: #555;">معرف البرنامج:</label>
+                        <input type="text" id="programId" placeholder="مثال: grade5-cells" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px;">
+                        <small style="color: #888;">استخدم معرفاً من القائمة</small>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button onclick="saveLesson('${grade}')" style="flex: 1; padding: 12px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer;">حفظ</button>
+                        <button onclick="window.close()" style="flex: 1; padding: 12px; background: #f5f5f5; color: #333; border: none; border-radius: 8px; cursor: pointer;">إلغاء</button>
+                    </div>
+                </div>
+            `;
+
+            const popup = window.open('', 'إضافة درس جديد', 'width=400,height=300');
+            popup.document.write(`
+                <html dir="rtl">
+                <head>
+                    <title>إضافة درس جديد</title>
+                    <style>
+                        body { font-family: 'Cairo', sans-serif; margin: 0; }
+                    </style>
+                </head>
+                <body>${formHTML}</body>
+                </html>
+            `);
+        }
+
+        function viewLessonDetails(lessonId) {
+            const modalHTML = `
+                <div style="padding: 20px; text-align: right;">
+                    <h3 style="color: #2196F3; margin-bottom: 20px;">تفاصيل الدرس</h3>
+                    <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <strong>معلومات الدرس:</strong> التفاصيل الكاملة للدرس
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <button onclick="window.close()" style="width: 100%; padding: 12px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer;">إغلاق</button>
+                    </div>
+                </div>
+            `;
+
+            const popup = window.open('', 'تفاصيل الدرس', 'width=400,height=300');
+            popup.document.write(`
+                <html dir="rtl">
+                <head>
+                    <title>تفاصيل الدرس</title>
+                    <style>
+                        body { font-family: 'Cairo', sans-serif; margin: 0; }
+                    </style>
+                </head>
+                <body>${modalHTML}</body>
+                </html>
+            `);
+        }
+
+        // ========================================
+        // التهيئة الأولية
+        // ========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // إضافة تأثيرات التمرير
+            document.querySelectorAll('.lesson-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // إضافة تأثيرات للأزرار
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('mousedown', function() {
+                    this.style.transform = 'translateY(1px)';
+                });
+                btn.addEventListener('mouseup', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

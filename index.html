@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة تعليم أطفال التوحد والعطاء - الصفحة الرئيسية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* كل أنماط CSS من الإصدار السابق */
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a0ca3;
+            --secondary: #4cc9f0;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #06d6a0;
+            --warning: #ffd166;
+            --danger: #ef476f;
+            --gradient: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+.logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+           / background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+           / align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .logo-text p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+ :root {
+            --primary: #4361ee;
+            --primary-dark: #3a0ca3;
+            --secondary: #4cc9f0;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #06d6a0;
+            --warning: #ffd166;
+            --danger: #ef476f;
+            --gradient: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* شريط التنقل المحسن */
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(67, 97, 238, 0.1);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .logo-text h1 {
+            font-size: 20px;
+            color: var(--primary-dark);
+            margin-bottom: 3px;
+            line-height: 1.2;
+        }
+
+        .logo-text p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* قائمة الهاتف المحمول */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--primary);
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 15px;
+            transition: color 0.3s;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            text-align: center;
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 8px 20px;
+            font-size: 14px;
+        }
+
+        /* قسم البطل */
+        .hero {
+            padding: 150px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%234361ee" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+            line-height: 1.3;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* بطاقة المستخدم المسجل */
+        .user-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 100px auto 50px;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--primary);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .user-avatar {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .user-details h3 {
+            color: var(--primary-dark);
+            margin-bottom: 5px;
+            font-size: 1.3rem;
+        }
+
+        .user-details p {
+            color: #666;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .user-type-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            background: #e0e7ff;
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .dashboard-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .dashboard-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--dark);
+            transition: all 0.3s;
+            border: 1px solid #e9ecef;
+        }
+
+        .dashboard-link:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateX(-5px);
+            border-color: var(--primary);
+        }
+
+        .dashboard-link i {
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* قسم الميزات */
+        .features {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .feature-card {
+            background: var(--light);
+            padding: 30px 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            color: var(--primary-dark);
+            flex-grow: 0;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        /* قسم الإحصائيات */
+        .stats {
+            padding: 70px 0;
+            background: var(--gradient);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 25px 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .stat-card p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* قسم أنواع المستخدمين */
+        .user-types {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .type-card {
+            text-align: center;
+            padding: 35px 25px;
+            border-radius: 15px;
+            background: var(--light);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .type-card:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .type-card:hover h3,
+        .type-card:hover p {
+            color: white;
+        }
+
+        .type-card:hover .type-icon {
+            background: white;
+            color: var(--primary);
+        }
+
+        .type-icon {
+            width: 65px;
+            height: 65px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 26px;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .type-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: var(--primary-dark);
+            transition: color 0.3s;
+        }
+
+        .type-card p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            transition: color 0.3s;
+            flex-grow: 1;
+        }
+
+        /* القسم الأخير */
+        .cta {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            text-align: center;
+        }
+
+        .cta-box {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid rgba(67, 97, 238, 0.1);
+        }
+
+        .cta-box h2 {
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .cta-box p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        /* التذييل */
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+            transform: translateX(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* التجاوب للهاتف المحمول */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 130px 0 60px;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+                padding: 0 10px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+                width: 100%;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 70px;
+                right: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                display: flex;
+                animation: slideDown 0.3s ease-out;
+            }
+
+            @keyframes slideDown {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            .nav-links a {
+                padding: 12px 0;
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid #eee;
+            }
+
+            .nav-links a:last-child {
+                border-bottom: none;
+            }
+
+            .logo-text h1 {
+                font-size: 18px;
+            }
+
+            .logo-text p {
+                font-size: 11px;
+            }
+
+            .features, .user-types, .stats, .cta {
+                padding: 60px 0;
+            }
+
+            .section-title h2 {
+                font-size: 1.6rem;
+            }
+
+            .features-grid, .types-grid, .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .feature-card, .type-card {
+                padding: 25px 20px;
+            }
+
+            .cta-box {
+                padding: 40px 20px;
+                margin: 0 15px;
+            }
+
+            .cta-box h2 {
+                font-size: 1.5rem;
+            }
+
+            .user-info {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .user-avatar {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+
+            .user-details h3 {
+                font-size: 1.2rem;
+            }
+
+            .dashboard-links {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .footer-section {
+                text-align: center;
+            }
+
+            .footer-section h3::after {
+                right: 50%;
+                transform: translateX(50%);
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+
+            .hero p {
+                font-size: 0.95rem;
+            }
+
+            .btn {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .logo-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+        }
+
+        /* تحسينات للشاشات الكبيرة */
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1140px;
+            }
+        }
+
+        /* تأثيرات الرسوم المتحركة */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* نوعية المستخدم */
+        .type-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            justify-content: center;
+        }
+
+        .type-badge {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .badge-admin { background: #667eea; color: white; }
+        .badge-teacher { background: #ed8936; color: white; }
+        .badge-parent { background: #48bb78; color: white; }
+        .badge-student { background: #9f7aea; color: white; }
+
+        /* رسائل التنبيه */
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px auto;
+            max-width: 800px;
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .alert-success {
+            background: rgba(6, 214, 160, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .alert-error {
+            background: rgba(239, 71, 111, 0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+
+        /* تحسينات للوصول */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* دعم وضع التصميم المظلم */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #121212;
+                color: #f8f9fa;
+            }
+
+            .hero::before {
+                opacity: 0.05;
+            }
+
+            .feature-card, .type-card, .cta-box, .user-panel {
+                background: #2d2d2d;
+                color: #f8f9fa;
+            }
+
+            .feature-card p, .type-card p, .cta-box p {
+                color: #ccc;
+            }
+
+            .nav-links a, .footer-links a {
+                color: #f8f9fa;
+            }
+
+            .navbar {
+                background: rgba(33, 37, 41, 0.95);
+            }
+        }
+
+        /* ... (استمر بنفس CSS السابق بالكامل) ... */
+
+        /* رسائل الخطأ */
+        .error-banner {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--danger);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            z-index: 9999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .success-banner {
+            background: var(--success);
+        }
+    </style>
+</head>
+<body>
+    <!-- رسالة الخطأ المخفية -->
+    <div class="error-banner" id="errorBanner"></div>
+
+    <!-- شريط التنقل -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="logo">
+                     <div class="logo-icon floating">
+                 <img src="teacher_dashbord/assets/images/logo.jpg" alt="شعار المؤسسة" class="logo">
+                    </div>
+                    
+                </a>
+
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="nav-links" id="navLinks">
+                    <a href="#features">المميزات</a>
+                    <a href="#stats">الإحصائيات</a>
+                    <a href="#users">أنظمة الدخول</a>
+                    
+                    <div id="authButtons">
+                        <a href="login.html" class="btn btn-secondary">
+                            <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+                        </a>
+                        <a href="#" class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i> إنشاء حساب
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ... (بقية HTML كما هو) ... -->
+<div class="alert" id="alertMessage" style="display: none;"></div>
+
+    <!-- قسم البطل -->
+    <section class="hero">
+        <div class="container">
+            <h1>منصة متكاملة للتعليم والتأهيل لمؤسسة التقدم والعطاء</h1>
+            <p>
+                نظام ذكي يربط بين المديرين، المعلمين، أولياء الأمور والطلاب لتقديم 
+                أفضل تجربة تعليمية وتأهيلية لأطفال التوحد مع متابعة دقيقة للتقدم اليومي.
+            </p>
+            <div class="hero-buttons">
+                <a href="login.html" class="btn btn-primary" id="loginHeroBtn">
+                    <i class="fas fa-sign-in-alt"></i> تسجيل الدخول للمستخدمين الحاليين
+                </a>
+                <a href="#" class="btn btn-secondary" id="registerHeroBtn">
+                    <i class="fas fa-user-plus"></i> إنشاء حساب جديد
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- لوحة المستخدم المسجل (ستظهر فقط إذا كان مسجلاً) -->
+    <div id="userPanelContainer"></div>
+
+    <!-- قسم الميزات -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>مميزات المنصة</h2>
+                <p>نقدم مجموعة من المميزات المتطورة لدعم عملية التعليم والتأهيل</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>تتبع التقدم الأكاديمي</h3>
+                    <p>متابعة دقيقة لتقدم كل طالب مع تقارير مفصلة وتحليلات ذكية</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>جدولة الجلسات</h3>
+                    <p>نظام جدولة ذكي لإدارة الجلسات التعليمية والعلاجية</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>نظام اتصال متكامل</h3>
+                    <p>تواصل مباشر بين المعلمين وأولياء الأمور مع إشعارات فورية</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <h3>تقييم المهارات</h3>
+                    <p>تقييم شامل للمهارات التعليمية والاجتماعية والسلوكية</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h3>تقارير مفصلة</h3>
+                    <p>إنشاء تقارير أكاديمية وسلوكية بشكل تلقائي ومفصل</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>واجهة متجاوبة</h3>
+                    <p>واجهة مستخدم بسيطة ومتجاوبة تناسب جميع الأجهزة</p>
+                </div>
+            </div>
+        </div>
+    </section>
+<style>
+    /* تصميم الفوتر */
+    footer {
+        background: #2d3748;
+        color: #e2e8f0;
+        padding: 50px 20px 20px;
+        margin-top: 50px;
+        font-family: 'Cairo', sans-serif;
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+    }
+
+    .footer-about h3 {
+        color: #fff;
+        font-size: 22px;
+        margin-bottom: 20px;
+        border-right: 4px solid var(--english-primary);
+        padding-right: 15px;
+    }
+
+    .footer-about p {
+        line-height: 1.8;
+        font-size: 14px;
+        opacity: 0.8;
+    }
+
+    .footer-links h4, .footer-contact h4 {
+        color: #fff;
+        margin-bottom: 20px;
+        font-size: 18px;
+    }
+
+    .footer-links ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer-links ul li {
+        margin-bottom: 12px;
+    }
+
+    .footer-links ul li a {
+        color: #e2e8f0;
+        text-decoration: none;
+        transition: 0.3s;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .footer-links ul li a:hover {
+        color: var(--english-primary);
+        padding-right: 10px;
+    }
+
+    .footer-contact .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+
+    .footer-contact i {
+        color: var(--english-primary);
+        font-size: 18px;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .social-links a {
+        width: 40px;
+        height: 40px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        transition: 0.3s;
+    }
+
+    .social-links a:hover {
+        background: var(--english-primary);
+        transform: translateY(-5px);
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: 30px;
+        margin-top: 30px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        font-size: 12px;
+        opacity: 0.6;
+    }
+
+    /* تحسينات للجوال */
+    @media (max-width: 768px) {
+        .footer-container {
+            text-align: center;
+        }
+        .footer-about h3 {
+            border-right: none;
+            border-bottom: 2px solid var(--english-primary);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        .footer-links ul li a {
+            justify-content: center;
+        }
+        .footer-contact .contact-item {
+            justify-content: center;
+        }
+        .social-links {
+            justify-content: center;
+        }
+    }
+</style><footer>
+    <div class="footer-container">
+        <div class="footer-about">
+            <h3>مؤسسة التقدم والعطاء</h3>
+            <p>منصة تعليمية وتأهيلية متكاملة تهدف إلى تمكين أبنائنا من إتقان اللغة الإنجليزية والمهارات الحياتية بأحدث الوسائل التكنولوجية التفاعلية.</p>
+            <div class="social-links">
+                <a href="https://www.facebook.com/profile.php?id=100068438178659"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-links">
+            <h4>روابط سريعة</h4>
+            <ul>
+                <li><a href="index.html"><i class="fas fa-chevron-left"></i> الصفحة الرئيسية</a></li>
+                <li><a href=""><i class="fas fa-chevron-left"></i> برامج التأهيل</a></li>
+                <li><a href="#"><i class="fas fa-chevron-left"></i> قصص نجاح الطلاب</a></li>
+                <li><a href="#"><i class="fas fa-chevron-left"></i> سياسة الخصوصية</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-contact">
+            <h4>تواصل معنا</h4>
+            <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>ليبيا - البيضاء - شارع </span>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <span>+218 091-9585664 </span>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <span>info@tagaddum-ataa.ly</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2025 مؤسسة التقدم والعطاء للتعليم والتأهيل. جميع الحقوق محفوظة.</p>
+    </div>
+</footer>
+    <!-- نظام JavaScript المبسط -->
+    <script>
+        // =============================================
+        // نظام التخزين المحلي المبسط
+        // =============================================
+        window.LocalDB = {
+            users: [],
+            
+            init: function() {
+                console.log('🚀 نظام التخزين المحلي جاهز');
+                
+                // تحميل المستخدمين من localStorage
+                this.loadUsers();
+                
+                // إنشاء مدير افتراضي إذا لم يكن موجود
+                if (!this.users.some(u => u.username === 'admin')) {
+                    this.createDefaultAdmin();
+                }
+                
+                return Promise.resolve(true);
+            },
+            
+            loadUsers: function() {
+                try {
+                    const saved = localStorage.getItem('platform_users');
+                    if (saved) {
+                        this.users = JSON.parse(saved);
+                        console.log(`📊 تم تحميل ${this.users.length} مستخدم`);
+                    }
+                } catch (e) {
+                    console.log('⚠️ لا يوجد مستخدمون سابقون');
+                    this.users = [];
+                }
+            },
+            
+            saveUsers: function() {
+                localStorage.setItem('platform_users', JSON.stringify(this.users));
+            },
+            
+            createDefaultAdmin: function() {
+                const admin = {
+                    id: 1,
+                    username: 'admin',
+                    password: 'admin123', // في الإنتاج يجب تشفير هذا
+                    email: 'admin@autism-platform.edu',
+                    fullName: 'مدير النظام',
+                    userType: 'admin',
+                    phone: '0921234567',
+                    isActive: true,
+                    createdAt: new Date().toISOString()
+                };
+                
+                this.users.push(admin);
+                this.saveUsers();
+                console.log('👑 تم إنشاء المدير الافتراضي');
+            },
+            
+            authenticate: function(username, password) {
+                console.log(`🔐 محاولة دخول: ${username}`);
+                
+                const user = this.users.find(u => 
+                    u.username === username && u.password === password
+                );
+                
+                if (user) {
+                    // نسخة بدون كلمة مرور
+                    const userCopy = { ...user };
+                    delete userCopy.password;
+                    
+                    console.log(`✅ دخول ناجح: ${username} (${user.userType})`);
+                    
+                    return {
+                        success: true,
+                        user: userCopy,
+                        redirect: this.getDashboardPath(user.userType)
+                    };
+                }
+                
+                console.log(`❌ دخول فاشل: ${username}`);
+                return {
+                    success: false,
+                    message: 'اسم المستخدم أو كلمة المرور غير صحيحة'
+                };
+            },
+            
+            getDashboardPath: function(userType) {
+                const paths = {
+                    'admin': 'teacher_dashbord/index.html',
+                    'teacher': 'teacher-dashboard-fixed.html',
+                    'student': 'student-dashboard-fixed.html',
+                    'parent': 'parent-dashboard-fixed.html'
+                };
+                return paths[userType] || 'dashboard-fixed.html';
+            },
+            
+            addUser: function(userData) {
+                const newUser = {
+                    id: Date.now(),
+                    ...userData,
+                    createdAt: new Date().toISOString(),
+                    isActive: true
+                };
+                
+                this.users.push(newUser);
+                this.saveUsers();
+                
+                console.log(`➕ مستخدم جديد: ${userData.username}`);
+                
+                return Promise.resolve(newUser.id);
+            },
+            
+            getAllStudents: function() {
+                return this.users
+                    .filter(u => u.userType === 'student')
+                    .map(u => {
+                        const { password, ...userWithoutPassword } = u;
+                        return userWithoutPassword;
+                    });
+            },
+            
+            getUsersByType: function(type) {
+                return this.users
+                    .filter(u => u.userType === type)
+                    .map(u => {
+                        const { password, ...userWithoutPassword } = u;
+                        return userWithoutPassword;
+                    });
+            },
+            
+            getStats: function() {
+                const students = this.getUsersByType('student').length;
+                const teachers = this.getUsersByType('teacher').length;
+                const parents = this.getUsersByType('parent').length;
+                const admins = this.getUsersByType('admin').length;
+                
+                return {
+                    totalUsers: this.users.length,
+                    totalStudents: students,
+                    totalTeachers: teachers,
+                    totalParents: parents,
+                    totalAdmins: admins
+                };
+            }
+        };
+
+        // =============================================
+        // نظام المصادقة
+        // =============================================
+        window.AuthSystem = {
+            currentUser: null,
+            
+            init: function() {
+                console.log('🔧 تهيئة نظام المصادقة...');
+                return LocalDB.init();
+            },
+            
+            login: function(username, password) {
+                return LocalDB.authenticate(username, password);
+            },
+            
+            logout: function() {
+                localStorage.removeItem('current_user');
+                localStorage.removeItem('is_logged_in');
+                this.currentUser = null;
+                window.location.href = 'index.html';
+            },
+            
+            isLoggedIn: function() {
+                return localStorage.getItem('is_logged_in') === 'true';
+            },
+            
+            getCurrentUser: function() {
+                if (!this.currentUser) {
+                    try {
+                        const userStr = localStorage.getItem('current_user');
+                        this.currentUser = userStr ? JSON.parse(userStr) : null;
+                    } catch (e) {
+                        this.currentUser = null;
+                    }
+                }
+                return this.currentUser;
+            },
+            
+            saveSession: function(user) {
+                this.currentUser = user;
+                localStorage.setItem('current_user', JSON.stringify(user));
+                localStorage.setItem('is_logged_in', 'true');
+                return true;
+            }
+        };
+
+        // =============================================
+        // تهيئة الصفحة الرئيسية
+        // =============================================
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('📄 بدء تحميل الصفحة...');
+            
+            // 1. إخفاء أي رسائل خطأ قديمة
+            hideErrorMessages();
+            
+            // 2. تهيئة النظام
+            try {
+                await AuthSystem.init();
+                console.log('✅ النظام جاهز بنجاح!');
+                
+                // 3. تحديث الإحصائيات
+                updateStatistics();
+                
+                // 4. التحقق من المستخدم المسجل
+                checkUserStatus();
+                
+                // 5. تهيئة القائمة المتنقلة
+                initMobileMenu();
+                
+                // 6. تهيئة الأحداث
+                initEvents();
+                
+            } catch (error) {
+                console.error('❌ خطأ في التهيئة:', error);
+                showError('حدث خطأ في النظام. يرجى تحديث الصفحة.');
+            }
+            
+            // تحديث السنة
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        });
+
+        // =============================================
+        // الدوال المساعدة
+        // =============================================
+        function hideErrorMessages() {
+            const banners = document.querySelectorAll('.error-banner, [style*="error"], [style*="خاط"]');
+            banners.forEach(banner => {
+                if (banner.textContent.includes('خطأ') || banner.textContent.includes('error')) {
+                    banner.style.display = 'none';
+                }
+            });
+        }
+
+        function showError(message) {
+            const banner = document.getElementById('errorBanner');
+            if (banner) {
+                banner.textContent = message;
+                banner.style.display = 'block';
+                banner.className = 'error-banner';
+                
+                setTimeout(() => {
+                    banner.style.display = 'none';
+                }, 5000);
+            } else {
+                alert('❌ ' + message);
+            }
+        }
+
+        function showSuccess(message) {
+            const banner = document.getElementById('errorBanner');
+            if (banner) {
+                banner.textContent = message;
+                banner.style.display = 'block';
+                banner.className = 'error-banner success-banner';
+                
+                setTimeout(() => {
+                    banner.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        function updateStatistics() {
+            try {
+                const stats = LocalDB.getStats();
+                
+                // تأثير العد المتحرك
+                animateCounter('totalUsers', stats.totalUsers);
+                animateCounter('totalStudents', stats.totalStudents);
+                animateCounter('totalTeachers', stats.totalTeachers);
+                animateCounter('totalParents', stats.totalParents);
+                
+                console.log('📊 الإحصائيات:', stats);
+                
+            } catch (error) {
+                console.log('⚠️ استخدام إحصائيات افتراضية');
+                // إحصائيات افتراضية
+                animateCounter('totalUsers', 1560);
+                animateCounter('totalStudents', 30);
+                animateCounter('totalTeachers', 12);
+                animateCounter('totalParents', 580);
+            }
+        }
+
+        function animateCounter(elementId, finalValue) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            let current = 0;
+            const increment = finalValue / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= finalValue) {
+                    current = finalValue;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current);
+            }, 30);
+        }
+
+        function checkUserStatus() {
+            if (AuthSystem.isLoggedIn()) {
+                const user = AuthSystem.getCurrentUser();
+                if (user) {
+                    showUserPanel(user);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function showUserPanel(user) {
+            const userPanelContainer = document.getElementById('userPanelContainer');
+            if (!userPanelContainer) return;
+            
+            const userTypes = {
+                'admin': { name: 'مدير النظام', color: '#667eea' },
+                'teacher': { name: 'معلم / أخصائي', color: '#ed8936' },
+                'student': { name: 'طالب', color: '#9f7aea' },
+                'parent': { name: 'ولي أمر', color: '#48bb78' }
+            };
+            
+            const userType = userTypes[user.userType] || { name: user.userType, color: '#4361ee' };
+            
+            userPanelContainer.innerHTML = `
+                <div class="user-panel">
+                    <div class="user-info">
+                        <div class="user-avatar" style="background: ${userType.color}">
+                            ${user.fullName ? user.fullName.charAt(0) : 'م'}
+                        </div>
+                        <div class="user-details">
+                            <h3>مرحباً ${user.fullName || 'مستخدم'}! 🙋‍♂️</h3>
+                            <div class="type-badges">
+                                <span class="type-badge" style="background: ${userType.color}">
+                                    <i class="fas fa-user"></i>
+                                    ${userType.name}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-links">
+                        <a href="${LocalDB.getDashboardPath(user.userType)}" class="dashboard-link">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>الانتقال للوحة التحكم</span>
+                        </a>
+                        <button onclick="AuthSystem.logout()" class="dashboard-link" style="background: #fee; color: var(--danger); border-color: var(--danger);">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>تسجيل الخروج</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // إخفاء أزرار التسجيل في الهيرو
+            document.getElementById('loginHeroBtn').style.display = 'none';
+            document.getElementById('registerHeroBtn').style.display = 'none';
+            
+            // تحديث شريط التنقل
+            updateNavbarForLoggedInUser(user);
+        }
+
+        function updateNavbarForLoggedInUser(user) {
+            const authButtons = document.getElementById('authButtons');
+            if (authButtons) {
+                authButtons.innerHTML = `
+                    <span style="color: var(--primary); margin-left: 10px; font-weight: 600;">
+                        ${user.fullName ? user.fullName.split(' ')[0] : 'مستخدم'}
+                    </span>
+                    <a href="${LocalDB.getDashboardPath(user.userType)}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-tachometer-alt"></i> لوحة التحكم
+                    </a>
+                    <button onclick="AuthSystem.logout()" class="btn btn-secondary btn-sm">
+                        <i class="fas fa-sign-out-alt"></i> خروج
+                    </button>
+                `;
+            }
+        }
+
+        function initMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navLinks = document.getElementById('navLinks');
+            
+            if (mobileMenuBtn && navLinks) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                    mobileMenuBtn.innerHTML = navLinks.classList.contains('active') 
+                        ? '<i class="fas fa-times"></i>' 
+                        : '<i class="fas fa-bars"></i>';
+                });
+                
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navLinks.classList.remove('active');
+                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    });
+                });
+            }
+        }
+
+        function initEvents() {
+            // التمرير السلس
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // اختبار الدخول السريع (للتطوير فقط)
+            if (window.location.search.includes('test=admin')) {
+                setTimeout(() => {
+                    testAdminLogin();
+                }, 1000);
+            }
+        }
+
+        // اختبار الدخول (للتطوير فقط)
+        function testAdminLogin() {
+            console.log('🧪 اختبار الدخول التلقائي...');
+            
+            const result = LocalDB.authenticate('admin', 'admin123');
+            if (result.success) {
+                AuthSystem.saveSession(result.user);
+                showSuccess('✅ تم تسجيل الدخول التلقائي كمدير');
+                setTimeout(() => {
+                    window.location.href = result.redirect;
+                }, 1500);
+            }
+        }
+
+        // دالة مساعدة للانتقال السريع
+        window.goToLogin = function() {
+            window.location.href = 'login-fixed.html';
+        };
+        
+        window.goToRegister = function() {
+            window.location.href = 'register-fixed.html';
+        };
+        
+        window.testLogin = function(username, password) {
+            const result = LocalDB.authenticate(username, password);
+            if (result.success) {
+                AuthSystem.saveSession(result.user);
+                showSuccess(`✅ تم تسجيل الدخول كـ ${result.user.fullName}`);
+                setTimeout(() => {
+                    window.location.href = result.redirect;
+                }, 1500);
+            } else {
+                showError(result.message);
+            }
+        };
+    </script>
+</body>
+</html>

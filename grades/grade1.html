@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصف الأول - مؤسسة التقدم والعطاء</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a0ca3;
+            --math-color: #4cc9f0;
+            --arabic-color: #f72585;
+            --science-color: #06d6a0;
+            --art-color: #ffd166;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* الهيدر */
+        .header {
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-circle {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 3px solid white;
+        }
+
+        .logo-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-text h1 {
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+
+        .logo-text p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* زر العودة */
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* قسم البطاقات */
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .section-title h2 {
+            color: var(--primary-dark);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .section-title .grade-number {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            line-height: 60px;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* بطاقات المواد */
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .subject-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 5px solid;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        /* ألوان المواد */
+        .subject-card.math { border-top-color: var(--math-color); }
+        .subject-card.arabic { border-top-color: var(--arabic-color); }
+        .subject-card.science { border-top-color: var(--science-color); }
+        .subject-card.art { border-top-color: var(--art-color); }
+
+        /* رأس البطاقة */
+        .subject-header {
+            padding: 25px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .subject-header.math { background: var(--math-color); }
+        .subject-header.arabic { background: var(--arabic-color); }
+        .subject-header.science { background: var(--science-color); }
+        .subject-header.art { background: var(--art-color); }
+
+        .subject-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .subject-title h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        /* قائمة الدروس */
+        .lessons-list {
+            padding: 20px;
+        }
+
+        .lesson-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .lesson-item:hover {
+            background: #f8f9fa;
+        }
+
+        .lesson-item:last-child {
+            border-bottom: none;
+        }
+
+        .lesson-info h4 {
+            color: var(--dark);
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .lesson-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .lesson-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .lesson-btn {
+            padding: 8px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .lesson-btn.view {
+            background: var(--light);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .lesson-btn.view:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .lesson-btn.download {
+            background: var(--light);
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .lesson-btn.download:hover {
+            background: #666;
+            color: white;
+        }
+
+        /* زر إضافة درس جديد */
+        .add-lesson {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px dashed #ddd;
+        }
+
+        .add-btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px dashed var(--primary);
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .add-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-style: solid;
+        }
+
+        /* حاوية الدروس الكاملة */
+        .full-lesson-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .lesson-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px;
+            position: relative;
+        }
+
+        .close-lesson {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* التصميم المتجاوب */
+        @media (max-width: 768px) {
+            .subjects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .subject-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .lesson-item {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .lesson-actions {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الهيدر -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-circle">
+                <div class="logo-img">
+                    <img src="../images/logo.jpg" alt="شعار المؤسسة">
+                </div>
+                <div class="logo-text">
+                    <h1>مؤسسة التقدم والعطاء</h1>
+                    <p>الصف الأول الابتدائي</p>
+                </div>
+            </div>
+            <a href="../index.html" class="back-btn">
+                <i class="fas fa-arrow-right"></i> العودة للرئيسية
+            </a>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+        <!-- العنوان -->
+        <div class="section-title">
+            <div class="grade-number">١</div>
+            <h2><i class="fas fa-graduation-cap"></i> المنهج التعليمي للصف الأول</h2>
+            <p>جميع المواد الدراسية مع دروسها التفاعلية</p>
+        </div>
+
+        <!-- شبكة المواد -->
+        <div class="subjects-grid">
+            
+            <!-- مادة الرياضيات -->
+            <div class="subject-card math">
+                <div class="subject-header math">
+                    <div class="subject-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <div class="subject-title">
+                        <h3>الرياضيات</h3>
+                        <p>٨ دروس تعليمية</p>
+                    </div>
+                </div>
+                
+                <div class="lessons-list">
+                    <!-- درس 1 -->
+                    <div class="lesson-item">
+                        <div class="lesson-info">
+                            <h4>الدرس ١: معرفة الأرقام من ١ إلى ١٠</h4>
+                            <p>تعلم العد الأساسي والتعرف على الأرقام</p>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="#" class="lesson-btn view" onclick="openLesson('math1')">
+                                <i class="fas fa-play"></i> عرض
+                            </a>
+                            <a href="#" class="lesson-btn download">
+                                <i class="fas fa-download"></i> تحميل
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- درس 2 -->
+                    <div class="lesson-item">
+                        <div class="lesson-info">
+                            <h4>الدرس ٢: الجمع البسيط</h4>
+                            <p>جمع الأعداد الصغيرة باستخدام الصور</p>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="#" class="lesson-btn view" onclick="openLesson('math2')">
+                                <i class="fas fa-play"></i> عرض
+                            </a>
+                            <a href="#" class="lesson-btn download">
+                                <i class="fas fa-download"></i> تحميل
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- درس 3 -->
+                    <div class="lesson-item">
+                        <div class="lesson-info">
+                            <h4>الدرس ٣: الطرح البسيط</h4>
+                            <p>الطرح باستخدام القصص المصورة</p>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="#" class="lesson-btn view" onclick="openLesson('math3')">
+                                <i class="fas fa-play"></i> عرض
+                            </a>
+                            <a href="#" class="lesson-btn download">
+                                <i class="fas fa-download"></i> تحميل
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- درس 4 -->
+                    <div class="lesson-item">
+                        <div class="lesson-info">
+                            <h4>الدرس ٤: الأشكال الهندسية</h4>
+                            <p>المربع، المثلث، الدائرة والمستطيل</p>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="#" class="lesson-btn view" onclick="openLesson('math4')">
+                                <i class="fas fa-play"></i> عرض
+                            </a>
+                            <a href="#" class="lesson-btn download">
+                                <i class="fas fa-download"></i> تحميل
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="add-lesson">
+                    <button class="add-btn" onclick="addNewLesson('math')">
+                        <i class="fas fa-plus"></i> إضافة درس جديد
+                    </button>
+                </div>
+            </div>
+
+            <!-- مادة اللغة العربية -->
+            <div class="subject-card arabic">
+                <div class="subject-header arabic">
+                    <div class="subject-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="subject-title">
+                        <h3>اللغة العربية</h3>
+                        <p>١٠ دروس تعليمية</p>
+                    </div>
+                </div>
+                
+                <div class="lessons-list">
+                    <!-- درس 1 -->
+                    <div class="lesson-item">
+                        <div class="lesson-info">
+                            <h4>الدرس ١: الحروف الأبجدية</h4>
+                            <p>التعرف على حروف الألف إلى الياء</p>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="#" class="lesson-btn view" onclick="openLesson('arabic1')">
+                                <i class="fas fa-play"></i> عرض
+                            </a>
+                            <a href="#" class="lesson-btn download">
+                                <i class="fas fa-download"></i> تحميل
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- درس 2 -->
+                    <div class="lesson-item">
+                        <div class="lesson-info">
+                            <h4>الدرس ٢: الحركات (الفتحة، الكسرة، الضمة)</h4>
+                            <p>تعلم نطق الحروف مع الحركات</p>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="#" class="lesson-btn view" onclick="openLesson('arabic2')">
+                                <i class="fas fa-play"></i> عرض
+                            </a>
+                            <a href="#" class="lesson-btn download">
+                                <i class="fas fa-download"></i> تحميل
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- درس 3 -->
+                    <div class="lesson-item">
+                        <div class="lesson-info">
+                            <h4>الدرس ٣: كلمات بسيطة</h4>
+                            <p>قراءة كلمات من حرفين وثلاثة</p>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="#" class="lesson-btn view" onclick="openLesson('arabic3')">
+                                <i class="fas fa-play"></i> عرض
+                            </a>
+                            <a href="#" class="lesson-btn download">
+                                <i class="fas fa-download"></i> تحميل
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- درس 4 -->
+                    <div class="lesson-item">
+                        <div class="lesson-info">
+                            <h4>الدرس ٤: القراءة المصورة</h4>
+                            <p>قصص قصيرة مع صور توضيحية</p>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="#" class="lesson-btn view" onclick="openLesson('arabic4')">
+                                <i class="fas fa-play"></i> عرض
+                            </a>
+                            <a href="#" class="lesson-btn download">
+                                <i class="fas fa-download"></i> تحميل
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="add-lesson">
+                    <button class="add-btn" onclick="addNewLesson('arabic')">
+                        <i class="fas fa-plus"></i> إضافة درس جديد
+                    </button>
+                </div>
+            </div>
+
+            <!-- مادة العلوم -->
+            <div class="subject-card science">
+                <div class="subject-header science">
+                    <div class="subject-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="subject-title">
+                        <h3>العلوم</h3>
+                        <p>٦ دروس تعليمية</p>
+                    </div>
+                </div>
+                
+                <div class="lessons-list">
+                    <!-- درس 1 -->
+                    <div class="lesson-item">
+                        <div class="lesson-info">
+                            <h4>الدرس ١: أجزاء الجسم</h4>
+                            <p>التعرف على أعضاء الجسم الأساسية</p>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="#" class="lesson-btn view" onclick="openLesson('science1')">
+                                <i class="fas fa-play"></i> عرض
+                            </a>
+                            <a href="#" class="lesson-btn download">
+                                <i class="fas fa-download"></i> تحميل
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- درس 2 -->
+                    <div class="lesson-item">
+                        <div class="lesson-info">
+                            <h4>الدرس ٢: الحيوانات الأليفة</h4>
+                            <p>التعرف على الحيوانات وطرق العناية بها</p>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="#" class="lesson-btn view" onclick="openLesson('science2')">
+                                <i class="fas fa-play"></i> عرض
+                            </a>
+                            <a href="#" class="lesson-btn download">
+                                <i class="fas fa-download"></i> تحميل
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- درس 3 -->
+                    <div class="lesson-item">
+                        <div class="lesson-info">
+                            <h4>الدرس ٣: فصول السنة</h4>
+                            <p>التعرف على الفصول الأربعة وخصائصها</p>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="#" class="lesson-btn view" onclick="openLesson('science3')">
+                                <i class="fas fa-play"></i> عرض
+                            </a>
+                            <a href="#" class="lesson-btn download">
+                                <i class="fas fa-download"></i> تحميل
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="add-lesson">
+                    <button class="add-btn" onclick="addNewLesson('science')">
+                        <i class="fas fa-plus"></i> إضافة درس جديد
+                    </button>
+                </div>
+            </div>
+
+            <!-- مادة التربية الفنية -->
+            <div class="subject-card art">
+                <div class="subject-header art">
+                    <div class="subject-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <div class="subject-title">
+                        <h3>التربية الفنية</h3>
+                        <p>٥ دروس إبداعية</p>
+                    </div>
+                </div>
+                
+                <div class="lessons-list">
+                    <!-- درس 1 -->
+                    <div class="lesson-item">
+                        <div class="lesson-info">
+                            <h4>الدرس ١: الألوان الأساسية</h4>
+                            <p>التعرف على الأحمر، الأزرق، الأصفر</p>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="#" class="lesson-btn view" onclick="openLesson('art1')">
+                                <i class="fas fa-play"></i> عرض
+                            </a>
+                            <a href="#" class="lesson-btn download">
+                                <i class="fas fa-download"></i> تحميل
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- درس 2 -->
+                    <div class="lesson-item">
+                        <div class="lesson-info">
+                            <h4>الدرس ٢: الرسم الحر</h4>
+                            <p>تطوير المهارات الحركية الدقيقة</p>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="#" class="lesson-btn view" onclick="openLesson('art2')">
+                                <i class="fas fa-play"></i> عرض
+                            </a>
+                            <a href="#" class="lesson-btn download">
+                                <i class="fas fa-download"></i> تحميل
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- درس 3 -->
+                    <div class="lesson-item">
+                        <div class="lesson-info">
+                            <h4>الدرس ٣: الأعمال اليدوية</h4>
+                            <p>صنع مجسمات بسيطة من الورق</p>
+                        </div>
+                        <div class="lesson-actions">
+                            <a href="#" class="lesson-btn view" onclick="openLesson('art3')">
+                                <i class="fas fa-play"></i> عرض
+                            </a>
+                            <a href="#" class="lesson-btn download">
+                                <i class="fas fa-download"></i> تحميل
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="add-lesson">
+                    <button class="add-btn" onclick="addNewLesson('art')">
+                        <i class="fas fa-plus"></i> إضافة درس جديد
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- حاوية عرض الدرس الكامل -->
+    <div id="lessonContainer" class="full-lesson-container">
+        <div id="lessonContent" class="lesson-content">
+            <button class="close-lesson" onclick="closeLesson()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="lessonDisplay"></div>
+        </div>
+    </div>
+
+    <script>
+        // بيانات الدروس (يمكن تخزينها في ملف JS منفصل)
+        const lessonsData = {
+            math1: {
+                title: "الدرس ١: معرفة الأرقام من ١ إلى ١٠",
+                content: `
+                    <h2>الأرقام من ١ إلى ١٠</h2>
+                    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin: 30px 0;">
+                        ${Array.from({length: 10}, (_, i) => `
+                            <div style="text-align: center; padding: 20px; background: #f0f8ff; border-radius: 10px;">
+                                <div style="font-size: 2.5rem; font-weight: bold; color: #4361ee;">${i+1}</div>
+                                <div style="font-size: 1.2rem; margin-top: 10px;">${['واحد','اثنان','ثلاثة','أربعة','خمسة','ستة','سبعة','ثمانية','تسعة','عشرة'][i]}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <h3>تمرين تفاعلي:</h3>
+                    <p>عد معي: ١، ٢، ٣، ٤، ٥، ٦، ٧، ٨، ٩، ١٠</p>
+                    <button onclick="playCounting()" style="padding: 12px 25px; background: #4cc9f0; color: white; border: none; border-radius: 8px; cursor: pointer; margin: 20px 0;">
+                        <i class="fas fa-volume-up"></i> استمع للعد
+                    </button>
+                `
+            },
+            arabic1: {
+                title: "الدرس ١: الحروف الأبجدية",
+                content: `
+                    <h2>حروف الهجاء العربية</h2>
+                    <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin: 30px 0;">
+                        ${'أبجد هوز حطي كلمن سعفص قرشت ثخذ ضظغ'.split('').map(letter => `
+                            <div style="text-align: center; padding: 15px; background: #fff0f5; border-radius: 8px; font-size: 1.8rem; font-weight: bold;">
+                                ${letter}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <h3>نطق الحروف:</h3>
+                    <p>ألف، باء، جيم، دال، هاء، واو، زاي...</p>
+                `
+            }
+        };
+
+        // فتح درس
+        function openLesson(lessonId) {
+            const lesson = lessonsData[lessonId];
+            if (lesson) {
+                document.getElementById('lessonDisplay').innerHTML = `
+                    <h1 style="color: #4361ee; margin-bottom: 20px;">${lesson.title}</h1>
+                    ${lesson.content}
+                    <div style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                        <h3><i class="fas fa-download"></i> تحميل المرفقات:</h3>
+                        <div style="display: flex; gap: 15px; margin-top: 15px;">
+                            <button style="padding: 10px 20px; background: #4361ee; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                                <i class="fas fa-file-pdf"></i> عرض PDF
+                            </button>
+                            <button style="padding: 10px 20px; background: #06d6a0; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                                <i class="fas fa-images"></i> عرض الصور
+                            </button>
+                            <button style="padding: 10px 20px; background: #f72585; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                                <i class="fas fa-video"></i> مشاهدة الفيديو
+                            </button>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('lessonContainer').style.display = 'block';
+            }
+        }
+
+        // إغلاق درس
+        function closeLesson() {
+            document.getElementById('lessonContainer').style.display = 'none';
+        }
+
+        // إضافة درس جديد
+        function addNewLesson(subject) {
+            const subjectNames = {
+                math: 'الرياضيات',
+                arabic: 'اللغة العربية',
+                science: 'العلوم',
+                art: 'التربية الفنية'
+            };
+            
+            const lessonTitle = prompt(`أدخل عنوان الدرس الجديد في مادة ${subjectNames[subject]}:`);
+            if (lessonTitle) {
+                alert(`سيتم إضافة درس جديد: "${lessonTitle}"\n\nملاحظة: في النسخة الكاملة سيتم ربط هذا بنظام إدارة المحتوى.`);
+                // هنا يمكنك إضافة كود لإرسال الدرس للخادم أو حفظه محلياً
+            }
+        }
+
+        // تشغيل العد
+        function playCounting() {
+            const msg = new SpeechSynthesisUtterance();
+            msg.text = "واحد، اثنان، ثلاثة، أربعة، خمسة، ستة، سبعة، ثمانية، تسعة، عشرة";
+            msg.lang = 'ar-SA';
+            window.speechSynthesis.speak(msg);
+        }
+
+        // إغلاق الدرس بالزر ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLesson();
+            }
+        });
+    </script>
+</body>
+</html>

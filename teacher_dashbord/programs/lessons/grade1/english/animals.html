@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Animal Safari - Learn English</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --safari-green: #2ecc71;
+            --safari-orange: #e67e22;
+            --bg: #fafff0;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'Quicksand', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            margin: 0; padding: 10px;
+            display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            color: var(--safari-green); font-size: 26px; margin: 10px 0;
+            text-shadow: 2px 2px white;
+        }
+
+        /* منطقة التمرين */
+        .quiz-container {
+            width: 100%; max-width: 450px;
+            background: white; border-radius: 25px;
+            padding: 15px; text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            border: 4px dashed var(--safari-orange);
+            margin-bottom: 15px;
+        }
+
+        .instruction { font-size: 18px; color: #7f8c8d; font-weight: bold; }
+        .target-name { font-size: 40px; font-family: 'Fredoka One'; color: var(--safari-orange); margin: 5px 0; }
+
+        /* شبكة الحيوانات */
+        .animals-grid {
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); /* صورتين في كل صف للجوال */
+            gap: 15px; 
+            width: 100%; max-width: 450px;
+            padding-bottom: 100px;
+        }
+
+        .animal-card {
+            background: white; border-radius: 20px;
+            padding: 15px; text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 2px solid #eee;
+            cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .animal-card:active { transform: scale(0.95); }
+
+        .animal-emoji { font-size: 60px; display: block; margin-bottom: 10px; }
+        .animal-label { font-size: 18px; font-weight: 900; color: #2d3436; text-transform: capitalize; }
+
+        /* تأثيرات الإجابة */
+        .correct { background-color: #d1f7d1 !important; border-color: #2ecc71 !important; animation: bounce 0.5s; }
+        .wrong { background-color: #ffe0e0 !important; border-color: #e74c3c !important; animation: shake 0.4s; }
+
+        @keyframes bounce { 50% { transform: translateY(-10px); } }
+        @keyframes shake { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+        /* شريط التنقل السفلي */
+        .nav-bar {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            display: flex; gap: 10px; padding: 15px;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+        }
+
+        .nav-btn {
+            flex: 1; padding: 12px; border-radius: 15px;
+            text-decoration: none; text-align: center; font-weight: bold;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            font-size: 14px;
+        }
+        .home-btn { background: #f1f2f6; color: #2d3436; }
+        .next-btn { background: var(--safari-green); color: white; }
+    </style>
+</head>
+<body>
+
+    <h1>🦁 Animal Safari 🐘</h1>
+
+    <div class="quiz-container">
+        <div class="instruction">Where is the...</div>
+        <div id="targetAnimal" class="target-name">?</div>
+    </div>
+
+    <div class="animals-grid" id="grid">
+        </div>
+
+    <div class="nav-bar">
+        <a href="../../../../../teacher_dashbord/english_dashboard.html" class="nav-btn home-btn"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="numbers.html" class="nav-btn next-btn">الارقام  <i class="fas fa-arrow-right"></i></a>
+    </div>
+
+    <audio id="clapSnd" src="https://www.soundjay.com/human/sounds/applause-01.mp3"></audio>
+    <audio id="errorSnd" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
+
+    <script>
+        const animals = [
+            { name: 'Lion', emoji: '🦁' },
+            { name: 'Elephant', emoji: '🐘' },
+            { name: 'Monkey', emoji: '🐒' },
+            { name: 'Zebra', emoji: '🦓' },
+            { name: 'Giraffe', emoji: '🦒' },
+            { name: 'Rabbit', emoji: '🐰' },
+            { name: 'Tiger', emoji: '🐯' },
+            { name: 'Panda', emoji: '🐼' },
+            { name: 'Cat', emoji: '🐱' },
+            { name: 'Dog', emoji: '🐶' },
+            { name: 'Cow', emoji: '🐮' },
+            { name: 'Sheep', emoji: '🐑' }
+        ];
+
+        let currentTarget = {};
+        const grid = document.getElementById('grid');
+        const targetText = document.getElementById('targetAnimal');
+
+        function initGame() {
+            grid.innerHTML = '';
+            // عرض كل الحيوانات في الشبكة
+            animals.forEach(animal => {
+                const card = document.createElement('div');
+                card.className = 'animal-card';
+                card.innerHTML = `
+                    <span class="animal-emoji">${animal.emoji}</span>
+                    <span class="animal-label">${animal.name}</span>
+                `;
+                card.onclick = () => checkChoice(animal, card);
+                grid.appendChild(card);
+            });
+            newQuestion();
+        }
+
+        function newQuestion() {
+            // اختيار حيوان عشوائي ليكون الهدف
+            currentTarget = animals[Math.floor(Math.random() * animals.length)];
+            targetText.innerText = currentTarget.name;
+            
+            // نطق السؤال
+            speak("Find the " + currentTarget.name);
+        }
+
+        function checkChoice(selected, element) {
+            if (selected.name === currentTarget.name) {
+                // إجابة صحيحة
+                element.classList.add('correct');
+                document.getElementById('clapSnd').play();
+                speak("Excellent! This is a " + selected.name);
+                
+                setTimeout(() => {
+                    element.classList.remove('correct');
+                    newQuestion();
+                }, 2500);
+            } else {
+                // إجابة خاطئة
+                element.classList.add('wrong');
+                document.getElementById('errorSnd').play();
+                speak("No, that is the " + selected.name + ". Try again.");
+                
+                setTimeout(() => element.classList.remove('wrong'), 500);
+            }
+        }
+
+        function speak(text) {
+            window.speechSynthesis.cancel();
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'en-US';
+            msg.rate = 0.8; 
+            msg.pitch = 1.2;
+            window.speechSynthesis.speak(msg);
+        }
+
+        window.onload = initGame;
+    </script>
+</body>
+</html>

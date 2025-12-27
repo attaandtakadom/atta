@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعلم الساعة بالإنجليزية - الصف الخامس</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3A56D4;
+            --accent-color: #FF6B6B;
+            --success-color: #52B788;
+            --warning-color: #FF9E00;
+            --light-color: #f8f9fa;
+            --dark-color: #2d3748;
+            --clock-color: #4A6FA5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #E8F4FD 0%, #d6e4f0 100%);
+            color: var(--dark-color);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .lesson-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* رأس الدرس */
+        .lesson-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lesson-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .lesson-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lesson-header .lesson-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+        }
+
+        /* التنقل */
+        .lesson-nav {
+            background: var(--light-color);
+            padding: 15px 30px;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* المحتوى الرئيسي */
+        .lesson-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            padding: 30px;
+            min-height: 600px;
+        }
+
+        @media (max-width: 992px) {
+            .lesson-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* القسم الرئيسي */
+        .main-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* القسم الجانبي */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .side-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+
+        /* الساعة التفاعلية - مصححة */
+        .clock-container {
+            width: 400px;
+            height: 450px;
+            margin: 30px auto;
+            position: relative;
+        }
+
+        .clock-face {
+            width: 350px;
+            height: 350px;
+            position: relative;
+            background: radial-gradient(circle, #fff 0%, #f0f0f0 100%);
+            border-radius: 50%;
+            border: 15px solid var(--clock-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin: 0 auto;
+        }
+
+        .clock-center {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ff4444;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        .hour-hand {
+            position: absolute;
+            width: 8px;
+            height: 90px;
+            background: #333;
+            top: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+            border-radius: 4px;
+            z-index: 5;
+            transform: translate(-50%, -100%);
+        }
+
+        .minute-hand {
+            position: absolute;
+            width: 6px;
+            height: 130px;
+            background: #555;
+            top: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+            border-radius: 3px;
+            z-index: 6;
+            transform: translate(-50%, -100%);
+        }
+
+        .second-hand {
+            position: absolute;
+            width: 2px;
+            height: 140px;
+            background: #ff4444;
+            top: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+            z-index: 7;
+            transform: translate(-50%, -100%);
+        }
+
+        /* الأرقام - مصححة تماماً */
+        .clock-numbers {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .clock-number {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            font-size: 24px;
+            color: #333;
+            transform: translate(-50%, -50%);
+        }
+
+        /* ساعات التمارين - مصححة */
+        .exercise-clock {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            margin: 20px auto;
+            background: radial-gradient(circle, #fff 0%, #f0f0f0 100%);
+            border-radius: 50%;
+            border: 10px solid var(--clock-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .exercise-clock-center {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #ff4444;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        .exercise-hour-hand {
+            position: absolute;
+            width: 6px;
+            height: 50px;
+            background: #333;
+            top: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+            border-radius: 3px;
+            z-index: 5;
+            transform: translate(-50%, -100%);
+        }
+
+        .exercise-minute-hand {
+            position: absolute;
+            width: 4px;
+            height: 70px;
+            background: #555;
+            top: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+            border-radius: 2px;
+            z-index: 6;
+            transform: translate(-50%, -100%);
+        }
+
+        /* أرقام ساعات التمارين - مصححة */
+        .exercise-numbers {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .exercise-number {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            text-align: center;
+            line-height: 25px;
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+            transform: translate(-50%, -50%);
+        }
+
+        /* عناصر التحكم بالصوت */
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .audio-btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            background: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .audio-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .audio-btn.speak {
+            background: var(--success-color);
+        }
+
+        .audio-btn.speak:hover {
+            background: #429c73;
+        }
+
+        .time-display {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-align: center;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        /* الصور التعليمية */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .clock-image {
+            background: var(--light-color);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .clock-image:hover {
+            transform: translateY(-5px);
+        }
+
+        /* التمارين */
+        .exercise {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-right: 5px solid var(--primary-color);
+        }
+
+        .exercise-title {
+            color: var(--primary-color);
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .question {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .question-clock-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .option {
+            padding: 12px;
+            background: #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background: #dee2e6;
+            border-color: var(--primary-color);
+        }
+
+        .option input[type="radio"] {
+            margin-left: 10px;
+        }
+
+        .submit-btn {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            margin: 30px auto;
+            font-weight: bold;
+        }
+
+        .submit-btn:hover {
+            background: #429c73;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(66, 156, 115, 0.3);
+        }
+
+        /* النتيجة */
+        .result-box {
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .result-success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .result-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffeaa7;
+        }
+
+        .result-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        /* قائمة الطلاب */
+        .students-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .student-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-right: 4px solid var(--primary-color);
+        }
+
+        .student-progress {
+            width: 100px;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--success-color);
+        }
+
+        /* المنبهات */
+        .alarm-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .alarm-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+        }
+
+        .alarm-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .alarm-time {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+
+        .alarm-text {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* المصطلحات */
+        .terms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .term-card {
+            background: var(--light-color);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .term-arabic {
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .term-english {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* تذييل الدرس */
+        .lesson-footer {
+            background: #f8f9fa;
+            padding: 20px;
+            border-top: 2px solid #e9ecef;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* مؤشر صوت */
+        .speaking-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            animation: pulse 1s infinite;
+            box-shadow: 0 5px 15px rgba(82, 183, 136, 0.3);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* أزرار صوت صغيرة */
+        .small-audio-btn {
+            padding: 6px 12px;
+            border-radius: 5px;
+            border: none;
+            background: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-right: 5px;
+        }
+
+        .small-audio-btn:hover {
+            background: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        /* الاستجابة للشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .lesson-header h1 {
+                font-size: 24px;
+            }
+            .lesson-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .clock-container {
+                width: 100%;
+                height: 400px;
+            }
+            .clock-face {
+                width: 280px;
+                height: 280px;
+            }
+            .exercise-clock {
+                width: 180px;
+                height: 180px;
+            }
+            .nav-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            .audio-controls {
+                flex-direction: column;
+            }
+            .audio-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+/* الساعة التفاعلية - مصححة بدون حلقة */
+.clock-face {
+  width: 350px;
+  height: 350px;
+  position: relative;
+  background: radial-gradient(circle, #fff 0%, #f0f0f0 100%);
+  border-radius: 50%;
+  border: 15px solid var(--clock-color);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  margin: 0 auto;
+}
+
+/* ساعات التمارين - مصححة بدون حلقة */
+.exercise-clock {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  margin: 20px auto;
+  background: radial-gradient(circle, #fff 0%, #f0f0f0 100%);
+  border-radius: 50%;
+  border: 10px solid var(--clock-color);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* الأرقام - مواقفها الطبيعية */
+.clock-number {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-weight: bold;
+  font-size: 24px;
+  color: #333;
+  transform: translate(-50%, -50%);
+}
+
+.exercise-number {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 25px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+  transform: translate(-50%, -50%);
+}
+
+
+
+
+    </style>
+</head>
+<body>
+    <!-- مؤشر النطق -->
+    <div class="speaking-indicator" id="speakingIndicator">
+        <i class="fas fa-volume-up fa-beat"></i>
+        <span>جاري نطق الوقت...</span>
+    </div>
+
+    <div class="lesson-container">
+        <!-- رأس الدرس -->
+        <div class="lesson-header">
+            <h1>
+                <i class="far fa-clock"></i>
+                تعلم قراءة الساعة بالإنجليزية
+            </h1>
+            <p>درس تفاعلي للصف الخامس - مهارات الوقت والتوقيت</p>
+            <div class="lesson-info">
+                <div class="info-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>الصف الخامس</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-book"></i>
+                    <span>مادة اللغة الإنجليزية</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <span>مدة الدرس: 45 دقيقة</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-volume-up"></i>
+                    <span>نطق تفاعلي متوفر</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- شريط التنقل -->
+        <div class="lesson-nav">
+            <div>
+                <a href="../../../../english_dashboard.html" class="nav-btn">
+                    <i class="fas fa-arrow-right"></i> العودة للبرامج
+                </a>
+            </div>
+            <div class="nav-buttons">
+                <a href="#exercises" class="nav-btn">
+                    <i class="fas fa-pencil-alt"></i> التمارين
+                </a>
+                <a href="#students" class="nav-btn">
+                    <i class="fas fa-users"></i> الطلاب
+                </a>
+                <button onclick="window.print()" class="nav-btn">
+                    <i class="fas fa-print"></i> طباعة الدرس
+                </button>
+            </div>
+        </div>
+
+        <!-- المحتوى الرئيسي -->
+        <div class="lesson-content">
+            <!-- القسم الرئيسي -->
+            <div class="main-section">
+                <!-- مقدمة -->
+                <div class="section-title">
+                    <i class="fas fa-info-circle"></i>
+                    مقدمة عن قراءة الساعة
+                </div>
+                <p style="font-size: 16px; line-height: 1.8;">في هذا الدرس سوف نتعلم كيفية قراءة الساعة بالإنجليزية وفهم التوقيتات المختلفة. قراءة الساعة مهارة مهمة في الحياة اليومية تساعدنا على تنظيم وقتنا ومعرفة مواعيدنا.</p>
+
+                <!-- الساعة التفاعلية - مع عقارب -->
+                <div class="clock-container">
+                    <div class="clock-face" id="clockFace">
+                        <!-- سيتم إنشاء الأرقام والعقارب بالجافاسكريبت -->
+                    </div>
+                    <div class="time-display" id="timeDisplay">
+                        جاري تحميل الوقت...
+                    </div>
+                    <div class="audio-controls">
+                        <button class="audio-btn speak" onclick="speakCurrentTime()">
+                            <i class="fas fa-volume-up"></i> نطق الوقت الحالي
+                        </button>
+                        <button class="audio-btn" onclick="setRandomTime()">
+                            <i class="fas fa-random"></i> وقت عشوائي
+                        </button>
+                        <button class="audio-btn" onclick="speakRandomTime()">
+                            <i class="fas fa-bullhorn"></i> نطق وقت عشوائي
+                        </button>
+                    </div>
+                </div>
+
+                <!-- الصور التعليمية -->
+                <div class="section-title">
+                    <i class="fas fa-images"></i>
+                    أمثلة على قراءة الساعة
+                </div>
+                <div class="image-gallery">
+                    <div class="clock-image">
+                        <div class="exercise-clock" id="exampleClock1"></div>
+                        <h4>1:00</h4>
+                        <p>One o'clock</p>
+                        <button class="small-audio-btn" onclick="speakTimeExample('1:00')">
+                            <i class="fas fa-volume-up"></i> نطق
+                        </button>
+                    </div>
+                    <div class="clock-image">
+                        <div class="exercise-clock" id="exampleClock2"></div>
+                        <h4>2:15</h4>
+                        <p>Quarter past two</p>
+                        <button class="small-audio-btn" onclick="speakTimeExample('2:15')">
+                            <i class="fas fa-volume-up"></i> نطق
+                        </button>
+                    </div>
+                    <div class="clock-image">
+                        <div class="exercise-clock" id="exampleClock3"></div>
+                        <h4>3:30</h4>
+                        <p>Half past three</p>
+                        <button class="small-audio-btn" onclick="speakTimeExample('3:30')">
+                            <i class="fas fa-volume-up"></i> نطق
+                        </button>
+                    </div>
+                    <div class="clock-image">
+                        <div class="exercise-clock" id="exampleClock4"></div>
+                        <h4>4:45</h4>
+                        <p>Quarter to five</p>
+                        <button class="small-audio-btn" onclick="speakTimeExample('4:45')">
+                            <i class="fas fa-volume-up"></i> نطق
+                        </button>
+                    </div>
+                </div>
+
+                <!-- التمارين الكاملة -->
+                <div class="section-title" id="exercises">
+                    <i class="fas fa-pencil-alt"></i>
+                    التمارين التفاعلية
+                </div>
+
+                <div id="resultContainer"></div>
+
+                <form id="exerciseForm">
+                    <!-- تمرين 1 -->
+                    <div class="exercise">
+                        <div class="exercise-title">
+                            <i class="fas fa-question-circle"></i>
+                            السؤال 1: ما هو الوقت في هذه الساعة؟
+                            <button type="button" class="small-audio-btn" onclick="speakQuestion(1)">
+                                <i class="fas fa-volume-up"></i> سماع السؤال
+                            </button>
+                        </div>
+                        <div class="question">
+                            <div class="question-text">انظر إلى الساعة التالية واختر الوقت الصحيح:</div>
+                            <div class="question-clock-container">
+                                <div class="exercise-clock" id="exerciseClock1"></div>
+                            </div>
+                        </div>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q1" value="7:00" required>
+                                7:00 - Seven o'clock
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Seven o clock')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q1" value="7:30">
+                                7:30 - Half past seven
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Half past seven')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q1" value="7:15">
+                                7:15 - Quarter past seven
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Quarter past seven')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- تمرين 2 -->
+                    <div class="exercise">
+                        <div class="exercise-title">
+                            <i class="fas fa-question-circle"></i>
+                            السؤال 2: كيف نقول "الربع بعد" بالإنجليزية؟
+                            <button type="button" class="small-audio-btn" onclick="speakQuestion(2)">
+                                <i class="fas fa-volume-up"></i> سماع السؤال
+                            </button>
+                        </div>
+                        <div class="question">
+                            <div class="question-text">اختر الترجمة الصحيحة للمصطلح:</div>
+                            <div class="question-clock-container">
+                                <div class="exercise-clock" id="exerciseClock2"></div>
+                            </div>
+                        </div>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q2" value="quarter_to" required>
+                                Quarter to
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Quarter to')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q2" value="quarter_past">
+                                Quarter past
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Quarter past')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q2" value="half_past">
+                                Half past
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Half past')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- تمرين 3 -->
+                    <div class="exercise">
+                        <div class="exercise-title">
+                            <i class="fas fa-question-circle"></i>
+                            السؤال 3: كيف نقول "النصف" بالإنجليزية؟
+                            <button type="button" class="small-audio-btn" onclick="speakQuestion(3)">
+                                <i class="fas fa-volume-up"></i> سماع السؤال
+                            </button>
+                        </div>
+                        <div class="question">
+                            <div class="question-text">انظر إلى الساعة التالية واختر المصطلح الصحيح:</div>
+                            <div class="question-clock-container">
+                                <div class="exercise-clock" id="exerciseClock3"></div>
+                            </div>
+                        </div>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q3" value="quarter" required>
+                                Quarter
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Quarter')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q3" value="half_past">
+                                Half past
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Half past')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q3" value="o_clock">
+                                O'clock
+                                <button type="button" class="small-audio-btn" onclick="speakOption('O clock')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- تمرين 4 -->
+                    <div class="exercise">
+                        <div class="exercise-title">
+                            <i class="fas fa-question-circle"></i>
+                            السؤال 4: اختر الوقت الصحيح لـ "Quarter past five"
+                            <button type="button" class="small-audio-btn" onclick="speakQuestion(4)">
+                                <i class="fas fa-volume-up"></i> سماع السؤال
+                            </button>
+                        </div>
+                        <div class="question">
+                            <div class="question-text">انظر إلى الساعة التالية وتأكد من الوقت:</div>
+                            <div class="question-clock-container">
+                                <div class="exercise-clock" id="exerciseClock4"></div>
+                            </div>
+                        </div>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q4" value="5:00" required>
+                                5:00
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Five o clock')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q4" value="5:15">
+                                5:15
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Quarter past five')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q4" value="5:30">
+                                5:30
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Half past five')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- تمرين 5 -->
+                    <div class="exercise">
+                        <div class="exercise-title">
+                            <i class="fas fa-question-circle"></i>
+                            السؤال 5: ما هو الوقت الصحيح لـ "Quarter to eleven"؟
+                            <button type="button" class="small-audio-btn" onclick="speakQuestion(5)">
+                                <i class="fas fa-volume-up"></i> سماع السؤال
+                            </button>
+                        </div>
+                        <div class="question">
+                            <div class="question-text">انظر إلى الساعة التالية واختر الوقت الصحيح:</div>
+                            <div class="question-clock-container">
+                                <div class="exercise-clock" id="exerciseClock5"></div>
+                            </div>
+                        </div>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q5" value="10:45" required>
+                                10:45
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Quarter to eleven')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q5" value="11:15">
+                                11:15
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Quarter past eleven')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q5" value="11:45">
+                                11:45
+                                <button type="button" class="small-audio-btn" onclick="speakOption('Quarter to twelve')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="button" onclick="checkAnswers()" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> تسليم الإجابات
+                    </button>
+                </form>
+            </div>
+
+            <!-- القسم الجانبي -->
+            <div class="sidebar">
+                <!-- قائمة الطلاب -->
+                <div class="side-section" id="students">
+                    <div class="section-title">
+                        <i class="fas fa-users"></i>
+                        تقدم الطلاب
+                    </div>
+                    <div class="students-list" id="studentsList">
+                        <!-- سيتم ملئها بالجافاسكريبت -->
+                    </div>
+                </div>
+
+                <!-- المنبهات اليومية -->
+                <div class="side-section">
+                    <div class="section-title">
+                        <i class="fas fa-bell"></i>
+                        أوقات النشاط اليومية
+                    </div>
+                    <div class="alarm-cards">
+                        <div class="alarm-card">
+                            <i class="fas fa-sun" style="color: #FF9E00; font-size: 24px;"></i>
+                            <div class="alarm-time">7:00 AM</div>
+                            <div class="alarm-text">وقت الاستيقاظ</div>
+                            <button class="small-audio-btn" onclick="speakTimeExample('7:00')">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </div>
+                        <div class="alarm-card">
+                            <i class="fas fa-school" style="color: #4361ee; font-size: 24px;"></i>
+                            <div class="alarm-time">8:00 AM</div>
+                            <div class="alarm-text">بدء المدرسة</div>
+                            <button class="small-audio-btn" onclick="speakTimeExample('8:00')">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </div>
+                        <div class="alarm-card">
+                            <i class="fas fa-utensils" style="color: #52B788; font-size: 24px;"></i>
+                            <div class="alarm-time">12:30 PM</div>
+                            <div class="alarm-text">وقت الغداء</div>
+                            <button class="small-audio-btn" onclick="speakTimeExample('12:30')">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- المصطلحات المهمة -->
+                <div class="side-section">
+                    <div class="section-title">
+                        <i class="fas fa-graduation-cap"></i>
+                        مصطلحات الوقت
+                    </div>
+                    <div class="terms-grid">
+                        <div class="term-card">
+                            <div class="term-arabic">ساعة</div>
+                            <div class="term-english">O'clock</div>
+                            <button class="small-audio-btn" onclick="speakWord('o clock')">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </div>
+                        <div class="term-card">
+                            <div class="term-arabic">نصف</div>
+                            <div class="term-english">Half past</div>
+                            <button class="small-audio-btn" onclick="speakWord('half past')">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </div>
+                        <div class="term-card">
+                            <div class="term-arabic">ربع بعد</div>
+                            <div class="term-english">Quarter past</div>
+                            <button class="small-audio-btn" onclick="speakWord('quarter past')">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </div>
+                        <div class="term-card">
+                            <div class="term-arabic">ربع إلى</div>
+                            <div class="term-english">Quarter to</div>
+                            <button class="small-audio-btn" onclick="speakWord('quarter to')">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نصائح للتعلم -->
+                <div class="side-section">
+                    <div class="section-title">
+                        <i class="fas fa-lightbulb"></i>
+                        نصائح للتعلم
+                    </div>
+                    <ul style="padding-right: 20px; line-height: 2;">
+                        <li>تدرب على قراءة الساعة يومياً</li>
+                        <li>استخدم ساعة حقيقية للتمرن</li>
+                        <li>حاول تحديد مواعيدك بالساعة</li>
+                        <li>العب ألعاب تعليمية عن الوقت</li>
+                        <li>استخدم خاصية النطق لتحسين النطق</li>
+                        <li>انتبه للفرق بين AM و PM</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- تذييل الدرس -->
+        <div class="lesson-footer">
+            <p>© <span id="currentYear"></span> منصة تعليم اللغة الإنجليزية - درس قراءة الساعة للصف الخامس</p>
+            <p>تم التحديث: <span id="currentDate"></span></p>
+            <p style="margin-top: 10px;">
+                <i class="fas fa-volume-up"></i> خاصية النطق تعمل باستخدام Web Speech API
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // ====================== البيانات ======================
+        const timeTranslations = {
+            '1:00': 'one o clock', '2:00': 'two o clock', '3:00': 'three o clock',
+            '4:00': 'four o clock', '5:00': 'five o clock', '6:00': 'six o clock',
+            '7:00': 'seven o clock', '8:00': 'eight o clock', '9:00': 'nine o clock',
+            '10:00': 'ten o clock', '11:00': 'eleven o clock', '12:00': 'twelve o clock',
+            '1:15': 'quarter past one', '2:15': 'quarter past two', '3:15': 'quarter past three',
+            '4:15': 'quarter past four', '5:15': 'quarter past five', '6:15': 'quarter past six',
+            '7:15': 'quarter past seven', '8:15': 'quarter past eight', '9:15': 'quarter past nine',
+            '10:15': 'quarter past ten', '11:15': 'quarter past eleven', '12:15': 'quarter past twelve',
+            '1:30': 'half past one', '2:30': 'half past two', '3:30': 'half past three',
+            '4:30': 'half past four', '5:30': 'half past five', '6:30': 'half past six',
+            '7:30': 'half past seven', '8:30': 'half past eight', '9:30': 'half past nine',
+            '10:30': 'half past ten', '11:30': 'half past eleven', '12:30': 'half past twelve',
+            '1:45': 'quarter to two', '2:45': 'quarter to three', '3:45': 'quarter to four',
+            '4:45': 'quarter to five', '5:45': 'quarter to six', '6:45': 'quarter to seven',
+            '7:45': 'quarter to eight', '8:45': 'quarter to nine', '9:45': 'quarter to ten',
+            '10:45': 'quarter to eleven', '11:45': 'quarter to twelve', '12:45': 'quarter to one'
+        };
+
+        const students = [
+            { id: 1, name: 'محمد أحمد', progress: 85 },
+            { id: 2, name: 'سارة محمد', progress: 92 },
+            { id: 3, name: 'علي حسن', progress: 78 },
+            { id: 4, name: 'فاطمة خالد', progress: 90 },
+            { id: 5, name: 'يوسف علي', progress: 82 },
+            { id: 6, name: 'نورة سعيد', progress: 88 }
+        ];
+
+        const correctAnswers = {
+            q1: '7:30', q2: 'quarter_past', q3: 'half_past', q4: '5:15', q5: '10:45'
+        };
+
+        // ====================== الساعة الرئيسية (مصححة) ======================
+        function createInteractiveClock() {
+            const clockFace = document.getElementById('clockFace');
+            const size = 350;
+            const center = size / 2;
+            
+            // إضافة الأرقام بدائرة مثالية
+            const numberPositions = [];
+            for (let i = 1; i <= 12; i++) {
+                const angle = (i * 30 - 90) * (Math.PI / 180);
+                const radius = 130;
+                const x = center + radius * Math.cos(angle);
+                const y = center + radius * Math.sin(angle);
+                numberPositions.push({ num: i, x, y });
+            }
+            
+            // إنشاء الأرقام
+            numberPositions.forEach(pos => {
+                const number = document.createElement('div');
+                number.className = 'clock-number';
+                number.textContent = pos.num;
+                number.style.left = `${pos.x}px`;
+                number.style.top = `${pos.y}px`;
+                clockFace.appendChild(number);
+            });
+            
+            // إنشاء العقارب
+            const hourHand = document.createElement('div');
+            hourHand.className = 'hour-hand';
+            hourHand.id = 'hourHand';
+            
+            const minuteHand = document.createElement('div');
+            minuteHand.className = 'minute-hand';
+            minuteHand.id = 'minuteHand';
+            
+            const secondHand = document.createElement('div');
+            secondHand.className = 'second-hand';
+            secondHand.id = 'secondHand';
+            
+            const clockCenter = document.createElement('div');
+            clockCenter.className = 'clock-center';
+            
+            clockFace.appendChild(hourHand);
+            clockFace.appendChild(minuteHand);
+            clockFace.appendChild(secondHand);
+            clockFace.appendChild(clockCenter);
+            
+            updateClock();
+        }
+
+        // ====================== ساعات التمارين (مصححة) ======================
+        function createExerciseClock(clockId, hours, minutes) {
+  const clock = document.getElementById(clockId);
+  if (!clock) return;
+  
+  clock.innerHTML = '';
+  const size = 200;
+  const center = size / 2;
+  
+  // إضافة الأرقام فقط بدون دوائر
+  for (let i = 1; i <= 12; i++) {
+    const number = document.createElement('div');
+    number.className = 'exercise-number';
+    
+    // حساب موقف كل رقم حول المركز
+    const angle = (i * 30 - 90) * (Math.PI / 180);
+    const radius = 75; // نصف قطر لدائرة الأرقام
+    
+    const x = center + radius * Math.cos(angle);
+    const y = center + radius * Math.sin(angle);
+    
+    number.textContent = i;
+    number.style.left = `${x}px`;
+    number.style.top = `${y}px`;
+    
+    clock.appendChild(number);
+  }
+  
+  // إضافة العقارب
+  const hourDeg = (hours * 30) + (minutes * 0.5);
+  const minuteDeg = minutes * 6;
+  
+  const hourHand = document.createElement('div');
+  hourHand.className = 'exercise-hour-hand';
+  hourHand.style.transform = `translate(-50%, -100%) rotate(${hourDeg}deg)`;
+  
+  const minuteHand = document.createElement('div');
+  minuteHand.className = 'exercise-minute-hand';
+  minuteHand.style.transform = `translate(-50%, -100%) rotate(${minuteDeg}deg)`;
+  
+  const clockCenter = document.createElement('div');
+  clockCenter.className = 'exercise-clock-center';
+  
+  clock.appendChild(hourHand);
+  clock.appendChild(minuteHand);
+  clock.appendChild(clockCenter);
+}
+        // ====================== تحديث الساعة ======================
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            
+            hours = hours % 12 || 12;
+            
+            const hourDeg = (hours * 30) + (minutes * 0.5);
+            const minuteDeg = (minutes * 6) + (seconds * 0.1);
+            const secondDeg = seconds * 6;
+            
+            const hourHand = document.getElementById('hourHand');
+            const minuteHand = document.getElementById('minuteHand');
+            const secondHand = document.getElementById('secondHand');
+            
+            if (hourHand && minuteHand && secondHand) {
+                hourHand.style.transform = `translate(-50%, -100%) rotate(${hourDeg}deg)`;
+                minuteHand.style.transform = `translate(-50%, -100%) rotate(${minuteDeg}deg)`;
+                secondHand.style.transform = `translate(-50%, -100%) rotate(${secondDeg}deg)`;
+            }
+            
+            const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+            const timeInWords = getTimeInWords(hours, minutes);
+            document.getElementById('timeDisplay').innerHTML = 
+                `<span style="font-size: 32px;">${timeString}</span><br>
+                 <span style="font-size: 18px; color: #666;">${timeInWords}</span>`;
+            
+            window.currentTime = { hours, minutes, seconds };
+        }
+
+        // ====================== النطق الصوتي ======================
+        function getTimeInWords(hours, minutes) {
+            const hourWords = [
+                'twelve', 'one', 'two', 'three', 'four', 'five',
+                'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'
+            ];
+            
+            if (minutes === 0) return `${hourWords[hours]} o'clock`;
+            if (minutes === 15) return `quarter past ${hourWords[hours]}`;
+            if (minutes === 30) return `half past ${hourWords[hours]}`;
+            if (minutes === 45) {
+                const nextHour = hours === 12 ? 1 : hours + 1;
+                return `quarter to ${hourWords[nextHour]}`;
+            }
+            if (minutes < 30) return `${minutes} past ${hourWords[hours]}`;
+            
+            const remaining = 60 - minutes;
+            const nextHour = hours === 12 ? 1 : hours + 1;
+            return `${remaining} to ${hourWords[nextHour]}`;
+        }
+
+        function speakCurrentTime() {
+            if (!window.currentTime) return;
+            const { hours, minutes } = window.currentTime;
+            const timeInWords = getTimeInWords(hours, minutes);
+            showSpeakingIndicator();
+            speakText(`The time is ${timeInWords}`);
+        }
+
+        function speakRandomTime() {
+            const randomHours = Math.floor(Math.random() * 12) + 1;
+            const minutesOptions = [0, 15, 30, 45];
+            const randomMinutes = minutesOptions[Math.floor(Math.random() * minutesOptions.length)];
+            setClockTime(randomHours, randomMinutes);
+            const timeInWords = getTimeInWords(randomHours, randomMinutes);
+            showSpeakingIndicator();
+            speakText(`The time is ${timeInWords}`);
+        }
+
+        function speakTimeExample(timeKey) {
+            if (timeTranslations[timeKey]) {
+                showSpeakingIndicator();
+                speakText(timeTranslations[timeKey]);
+            }
+        }
+
+        function speakWord(word) {
+            showSpeakingIndicator();
+            speakText(word);
+        }
+
+        function speakOption(optionText) {
+            showSpeakingIndicator();
+            speakText(optionText);
+        }
+
+        function speakQuestion(questionNumber) {
+            const questions = [
+                "What time is shown in this clock?",
+                "How do you say 'quarter past' in English?",
+                "How do you say 'half' in English?",
+                "Choose the correct time for 'Quarter past five'",
+                "What is the correct time for 'Quarter to eleven'?"
+            ];
+            if (questions[questionNumber - 1]) {
+                showSpeakingIndicator();
+                speakText(questions[questionNumber - 1]);
+            }
+        }
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.8;
+                utterance.onend = hideSpeakingIndicator;
+                utterance.onerror = hideSpeakingIndicator;
+                speechSynthesis.speak(utterance);
+            } else {
+                hideSpeakingIndicator();
+                alert('المتصفح لا يدعم خاصية النطق الصوتي.');
+            }
+        }
+
+        function showSpeakingIndicator() {
+            document.getElementById('speakingIndicator').style.display = 'flex';
+        }
+
+        function hideSpeakingIndicator() {
+            document.getElementById('speakingIndicator').style.display = 'none';
+        }
+
+        // ====================== وظائف الوقت ======================
+        function setRandomTime() {
+            const randomHours = Math.floor(Math.random() * 12) + 1;
+            const minutesOptions = [0, 15, 30, 45];
+            const randomMinutes = minutesOptions[Math.floor(Math.random() * minutesOptions.length)];
+            setClockTime(randomHours, randomMinutes);
+        }
+
+        function setClockTime(hours, minutes) {
+            const hourDeg = (hours * 30) + (minutes * 0.5);
+            const minuteDeg = minutes * 6;
+            
+            document.getElementById('hourHand').style.transform = 
+                `translate(-50%, -100%) rotate(${hourDeg}deg)`;
+            document.getElementById('minuteHand').style.transform = 
+                `translate(-50%, -100%) rotate(${minuteDeg}deg)`;
+            document.getElementById('secondHand').style.transform = 
+                `translate(-50%, -100%) rotate(0deg)`;
+            
+            const timeString = `${hours}:${minutes.toString().padStart(2, '0')}`;
+            const timeInWords = getTimeInWords(hours, minutes);
+            document.getElementById('timeDisplay').innerHTML = 
+                `<span style="font-size: 32px;">${timeString}</span><br>
+                 <span style="font-size: 18px; color: #666;">${timeInWords}</span>`;
+            
+            window.currentTime = { hours, minutes, seconds: 0 };
+        }
+
+        // ====================== عرض الطلاب ======================
+        function displayStudents() {
+            const studentsList = document.getElementById('studentsList');
+            studentsList.innerHTML = '';
+            
+            students.forEach(student => {
+                const studentItem = document.createElement('div');
+                studentItem.className = 'student-item';
+                studentItem.innerHTML = `
+                    <div><strong>${student.name}</strong></div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div class="student-progress">
+                            <div class="progress-bar" style="width: ${student.progress}%"></div>
+                        </div>
+                        <span>${student.progress}%</span>
+                    </div>
+                `;
+                studentsList.appendChild(studentItem);
+            });
+        }
+
+        // ====================== التحقق من الإجابات ======================
+        function checkAnswers() {
+            let score = 0;
+            const totalQuestions = 5;
+            const form = document.getElementById('exerciseForm');
+            const formData = new FormData(form);
+            const answers = Object.fromEntries(formData.entries());
+
+            if (answers.q1 === correctAnswers.q1) score++;
+            if (answers.q2 === correctAnswers.q2) score++;
+            if (answers.q3 === correctAnswers.q3) score++;
+            if (answers.q4 === correctAnswers.q4) score++;
+            if (answers.q5 === correctAnswers.q5) score++;
+
+            const percentage = (score / totalQuestions) * 100;
+            let resultMessage = `نتيجتك: ${score}/${totalQuestions} (${percentage}%)`;
+            let resultClass = 'result-warning';
+
+            if (percentage >= 80) {
+                resultMessage += ' 🎉 ممتاز!';
+                resultClass = 'result-success';
+            } else if (percentage >= 60) {
+                resultMessage += ' 👍 جيد جداً';
+                resultClass = 'result-warning';
+            } else {
+                resultMessage += ' 💪 حاول مرة أخرى';
+                resultClass = 'result-danger';
+            }
+
+            const resultContainer = document.getElementById('resultContainer');
+            resultContainer.innerHTML = `<div class="result-box ${resultClass}">${resultMessage}</div>`;
+            
+            resultContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ====================== تهيئة الصفحة ======================
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            document.getElementById('currentDate').textContent = new Date().toLocaleDateString('ar-SA');
+            
+            createInteractiveClock();
+            createExerciseClock('exampleClock1', 1, 0);
+            createExerciseClock('exampleClock2', 2, 15);
+            createExerciseClock('exampleClock3', 3, 30);
+            createExerciseClock('exampleClock4', 4, 45);
+            createExerciseClock('exerciseClock1', 7, 30);
+            createExerciseClock('exerciseClock2', 2, 15);
+            createExerciseClock('exerciseClock3', 3, 30);
+            createExerciseClock('exerciseClock4', 5, 15);
+            createExerciseClock('exerciseClock5', 10, 45);
+            
+            displayStudents();
+            setInterval(updateClock, 1000);
+            
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.option').forEach(o => {
+                        o.style.background = '#e9ecef';
+                        o.style.color = '';
+                        o.style.borderColor = 'transparent';
+                    });
+                    this.style.background = '#4361ee';
+                    this.style.color = 'white';
+                    this.style.borderColor = '#3A56D4';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

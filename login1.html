@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - منصة تعليم أطفال التقدم</title>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .login-container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .login-header h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .user-type-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .user-type-btn {
+            padding: 12px;
+            border: 2px solid #ddd;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .user-type-btn.active {
+            background: #4361ee;
+            color: white;
+            border-color: #4361ee;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus {
+            border-color: #4361ee;
+            outline: none;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+        .login-footer a {
+            color: #4361ee;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h2>تسجيل الدخول</h2>
+            <p>اختر نوع المستخدم وأدخل بيانات الدخول</p>
+        </div>
+        
+        <div class="user-type-selector">
+            <div class="user-type-btn active" data-type="teacher">معلم</div>
+            <div class="user-type-btn" data-type="parent">ولي أمر</div>
+            <div class="user-type-btn" data-type="student">طالب</div>
+            <div class="user-type-btn" data-type="admin">مدير</div>
+        </div>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">اسم المستخدم أو البريد الإلكتروني</label>
+                <input type="text" id="username" placeholder="أدخل اسم المستخدم" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">كلمة المرور</label>
+                <input type="password" id="password" placeholder="أدخل كلمة المرور" required>
+            </div>
+            
+            <button type="submit" class="login-btn">
+                <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+            </button>
+        </form>
+        
+        <div class="login-footer">
+            <p>ليس لديك حساب؟ <a href="register.html">إنشاء حساب جديد</a></p>
+            <p><a href="index.html">العودة للصفحة الرئيسية</a></p>
+        </div>
+    </div>
+
+    <script>
+        // إدارة اختيار نوع المستخدم
+        const userTypeButtons = document.querySelectorAll('.user-type-btn');
+        userTypeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                userTypeButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // معالجة تسجيل الدخول
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const userType = document.querySelector('.user-type-btn.active').getAttribute('data-type');
+            
+            // محاكاة تسجيل الدخول (في الإصدار الحقيقي، سيتم الاتصال بالسيرفر)
+            localStorage.setItem('userLoggedIn', 'true');
+            localStorage.setItem('userType', userType);
+            localStorage.setItem('userName', 'أحمد علي'); // بيانات افتراضية للاختبار
+            
+            // توجيه حسب نوع المستخدم
+            const dashboards = {
+                'admin': 'dashboard_admin.html',
+                'teacher': 'teacher_dashbord/dashboard_teacher.html',
+                'parent': 'dashboard_parent.html',
+                'student': 'dashboard_student.html'
+            };
+            
+            window.location.href = dashboards[userType] || 'dashboard.html';
+        });
+
+        // تعيين نوع المستخدم من رابط URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const typeFromUrl = urlParams.get('type');
+        if (typeFromUrl) {
+            const targetButton = document.querySelector(`.user-type-btn[data-type="${typeFromUrl}"]`);
+            if (targetButton) {
+                userTypeButtons.forEach(btn => btn.classList.remove('active'));
+                targetButton.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

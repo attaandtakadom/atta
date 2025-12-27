@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الجمع مع الحمل - مؤسسة التقدم والعطاء</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #6C5CE7; --carry: #D63031; --success: #00B894; --bg: #F8F9FA; --warning: #F39C12; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 10px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .app-container { width: 100%; max-width: 500px; background: white; border-radius: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); padding: 25px; text-align: center; }
+        
+        /* أزرار التنقل العلوي */
+        .nav-buttons { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 25px; }
+        .nav-btn { flex: 1; padding: 12px; border-radius: 15px; text-decoration: none; font-weight: bold; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; color: white; transition: 0.3s; border: none; cursor: pointer; }
+        .home-btn { background: #34495E; }
+        .sub-btn { background: var(--warning); }
+
+        /* شبكة الرياضيات مع الـ (+) على اليمين */
+        .math-grid {
+            display: grid;
+            grid-template-columns: 80px 120px 60px; /* آحاد ، عشرات ، علامة الجمع */
+            justify-content: center;
+            align-items: center;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 70px;
+            color: #2D3436;
+            row-gap: 15px;
+            direction: ltr; /* لضبط ترتيب الأعمدة برمجياً */
+        }
+
+        /* رقم الحمل الأحمر */
+        .carry-spot {
+            grid-column: 2;
+            height: 60px; width: 60px; font-size: 40px;
+            color: var(--carry); border: 4px dashed var(--carry);
+            border-radius: 12px; display: flex; align-items: center;
+            justify-content: center; visibility: hidden; background: #fff5f5;
+            margin: 0 auto;
+        }
+        .show-carry { visibility: visible !important; }
+
+        .line-separator { grid-column: 1 / span 3; height: 6px; background: #2D3436; margin: 10px 0; }
+
+        /* مدخلات الإجابة */
+        .digit-input {
+            height: 90px; font-size: 60px;
+            text-align: center; border: 3px solid #DDD;
+            border-radius: 15px; font-family: 'Courier New', monospace;
+            font-weight: bold; color: var(--primary);
+        }
+        #ans-tens { width: 115px; grid-column: 2; }
+        #ans-units { width: 85px; grid-column: 1; }
+        
+        .digit-input:focus { border-color: var(--primary); outline: none; background: #f0eeff; }
+
+        .check-btn { margin-top: 30px; width: 100%; padding: 18px; font-size: 26px; background: var(--success); color: white; border: none; border-radius: 20px; cursor: pointer; box-shadow: 0 6px 0 #009476; }
+        .feedback-msg { font-size: 26px; font-weight: bold; margin-top: 20px; min-height: 45px; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="nav-buttons">
+        <a href="../index.html" class="nav-btn home-btn"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="subtraction.html" class="nav-btn sub-btn"><i class="fas fa-minus-circle"></i> درس الطرح</a>
+    </div>
+
+    <div style="font-size: 18px; color: var(--primary); font-weight: bold; margin-bottom: 20px;">مؤسسة التقدم والعطاء - البيضاء</div>
+
+    <div class="math-grid">
+        <div id="carry" class="carry-spot">1</div>
+        <div></div>
+        <div></div>
+
+        <div id="num1_units" style="text-align:center">2</div>
+        <div id="num1_tens" style="text-align:center">7</div>
+        <div style="font-size:45px"></div>
+
+        <div id="num2_units" style="text-align:center">3</div>
+        <div id="num2_tens" style="text-align:center">8</div>
+        <div style="font-size:45px; color: var(--primary);">+</div>
+
+        <div class="line-separator"></div>
+
+        <input type="number" id="ans-units" class="digit-input" placeholder="آ">
+        <input type="number" id="ans-tens" class="digit-input" placeholder="ع">
+        <div></div>
+    </div>
+
+    <button class="check-btn" onclick="checkAnswer()">تحقق من الإجابة ✅</button>
+    <div id="status" class="feedback-msg"></div>
+</div>
+
+<audio id="snd-clap" src="https://www.soundjay.com/human/sounds/applause-01.mp3"></audio>
+<audio id="snd-win" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3"></audio>
+<audio id="snd-fail" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
+
+<script>
+    let total;
+
+    function start() {
+        let u1 = Math.floor(Math.random() * 9) + 1; 
+        let u2 = Math.floor(Math.random() * 5) + 6; 
+        let t1 = Math.floor(Math.random() * 7) + 2; 
+        let t2 = Math.floor(Math.random() * 7) + 2; 
+
+        let val1 = (t1 * 10) + u1;
+        let val2 = (t2 * 10) + u2;
+        total = val1 + val2;
+
+        document.getElementById('num1_tens').innerText = t1;
+        document.getElementById('num1_units').innerText = u1;
+        document.getElementById('num2_tens').innerText = t2;
+        document.getElementById('num2_units').innerText = u2;
+
+        document.getElementById('ans-units').value = "";
+        document.getElementById('ans-tens').value = "";
+        document.getElementById('carry').classList.remove('show-carry');
+        document.getElementById('status').innerText = "";
+        
+        speak(`اجمع ${val1} زائد ${val2}`);
+        document.getElementById('ans-units').focus();
+    }
+
+    document.getElementById('ans-units').oninput = function() {
+        if(this.value.length >= 1) {
+            document.getElementById('carry').classList.add('show-carry');
+            setTimeout(() => { document.getElementById('ans-tens').focus(); }, 400);
+        }
+    }
+
+    function checkAnswer() {
+        const u = document.getElementById('ans-units').value;
+        const t = document.getElementById('ans-tens').value;
+        if(u === "" || t === "") return;
+
+        const userAns = parseInt(t + u);
+        const s = document.getElementById('status');
+
+        if(userAns === total) {
+            s.innerText = "أحسنت! إجابة صحيحة 👏🌟";
+            s.style.color = "var(--success)";
+            document.getElementById('snd-win').play();
+            setTimeout(() => { document.getElementById('snd-clap').play(); }, 200);
+            speak("ممتاز، إجابة صحيحة");
+            setTimeout(start, 5000);
+        } else {
+            s.innerText = "حاول مرة ثانية 😊";
+            s.style.color = "var(--carry)";
+            document.getElementById('snd-fail').play();
+            speak("لا، حاول مرة أخرى");
+        }
+    }
+
+    function speak(t) {
+        window.speechSynthesis.cancel();
+        const m = new SpeechSynthesisUtterance(t);
+        m.lang = 'ar-SA';
+        m.pitch = 1.7; // جعل الصوت أنعم وأرفع (صوت نسائي/طفولي)
+        m.rate = 0.8;
+        window.speechSynthesis.speak(m);
+    }
+
+    window.onload = start;
+</script>
+</body>
+</html>

@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام تعليم التربية الإسلامية - مؤسسة التقدم والعطاء</title>
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --secondary: #2196F3;
+            --accent: #FF9800;
+            --light: #f9f9f9;
+            --dark: #333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f8ff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .logo img {
+            width: 80px;
+            height: 80px;
+            margin-left: 15px;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .video-section {
+            flex: 2;
+            min-width: 300px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* نسبة العرض إلى الارتفاع 16:9 */
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .video-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+        }
+        
+        .playlist-section {
+            flex: 1;
+            min-width: 250px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .playlist-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 10px;
+        }
+        
+        .playlist {
+            list-style-type: none;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .playlist-item {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: var(--light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-right: 4px solid transparent;
+        }
+        
+        .playlist-item:hover {
+            background-color: #e3f2fd;
+            border-right-color: var(--secondary);
+        }
+        
+        .playlist-item.active {
+            background-color: #e8f5e9;
+            border-right-color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .add-video-form {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #ddd;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .audio-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+        
+        .audio-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .audio-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+        
+        .home-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: white;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .home-btn:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .audio-controls {
+                bottom: 10px;
+                left: 10px;
+            }
+            
+            .video-controls {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .btn {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>مؤسسة التقدم والعطاء</h1>
+            </div>
+            <h2>نظام تعليم التربية الإسلامية</h2>
+            <p class="subtitle">للصفوف الرابع والخامس الابتدائي - طلاب التوحد</p>
+            <a href="../../../../islamic_dashboard.html" class="home-btn">🏠 الرئيسية</a>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <section class="video-section">
+                <h2>الفيديو التعليمي</h2>
+                <div class="video-container">
+                    <iframe id="videoPlayer" src="https://www.youtube.com/embed/IP9szNePisQ" 
+                        title="فيديو تعليمي" allowfullscreen></iframe>
+                </div>
+                <div class="video-controls">
+                    <button class="btn" id="welcomeBtn">
+                        <i>▶</i> ترحيب المعلمة
+                    </button>
+                    <button class="btn btn-secondary" id="prevBtn">
+                        <i>◀</i> السابق
+                    </button>
+                    <button class="btn btn-secondary" id="nextBtn">
+                        التالي <i>▶</i>
+                    </button>
+                </div>
+            </section>
+            
+            <section class="playlist-section">
+                <h3 class="playlist-title">قائمة الفيديوهات</h3>
+                <ul class="playlist" id="videoPlaylist">
+                    <!-- سيتم ملء القائمة ديناميكياً -->
+                </ul>
+                <!--
+                <div class="add-video-form">
+                    <h3>إضافة فيديو جديد</h3>
+                    <div class="form-group">
+                        <label for="videoTitle">عنوان الفيديو:</label>
+                        <input type="text" id="videoTitle" class="form-control" placeholder="أدخل عنوان الفيديو">
+                    </div>
+                    <div class="form-group">
+                        <label for="videoUrl">رابط اليوتيوب:</label>
+                        <input type="text" id="videoUrl" class="form-control" placeholder="أدخل رابط اليوتيوب">
+                    </div>
+                    <button class="btn btn-accent" id="addVideoBtn">إضافة الفيديو</button>
+                </div>
+            -->
+            </section>
+        </div>
+    </div>
+    
+    <div class="audio-controls">
+        <button class="audio-btn" id="bgMusicBtn">♪</button>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>مؤسسة التقدم والعطاء-ليبيا- البيضاء للتأهيل - نظام تعليم التربية الإسلامية لطلاب التوحد</p>
+            <p>جميع الحقوق محفوظة &copy; 2025</p>
+        </div>
+    </footer>
+    
+    <!-- العناصر الصوتية -->
+    <audio id="welcomeAudio" preload="auto">
+        <!-- سيتم تحميل ملف الصوت من قبل المستخدم -->
+    </audio>
+    
+    <audio id="bgMusic" loop preload="auto">
+        <!-- سيتم تحميل ملف الصوت من قبل المستخدم -->
+    </audio>
+    
+    <script>
+        // بيانات أولية للفيديوهات
+        let videos = [
+            { id: 1, title: "  قصة قصيرة فيها حكمة كبيرة -  ", url: "IP9szNePisQ" },
+            { id: 2, title: "قصة النبي محمد (ص) - الجزء الأول", url: "MgJ8WRHiumQ" },
+            { id: 3, title: "تعلم الوضوء خطوة بخطوة", url: "y3Hd5srW_ak" },
+            { id: 4, title: "سورة الفاتحة مع التفسير", url: "EK5ELGOL3Fg" },
+            { id: 5, title: "أركان الإسلام الخمسة", url: "vC43yxyjIEE" },
+            { id: 6, title: "النظافة الشخصية - تعليم الأطفال كيفية الحفاظ على نظافتهم🧼🧴", url: "IX3KZ0zfBWU" },
+            { id: 7, title: "برنامج عائشة وصداقاتها | Compilation | كرتون اسلام", url: "3xVI87zh5d8" }
+        ];
+        
+        let currentVideoIndex = 0;
+        
+        // عناصر DOM
+        const videoPlayer = document.getElementById('videoPlayer');
+        const videoPlaylist = document.getElementById('videoPlaylist');
+        const welcomeBtn = document.getElementById('welcomeBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const addVideoBtn = document.getElementById('addVideoBtn');
+        const bgMusicBtn = document.getElementById('bgMusicBtn');
+        const welcomeAudio = document.getElementById('welcomeAudio');
+        const bgMusic = document.getElementById('bgMusic');
+        
+        // تهيئة القائمة
+        function initializePlaylist() {
+            videoPlaylist.innerHTML = '';
+            videos.forEach((video, index) => {
+                const li = document.createElement('li');
+                li.className = `playlist-item ${index === currentVideoIndex ? 'active' : ''}`;
+                li.textContent = video.title;
+                li.dataset.id = video.id;
+                li.dataset.index = index;
+                li.addEventListener('click', () => {
+                    playVideo(index);
+                });
+                videoPlaylist.appendChild(li);
+            });
+        }
+        
+        // تشغيل فيديو معين
+        function playVideo(index) {
+            if (index >= 0 && index < videos.length) {
+                currentVideoIndex = index;
+                const video = videos[index];
+                videoPlayer.src = `https://www.youtube.com/embed/${video.url}`;
+                
+                // تحديث القائمة النشطة
+                const items = videoPlaylist.querySelectorAll('.playlist-item');
+                items.forEach((item, i) => {
+                    if (i === index) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            }
+        }
+        
+        // الانتقال للفيديو السابق
+        function prevVideo() {
+            let newIndex = currentVideoIndex - 1;
+            if (newIndex < 0) {
+                newIndex = videos.length - 1;
+            }
+            playVideo(newIndex);
+        }
+        
+        // الانتقال للفيديو التالي
+        function nextVideo() {
+            let newIndex = currentVideoIndex + 1;
+            if (newIndex >= videos.length) {
+                newIndex = 0;
+            }
+            playVideo(newIndex);
+        }
+        
+        // إضافة فيديو جديد
+        function addNewVideo() {
+            const titleInput = document.getElementById('videoTitle');
+            const urlInput = document.getElementById('videoUrl');
+            const title = titleInput.value.trim();
+            let url = urlInput.value.trim();
+            
+            if (!title || !url) {
+                alert('يرجى ملء جميع الحقول');
+                return;
+            }
+            
+            // استخراج معرف الفيديو من رابط اليوتيوب
+            let videoId = extractYouTubeId(url);
+            if (!videoId) {
+                alert('رابط اليوتيوب غير صالح. يرجى التأكد من الرابط');
+                return;
+            }
+            
+            const newVideo = {
+                id: videos.length + 1,
+                title: title,
+                url: videoId
+            };
+            
+            videos.push(newVideo);
+            initializePlaylist();
+            
+            // مسح الحقول
+            titleInput.value = '';
+            urlInput.value = '';
+            
+            alert('تم إضافة الفيديو بنجاح!');
+        }
+        
+        // دالة مساعدة لاستخراج ID من رابط اليوتيوب
+        function extractYouTubeId(url) {
+            let videoId = '';
+            
+            // إذا كان الرابط يحتوي على v= (رابط تقليدي)
+            if (url.includes('v=')) {
+                const match = url.match(/v=([a-zA-Z0-9_-]{11})/);
+                videoId = match ? match[1] : '';
+            }
+            // إذا كان رابط youtu.be مختصر
+            else if (url.includes('youtu.be/')) {
+                const match = url.match(/youtu.be\/([a-zA-Z0-9_-]{11})/);
+                videoId = match ? match[1] : '';
+            }
+            // إذا كان ID مباشر (11 حرف)
+            else if (/^[a-zA-Z0-9_-]{11}$/.test(url)) {
+                videoId = url;
+            }
+            // إذا كان رابط تضمين
+            else if (url.includes('/embed/')) {
+                const match = url.match(/\/embed\/([a-zA-Z0-9_-]{11})/);
+                videoId = match ? match[1] : '';
+            }
+            
+            return videoId;
+        }
+        
+        // تحميل ملف صوتي
+        function loadAudioFile(audioElement, callback) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'audio/*';
+            input.onchange = e => {
+                const file = e.target.files[0];
+                if (file) {
+                    const url = URL.createObjectURL(file);
+                    audioElement.src = url;
+                    if (callback) callback();
+                }
+            };
+            input.click();
+        }
+        
+        // تهيئة الأحداث
+        function initializeEvents() {
+            // زر الترحيب
+            welcomeBtn.addEventListener('click', () => {
+                if (welcomeAudio.src) {
+                    welcomeAudio.play();
+                } else {
+                    loadAudioFile(welcomeAudio, () => {
+                        welcomeAudio.play();
+                    });
+                }
+            });
+            
+            // أزرار التنقل
+            prevBtn.addEventListener('click', prevVideo);
+            nextBtn.addEventListener('click', nextVideo);
+            
+            // إضافة فيديو جديد
+            addVideoBtn.addEventListener('click', addNewVideo);
+            
+            // خلفية موسيقية
+            bgMusicBtn.addEventListener('click', () => {
+                if (bgMusic.src) {
+                    if (bgMusic.paused) {
+                        bgMusic.play();
+                        bgMusicBtn.textContent = '■';
+                    } else {
+                        bgMusic.pause();
+                        bgMusicBtn.textContent = '♪';
+                    }
+                } else {
+                    loadAudioFile(bgMusic, () => {
+                        bgMusic.play();
+                        bgMusicBtn.textContent = '■';
+                    });
+                }
+            });
+        }
+        
+        // تهيئة التطبيق
+        function initializeApp() {
+            initializePlaylist();
+            initializeEvents();
+            playVideo(0);
+        }
+        
+        // بدء التطبيق عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>

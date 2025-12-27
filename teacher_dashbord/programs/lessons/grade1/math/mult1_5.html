@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>تحدي الجداول (1-5) - للنقال</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --success: #2ECC71;
+            --danger: #E74C3C;
+            --bg: #F8FAFC;
+        }
+
+        * { box-sizing: border-box; touch-action: manipulation; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            margin: 0; padding: 10px;
+            display: flex; justify-content: center;
+        }
+
+        .app-container {
+            width: 100%; max-width: 480px; background: white; 
+            border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            padding: 15px; text-align: center;
+        }
+
+        .logo-text { color: var(--primary); font-size: 20px; font-weight: bold; margin: 10px 0; }
+
+        /* شريط اختيار الجداول (من 1 إلى 5) مصمم للنقال */
+        .table-selector { 
+            display: flex; justify-content: center; gap: 8px; margin: 15px 0; 
+        }
+
+        .table-btn {
+            flex: 1; height: 55px; font-size: 22px; 
+            border: 2px solid var(--primary); border-radius: 12px;
+            background: white; color: var(--primary); cursor: pointer; font-weight: bold;
+        }
+
+        .table-btn.active { background: var(--primary); color: white; }
+
+        .quiz-area { 
+            background: #F9F9F9; border: 3px dashed #DDD; 
+            border-radius: 20px; padding: 20px; 
+        }
+
+        .equation { 
+            font-size: 55px; font-weight: 900; color: #2C3E50; 
+            margin: 10px 0; direction: ltr; 
+        }
+
+        .visual-aid {
+            display: flex; flex-wrap: wrap; justify-content: center; 
+            gap: 4px; margin: 10px auto; min-height: 40px;
+        }
+        .dot { width: 14px; height: 14px; background: #FFD700; border-radius: 50%; border: 1px solid #DAA520; }
+
+        .options-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+
+        .option-btn {
+            padding: 15px; font-size: 28px; border: none; border-radius: 15px;
+            background: white; box-shadow: 0 4px 0 #DDD; border: 2px solid #EEE; 
+            cursor: pointer; font-weight: bold;
+        }
+
+        .feedback { font-size: 18px; font-weight: bold; height: 30px; margin-top: 15px; }
+
+        /* أزرار العودة والتالي في الأسفل */
+        .footer-nav {
+            display: flex; gap: 10px; margin-top: 20px;
+        }
+        .nav-link {
+            flex: 1; padding: 12px; border-radius: 12px; text-decoration: none;
+            font-size: 14px; font-weight: bold; color: white; background: #34495E;
+            display: flex; align-items: center; justify-content: center; gap: 5px;
+        }
+        .next-btn { background: var(--success); }
+
+        .win { animation: pop 0.4s ease; color: var(--success); }
+        @keyframes pop { 50% { transform: scale(1.1); } }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="logo-text">تحدي الجداول (1 - 5) 🌟</div>
+    
+    <div class="table-selector">
+        <button class="table-btn active" onclick="setTable(1, this)">1</button>
+        <button class="table-btn" onclick="setTable(2, this)">2</button>
+        <button class="table-btn" onclick="setTable(3, this)">3</button>
+        <button class="table-btn" onclick="setTable(4, this)">4</button>
+        <button class="table-btn" onclick="setTable(5, this)">5</button>
+    </div>
+
+    <div class="quiz-area">
+        <div id="equation-display" class="equation">...</div>
+        <div id="visual-aid" class="visual-aid"></div>
+        <div class="options-grid" id="options"></div>
+        <div id="feedback" class="feedback"></div>
+    </div>
+
+    <div class="footer-nav">
+        <a href="../../../../math_dashboard.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="sub.html" class="nav-link next-btn">الدرس التالي <i class="fas fa-arrow-left"></i></a>
+    </div>
+</div>
+
+<audio id="applause" src="https://www.soundjay.com/human/sounds/applause-01.mp3"></audio>
+<audio id="error-snd" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
+
+<script>
+    let currentTable = 1;
+    let multiplier = 1;
+    let correctAnswer = 0;
+
+    function setTable(num, btn) {
+        currentTable = num;
+        document.querySelectorAll('.table-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        generateQuestion();
+        speak("جدول " + num);
+    }
+
+    function generateQuestion() {
+        multiplier = Math.floor(Math.random() * 10) + 1;
+        correctAnswer = currentTable * multiplier;
+        document.getElementById('equation-display').innerText = `${currentTable} × ${multiplier}`;
+        document.getElementById('feedback').innerText = "";
+        updateVisualAid();
+        createOptions();
+        
+        setTimeout(() => speak(`${currentTable} ضرب ${multiplier}`), 400);
+    }
+
+    function updateVisualAid() {
+        const aid = document.getElementById('visual-aid');
+        aid.innerHTML = "";
+        let count = Math.min(correctAnswer, 50);
+        for(let i=0; i < count; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            aid.appendChild(dot);
+        }
+    }
+
+    function createOptions() {
+        const optionsDiv = document.getElementById('options');
+        optionsDiv.innerHTML = "";
+        let choices = [correctAnswer];
+        while(choices.length < 3) {
+            let wrong = Math.max(1, correctAnswer + (Math.floor(Math.random() * 6) - 3));
+            if(!choices.includes(wrong)) choices.push(wrong);
+        }
+        choices.sort(() => Math.random() - 0.5);
+        choices.forEach(val => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = val;
+            btn.onclick = () => checkAnswer(val);
+            optionsDiv.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selected) {
+        const fb = document.getElementById('feedback');
+        if(selected === correctAnswer) {
+            fb.innerText = "أحسنت! إجابة صحيحة ✨";
+            fb.className = "feedback win";
+            document.getElementById('applause').play();
+            speak("ممتاز");
+            setTimeout(generateQuestion, 2000);
+        } else {
+            fb.innerText = "حاول مرة أخرى 😕";
+            fb.style.color = "var(--danger)";
+            document.getElementById('error-snd').play();
+            speak("حاول ثانية");
+        }
+    }
+
+   function speak(text) {
+    // إلغاء أي نطق مستمر حالياً
+    window.speechSynthesis.cancel();
+
+    const msg = new SpeechSynthesisUtterance(text);
+    
+    // تحديد اللغة بوضوح
+    msg.lang = 'ar-SA'; 
+    
+    // محاولة البحث عن صوت عربي في نظام الجوال
+    const voices = window.speechSynthesis.getVoices();
+    const arabicVoice = voices.find(voice => voice.lang.includes('ar'));
+    
+    if (arabicVoice) {
+        msg.voice = arabicVoice;
+    }
+
+    // ضبط السرعة والحدة لتناسب الأطفال
+    msg.rate = 0.9; // أبطأ قليلاً ليكون أوضح
+    msg.pitch = 1.1; // صوت طفولي قليلاً
+
+    window.speechSynthesis.speak(msg);
+}
+
+// هذا السطر ضروري لأن الجوالات لا تحمل الأصوات فوراً
+window.speechSynthesis.onvoiceschanged = () => {
+    window.speechSynthesis.getVoices();
+};
+
+    window.onload = generateQuestion;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+# ملفات PHP
+*.php
+
+# ملفات النظام
+.DS_Store
+Thumbs.db
+
+# ملفات بيئة التطوير
+.vscode/
+.idea/
+
+# ملفات كبيرة
+*.zip
+*.rar
+*.tar.gz
+
+# ملفات logs
+*.log
+
+# ملفات مؤقتة
+*.tmp
+*.temp

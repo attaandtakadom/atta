@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>درس الخلية المتكامل - مؤسسة التقدم والعطاء</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #28a745; --secondary: #17a2b8; --danger: #dc3545; --bg: #F0F2F5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg); padding: 15px; }
+        
+        .container { max-width: 1100px; margin: 0 auto; background: white; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
+        
+        /* شريط العودة للرئيسية */
+        .top-nav { background: #34495e; padding: 10px 20px; display: flex; justify-content: flex-start; }
+        .back-home { color: white; text-decoration: none; font-weight: bold; font-size: 16px; display: flex; align-items: center; gap: 8px; transition: 0.3s; }
+        .back-home:hover { color: var(--primary); }
+
+        .header { background: linear-gradient(135deg, var(--primary), #20c997); color: white; padding: 25px; text-align: center; }
+        
+        .tabs { display: flex; background: #eee; overflow-x: auto; }
+        .tab { flex: 1; padding: 18px; border: none; background: none; font-weight: bold; cursor: pointer; font-size: 16px; min-width: 120px; transition: 0.3s; }
+        .tab.active { background: white; color: var(--primary); border-bottom: 4px solid var(--primary); }
+
+        .content { display: none; padding: 25px; animation: fadeIn 0.5s; }
+        .content.active { display: block; }
+
+        /* الشرح: الخلايا جنب بعض */
+        .cells-flex { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+        .cell-card { flex: 1; min-width: 320px; background: #fff; border: 2px solid #f0f0f0; border-radius: 20px; padding: 20px; text-align: center; }
+        .cell-img { width: 100%; max-width: 380px; height: 280px; object-fit: contain; border-radius: 15px; background: #fafafa; margin-bottom: 15px; }
+
+        /* المقارنة والتمارين */
+        .comparison-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 16px; }
+        .comparison-table th { background: var(--primary); color: white; padding: 12px; }
+        .comparison-table td { padding: 12px; border: 1px solid #ddd; text-align: center; }
+        .quiz-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .quiz-card { background: #f8f9fa; border: 1px solid #eee; padding: 20px; border-radius: 15px; }
+        .opt-btn { width: 100%; padding: 12px; margin: 6px 0; border: 2px solid #ddd; border-radius: 10px; background: white; cursor: pointer; font-family: 'Cairo'; font-weight: bold; }
+        .correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724; }
+        .wrong { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @media (max-width: 768px) { .cells-flex { flex-direction: column; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-nav">
+        <a href="../../../../sinces_dashboard.html" class="back-home"><i class="fas fa-home"></i> العودة للرئيسية</a>
+    </div>
+
+    <div class="header">
+        <h1>الخلية النباتية والحيوانية</h1>
+        <p>مؤسسة التقدم والعطاء - البيضاء</p>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" onclick="openTab(event, 'lesson')">الشرح</button>
+        <button class="tab" onclick="openTab(event, 'compare')">المقارنة</button>
+        <button class="tab" onclick="openTab(event, 'quiz')">تمارين (صح/خطأ)</button>
+        <button class="tab" onclick="openTab(event, 'mcq')">اختيار من متعدد</button>
+    </div>
+
+    <div id="lesson" class="content active">
+        <div class="cells-flex">
+            <div class="cell-card">
+                <h3 style="color:var(--primary)">الخلية النباتية</h3>
+                
+                <img src="plant_cell.jpg" class="cell-img" alt="نباتية" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2590/2590059.png'">
+                <p>تتميز بوجود <b>جدار خلوي</b> وبلاستيدات خضراء لصنع الغذاء.</p>
+            </div>
+            <div class="cell-card">
+                <h3 style="color:var(--secondary)">الخلية الحيوانية</h3>
+                
+                <img src="enamil_cell.jpg" class="cell-img" alt="حيوانية" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2590/2590048.png'">
+                <p>شكلها <b>غير منتظم</b>، ليس لها جدار خلوي، وفجواتها صغيرة.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="compare" class="content">
+        
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>وجه المقارنة</th>
+                    <th>الخلية النباتية</th>
+                    <th>الخلية الحيوانية</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>الجدار الخلوي</td><td>✅ موجود</td><td>❌ غير موجود</td></tr>
+                <tr><td>البلاستيدات الخضراء</td><td>✅ موجودة</td><td>❌ غير موجودة</td></tr>
+                <tr><td>الفجوة العصارية</td><td>واحدة كبيرة جداً</td><td>صغيرة وكثيرة</td></tr>
+                <tr><td>الشكل العام</td><td>مستطيل ومنتظم</td><td>دائري غير منتظم</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="quiz" class="content">
+        <div class="quiz-container">
+            <div class="quiz-card">
+                <p>1. الخلية الحيوانية تصنع غذائها بنفسها؟</p>
+                <button class="opt-btn" onclick="check(this, false)">صح</button>
+                <button class="opt-btn" onclick="check(this, true)">خطأ</button>
+            </div>
+            <div class="quiz-card">
+                <p>2. البلاستيدات تعطي اللون الأخضر للنبات؟</p>
+                <button class="opt-btn" onclick="check(this, true)">صح</button>
+                <button class="opt-btn" onclick="check(this, false)">خطأ</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="mcq" class="content">
+        <div class="quiz-container">
+            <div class="quiz-card">
+                <p>أي جزء يحمي الخلية النباتية ويعطيها شكلاً ثابتاً؟</p>
+                <button class="opt-btn" onclick="check(this, false)">النواة</button>
+                <button class="opt-btn" onclick="check(this, true)">الجدار الخلوي</button>
+                <button class="opt-btn" onclick="check(this, false)">السيتوبلازم</button>
+            </div>
+            <div class="quiz-card">
+                <p>يوجد السيتوبلازم في الخلية:</p>
+                <button class="opt-btn" onclick="check(this, false)">النباتية فقط</button>
+                <button class="opt-btn" onclick="check(this, false)">الحيوانية فقط</button>
+                <button class="opt-btn" onclick="check(this, true)">الاثنين معاً</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        var contents = document.getElementsByClassName("content");
+        for (var i = 0; i < contents.length; i++) contents[i].style.display = "none";
+        var tabs = document.getElementsByClassName("tab");
+        for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove("active");
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.classList.add("active");
+        speak(evt.currentTarget.innerText);
+    }
+
+    function check(btn, isCorrect) {
+        if(isCorrect) {
+            btn.classList.add('correct');
+            speak("أحسنت، إجابة صحيحة");
+        } else {
+            btn.classList.add('wrong');
+            speak("خطأ، حاول مرة أخرى");
+        }
+    }
+
+    function speak(t) {
+        window.speechSynthesis.cancel();
+        var m = new SpeechSynthesisUtterance(t);
+        m.lang = 'ar-SA';
+        m.pitch = 1.7;
+        window.speechSynthesis.speak(m);
+    }
+</script>
+</body>
+</html>

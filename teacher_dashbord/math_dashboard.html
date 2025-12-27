@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة تحكم المعلم - الرياضيات لجميع الصفوف</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --math-primary: #673AB7;
+    --math-secondary: #512DA8;
+    --math-light: #F3E5F5;
+    --grade1: #FF6B6B;
+    --grade2: #48CAE4;
+    --grade3: #52B788;
+    --grade4: #FF9E00;
+    --grade5: #9D4EDD;
+    --light: #f8f9fa;
+    --dark: #2d3748;
+    --gradient: linear-gradient(135deg, #673AB7 0%, #512DA8 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e2e8f0 100%);
+    color: var(--dark);
+    min-height: 100vh;
+}
+
+/* الشريط العلوي */
+.top-bar {
+    background: var(--gradient);
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: white;
+    padding: 5px;
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.school-info h1 {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.school-info p {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.teacher-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255,255,255,0.1);
+    padding: 10px 20px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+}
+
+.teacher-avatar {
+    width: 45px;
+    height: 45px;
+    background: white;
+    color: var(--math-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* المحتوى الرئيسي */
+.main-container {
+    display: flex;
+    min-height: calc(100vh - 90px);
+}
+
+/* الشريط الجانبي */
+.sidebar {
+    width: 280px;
+    background: white;
+    box-shadow: 2px 0 15px rgba(0,0,0,0.08);
+    padding: 20px 0;
+}
+
+.sidebar-menu {
+    padding: 20px 0;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 25px;
+    color: var(--dark);
+    text-decoration: none;
+    transition: all 0.3s;
+    border-right: 4px solid transparent;
+    margin: 5px 15px;
+    border-radius: 8px;
+}
+
+.menu-item:hover {
+    background: var(--math-light);
+    color: var(--math-primary);
+    border-right-color: var(--math-primary);
+}
+
+.menu-item.active {
+    background: var(--math-primary);
+    color: white;
+    border-right-color: white;
+}
+
+.menu-item i {
+    margin-left: 12px;
+    width: 20px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.badge {
+    background: #ef476f;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    margin-right: auto;
+}
+
+/* حاوية المحتوى */
+.content-container {
+    flex: 1;
+    padding: 25px;
+    overflow-y: auto;
+}
+
+.page-title {
+    margin-bottom: 30px;
+}
+
+.page-title h1 {
+    color: var(--dark);
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.page-title p {
+    color: #666;
+    font-size: 16px;
+}
+
+/* تبويبات الصفوف */
+.grades-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.grade-tab {
+    padding: 15px 25px;
+    border-radius: 12px;
+    background: white;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.grade-tab:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.grade-tab.active {
+    background: var(--math-primary);
+    color: white;
+    border-color: var(--math-primary);
+}
+
+.grade-tab .tab-badge {
+    background: rgba(255,255,255,0.2);
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+
+/* محتوى الصف */
+.grade-content {
+    display: none;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.grade-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* إحصاءات الصف */
+.grade-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    border-top: 4px solid;
+}
+
+.stat-card.grade1 { border-color: var(--grade1); }
+.stat-card.grade2 { border-color: var(--grade2); }
+.stat-card.grade3 { border-color: var(--grade3); }
+.stat-card.grade4 { border-color: var(--grade4); }
+.stat-card.grade5 { border-color: var(--grade5); }
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    font-size: 24px;
+    color: white;
+}
+
+.stat-card.grade1 .stat-icon { background: var(--grade1); }
+.stat-card.grade2 .stat-icon { background: var(--grade2); }
+.stat-card.grade3 .stat-icon { background: var(--grade3); }
+.stat-card.grade4 .stat-icon { background: var(--grade4); }
+.stat-card.grade5 .stat-icon { background: var(--grade5); }
+
+.stat-value {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.stat-card.grade1 .stat-value { color: var(--grade1); }
+.stat-card.grade2 .stat-value { color: var(--grade2); }
+.stat-card.grade3 .stat-value { color: var(--grade3); }
+.stat-card.grade4 .stat-value { color: var(--grade4); }
+.stat-card.grade5 .stat-value { color: var(--grade5); }
+
+.stat-label {
+    color: #666;
+    font-size: 14px;
+}
+
+/* دروس الصف */
+.lessons-section {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.section-title {
+    color: var(--dark);
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.lesson-card {
+    background: #f8f9fa;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+    position: relative;
+}
+
+.lesson-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-color: var(--math-primary);
+}
+
+.lesson-card.grade1:hover { border-color: var(--grade1); }
+.lesson-card.grade2:hover { border-color: var(--grade2); }
+.lesson-card.grade3:hover { border-color: var(--grade3); }
+.lesson-card.grade4:hover { border-color: var(--grade4); }
+.lesson-card.grade5:hover { border-color: var(--grade5); }
+
+.lesson-header {
+    padding: 20px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.lesson-card.grade1 .lesson-header { background: linear-gradient(135deg, var(--grade1), #FF5252); }
+.lesson-card.grade2 .lesson-header { background: linear-gradient(135deg, var(--grade2), #00B4D8); }
+.lesson-card.grade3 .lesson-header { background: linear-gradient(135deg, var(--grade3), #40916C); }
+.lesson-card.grade4 .lesson-header { background: linear-gradient(135deg, var(--grade4), #FF8500); }
+.lesson-card.grade5 .lesson-header { background: linear-gradient(135deg, var(--grade5), #7B2CBF); }
+
+.lesson-icon {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.lesson-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.lesson-subject {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.lesson-content {
+    padding: 20px;
+}
+
+.lesson-desc {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.lesson-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 12px;
+    color: #888;
+}
+
+.lesson-status {
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-active { background: #d6f5e8; color: #43A047; }
+.status-completed { background: #e0f7ff; color: #1E88E5; }
+.status-upcoming { background: #fff4e6; color: #FF9800; }
+
+.lesson-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.lesson-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.lesson-btn.primary {
+    background: var(--math-primary);
+    color: white;
+}
+
+.lesson-btn.primary:hover {
+    background: var(--math-secondary);
+    transform: translateY(-2px);
+}
+
+.lesson-btn.secondary {
+    background: #f8f9fa;
+    color: var(--dark);
+    border: 1px solid #dee2e6;
+}
+
+.lesson-btn.secondary:hover {
+    background: #e9ecef;
+    transform: translateY(-2px);
+}
+
+/* برامج إضافية */
+.programs-section {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.programs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.program-item {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.3s;
+    border: 2px dashed #dee2e6;
+    text-decoration: none;
+    color: var(--dark);
+}
+
+.program-item:hover {
+    background: white;
+    border-color: var(--math-primary);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.program-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--math-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    font-size: 24px;
+    color: var(--math-primary);
+}
+
+.program-title {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.program-desc {
+    color: #666;
+    font-size: 14px;
+}
+
+/* التأثيرات */
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* تصميم متجاوب */
+@media (max-width: 1200px) {
+    .lessons-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .main-container {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        padding: 15px;
+    }
+    .sidebar-menu {
+        display: flex;
+        overflow-x: auto;
+        gap: 10px;
+    }
+    .menu-item {
+        white-space: nowrap;
+        margin: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .top-bar {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    .lessons-grid,
+    .programs-grid,
+    .grade-stats {
+        grid-template-columns: 1fr;
+    }
+    .grades-tabs {
+        flex-wrap: wrap;
+    }
+    .grade-tab {
+        flex: 1;
+        min-width: 120px;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .content-container {
+        padding: 15px;
+    }
+    .lessons-section,
+    .programs-section {
+        padding: 20px;
+    }
+    .lesson-actions {
+        flex-direction: column;
+    }
+}
+/* تبويبات اللغة العربية - إصدار محسّن للجوال */
+@media (max-width: 768px) {
+    .grades-tabs {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        gap: 8px;
+        padding: 10px 5px 15px;
+        margin: 0 -10px 20px;
+        position: relative;
+    }
+    
+    /* خلفية للتبويبات لتوضيح وجود تمرير */
+    .grades-tabs::before {
+        content: '';
+        position: absolute;
+        right: 0;
+        left: 0;
+        bottom: -2px;
+        height: 2px;
+        background: linear-gradient(90deg, 
+            transparent 0%, 
+            #e2e8f0 20%, 
+            #e2e8f0 80%, 
+            transparent 100%
+        );
+    }
+    
+    .grade-tab {
+        flex: 0 0 auto;
+        min-width: 120px;
+        max-width: 150px;
+        padding: 12px 15px;
+        font-size: 14px;
+        text-align: center;
+        justify-content: center;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin: 0 2px;
+        transition: all 0.3s ease;
+    }
+    
+    .grade-tab i {
+        margin-bottom: 5px;
+        display: block;
+        font-size: 18px;
+    }
+    
+    .grade-tab .tab-badge {
+        display: block;
+        margin-top: 5px;
+        margin-right: 0;
+        font-size: 11px;
+        padding: 3px 8px;
+    }
+    
+    /* تحسين للشاشات الصغيرة جداً */
+    @media (max-width: 480px) {
+        .grade-tab {
+            min-width: 100px;
+            padding: 10px 12px;
+            font-size: 13px;
+        }
+        
+        .grade-tab i {
+            font-size: 16px;
+        }
+        
+        .grade-tab .tab-badge {
+            font-size: 10px;
+            padding: 2px 6px;
+        }
+        
+        .grades-tabs {
+            gap: 5px;
+            padding: 8px 3px 12px;
+        }
+    }
+    
+    @media (max-width: 360px) {
+        .grade-tab {
+            min-width: 90px;
+            padding: 8px 10px;
+            font-size: 12px;
+        }
+        
+        .grade-tab i {
+            font-size: 14px;
+        }
+    }
+    
+    /* تأثير اللمس للجوال */
+    .grade-tab:active {
+        transform: scale(0.95);
+        transition: transform 0.1s;
+    }
+    
+    /* تلميح للمستخدم بوجود تمرير */
+    .grades-tabs::-webkit-scrollbar {
+        height: 4px;
+    }
+    
+    .grades-tabs::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+    }
+    
+    .grades-tabs::-webkit-scrollbar-thumb {
+        background: rgba(33, 150, 243, 0.5);
+        border-radius: 10px;
+    }
+    
+    .grades-tabs::-webkit-scrollbar-thumb:hover {
+        background: rgba(33, 150, 243, 0.7);
+    }
+}
+
+/* إضافة تأثيرات لتحسين تجربة الجوال */
+.grade-tab {
+    touch-action: manipulation; /* يقلل من التأخير على الجوال */
+    user-select: none; /* يمنع تحديد النص عند اللمس */
+}
+
+/* تحسين التبويب النشط للجوال */
+@media (max-width: 768px) {
+    .grade-tab.active {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+    }
+}
+
+/* مؤشر سهمي للتمرير (اختياري) */
+@media (max-width: 768px) {
+    .grades-tabs-container {
+        position: relative;
+    }
+    
+    .scroll-indicator {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 30px;
+        height: 30px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+        cursor: pointer;
+        opacity: 0.8;
+        transition: opacity 0.3s;
+    }
+    
+    .scroll-indicator:hover {
+        opacity: 1;
+    }
+    
+    .scroll-indicator.left {
+        right: 5px;
+    }
+    
+    .scroll-indicator.right {
+        left: 5px;
+    }
+    
+    .scroll-indicator i {
+        color: var(--english-primary);
+        font-size: 16px;
+    }
+}
+
+</style>
+</head>
+<body>
+<!-- الشريط العلوي -->
+<div class="top-bar">
+
+ 
+    
+
+
+    <div class="logo-container">
+        <div class="logo">
+                <img src="assets/images/logo.jpg" alt="شعار المؤسسة" class="logo">
+        </div>
+        <div class="school-info">
+            <h1>منصة تعليم الرياضيات</h1>
+            <p>الدروس والبرامج لجميع الصفوف من الأول إلى الخامس</p>
+        </div>
+    </div>
+    <div class="teacher-info">
+
+
+        <div class="teacher-avatar">      <i class="fas fa-user-graduate"></i>
+ </div>
+        <div>
+            <div style="font-weight: 600;">لوحة الطالب </div>
+            <div style="font-size: 13px; opacity: 0.9;"> الرياضيات</div>
+        </div>
+        <div style="margin-right: auto; margin-left: 20px;">
+            <div id="current-time" style="font-size: 14px;"></div>
+            <div style="font-size: 12px; opacity: 0.8;">توقيت  البيضاء</div>
+        </div>
+    </div>
+</div>
+
+<!-- المحتوى الرئيسي -->
+<div class="main-container">
+
+
+
+
+    <!-- الشريط الجانبي -->
+    <div class="sidebar">
+        <div class="sidebar-menu">
+            <a href="index.html" class="menu-item active">
+                <i class="fas fa-home"></i>
+                <span>الرئيسية</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-user-graduate"></i>
+                <span>الطلاب</span>
+                <span class="badge">24</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-calculator"></i>
+                <span>برنامج العمليات الأساسية</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-shapes"></i>
+                <span>برنامج الهندسة</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>التقارير</span>
+            </a>
+            <a href="#">
+                <i class="fas fa-tasks"></i>
+                <span>الواجبات</span>
+                <span class="badge">8</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>الرسائل</span>
+                <span class="badge">3</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>الجدول</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>الإعدادات</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- حاوية المحتوى -->
+    <div class="content-container">
+        <div class="page-title fade-in">
+            <h1>مرحباً بك في منصة الرياضيات 📊</h1>
+            <p>إدارة الدروس والبرامج التعليمية للصفوف من الأول إلى الخامس</p>
+        </div>
+
+        <!-- تبويبات الصفوف -->
+        <div class="grades-tabs fade-in">
+            <div class="grade-tab active" onclick="showGrade('grade1')" style="color: var(--grade1); border-color: var(--grade1);">
+                <i class="fas fa-1"></i>
+                الصف الأول
+                <span class="tab-badge" style="background: var(--grade1);">12 طالب</span>
+            </div>
+            <div class="grade-tab" onclick="showGrade('grade2')" style="color: var(--grade2); border-color: var(--grade2);">
+                <i class="fas fa-2"></i>
+                الصف الثاني
+                <span class="tab-badge" style="background: var(--grade2);">10 طلاب</span>
+            </div>
+            <div class="grade-tab" onclick="showGrade('grade3')" style="color: var(--grade3); border-color: var(--grade3);">
+                <i class="fas fa-3"></i>
+                الصف الثالث
+                <span class="tab-badge" style="background: var(--grade3);">11 طالب</span>
+            </div>
+            <div class="grade-tab" onclick="showGrade('grade4')" style="color: var(--grade4); border-color: var(--grade4);">
+                <i class="fas fa-4"></i>
+                الصف الرابع
+                <span class="tab-badge" style="background: var(--grade4);">9 طلاب</span>
+            </div>
+            <div class="grade-tab" onclick="showGrade('grade5')" style="color: var(--grade5); border-color: var(--grade5);">
+                <i class="fas fa-5"></i>
+                الصف الخامس
+                <span class="tab-badge" style="background: var(--grade5);">8 طلاب</span>
+            </div>
+        </div>
+
+        <!-- محتوى الصف الأول -->
+        <div id="grade1-content" class="grade-content active">
+            <!-- دروس الصف الأول -->
+            <div class="lessons-section fade-in">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-graduation-cap"></i> دروس الصف الأول
+                    </h2><!---
+                    <button class="lesson-btn primary" onclick="addNewLesson('grade1')">
+                        <i class="fas fa-plus"></i> إضافة درس جديد
+                    </button>-->
+                </div>
+                <div class="lessons-grid">
+                    <!-- درس الأعداد من 1 إلى 10 -->
+                    <div class="lesson-card grade1">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-sort-numeric-up"></i>
+                            </div>
+                            <h3 class="lesson-title">جداول الضرب من 1 _ 5</h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الأولى</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+                                تعلم الأعداد من 1 إلى 10 مع تمارين تفاعلية. تعرف على  جداول الضرب من 1 _ 5  .
+                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 4 ساعات</span>
+                                <span><i class="fas fa-tasks"></i> 20 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-active">نشط</div>
+                            <div class="lesson-actions">
+                                <a href="programs/lessons/grade1/math/mult1_5.html" class="lesson-btn primary">
+                                    <i class="fas fa-play"></i> بدء الدرس
+                                </a>
+                                <button class="lesson-btn secondary" onclick="viewLessonDetails('numbers_grade1')">
+                                    <i class="fas fa-info-circle"></i> التفاصيل
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- درس الجمع البسيط -->
+                    <div class="lesson-card grade1">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <h3 class="lesson-title">الجمع البسيط</h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الثانية</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+                                تعلم عمليات الجمع البسيطة باستخدام الصور والأشكال. تمارين تفاعلية لتعزيز المهارات.
+                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 5 ساعات</span>
+                                <span><i class="fas fa-tasks"></i> 25 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-active">نشط</div>
+                            <div class="lesson-actions">
+                                <a href="programs/lessons/grade1/math/lesson1_adtion.html" class="lesson-btn primary">
+                                    <i class="fas fa-play"></i> بدء الدرس
+                                </a>
+                                <button class="lesson-btn secondary" onclick="viewLessonDetails('addition_grade1')">
+                                    <i class="fas fa-info-circle"></i> التفاصيل
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+ <div class="lesson-card grade1">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <h3 class="lesson-title">الجمع مع الحمل</h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الثانية</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+                                تعلم عمليات الجمع مع الحمل   . تمارين تفاعلية لتعزيز المهارات.
+                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 5 ساعات</span>
+                                <span><i class="fas fa-tasks"></i> 25 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-active">نشط</div>
+                            <div class="lesson-actions">
+                                <a href="programs/lessons/grade1/math/lesson_add_caring.html" class="lesson-btn primary">
+                                    <i class="fas fa-play"></i> بدء الدرس
+                                </a>
+                                <button class="lesson-btn secondary" onclick="viewLessonDetails('addition_grade1')">
+                                    <i class="fas fa-info-circle"></i> التفاصيل
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+                    <!-- درس الأشكال الهندسية -->
+                    <div class="lesson-card grade1">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-shapes"></i>
+                            </div>
+                            <h3 class="lesson-title"> الطرح البسيط</h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الثالثة</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+                                تعرف على  الطرح البسيط الأساسية:    الطرح البسيط. تمارين تفاعلية.
+                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 3 ساعات</span>
+                                <span><i class="fas fa-tasks"></i> 15 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-completed">مكتمل</div>
+                            <div class="lesson-actions">
+                                <a href="programs/lessons/grade1/math/sub.html" class="lesson-btn primary">
+                                    <i class="fas fa-redo"></i> مراجعة الدرس
+                                </a>
+                                <button class="lesson-btn secondary" onclick="viewResults('shapes_grade1')">
+                                    <i class="fas fa-chart-bar"></i> نتائج الطلاب
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- محتوى الصف الثاني -->
+        <div id="grade2-content" class="grade-content">
+            <div class="lessons-section fade-in">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-graduation-cap"></i> دروس الصف الثاني
+                    </h2><!--
+                    <button class="lesson-btn primary" onclick="addNewLesson('grade2')">
+                        <i class="fas fa-plus"></i> إضافة درس جديد
+                    </button>-->
+                </div>
+                <div class="lessons-grid">
+
+
+<div class="lesson-card grade1">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-sort-numeric-up"></i>
+                            </div>
+                            <h3 class="lesson-title">جداول الضرب من 1 _ 5</h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الأولى</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+                                تعلم الأعداد من 1 إلى 10 مع تمارين تفاعلية. تعرف على  جداول الضرب من 1 _ 5  .
+                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 4 ساعات</span>
+                                <span><i class="fas fa-tasks"></i> 20 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-active">نشط</div>
+                            <div class="lesson-actions">
+                                <a href="programs/lessons/grade1/math/mult1_5.html" class="lesson-btn primary">
+                                    <i class="fas fa-play"></i> بدء الدرس
+                                </a>
+                                <button class="lesson-btn secondary" onclick="viewLessonDetails('numbers_grade1')">
+                                    <i class="fas fa-info-circle"></i> التفاصيل
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- درس الجمع البسيط -->
+                    <div class="lesson-card grade1">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <h3 class="lesson-title">الجمع البسيط</h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الثانية</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+                                تعلم عمليات الجمع البسيطة باستخدام الصور والأشكال. تمارين تفاعلية لتعزيز المهارات.
+                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 5 ساعات</span>
+                                <span><i class="fas fa-tasks"></i> 25 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-active">نشط</div>
+                            <div class="lesson-actions">
+                                <a href="programs/lessons/grade1/math/lesson1_adtion.html" class="lesson-btn primary">
+                                    <i class="fas fa-play"></i> بدء الدرس
+                                </a>
+                                <button class="lesson-btn secondary" onclick="viewLessonDetails('addition_grade1')">
+                                    <i class="fas fa-info-circle"></i> التفاصيل
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+ <div class="lesson-card grade1">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <h3 class="lesson-title">الجمع مع الحمل</h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الثانية</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+                                تعلم عمليات الجمع مع الحمل   . تمارين تفاعلية لتعزيز المهارات.
+                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 5 ساعات</span>
+                                <span><i class="fas fa-tasks"></i> 25 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-active">نشط</div>
+                            <div class="lesson-actions">
+                                <a href="programs/lessons/grade1/math/lesson_add_caring.html" class="lesson-btn primary">
+                                    <i class="fas fa-play"></i> بدء الدرس
+                                </a>
+                                <button class="lesson-btn secondary" onclick="viewLessonDetails('addition_grade1')">
+                                    <i class="fas fa-info-circle"></i> التفاصيل
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+                    <!-- درس الأشكال الهندسية -->
+                    <div class="lesson-card grade1">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-shapes"></i>
+                            </div>
+                            <h3 class="lesson-title"> الطرح البسيط</h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الثالثة</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+                                تعرف على  الطرح البسيط الأساسية:    الطرح البسيط. تمارين تفاعلية.
+                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 3 ساعات</span>
+                                <span><i class="fas fa-tasks"></i> 15 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-completed">مكتمل</div>
+                            <div class="lesson-actions">
+                                <a href="programs/lessons/grade1/math/sub.html" class="lesson-btn primary">
+                                    <i class="fas fa-redo"></i> مراجعة الدرس
+                                </a>
+                                <button class="lesson-btn secondary" onclick="viewResults('shapes_grade1')">
+                                    <i class="fas fa-chart-bar"></i> نتائج الطلاب
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+                    <!-- درس الأعداد حتى 100 -->
+                    <div class="lesson-card grade2">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-hashtag"></i>
+                            </div>
+                            <h3 class="lesson-title">الأعداد حتى 100</h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الأولى</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+                                تعلم الأعداد من 1 إلى 100، التعرف على المنازل (آحاد وعشرات). تمارين تفاعلية للعد والمقارنة.
+                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 6 ساعات</span>
+                                <span><i class="fas fa-tasks"></i> 30 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-active">نشط</div>
+                            <div class="lesson-actions">
+                                <a href="#" class="lesson-btn primary">
+                                    <i class="fas fa-play"></i> بدء الدرس
+                                </a>
+                                <button class="lesson-btn secondary" onclick="viewLessonDetails('numbers_grade2')">
+                                    <i class="fas fa-info-circle"></i> التفاصيل
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- درس الجمع والطرح -->
+                    <div class="lesson-card grade2">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <h3 class="lesson-title">الجمع والطرح</h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الثانية</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+                                عمليات الجمع والطرح للأعداد حتى 50. تمارين تفاعلية مع استخدام الأشكال والصور.
+                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 8 ساعات</span>
+                                <span><i class="fas fa-tasks"></i> 35 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-upcoming">قادم</div>
+                            <div class="lesson-actions">
+                                <a href="#" class="lesson-btn primary">
+                                    <i class="fas fa-eye"></i> معاينة
+                                </a>
+                                <button class="lesson-btn secondary" onclick="scheduleLesson('addition_grade2')">
+                                    <i class="fas fa-calendar"></i> جدولة
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- محتوى الصف الثالث -->
+        <div id="grade3-content" class="grade-content">
+            <div class="lessons-section fade-in">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-graduation-cap"></i> دروس الصف الثالث
+                    </h2><!--
+                    <button class="lesson-btn primary" onclick="addNewLesson('grade3')">
+                        <i class="fas fa-plus"></i> إضافة درس جديد
+                    </button>-->
+                </div>
+                <div class="lessons-grid">
+
+
+<div class="lesson-card grade1">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-sort-numeric-up"></i>
+                            </div>
+                            <h3 class="lesson-title">جداول الضرب من 1 _ 5</h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الأولى</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+                                تعلم الأعداد من 1 إلى 10 مع تمارين تفاعلية. تعرف على  جداول الضرب من 1 _ 5  .
+                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 4 ساعات</span>
+                                <span><i class="fas fa-tasks"></i> 20 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-active">نشط</div>
+                            <div class="lesson-actions">
+                                <a href="programs/lessons/grade1/math/mult1_5.html" class="lesson-btn primary">
+                                    <i class="fas fa-play"></i> بدء الدرس
+                                </a>
+                                <button class="lesson-btn secondary" onclick="viewLessonDetails('numbers_grade1')">
+                                    <i class="fas fa-info-circle"></i> التفاصيل
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- درس الجمع البسيط -->
+                    <div class="lesson-card grade1">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <h3 class="lesson-title">الجمع البسيط</h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الثانية</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+                                تعلم عمليات الجمع البسيطة باستخدام الصور والأشكال. تمارين تفاعلية لتعزيز المهارات.
+                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 5 ساعات</span>
+                                <span><i class="fas fa-tasks"></i> 25 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-active">نشط</div>
+                            <div class="lesson-actions">
+                                <a href="programs/lessons/grade1/math/lesson1_adtion.html" class="lesson-btn primary">
+                                    <i class="fas fa-play"></i> بدء الدرس
+                                </a>
+                                <button class="lesson-btn secondary" onclick="viewLessonDetails('addition_grade1')">
+                                    <i class="fas fa-info-circle"></i> التفاصيل
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+ <div class="lesson-card grade1">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <h3 class="lesson-title">الجمع مع الحمل</h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الثانية</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+                                تعلم عمليات الجمع مع الحمل   . تمارين تفاعلية لتعزيز المهارات.
+                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 5 ساعات</span>
+                                <span><i class="fas fa-tasks"></i> 25 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-active">نشط</div>
+                            <div class="lesson-actions">
+                                <a href="programs/lessons/grade1/math/lesson_add_caring.html" class="lesson-btn primary">
+                                    <i class="fas fa-play"></i> بدء الدرس
+                                </a>
+                                <button class="lesson-btn secondary" onclick="viewLessonDetails('addition_grade1')">
+                                    <i class="fas fa-info-circle"></i> التفاصيل
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+                    <!-- درس الأشكال الهندسية -->
+                    <div class="lesson-card grade1">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-shapes"></i>
+                            </div>
+                            <h3 class="lesson-title"> الطرح البسيط</h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الثالثة</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+                                تعرف على  الطرح البسيط الأساسية:    الطرح البسيط. تمارين تفاعلية.
+                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 3 ساعات</span>
+                                <span><i class="fas fa-tasks"></i> 15 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-completed">مكتمل</div>
+                            <div class="lesson-actions">
+                                <a href="programs/lessons/grade1/math/sub.html" class="lesson-btn primary">
+                                    <i class="fas fa-redo"></i> مراجعة الدرس
+                                </a>
+                                <button class="lesson-btn secondary" onclick="viewResults('shapes_grade1')">
+                                    <i class="fas fa-chart-bar"></i> نتائج الطلاب
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- درس الضرب الأساسي -->
+                    <div class="lesson-card grade3">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-times"></i>
+                            </div>
+                            <h3 class="lesson-title">الضرب الأساسي</h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الأولى</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+                                تعلم جدول الضرب من 1 إلى 10. تمارين تفاعلية لتقوية مهارات الحساب الذهني.
+                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 10 ساعات</span>
+                                <span><i class="fas fa-tasks"></i> 50 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-active">نشط</div>
+                            <div class="lesson-actions">
+                                <a href="#" class="lesson-btn primary">
+                                    <i class="fas fa-play"></i> بدء الدرس
+                                </a>
+                                <button class="lesson-btn secondary" onclick="viewLessonDetails('multiplication_grade3')">
+                                    <i class="fas fa-info-circle"></i> التفاصيل
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- محتوى الصف الرابع -->
+        <div id="grade4-content" class="grade-content">
+            <div class="lessons-section fade-in">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-graduation-cap"></i> دروس الصف الرابع
+                    </h2><!--
+                    <button class="lesson-btn primary" onclick="addNewLesson('grade4')">
+                        <i class="fas fa-plus"></i> إضافة درس جديد
+                    </button>-->
+                </div>
+                <div class="lessons-grid">
+
+                    <div class="lesson-card grade4">
+
+<div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-percentage"></i>
+                            </div>
+                            <h3 class="lesson-title">  درس التقريب لأقرب عشرة</h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الأولى</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+ درس التقريب لأقرب عشر                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 12 ساعة</span>
+                                <span><i class="fas fa-tasks"></i> 60 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-active">نشط</div>
+                            <div class="lesson-actions">
+                                <a href="programs/lessons/grade5/math/rounding.html" class="lesson-btn primary">
+                                    <i class="fas fa-play"></i> بدء الدرس
+                                </a>
+                                <button class="lesson-btn secondary" onclick="viewLessonDetails('decimals_grade5')">
+                                    <i class="fas fa-info-circle"></i> التفاصيل
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- درس الأشكال ثلاثية الأبعاد -->
+                    <div class="lesson-card grade4">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-cube"></i>
+                            </div>
+                            <h3 class="lesson-title">  درس تقريب الكسور العشرية </h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الثانية</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+ درس تقريب الكسور العشرية                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 10 ساعات</span>
+                                <span><i class="fas fa-tasks"></i> 45 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-upcoming">قادم</div>
+                            <div class="lesson-actions">
+                                <a href="programs/lessons/grade5/math/dicemal.html" class="lesson-btn primary">
+                                    <i class="fas fa-eye"></i> معاينة
+                                </a>
+                                <button class="lesson-btn secondary" onclick="scheduleLesson('shapes3d_grade5')">
+                                    <i class="fas fa-calendar"></i> جدولة
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                    <!-- درس الكسور -->
+                    <div class="lesson-card grade4">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-divide"></i>
+                            </div>
+                            <h3 class="lesson-title">الكسور الأساسية</h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الأولى</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+                                مقدمة في الكسور: النصف، الربع، الثلث. تمارين تفاعلية مع الرسوم البيانية.
+                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 8 ساعات</span>
+                                <span><i class="fas fa-tasks"></i> 40 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-active">نشط</div>
+                            <div class="lesson-actions">
+                                <a href="#" class="lesson-btn primary">
+                                    <i class="fas fa-play"></i> بدء الدرس
+                                </a>
+                                <button class="lesson-btn secondary" onclick="viewLessonDetails('fractions_grade4')">
+                                    <i class="fas fa-info-circle"></i> التفاصيل
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- محتوى الصف الخامس -->
+        <div id="grade5-content" class="grade-content">
+            <div class="lessons-section fade-in">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-graduation-cap"></i> دروس الصف الخامس
+                    </h2><!--
+                    <button class="lesson-btn primary" onclick="addNewLesson('grade5')">
+                        <i class="fas fa-plus"></i> إضافة درس جديد
+                    </button>-->
+                </div>
+                <div class="lessons-grid">
+                    <!-- درس الكسور العشرية -->
+                    <div class="lesson-card grade5">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-percentage"></i>
+                            </div>
+                            <h3 class="lesson-title">  درس التقريب لأقرب عشرة</h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الأولى</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+ درس التقريب لأقرب عشر                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 12 ساعة</span>
+                                <span><i class="fas fa-tasks"></i> 60 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-active">نشط</div>
+                            <div class="lesson-actions">
+                                <a href="programs/lessons/grade5/math/rounding.html" class="lesson-btn primary">
+                                    <i class="fas fa-play"></i> بدء الدرس
+                                </a>
+                                <button class="lesson-btn secondary" onclick="viewLessonDetails('decimals_grade5')">
+                                    <i class="fas fa-info-circle"></i> التفاصيل
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- درس الأشكال ثلاثية الأبعاد -->
+                    <div class="lesson-card grade5">
+                        <div class="lesson-header">
+                            <div class="lesson-icon">
+                                <i class="fas fa-cube"></i>
+                            </div>
+                            <h3 class="lesson-title">  درس تقريب الكسور العشرية </h3>
+                            <div class="lesson-subject">الرياضيات - الوحدة الثانية</div>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-desc">
+ درس تقريب الكسور العشرية                            </p>
+                            <div class="lesson-meta">
+                                <span><i class="far fa-clock"></i> 10 ساعات</span>
+                                <span><i class="fas fa-tasks"></i> 45 تمرين</span>
+                            </div>
+                            <div class="lesson-status status-upcoming">قادم</div>
+                            <div class="lesson-actions">
+                                <a href="programs/lessons/grade5/math/dicemal.html" class="lesson-btn primary">
+                                    <i class="fas fa-eye"></i> معاينة
+                                </a>
+                                <button class="lesson-btn secondary" onclick="scheduleLesson('shapes3d_grade5')">
+                                    <i class="fas fa-calendar"></i> جدولة
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- برامج إضافية -->
+        <div class="programs-section fade-in">
+            <h2 class="section-title">
+                <i class="fas fa-puzzle-piece"></i> برامج إضافية للرياضيات
+            </h2>
+            <div class="programs-grid">
+                <a href="#" class="program-item">
+                    <div class="program-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3 class="program-title">العمليات الأساسية</h3>
+                    <p class="program-desc">تدريبات على الجمع، الطرح، الضرب، والقسمة</p>
+                </a>
+                <a href="#" class="program-item">
+                    <div class="program-icon">
+                        <i class="fas fa-shapes"></i>
+                    </div>
+                    <h3 class="program-title">برنامج الهندسة</h3>
+                    <p class="program-desc">تعلم الأشكال الهندسية والمفاهيم الأساسية</p>
+                </a>
+                <a href="#" class="program-item">
+                    <div class="program-icon">
+                        <i class="fas fa-ruler-combined"></i>
+                    </div>
+                    <h3 class="program-title">برنامج القياسات</h3>
+                    <p class="program-desc">تعلم وحدات القياس والتحويل بينها</p>
+                </a>
+                <a href="#" class="program-item">
+                    <div class="program-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3 class="program-title">المسائل الكلامية</h3>
+                    <p class="program-desc">تدريبات على حل المسائل الرياضية</p>
+                </a>
+                <a href="#" class="program-item">
+                    <div class="program-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3 class="program-title">ألعاب الرياضيات</h3>
+                    <p class="program-desc">تعلم الرياضيات من خلال الألعاب التفاعلية</p>
+                </a>
+                <a href="#" class="program-item">
+                    <div class="program-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="program-title">الحساب الذهني</h3>
+                    <p class="program-desc">تنمية مهارات الحساب الذهني السريع</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// تحديث الوقت
+function updateTime() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('ar-SA', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+    document.getElementById('current-time').textContent = timeString;
+}
+setInterval(updateTime, 1000);
+updateTime();
+
+// عرض محتوى الصف المحدد
+function showGrade(gradeId) {
+    // تحديث التبويبات النشطة
+    document.querySelectorAll('.grade-tab').forEach(tab => {
+        tab.classList.remove('active');
+        const color = getComputedStyle(document.documentElement).getPropertyValue(`--${gradeId}`);
+        if (tab.getAttribute('onclick')?.includes(gradeId)) {
+            tab.style.background = '';
+            tab.style.color = '';
+            tab.style.borderColor = '';
+        }
+    });
+
+    // تلوين التبويب النشط
+    const activeTab = document.querySelector(`.grade-tab[onclick="showGrade('${gradeId}')"]`);
+    if (activeTab) {
+        activeTab.classList.add('active');
+        const colorMap = {
+            'grade1': '#FF6B6B',
+            'grade2': '#48CAE4', 
+            'grade3': '#52B788',
+            'grade4': '#FF9E00',
+            'grade5': '#9D4EDD'
+        };
+        const color = colorMap[gradeId] || '#673AB7';
+        activeTab.style.background = color;
+        activeTab.style.color = 'white';
+        activeTab.style.borderColor = color;
+    }
+
+    // إخفاء جميع المحتويات
+    document.querySelectorAll('.grade-content').forEach(content => {
+        content.classList.remove('active');
+    });
+
+    // إظهار المحتوى المحدد
+    document.getElementById(`${gradeId}-content`).classList.add('active');
+}
+
+// إضافة درس جديد
+function addNewLesson(grade) {
+    const gradeNames = {
+        'grade1': 'الصف الأول',
+        'grade2': 'الصف الثاني',
+        'grade3': 'الصف الثالث',
+        'grade4': 'الصف الرابع',
+        'grade5': 'الصف الخامس'
+    };
+    
+    Swal.fire({
+        title: `إضافة درس جديد لـ ${gradeNames[grade]}`,
+        html: `
+        <div style="text-align: right;">
+            <input type="text" id="lesson-title" placeholder="عنوان الدرس" style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 2px solid #673AB7;">
+            <select id="lesson-subject" style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 2px solid #673AB7;">
+                <option value="">اختر المادة</option>
+                <option value="numbers">الأعداد والعمليات</option>
+                <option value="geometry">الهندسة</option>
+                <option value="measurement">القياس</option>
+                <option value="fractions">الكسور</option>
+                <option value="algebra">الجبر</option>
+            </select>
+            <textarea id="lesson-desc" placeholder="وصف الدرس" style="width: 100%; height: 100px; padding: 10px; margin: 10px 0; border-radius: 8px; border: 2px solid #673AB7;"></textarea>
+            <input type="number" id="lesson-duration" placeholder="المدة بالساعات" style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 2px solid #673AB7;">
+        </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'إضافة',
+        cancelButtonText: 'إلغاء',
+        preConfirm: () => {
+            const title = document.getElementById('lesson-title').value;
+            const subject = document.getElementById('lesson-subject').value;
+            const desc = document.getElementById('lesson-desc').value;
+            const duration = document.getElementById('lesson-duration').value;
+            if (!title || !subject || !desc || !duration) {
+                Swal.showValidationMessage('يرجى ملء جميع الحقول');
+            }
+            return { title, subject, desc, duration };
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'تم الإضافة!',
+                text: `تم إضافة درس "${result.value.title}" بنجاح`,
+                icon: 'success',
+                confirmButtonText: 'حسناً'
+            });
+        }
+    });
+}
+
+// عرض تفاصيل الدرس
+function viewLessonDetails(lessonId) {
+    Swal.fire({
+        title: 'تفاصيل الدرس',
+        html: `
+        <div style="text-align: right;">
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                <strong>عدد الطلاب:</strong> 12 طالب
+            </div>
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                <strong>معدل الإنجاز:</strong> 85%
+            </div>
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                <strong>آخر نشاط:</strong> منذ ساعتين
+            </div>
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                <strong>التقييم العام:</strong> ★★★★☆ (4.2/5)
+            </div>
+        </div>
+        `,
+        showConfirmButton: false,
+        showCloseButton: true,
+        width: '500px'
+    });
+}
+
+// جدولة درس
+function scheduleLesson(lessonId) {
+    Swal.fire({
+        title: 'جدولة درس',
+        html: `
+        <div style="text-align: right;">
+            <input type="datetime-local" id="schedule-date" style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 2px solid #673AB7;">
+            <select id="schedule-class" style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 2px solid #673AB7;">
+                <option value="">اختر الفصل</option>
+                <option value="class1">الفصل أ</option>
+                <option value="class2">الفصل ب</option>
+                <option value="class3">الفصل ج</option>
+            </select>
+        </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'جدولة',
+        cancelButtonText: 'إلغاء',
+        preConfirm: () => {
+            const date = document.getElementById('schedule-date').value;
+            const classId = document.getElementById('schedule-class').value;
+            if (!date || !classId) {
+                Swal.showValidationMessage('يرجى ملء جميع الحقول');
+            }
+            return { date, classId };
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'تم الجدولة!',
+                text: 'تم جدولة الدرس بنجاح وسيتم إعلام الطلاب',
+                icon: 'success',
+                confirmButtonText: 'حسناً'
+            });
+        }
+    });
+}
+
+// عرض نتائج الطلاب
+function viewResults(lessonId) {
+    Swal.fire({
+        title: 'نتائج الطلاب',
+        html: `
+        <div style="text-align: right; max-height: 300px; overflow-y: auto;">
+            <div style="background: #e8f5e9; padding: 10px; margin: 5px; border-radius: 8px; border-right: 4px solid #4CAF50;">
+                <strong>أحمد محمد</strong> - 95% ★★★★★
+            </div>
+            <div style="background: #e8f5e9; padding: 10px; margin: 5px; border-radius: 8px; border-right: 4px solid #4CAF50;">
+                <strong>سارة خالد</strong> - 92% ★★★★★
+            </div>
+            <div style="background: #fff3e0; padding: 10px; margin: 5px; border-radius: 8px; border-right: 4px solid #FF9800;">
+                <strong>فاطمة علي</strong> - 85% ★★★★
+            </div>
+            <div style="background: #fff3e0; padding: 10px; margin: 5px; border-radius: 8px; border-right: 4px solid #FF9800;">
+                <strong>عبدالله سعيد</strong> - 78% ★★★★
+            </div>
+            <div style="background: #ffebee; padding: 10px; margin: 5px; border-radius: 8px; border-right: 4px solid #F44336;">
+                <strong>مريم حسن</strong> - 65% ★★★
+            </div>
+        </div>
+        <div style="margin-top: 20px; text-align: center;">
+            <strong>المعدل العام:</strong> 83% ★★★★
+        </div>
+        `,
+        showConfirmButton: false,
+        showCloseButton: true,
+        width: '500px'
+    });
+}
+
+// تأثيرات عند التحميل
+document.addEventListener('DOMContentLoaded', () => {
+    const fadeElements = document.querySelectorAll('.fade-in');
+    fadeElements.forEach((element, index) => {
+        setTimeout(() => {
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+
+    // إضافة تأثير للبطاقات
+    document.querySelectorAll('.lesson-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-5px)';
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0)';
+        });
+    });
+});
+
+// تحميل SweetAlert2 للإشعارات
+const script = document.createElement('script');
+script.src = 'https://cdn.jsdelivr.net/npm/sweetalert2@11';
+document.head.appendChild(script);
+</script>
+</body>
+</html>
