@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Learning Numbers 1-20</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --success: #00b894;
+            --bg: #f9f7ff;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'Quicksand', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            margin: 0; padding: 15px;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            color: var(--primary); font-size: 26px; margin: 10px 0;
+            text-shadow: 2px 2px white;
+        }
+
+        /* منطقة التمرين */
+        .quiz-box {
+            width: 100%; max-width: 400px;
+            background: white; border-radius: 25px;
+            padding: 20px; text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            border: 4px solid #a29bfe; margin-bottom: 20px;
+        }
+
+        .question-text { font-size: 20px; font-weight: bold; color: #2d3436; margin-bottom: 10px; }
+        .target-number { font-size: 50px; font-family: 'Fredoka One'; color: #ff7675; }
+
+        /* شبكة الأرقام */
+        .numbers-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 10px; width: 100%; max-width: 400px;
+            margin-bottom: 100px;
+        }
+
+        .num-card {
+            aspect-ratio: 1/1; background: white; border-radius: 15px;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 24px; font-weight: 900; color: #444;
+            box-shadow: 0 4px 0 #ddd; border: 2px solid #eee;
+            cursor: pointer; transition: all 0.2s;
+        }
+
+        .num-card:active { transform: translateY(3px); box-shadow: 0 1px 0 #ddd; }
+
+        /* ألوان الأرقام */
+        .c1 { color: #ff7675; border-color: #ff7675; }
+        .c2 { color: #0984e3; border-color: #0984e3; }
+        .c3 { color: #00b894; border-color: #00b894; }
+        .c4 { color: #fdcb6e; border-color: #fdcb6e; }
+        .c5 { color: #6c5ce7; border-color: #6c5ce7; }
+
+        /* شريط التنقل */
+        .nav-bar {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            display: flex; gap: 10px; padding: 15px;
+            background: white; border-top: 1px solid #eee;
+        }
+
+        .nav-btn {
+            flex: 1; padding: 12px; border-radius: 15px;
+            text-decoration: none; text-align: center; font-weight: bold;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .home { background: #f1f2f6; color: #2d3436; }
+        .back { background: #fd79a8; color: white; }
+
+        /* تأثيرات النجاح */
+        .success-anim { animation: celebrate 0.5s ease-in-out; background: var(--success) !important; color: white !important; }
+        @keyframes celebrate { 50% { transform: scale(1.2); } }
+    </style>
+</head>
+<body>
+
+    <h1>🔢 Fun Numbers 1-20</h1>
+
+    <div class="quiz-box">
+        <div class="question-text">Can you find number?</div>
+        <div id="targetDisplay" class="target-number">?</div>
+    </div>
+
+    <div class="numbers-grid" id="grid">
+        </div>
+
+    <div class="nav-bar">
+        <a href="../../../../../teacher_dashbord/english_dashboard.html" class="nav-btn home">
+            <i class="fas fa-home"></i> Home
+        </a>
+        <a href="days.html" class="nav-btn back">
+            <i class="fas fa-calendar-day"></i> Days
+        </a>
+    </div>
+
+    <audio id="clapSnd" src="https://www.soundjay.com/human/sounds/applause-01.mp3"></audio>
+    <audio id="wrongSnd" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
+
+    <script>
+        const grid = document.getElementById('grid');
+        const targetDisplay = document.getElementById('targetDisplay');
+        let targetNum = 0;
+
+        // إنشاء الأرقام من 1 إلى 20
+        function initNumbers() {
+            grid.innerHTML = '';
+            for (let i = 1; i <= 20; i++) {
+                const card = document.createElement('div');
+                const colorClass = 'c' + ((i % 5) + 1);
+                card.className = `num-card ${colorClass}`;
+                card.innerText = i;
+                card.onclick = () => checkAnswer(i, card);
+                grid.appendChild(card);
+            }
+            newQuestion();
+        }
+
+        function newQuestion() {
+            targetNum = Math.floor(Math.random() * 20) + 1;
+            targetDisplay.innerText = "?";
+            speak("Can you find number " + targetNum);
+        }
+
+        function checkAnswer(selected, element) {
+            if (selected === targetNum) {
+                // إجابة صحيحة
+                element.classList.add('success-anim');
+                targetDisplay.innerText = targetNum;
+                document.getElementById('clapSnd').play();
+                speak("Excellent! This is number " + selected);
+                
+                setTimeout(() => {
+                    element.classList.remove('success-anim');
+                    newQuestion();
+                }, 2500);
+            } else {
+                // إجابة خاطئة
+                document.getElementById('wrongSnd').play();
+                speak("No, this is " + selected + ". Try again.");
+            }
+        }
+
+        function speak(text) {
+            window.speechSynthesis.cancel();
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'en-US';
+            msg.rate = 0.8; // صوت ناعم وبطيء
+            msg.pitch = 1.2; // نبرة طفولية لطيفة
+            window.speechSynthesis.speak(msg);
+        }
+
+        window.onload = initNumbers;
+    </script>
+</body>
+</html>

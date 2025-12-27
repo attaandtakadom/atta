@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب - منصة تعليم أطفال التقدم</title>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .register-container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 500px;
+        }
+        .register-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .register-header h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #4361ee;
+            outline: none;
+        }
+        .register-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+        .register-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+        .register-footer a {
+            color: #4361ee;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-header">
+            <h2>إنشاء حساب جديد</h2>
+            <p>املأ البيانات التالية لإنشاء حسابك</p>
+        </div>
+        
+        <form id="registerForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">الاسم الأول</label>
+                    <input type="text" id="firstName" placeholder="الاسم الأول" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">الاسم الأخير</label>
+                    <input type="text" id="lastName" placeholder="الاسم الأخير" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">البريد الإلكتروني</label>
+                <input type="email" id="email" placeholder="example@email.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="userType">نوع الحساب</label>
+                <select id="userType" required>
+                    <option value="">اختر نوع الحساب</option>
+                    <option value="teacher">معلم / أخصائي</option>
+                    <option value="parent">ولي أمر</option>
+                    <option value="student">طالب</option>
+                </select>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <input type="password" id="password" placeholder="كلمة المرور" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">تأكيد كلمة المرور</label>
+                    <input type="password" id="confirmPassword" placeholder="تأكيد كلمة المرور" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="register-btn">
+                <i class="fas fa-user-plus"></i> إنشاء حساب
+            </button>
+        </form>
+        
+        <div class="register-footer">
+            <p>هل لديك حساب بالفعل؟ <a href="login.html">تسجيل الدخول</a></p>
+            <p><a href="index.html">العودة للصفحة الرئيسية</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const userType = document.getElementById('userType').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            // التحقق من كلمة المرور
+            if (password !== confirmPassword) {
+                alert('كلمة المرور غير متطابقة!');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('كلمة المرور يجب أن تكون 6 أحرف على الأقل!');
+                return;
+            }
+            
+            // محاكاة تسجيل الحساب
+            const userName = `${firstName} ${lastName}`;
+            localStorage.setItem('userLoggedIn', 'true');
+            localStorage.setItem('userType', userType);
+            localStorage.setItem('userName', userName);
+            localStorage.setItem('userEmail', email);
+            
+            // توجيه المستخدم
+            alert('تم إنشاء الحساب بنجاح!');
+            const dashboards = {
+                'teacher': 'dashboard_teacher.html',
+                'parent': 'dashboard_parent.html',
+                'student': 'dashboard_student.html'
+            };
+            
+            window.location.href = dashboards[userType] || 'dashboard.html';
+        });
+    </script>
+</body>
+</html>

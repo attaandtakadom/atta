@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدرس الأول: تعلم الجمع - الصف الأول الابتدائي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* تنسيقات عامة */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        /* شريط التقدم */
+        .progress-container {
+            background: white;
+            padding: 20px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .progress-steps {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .step.completed {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .step.active {
+            background: #667eea;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .points-display {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        /* الأزرار */
+        .math-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .math-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .math-btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .math-btn-warning {
+            background: linear-gradient(135deg, #FF9800, #FF5722);
+            color: white;
+        }
+        
+        .math-btn-danger {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white;
+        }
+        
+        /* عنوان الدرس */
+        .lesson-title {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .lesson-title h1 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 36px;
+        }
+        
+        .lesson-title p {
+            color: #666;
+            font-size: 18px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* قسم الجمع */
+        .addition-section {
+            background: linear-gradient(135deg, #FF6B6B, #FF8E8E);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+        
+        .fruit-basket {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .fruit {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+        
+        .apple { background: #FF5252; }
+        .orange { background: #FF9800; }
+        .banana { background: #FFEB3B; color: #333; }
+        
+        .addition-example {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px;
+            border: 4px solid #FF6B6B;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.2);
+        }
+        
+        .equation {
+            font-size: 48px;
+            font-weight: bold;
+            color: #FF6B6B;
+            margin: 20px 0;
+        }
+        
+        .number-circle {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background: #FF6B6B;
+            color: white;
+            border-radius: 50%;
+            line-height: 60px;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+        
+        /* اللعبة التفاعلية */
+        .interactive-game {
+            background: #FFF9C4;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px;
+            border: 3px dashed #FFD54F;
+        }
+        
+        .drag-drop-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 40px 0;
+        }
+        
+        .drag-item {
+            width: 80px;
+            height: 80px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: move;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        
+        .drag-item:active {
+            cursor: grabbing;
+            transform: scale(0.95);
+        }
+        
+        .drag-item.dragging {
+            opacity: 0.5;
+            transform: scale(0.9);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .drop-zone {
+            width: 100px;
+            height: 100px;
+            border: 3px dashed #2196F3;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #2196F3;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .drop-zone.drag-over {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(33, 150, 243, 0.3);
+            border-color: #2196F3 !important;
+            background: #e3f2fd;
+        }
+        
+        .drop-zone[data-filled="true"] {
+            background-color: #d4edda !important;
+            border-color: #4CAF50 !important;
+            border-style: solid !important;
+            animation: pulse 0.5s;
+        }
+        
+        .result-input-container {
+            width: 150px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #4CAF50;
+            border-radius: 15px;
+            background: #f8fff8;
+        }
+        
+        #userResult {
+            width: 80px;
+            height: 50px;
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            border: 2px solid #4CAF50;
+            border-radius: 10px;
+            outline: none;
+            color: #333;
+        }
+        
+        #userResult:focus {
+            border-color: #2196F3;
+            box-shadow: 0 0 10px rgba(33, 150, 243, 0.3);
+        }
+        
+        .input-hint {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* التمارين */
+        .exercise {
+            margin: 30px;
+        }
+        
+        .exercise-title {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .options-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .option-btn {
+            padding: 15px;
+            background: #f0f0f0;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option-btn:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+        
+        .option-btn.selected {
+            background: #4CAF50;
+            color: white;
+            border-color: #388E3C;
+        }
+        
+        /* نظام المكافآت */
+        .reward-system {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+        
+        .stars-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .star {
+            font-size: 40px;
+            color: #FFD700;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        
+        .star.empty {
+            color: #e0e0e0;
+            text-shadow: none;
+        }
+        
+        /* رسائل التغذية الراجعة */
+        .feedback-message {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-weight: bold;
+            text-align: center;
+            animation: fadeIn 0.5s;
+        }
+        
+        .feedback-correct {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .feedback-incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+        
+        .feedback-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 2px solid #bee5eb;
+        }
+        
+        /* أزرار التنقل */
+        .navigation-buttons {
+            text-align: center;
+            margin: 40px 0;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        
+        /* الشهادة */
+        .certificate-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 10000;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .certificate-content {
+            max-width: 500px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .certificate-header {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .certificate-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.9);
+            color: #333;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        
+        .certificate-trophy {
+            font-size: 50px;
+            color: #FFD700;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+        
+        /* الرسوم المتحركة */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(5deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(-3px) rotate(-5deg); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        @keyframes correctDrop {
+            0% { background-color: #d4edda; }
+            50% { background-color: #4CAF50; }
+            100% { background-color: #d4edda; }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(20px); }
+        }
+        
+        /* تنسيقات للجوال */
+        @media (max-width: 768px) {
+            .drag-drop-container {
+                gap: 10px;
+            }
+            
+            .drag-item, .drop-zone {
+                width: 70px;
+                height: 70px;
+                font-size: 24px;
+            }
+            
+            .result-input-container {
+                width: 130px;
+                height: 90px;
+            }
+            
+            #userResult {
+                width: 70px;
+                height: 45px;
+                font-size: 24px;
+            }
+            
+            .lesson-title h1 {
+                font-size: 28px;
+            }
+            
+            .equation {
+                font-size: 36px;
+            }
+        }
+        
+        /* تأثيرات عند التحويم */
+        .math-btn:hover, .option-btn:hover, .drag-item:hover, .certificate-close:hover {
+            transform: scale(1.05);
+        }
+        
+        /* التأكد من إمكانية القراءة */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- شريط التقدم -->
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="step completed">1</div>
+                <div class="step active">2</div>
+                <div class="step">3</div>
+                <div class="step">4</div>
+                <div class="step">5</div>
+            </div>
+            <div class="points-display">
+                <i class="fas fa-trophy"></i>
+                <span>النقاط: <span id="points">0</span></span>
+            </div>
+            <button onclick="window.location.href='../../../../math_dashboard.html'" class="math-btn">
+                <i class="fas fa-home"></i> الرئيسية
+            </button>
+        </div>
+
+        <!-- عنوان الدرس -->
+        <div class="lesson-title">
+            <h1><i class="fas fa-plus"></i> الدرس الأول: تعلم الجمع</h1>
+            <p>تعلم جمع الأعداد بطريقة ممتعة مع صور الفواكه والألعاب التفاعلية</p>
+        </div>
+
+        <!-- مقدمة عن الجمع -->
+        <div class="addition-section">
+            <h2><i class="fas fa-apple-alt"></i> مرحباً! سوف نتعلم الجمع معاً</h2>
+            <p>الجمع هو ضم الأشياء معاً للحصول على عدد أكبر</p>
+            <div class="fruit-basket">
+                <div class="fruit apple" title="تفاحة">
+                    <i class="fas fa-apple-alt"></i>
+                </div>
+                <div style="font-size: 40px; color: white; margin: 0 10px;">+</div>
+                <div class="fruit orange" title="برتقالة">
+                    <i class="fas fa-lemon"></i>
+                </div>
+                <div style="font-size: 40px; color: white; margin: 0 10px;">=</div>
+                <div class="fruit apple" style="margin-right: 10px;" title="تفاحة"></div>
+                <div class="fruit orange" title="برتقالة"></div>
+            </div>
+            <p style="font-size: 20px; margin-top: 20px;">
+                1 تفاحة + 1 برتقالة = قطعتان من الفاكهة
+            </p>
+        </div>
+
+        <!-- مثال مرئي -->
+        <div class="addition-example">
+            <h3 style="color: #FF6B6B;">
+                <i class="fas fa-lightbulb"></i> هيا نجرب معاً!
+            </h3>
+            <div style="display: flex; justify-content: center; align-items: center; margin: 20px 0; flex-wrap: wrap;">
+                <div style="text-align: center; margin: 0 20px;">
+                    <div class="number-circle">2</div>
+                    <div style="font-size: 14px; color: #666; margin-top: 5px;">تفاحتان</div>
+                </div>
+                <div style="font-size: 40px; color: #FF6B6B; margin: 0 15px;">+</div>
+                <div style="text-align: center; margin: 0 20px;">
+                    <div class="number-circle">3</div>
+                    <div style="font-size: 14px; color: #666; margin-top: 5px;">برتقالات</div>
+                </div>
+                <div style="font-size: 40px; color: #FF6B6B; margin: 0 15px;">=</div>
+                <div style="text-align: center; margin: 0 20px;">
+                    <div class="number-circle">5</div>
+                    <div style="font-size: 14px; color: #666; margin-top: 5px;">قطعة فاكهة</div>
+                </div>
+            </div>
+            <div class="equation">2 + 3 = 5</div>
+        </div>
+
+        <!-- لعبة التفاعلية -->
+        <div class="interactive-game">
+            <h3 style="color: #FF9800;">
+                <i class="fas fa-gamepad"></i> لعبة الجمع الممتعة
+            </h3>
+            <p>اسحب الفواكة إلى المربعات ثم اكتب ناتج الجمع</p>
+            
+            <div class="drag-drop-container">
+                <div class="drag-item" id="dragItem1" draggable="true">🍎 2</div>
+                <div style="font-size: 32px; font-weight: bold; color: #FF6B6B; min-width: 40px; text-align: center;">+</div>
+                <div class="drag-item" id="dragItem2" draggable="true">🍊 3</div>
+                <div style="font-size: 32px; font-weight: bold; color: #FF6B6B; min-width: 40px; text-align: center;">=</div>
+                
+                <div class="drop-zone" id="dropZone1">? هنا</div>
+                <div style="font-size: 32px; font-weight: bold; color: #FF6B6B; min-width: 40px; text-align: center;">+</div>
+                <div class="drop-zone" id="dropZone2">? وهنا</div>
+                <div style="font-size: 32px; font-weight: bold; color: #FF6B6B; min-width: 40px; text-align: center;">=</div>
+                
+                <div class="result-input-container">
+                    <input type="number" id="userResult" placeholder="اكتب الناتج" min="0" max="20" autocomplete="off">
+                    <span class="input-hint">(رقم فقط)</span>
+                </div>
+            </div>
+            
+            <!-- تعليمات اللعبة -->
+            <div style="text-align: center; margin: 10px 0; color: #666; font-size: 14px;">
+                <p style="margin: 5px 0;">
+                    <i class="fas fa-mouse-pointer"></i> اسحب الفواكة إلى المربعات
+                </p>
+                <p style="margin: 5px 0;">
+                    <i class="fas fa-hand-point-up"></i> انقر مرتين على العنصر لإزالته
+                </p>
+            </div>
+            
+            <!-- أزرار التحكم -->
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="checkAdditionGame()" class="math-btn math-btn-primary">
+                    <i class="fas fa-check"></i> تحقق من الإجابة
+                </button>
+                <button onclick="generateNewExercise()" class="math-btn math-btn-warning">
+                    <i class="fas fa-redo"></i> تمرين جديد
+                </button>
+                <button onclick="clearAll()" class="math-btn" style="background: #9C27B0; color: white;">
+                    <i class="fas fa-broom"></i> مسح الكل
+                </button>
+            </div>
+            
+            <!-- نتيجة اللعبة -->
+            <div id="gameResult" style="display: none; margin-top: 20px;"></div>
+            
+            <!-- معلومات التمرين -->
+            <div id="exerciseInfo" style="margin-top: 15px; padding: 10px; background: #f0f7ff; border-radius: 10px; text-align: center;">
+                <p style="margin: 0; color: #1976d2;">
+                    <i class="fas fa-info-circle"></i> التمرين: 
+                    <span id="currentNumbers">2 + 3</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- تمارين التدريب -->
+        <div class="exercise">
+            <h3 class="exercise-title">
+                <i class="fas fa-pencil-alt"></i> تمارين التدريب
+            </h3>
+            
+            <!-- السؤال الأول -->
+            <div style="background: white; padding: 20px; border-radius: 10px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <h4>السؤال 1: ما ناتج الجمع التالي؟</h4>
+                <div style="font-size: 36px; text-align: center; margin: 20px 0;">
+                    4 🍎 + 2 🍊 = ?
+                </div>
+                <div class="options-grid">
+                    <button class="option-btn" onclick="checkExerciseAnswer(1, 5)">5</button>
+                    <button class="option-btn" onclick="checkExerciseAnswer(1, 6)">6</button>
+                    <button class="option-btn" onclick="checkExerciseAnswer(1, 7)">7</button>
+                    <button class="option-btn" onclick="checkExerciseAnswer(1, 8)">8</button>
+                </div>
+            </div>
+            
+            <!-- السؤال الثاني -->
+            <div style="background: white; padding: 20px; border-radius: 10px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <h4>السؤال 2: اختر الإجابة الصحيحة</h4>
+                <div style="font-size: 36px; text-align: center; margin: 20px 0;">
+                    3 + 1 = ?
+                </div>
+                <div class="options-grid">
+                    <button class="option-btn" onclick="checkExerciseAnswer(2, 3)">3</button>
+                    <button class="option-btn" onclick="checkExerciseAnswer(2, 4)">4</button>
+                    <button class="option-btn" onclick="checkExerciseAnswer(2, 5)">5</button>
+                    <button class="option-btn" onclick="checkExerciseAnswer(2, 2)">2</button>
+                </div>
+            </div>
+            
+            <!-- السؤال الثالث -->
+            <div style="background: white; padding: 20px; border-radius: 10px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <h4>السؤال 3: كم عدد الحيوانات؟</h4>
+                <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin: 20px 0; flex-wrap: wrap;">
+                    <span style="font-size: 48px;">🐶 🐶 🐶</span>
+                    <span style="font-size: 36px; color: #FF6B6B;">+</span>
+                    <span style="font-size: 48px;">🐱 🐱</span>
+                </div>
+                <div class="options-grid">
+                    <button class="option-btn" onclick="checkExerciseAnswer(3, 3)">3</button>
+                    <button class="option-btn" onclick="checkExerciseAnswer(3, 4)">4</button>
+                    <button class="option-btn" onclick="checkExerciseAnswer(3, 5)">5</button>
+                    <button class="option-btn" onclick="checkExerciseAnswer(3, 6)">6</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- نظام المكافآت -->
+        <div class="reward-system">
+            <h3><i class="fas fa-trophy"></i> أحسنت! لقد أكملت التمارين</h3>
+            <p>لقد كسبت <span id="totalPoints">0</span> نقطة لحل التمارين</p>
+            <div class="stars-container" id="starsContainer">
+                <div class="star">☆</div>
+                <div class="star">☆</div>
+                <div class="star">☆</div>
+                <div class="star">☆</div>
+                <div class="star">☆</div>
+            </div>
+            <div style="margin-top: 20px;">
+                <button onclick="showCertificate()" class="math-btn" style="background: white; color: #FF9800;">
+                    <i class="fas fa-certificate"></i> احصل على شهادة الإنجاز
+                </button>
+            </div>
+        </div>
+
+        <!-- أزرار التنقل -->
+        <div class="navigation-buttons">
+            <button onclick="window.location.href='../../../../math_dashboard.html'" class="math-btn math-btn-warning">
+                <i class="fas fa-arrow-right"></i> العودة للدروس
+            </button>
+            <button onclick="window.location.href='sub.html'" class="math-btn math-btn-primary">
+                الدرس التالي: تعلم الطرح <i class="fas fa-arrow-left"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- شهادة الإنجاز -->
+    <div id="certificateModal" class="certificate-modal">
+        <div class="certificate-content">
+            <!-- رأس الشهادة -->
+            <div class="certificate-header">
+                <button onclick="closeCertificate()" class="certificate-close">
+                    <i class="fas fa-times"></i>
+                </button>
+                
+                <div style="font-size: 32px; color: white; margin-bottom: 10px;">
+                    <i class="fas fa-award"></i>
+                </div>
+                <h1 style="color: white; margin: 0; font-size: 24px; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                    شهادة إنجاز
+                </h1>
+                <p style="color: rgba(255,255,255,0.9); margin: 5px 0 0 0; font-size: 14px;">
+                    في درس تعلم الجمع
+                </p>
+            </div>
+            
+            <!-- محتوى الشهادة -->
+            <div style="padding: 25px;">
+                <!-- جائزة متحركة -->
+                <div style="text-align: center; margin: 15px 0;">
+                    <div class="certificate-trophy">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                </div>
+                
+                <!-- رسالة التهاني -->
+                <div style="text-align: center; margin-bottom: 25px;">
+                    <h3 style="color: #333; margin: 0 0 10px 0; font-size: 20px;">
+                        <i class="fas fa-star" style="color: #FFD700; margin-left: 5px;"></i>
+                        تهانينا!
+                        <i class="fas fa-star" style="color: #FFD700; margin-right: 5px;"></i>
+                    </h3>
+                    <p style="color: #666; line-height: 1.5; margin: 0; font-size: 16px;">
+                        لقد أتممت بنجاح <span style="color: #FF6B6B; font-weight: bold;">درس الجمع</span><br>
+                        وأظهرت تفوقاً رائعاً
+                    </p>
+                </div>
+                
+                <!-- معلومات الإنجاز -->
+                <div style="background: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+                    <!-- الطالب -->
+                    <div style="display: flex; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                        <div style="width: 40px; height: 40px; background: #4CAF50; color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-left: 15px; flex-shrink: 0;">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="color: #666; font-size: 12px;">الطالب</div>
+                            <div style="color: #333; font-weight: bold;">_______________</div>
+                        </div>
+                    </div>
+                    
+                    <!-- التاريخ -->
+                    <div style="display: flex; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                        <div style="width: 40px; height: 40px; background: #2196F3; color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-left: 15px; flex-shrink: 0;">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="color: #666; font-size: 12px;">تاريخ الإنجاز</div>
+                            <div style="color: #333; font-weight: bold;" id="certificateDate"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- النجوم -->
+                    <div style="display: flex; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                        <div style="width: 40px; height: 40px; background: #FF9800; color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-left: 15px; flex-shrink: 0;">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="color: #666; font-size: 12px;">الدرجة</div>
+                            <div style="color: #333; font-weight: bold;">
+                                <span id="certificateStars">0</span>/5 
+                                <span style="color: #FFD700; margin-right: 5px;">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- النقاط -->
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 40px; height: 40px; background: #9C27B0; color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-left: 15px; flex-shrink: 0;">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="color: #666; font-size: 12px;">النقاط الكلية</div>
+                            <div style="color: #333; font-weight: bold;" id="certificatePoints">0 نقطة</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- الشعار -->
+                <div style="text-align: center; margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ddd;">
+                    <p style="color: #888; font-size: 12px; margin: 0;">
+                        <i class="fas fa-graduation-cap" style="margin-left: 5px;"></i>
+                        برنامج تعلم الرياضيات - الصف الأول
+                        <i class="fas fa-graduation-cap" style="margin-right: 5px;"></i>
+                    </p>
+                </div>
+            </div>
+            
+            <!-- أزرار التحكم -->
+            <div style="background: #f5f5f5; padding: 20px; border-top: 1px solid #eee; display: flex; gap: 10px; justify-content: center;">
+                <button onclick="printCertificateNow()" 
+                    style="flex: 1; background: #2196F3; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s;">
+                    <i class="fas fa-print"></i>
+                    طباعة
+                </button>
+                
+                <button onclick="shareCertificate()" 
+                    style="flex: 1; background: #4CAF50; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s;">
+                    <i class="fas fa-share-alt"></i>
+                    مشاركة
+                </button>
+                
+                <button onclick="closeCertificate()" 
+                    style="flex: 1; background: #f44336; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s;">
+                    <i class="fas fa-times"></i>
+                    إغلاق
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // ====== المتغيرات العامة ======
+    let sessionPoints = 0; // النقاط في الجلسة الحالية فقط
+    let totalPoints = 0; // النقاط الكلية (محفوظة)
+    let completedExercises = 0;
+    let gamePoints = 0;
+    let exercisePoints = 0;
+    let draggedElement = null;
+
+    // متغيرات لعبة الجمع
+    let currentNum1 = 2;
+    let currentNum2 = 3;
+    let currentEmoji1 = "🍎";
+    let currentEmoji2 = "🍊";
+
+    // مصفوفة الرموز والألوان
+    const emojiOptions = [
+        { emoji: "🍎", name: "تفاحة", color: "#FF5252" },
+        { emoji: "🍊", name: "برتقالة", color: "#FF9800" },
+        { emoji: "🍌", name: "موزة", color: "#FFEB3B" },
+        { emoji: "🍇", name: "عنب", color: "#9C27B0" },
+        { emoji: "🍓", name: "فراولة", color: "#F44336" },
+        { emoji: "🍐", name: "كمثرى", color: "#8BC34A" },
+        { emoji: "🍑", name: "خوخ", color: "#FFCCBC" },
+        { emoji: "🍒", name: "كرز", color: "#E91E63" },
+        { emoji: "🥝", name: "كيوي", color: "#8BC34A" },
+        { emoji: "🍉", name: "بطيخ", color: "#FF5722" }
+    ];
+
+    // إجابات التمارين
+    const exerciseAnswers = {
+        1: 6,
+        2: 4,
+        3: 5
+    };
+
+    let answeredExercises = new Set();
+
+    // ====== نظام النقاط ======
+    function updatePoints(pointsToAdd, source = 'game') {
+        sessionPoints += pointsToAdd;
+        totalPoints += pointsToAdd;
+        
+        if (source === 'game') {
+            gamePoints += pointsToAdd;
+        } else {
+            exercisePoints += pointsToAdd;
+            completedExercises++;
+        }
+        
+        updateDisplay();
+        savePoints();
+    }
+
+    function updateDisplay() {
+        document.getElementById('points').textContent = sessionPoints;
+        document.getElementById('totalPoints').textContent = sessionPoints;
+        updateStars();
+    }
+
+    function updateStars() {
+        const stars = document.querySelectorAll('#starsContainer .star');
+        const starCount = Math.min(Math.floor(sessionPoints / 20), 5);
+        
+        stars.forEach((star, index) => {
+            if (index < starCount) {
+                star.innerHTML = '★';
+                star.classList.remove('empty');
+                star.style.color = '#FFD700';
+                star.style.textShadow = '0 0 10px #FFD700';
+            } else {
+                star.innerHTML = '☆';
+                star.classList.add('empty');
+                star.style.color = '#e0e0e0';
+                star.style.textShadow = 'none';
+            }
+        });
+    }
+
+    function savePoints() {
+        localStorage.setItem('math_addition_total_points', totalPoints);
+        localStorage.setItem('math_addition_session_points', sessionPoints);
+        localStorage.setItem('math_addition_completed_exercises', completedExercises);
+    }
+
+    function loadPoints() {
+        const savedTotal = localStorage.getItem('math_addition_total_points');
+        const savedSession = localStorage.getItem('math_addition_session_points');
+        const savedExercises = localStorage.getItem('math_addition_completed_exercises');
+        
+        if (savedTotal) totalPoints = parseInt(savedTotal);
+        sessionPoints = 0;
+        if (savedExercises) completedExercises = parseInt(savedExercises);
+        
+        updateDisplay();
+        
+        if (savedTotal && parseInt(savedTotal) > 0) {
+            setTimeout(() => {
+                showTemporaryMessage(`📊 النقاط الكلية السابقة: ${savedTotal} نقطة`, 'info');
+            }, 1000);
+        }
+    }
+
+    // ====== لعبة الجمع ======
+    function generateRandomNumbers() {
+        currentNum1 = Math.floor(Math.random() * 5) + 1;
+        currentNum2 = Math.floor(Math.random() * 5) + 1;
+        
+        while (currentNum1 + currentNum2 > 10) {
+            currentNum1 = Math.floor(Math.random() * 5) + 1;
+            currentNum2 = Math.floor(Math.random() * 5) + 1;
+        }
+        
+        const randomIndex1 = Math.floor(Math.random() * emojiOptions.length);
+        const randomIndex2 = Math.floor(Math.random() * emojiOptions.length);
+        currentEmoji1 = emojiOptions[randomIndex1].emoji;
+        currentEmoji2 = emojiOptions[randomIndex2].emoji;
+    }
+
+    function updateDraggableItems() {
+        const dragItem1 = document.getElementById('dragItem1');
+        const dragItem2 = document.getElementById('dragItem2');
+        
+        dragItem1.innerHTML = `${currentEmoji1} ${currentNum1}`;
+        dragItem1.setAttribute('data-value', currentNum1);
+        dragItem1.setAttribute('data-emoji', currentEmoji1);
+        dragItem1.style.backgroundColor = emojiOptions.find(e => e.emoji === currentEmoji1)?.color || '#FF5252';
+        
+        dragItem2.innerHTML = `${currentEmoji2} ${currentNum2}`;
+        dragItem2.setAttribute('data-value', currentNum2);
+        dragItem2.setAttribute('data-emoji', currentEmoji2);
+        dragItem2.style.backgroundColor = emojiOptions.find(e => e.emoji === currentEmoji2)?.color || '#FF9800';
+        
+        dragItem1.style.display = 'flex';
+        dragItem2.style.display = 'flex';
+        
+        reinitializeDragEvents();
+    }
+
+    function resetGame() {
+        document.getElementById('dropZone1').innerHTML = '? هنا';
+        document.getElementById('dropZone1').removeAttribute('data-value');
+        document.getElementById('dropZone1').removeAttribute('data-filled');
+        document.getElementById('dropZone1').removeAttribute('data-emoji');
+        document.getElementById('dropZone1').style.backgroundColor = '';
+        document.getElementById('dropZone1').style.borderStyle = 'dashed';
+        document.getElementById('dropZone1').style.borderColor = '#2196F3';
+        document.getElementById('dropZone1').classList.remove('drag-over');
+        
+        document.getElementById('dropZone2').innerHTML = '? وهنا';
+        document.getElementById('dropZone2').removeAttribute('data-value');
+        document.getElementById('dropZone2').removeAttribute('data-filled');
+        document.getElementById('dropZone2').removeAttribute('data-emoji');
+        document.getElementById('dropZone2').style.backgroundColor = '';
+        document.getElementById('dropZone2').style.borderStyle = 'dashed';
+        document.getElementById('dropZone2').style.borderColor = '#2196F3';
+        document.getElementById('dropZone2').classList.remove('drag-over');
+        
+        document.getElementById('userResult').value = '';
+        document.getElementById('userResult').style.borderColor = '#4CAF50';
+        document.getElementById('userResult').style.boxShadow = 'none';
+        document.getElementById('gameResult').style.display = 'none';
+        
+        reinitializeDropEvents();
+    }
+
+    function generateNewExercise() {
+        generateRandomNumbers();
+        updateDraggableItems();
+        resetGame();
+        
+        document.getElementById('currentNumbers').textContent = `${currentNum1} + ${currentNum2}`;
+        document.getElementById('exerciseInfo').style.display = 'block';
+        showTemporaryMessage(`🎮 تمرين جديد: ${currentNum1} + ${currentNum2}`, 'correct');
+        document.getElementById('userResult').focus();
+    }
+
+    function checkAdditionGame() {
+        const zone1 = document.getElementById('dropZone1');
+        const zone2 = document.getElementById('dropZone2');
+        const userInput = document.getElementById('userResult');
+        const resultDiv = document.getElementById('gameResult');
+        
+        if (!zone1.hasAttribute('data-filled') || !zone2.hasAttribute('data-filled')) {
+            showTemporaryMessage('الرجاء سحب العنصرين إلى المربعات أولاً!', 'incorrect');
+            
+            if (!zone1.hasAttribute('data-filled')) {
+                zone1.style.animation = 'shake 0.5s';
+                setTimeout(() => zone1.style.animation = '', 500);
+            }
+            if (!zone2.hasAttribute('data-filled')) {
+                zone2.style.animation = 'shake 0.5s';
+                setTimeout(() => zone2.style.animation = '', 500);
+            }
+            return;
+        }
+        
+        if (!userInput.value || isNaN(userInput.value)) {
+            showTemporaryMessage('الرجاء إدخال ناتج الجمع!', 'incorrect');
+            userInput.style.animation = 'shake 0.5s';
+            setTimeout(() => userInput.style.animation = '', 500);
+            userInput.focus();
+            return;
+        }
+        
+        const num1 = parseInt(zone1.getAttribute('data-value'));
+        const num2 = parseInt(zone2.getAttribute('data-value'));
+        const correctResult = num1 + num2;
+        const userResult = parseInt(userInput.value);
+        
+        let resultHTML = '';
+        
+        if (userResult === correctResult) {
+            resultHTML = `
+                <div class="feedback-message feedback-correct">
+                    <h4><i class="fas fa-trophy"></i> أحسنت!</h4>
+                    <p>${num1} + ${num2} = ${correctResult}</p>
+                    <p style="font-size: 18px; margin-top: 10px;">
+                        <i class="fas fa-coins" style="color: #FFD700;"></i>
+                        لقد كسبت <strong>20 نقطة</strong>!
+                    </p>
+                </div>
+            `;
+            
+            zone1.classList.add('correct-drop');
+            zone2.classList.add('correct-drop');
+            userInput.style.borderColor = '#4CAF50';
+            userInput.style.boxShadow = '0 0 10px rgba(76, 175, 80, 0.5)';
+            
+            updatePoints(20, 'game');
+            
+            setTimeout(() => generateNewExercise(), 3000);
+            
+        } else {
+            resultHTML = `
+                <div class="feedback-message feedback-incorrect">
+                    <h4><i class="fas fa-exclamation-triangle"></i> حاول مرة أخرى</h4>
+                    <p>الجواب الصحيح هو: ${num1} + ${num2} = ${correctResult}</p>
+                    <p style="margin-top: 10px;">
+                        <button onclick="showHint(${num1}, ${num2})" class="math-btn" style="padding: 5px 15px; font-size: 12px;">
+                            <i class="fas fa-lightbulb"></i> عرض تلميح
+                        </button>
+                    </p>
+                </div>
+            `;
+            
+            userInput.style.animation = 'shake 0.5s';
+            userInput.style.borderColor = '#f44336';
+            userInput.style.boxShadow = '0 0 10px rgba(244, 67, 54, 0.3)';
+            setTimeout(() => userInput.style.animation = '', 500);
+        }
+        
+        resultDiv.innerHTML = resultHTML;
+        resultDiv.style.display = 'block';
+        
+        if (userResult !== correctResult) {
+            resultDiv.style.animation = 'shake 0.5s';
+            setTimeout(() => resultDiv.style.animation = '', 500);
+        }
+    }
+
+    // ====== نظام السحب والإفلات ======
+    function initializeDragAndDrop() {
+        const dragItems = document.querySelectorAll('.drag-item');
+        const dropZones = document.querySelectorAll('.drop-zone');
+        
+        dragItems.forEach(item => {
+            item.addEventListener('dragstart', handleDragStart);
+            item.addEventListener('dragend', handleDragEnd);
+        });
+        
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', handleDragOver);
+            zone.addEventListener('dragenter', handleDragEnter);
+            zone.addEventListener('dragleave', handleDragLeave);
+            zone.addEventListener('drop', handleDrop);
+        });
+    }
+
+    function reinitializeDragEvents() {
+        const dragItems = document.querySelectorAll('.drag-item');
+        dragItems.forEach(item => {
+            item.removeEventListener('dragstart', handleDragStart);
+            item.removeEventListener('dragend', handleDragEnd);
+            item.addEventListener('dragstart', handleDragStart);
+            item.addEventListener('dragend', handleDragEnd);
+        });
+    }
+
+    function reinitializeDropEvents() {
+        const dropZones = document.querySelectorAll('.drop-zone');
+        dropZones.forEach(zone => {
+            zone.removeEventListener('dragover', handleDragOver);
+            zone.removeEventListener('dragenter', handleDragEnter);
+            zone.removeEventListener('dragleave', handleDragLeave);
+            zone.removeEventListener('drop', handleDrop);
+            zone.removeEventListener('dblclick', removeFromDropZone);
+            
+            zone.addEventListener('dragover', handleDragOver);
+            zone.addEventListener('dragenter', handleDragEnter);
+            zone.addEventListener('dragleave', handleDragLeave);
+            zone.addEventListener('drop', handleDrop);
+        });
+    }
+
+    function handleDragStart(e) {
+        draggedElement = this;
+        this.style.opacity = '0.4';
+        this.style.transform = 'scale(0.9)';
+        this.classList.add('dragging');
+        
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', this.innerHTML);
+        e.dataTransfer.setData('text/plain', this.getAttribute('data-value'));
+    }
+
+    function handleDragEnd() {
+        this.style.opacity = '1';
+        this.style.transform = 'scale(1)';
+        this.classList.remove('dragging');
+        draggedElement = null;
+        
+        document.querySelectorAll('.drop-zone').forEach(zone => {
+            zone.classList.remove('drag-over');
+            zone.style.backgroundColor = '';
+            zone.style.borderStyle = 'dashed';
+        });
+    }
+
+    function handleDragOver(e) {
+        e.preventDefault();
+        return false;
+    }
+
+    function handleDragEnter(e) {
+        e.preventDefault();
+        if (!this.hasAttribute('data-filled')) {
+            this.classList.add('drag-over');
+            this.style.backgroundColor = '#e3f2fd';
+            this.style.borderStyle = 'solid';
+            this.style.borderColor = '#2196F3';
+        }
+    }
+
+    function handleDragLeave() {
+        if (!this.hasAttribute('data-filled')) {
+            this.classList.remove('drag-over');
+            this.style.backgroundColor = '';
+            this.style.borderStyle = 'dashed';
+            this.style.borderColor = '#2196F3';
+        }
+    }
+
+    function handleDrop(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        if (this.hasAttribute('data-filled')) return;
+        
+        this.classList.remove('drag-over');
+        this.style.backgroundColor = '';
+        
+        const value = e.dataTransfer.getData('text/plain');
+        const html = e.dataTransfer.getData('text/html');
+        const emoji = html.split(' ')[0];
+        
+        this.innerHTML = html;
+        this.setAttribute('data-value', value);
+        this.setAttribute('data-filled', 'true');
+        this.setAttribute('data-emoji', emoji);
+        this.style.backgroundColor = '#d4edda';
+        this.style.borderStyle = 'solid';
+        this.style.borderColor = '#4CAF50';
+        
+        if (draggedElement) draggedElement.style.display = 'none';
+        draggedElement = null;
+        this.addEventListener('dblclick', removeFromDropZone);
+    }
+
+    function removeFromDropZone() {
+        const value = this.getAttribute('data-value');
+        const emoji = this.getAttribute('data-emoji');
+        
+        document.querySelectorAll('.drag-item').forEach(item => {
+            const itemValue = item.getAttribute('data-value');
+            const itemEmoji = item.innerHTML.split(' ')[0];
+            
+            if (itemValue === value && itemEmoji === emoji && item.style.display === 'none') {
+                item.style.display = 'flex';
+                item.style.animation = 'popIn 0.3s';
+            }
+        });
+        
+        this.innerHTML = this.id === 'dropZone1' ? '? هنا' : '? وهنا';
+        this.removeAttribute('data-value');
+        this.removeAttribute('data-filled');
+        this.removeAttribute('data-emoji');
+        this.style.backgroundColor = '';
+        this.style.borderStyle = 'dashed';
+        this.style.borderColor = '#2196F3';
+        this.removeEventListener('dblclick', removeFromDropZone);
+    }
+
+    // ====== وظائف مساعدة ======
+    function clearAll() {
+        document.querySelectorAll('.drop-zone').forEach(zone => {
+            if (zone.hasAttribute('data-filled')) {
+                const dblClickEvent = new Event('dblclick');
+                zone.dispatchEvent(dblClickEvent);
+            }
+            
+            zone.innerHTML = zone.id === 'dropZone1' ? '? هنا' : '? وهنا';
+            zone.removeAttribute('data-value');
+            zone.removeAttribute('data-filled');
+            zone.removeAttribute('data-emoji');
+            zone.style.backgroundColor = '';
+            zone.style.borderStyle = 'dashed';
+            zone.style.borderColor = '#2196F3';
+            zone.classList.remove('drag-over');
+            zone.removeEventListener('dblclick', removeFromDropZone);
+        });
+        
+        document.querySelectorAll('.drag-item').forEach(item => {
+            item.style.display = 'flex';
+            item.style.animation = 'popIn 0.3s';
+        });
+        
+        document.getElementById('userResult').value = '';
+        document.getElementById('userResult').style.borderColor = '#4CAF50';
+        document.getElementById('userResult').style.boxShadow = 'none';
+        document.getElementById('gameResult').style.display = 'none';
+        
+        showTemporaryMessage('🗑️ تم مسح جميع العناصر', 'info');
+    }
+
+    function showHint(num1, num2) {
+        const hintHTML = `
+            <div class="feedback-message" style="background: #FFF3CD; border-color: #FFEAA7; color: #856404;">
+                <h4><i class="fas fa-lightbulb"></i> تلميح مفيد:</h4>
+                <p>لحساب ${num1} + ${num2}:</p>
+                <div style="display: flex; justify-content: center; align-items: center; margin: 10px 0; font-size: 24px;">
+                    <div style="display: flex;">
+                        ${Array(num1).fill().map(() => '🍎').join('')}
+                    </div>
+                    <div style="margin: 0 10px;">+</div>
+                    <div style="display: flex;">
+                        ${Array(num2).fill().map(() => '🍊').join('')}
+                    </div>
+                    <div style="margin: 0 10px;">=</div>
+                    <div style="display: flex;">
+                        ${Array(num1 + num2).fill().map(() => '🍇').join('')}
+                    </div>
+                </div>
+                <p>عد كل الفواكة معاً: ${num1} + ${num2} = ${num1 + num2}</p>
+            </div>
+        `;
+        
+        showTemporaryMessage(hintHTML, 'info');
+    }
+
+    // ====== التمارين ======
+    function checkExerciseAnswer(questionNumber, selectedAnswer) {
+        if (answeredExercises.has(questionNumber)) {
+            showTemporaryMessage('لقد أجبت على هذا السؤال مسبقاً!', 'info');
+            return;
+        }
+        
+        const isCorrect = selectedAnswer === exerciseAnswers[questionNumber];
+        const buttons = event.target.parentElement.querySelectorAll('.option-btn');
+        
+        buttons.forEach(btn => btn.classList.remove('selected'));
+        event.target.classList.add('selected');
+        
+        const feedback = document.createElement('div');
+        feedback.className = `feedback-message ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}`;
+        feedback.innerHTML = `
+            <h4>${isCorrect ? '🎉 أحسنت! إجابة صحيحة' : '😅 حاول مرة أخرى'}</h4>
+            <p>${isCorrect ? 'لقد كسبت 10 نقاط!' : 'الجواب الصحيح هو: ' + exerciseAnswers[questionNumber]}</p>
+        `;
+        
+        const questionDiv = event.target.closest('.exercise > div');
+        const existingFeedback = questionDiv.querySelector('.feedback-message');
+        if (existingFeedback) existingFeedback.remove();
+        questionDiv.appendChild(feedback);
+        
+        setTimeout(() => {
+            if (feedback.parentNode) {
+                feedback.style.opacity = '0';
+                feedback.style.transition = 'opacity 0.5s';
+                setTimeout(() => {
+                    if (feedback.parentNode) feedback.remove();
+                }, 500);
+            }
+        }, 3000);
+        
+        if (isCorrect) {
+            updatePoints(10, 'exercise');
+            answeredExercises.add(questionNumber);
+        }
+    }
+
+    // ====== الشهادة ======
+    function showCertificate() {
+        const today = new Date();
+        const dateStr = today.toLocaleDateString('ar-SA', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        
+        document.getElementById('certificateDate').textContent = dateStr;
+        const stars = Math.min(Math.floor(sessionPoints / 20), 5);
+        document.getElementById('certificateStars').textContent = stars;
+        document.getElementById('certificatePoints').textContent = sessionPoints + ' نقطة';
+        
+        const modal = document.getElementById('certificateModal');
+        modal.style.display = 'block';
+        modal.style.animation = 'fadeIn 0.3s ease-out';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeCertificate() {
+        const modal = document.getElementById('certificateModal');
+        modal.style.animation = 'fadeOut 0.3s ease-in';
+        
+        setTimeout(() => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }, 300);
+    }
+
+    function printCertificateNow() {
+        const stars = Math.min(Math.floor(sessionPoints / 20), 5);
+        const certificateHTML = `
+            <!DOCTYPE html>
+            <html dir="rtl" lang="ar">
+            <head>
+                <meta charset="UTF-8">
+                <title>شهادة الإنجاز - درس الجمع</title>
+                <style>
+                    @media print { @page { margin: 20mm; } body { margin: 0; padding: 0; } }
+                    body { font-family: 'Arial', sans-serif; text-align: center; padding: 20px; }
+                    .certificate { max-width: 800px; margin: 0 auto; padding: 40px; border: 20px solid #FFD700; border-radius: 20px; }
+                    .header { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 30px; margin: -40px -40px 30px -40px; border-radius: 0 0 20px 20px; }
+                    .trophy { font-size: 80px; color: #FFD700; margin: 20px 0; }
+                </style>
+            </head>
+            <body>
+                <div class="certificate">
+                    <div class="header">
+                        <h1 style="margin: 0; font-size: 32px;">شهادة إنجاز</h1>
+                        <p style="margin: 5px 0 0 0; font-size: 18px;">في درس تعلم الجمع</p>
+                    </div>
+                    
+                    <div class="trophy"><i class="fas fa-trophy"></i></div>
+                    
+                    <h2 style="color: #333;">تهانينا!</h2>
+                    <p style="font-size: 18px; color: #666;">
+                        لقد أتممت بنجاح <strong style="color: #FF6B6B;">درس الجمع</strong><br>
+                        وأظهرت تفوقاً رائعاً
+                    </p>
+                    
+                    <div style="margin: 30px 0; text-align: right;">
+                        <p><strong>الطالب:</strong> _______________</p>
+                        <p><strong>تاريخ الإنجاز:</strong> ${document.getElementById('certificateDate').textContent}</p>
+                        <p><strong>الدرجة:</strong> ${stars}/5 نجوم ⭐</p>
+                        <p><strong>النقاط:</strong> ${sessionPoints} نقطة</p>
+                    </div>
+                    
+                    <div style="color: #666; font-size: 14px; margin-top: 30px;">
+                        <p>برنامج تعلم الرياضيات - الصف الأول الابتدائي</p>
+                        <p style="color: #999;">تاريخ الطباعة: ${new Date().toLocaleDateString('ar-SA')}</p>
+                    </div>
+                </div>
+                
+                <script>
+                    window.onload = function() {
+                        window.print();
+                        setTimeout(function() {
+                            window.close();
+                        }, 1000);
+                    }
+                <\/script>
+            </body>
+            </html>
+        `;
+        
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(certificateHTML);
+        printWindow.document.close();
+    }
+
+    function shareCertificate() {
+        const shareText = `🎉 حصلت على شهادة إنجاز في درس الجمع!
+النجوم: ${Math.min(Math.floor(sessionPoints / 20), 5)}/5 ⭐
+النقاط: ${sessionPoints}
+تهانياً على التفوق!`;
+        
+        if (navigator.share) {
+            navigator.share({
+                title: 'شهادة إنجاز - درس الجمع',
+                text: shareText,
+                url: window.location.href
+            });
+        } else {
+            navigator.clipboard.writeText(shareText)
+                .then(() => showTemporaryMessage('✓ تم نسخ الشهادة', 'correct'))
+                .catch(() => {
+                    const textArea = document.createElement('textarea');
+                    textArea.value = shareText;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    showTemporaryMessage('✓ تم نسخ الشهادة', 'correct');
+                });
+        }
+    }
+
+    function showTemporaryMessage(message, type) {
+        const existingMessage = document.querySelector('.temp-message');
+        if (existingMessage) existingMessage.remove();
+        
+        const tempDiv = document.createElement('div');
+        tempDiv.className = `temp-message feedback-message feedback-${type}`;
+        tempDiv.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-${type === 'correct' ? 'check-circle' : 
+                                  type === 'incorrect' ? 'exclamation-circle' : 
+                                  'info-circle'}"></i>
+                <span>${message}</span>
+            </div>
+        `;
+        
+        tempDiv.style.position = 'fixed';
+        tempDiv.style.top = '80px';
+        tempDiv.style.left = '50%';
+        tempDiv.style.transform = 'translateX(-50%)';
+        tempDiv.style.zIndex = '1000';
+        tempDiv.style.padding = '15px 25px';
+        tempDiv.style.borderRadius = '10px';
+        tempDiv.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+        
+        document.body.appendChild(tempDiv);
+        
+        setTimeout(() => {
+            if (tempDiv.parentNode) {
+                tempDiv.style.opacity = '0';
+                tempDiv.style.transition = 'opacity 0.5s';
+                setTimeout(() => {
+                    if (tempDiv.parentNode) tempDiv.remove();
+                }, 500);
+            }
+        }, 3000);
+    }
+
+    // ====== تهيئة الصفحة ======
+    document.addEventListener('DOMContentLoaded', function() {
+        loadPoints();
+        generateRandomNumbers();
+        updateDraggableItems();
+        initializeDragAndDrop();
+        
+        document.getElementById('currentNumbers').textContent = `${currentNum1} + ${currentNum2}`;
+        document.getElementById('exerciseInfo').style.display = 'block';
+        
+        document.getElementById('userResult').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkAdditionGame();
+        });
+        
+        setTimeout(() => {
+            document.getElementById('userResult').focus();
+            showTemporaryMessage('🎮 ابدأ باللعب! النقاط تبدأ من الصفر في كل جلسة', 'correct');
+        }, 500);
+    });
+
+    // إغلاق الشهادة بالنقر خارجها
+    document.getElementById('certificateModal').addEventListener('click', function(e) {
+        if (e.target === this) closeCertificate();
+    });
+
+    // إغلاق الشهادة بالزر ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && document.getElementById('certificateModal').style.display === 'block') {
+            closeCertificate();
+        }
+    });
+    </script>
+</body>
+</html>

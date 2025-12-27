@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>درس التقريب لأقرب عشرة - برنامج الرياضيات</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* جميع الأنماط من ملفك مع تعديلات بسيطة */
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a0ca3;
+            --secondary: #4cc9f0;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #06d6a0;
+            --warning: #ffd166;
+            --math-gradient: linear-gradient(135deg, #4ECDC4, #44A08D);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* شريط التقدم المعدل */
+        .progress-header {
+            background: white;
+            padding: 15px 30px;
+            border-bottom: 2px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .progress-steps {
+            display: flex;
+            gap: 10px;
+        }
+
+        .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e0e0e0;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .step.active {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .step.completed {
+            background: #2196F3;
+            color: white;
+        }
+
+        /* الحاوية الرئيسية */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .math-lesson {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        /* عنوان الدرس */
+        .lesson-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .lesson-title h1 {
+            color: #2196F3;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .lesson-title p {
+            color: #666;
+            font-size: 18px;
+        }
+
+        /* قسم التقريب */
+        .rounding-section {
+            background: linear-gradient(135deg, #4ECDC4, #44A08D);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+
+        /* خط الأعداد التفاعلي */
+        .number-line-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px 0;
+            overflow-x: auto;
+        }
+
+        .number-line {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            height: 80px;
+            margin: 30px 0;
+            padding: 0 20px;
+        }
+
+        .tick {
+            position: absolute;
+            bottom: 0;
+            width: 2px;
+            height: 20px;
+            background: #666;
+        }
+
+        .big-tick {
+            height: 30px;
+            width: 3px;
+            background: #333;
+            font-weight: bold;
+        }
+
+        .tick-label {
+            position: absolute;
+            bottom: -30px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .number-zone {
+            position: absolute;
+            height: 60px;
+            border-radius: 10px;
+            opacity: 0.3;
+            top: 10px;
+        }
+
+        .round-down-zone {
+            background: #FF6B6B;
+        }
+
+        .round-up-zone {
+            background: #4CAF50;
+        }
+
+        .current-number {
+            position: absolute;
+            top: -40px;
+            background: #FF9800;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            transform: translateX(-50%);
+        }
+
+        /* قواعد التقريب */
+        .rounding-rules {
+            background: #E3F2FD;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-right: 5px solid #2196F3;
+        }
+
+        .rule-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .rule-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-left: 15px;
+            flex-shrink: 0;
+        }
+
+        .down-icon {
+            background: #FF6B6B;
+            color: white;
+        }
+
+        .up-icon {
+            background: #4CAF50;
+            color: white;
+        }
+
+        /* التمارين التفاعلية */
+        .interactive-exercise {
+            background: #FFF3E0;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            border: 3px solid #FF9800;
+        }
+
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .exercise-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .number-display {
+            font-size: 48px;
+            font-weight: bold;
+            color: #2196F3;
+            margin: 20px 0;
+            direction: ltr;
+        }
+
+        .options-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .round-option {
+            padding: 12px 25px;
+            font-size: 18px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        .round-option:hover {
+            background: #f0f0f0;
+        }
+
+        .correct-answer {
+            animation: correctPulse 0.5s;
+            background: #4CAF50 !important;
+            color: white !important;
+            border-color: #4CAF50 !important;
+        }
+
+        .wrong-answer {
+            animation: wrongShake 0.5s;
+            background: #F44336 !important;
+            color: white !important;
+            border-color: #F44336 !important;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes wrongShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* تتبع التقدم */
+        .progress-tracking {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+
+        .progress-bar-container {
+            background: rgba(255,255,255,0.2);
+            height: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #FFD700;
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+
+        /* رسائل التغذية الراجعة */
+        .feedback-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .feedback-correct {
+            background: #E8F5E9;
+            color: #2E7D32;
+            border-right: 3px solid #4CAF50;
+        }
+
+        .feedback-wrong {
+            background: #FFEBEE;
+            color: #C62828;
+            border-right: 3px solid #F44336;
+        }
+
+        /* أزرار الرياضيات */
+        .math-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0 5px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .math-btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .math-btn-success {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+        }
+
+        .math-btn-warning {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+        }
+
+        .math-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* النجوم */
+        .star {
+            font-size: 24px;
+            color: #FFD700;
+            margin: 0 2px;
+            transition: all 0.3s;
+        }
+
+        .star.empty {
+            color: #e0e0e0;
+        }
+
+        /* نافذة الشهادة */
+        .certificate-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .certificate-modal.active {
+            display: flex;
+        }
+
+        .certificate-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        /* تصميم متجاوب */
+        @media (max-width: 768px) {
+            .progress-steps {
+                gap: 5px;
+            }
+            
+            .step {
+                width: 35px;
+                height: 35px;
+                font-size: 14px;
+            }
+            
+            .lesson-title h1 {
+                font-size: 28px;
+            }
+            
+            .exercise-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .options-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التقدم -->
+    <div class="progress-header">
+        <div class="progress-steps">
+            <div class="step completed"><i class="fas fa-check"></i></div>
+            <div class="step completed"><i class="fas fa-check"></i></div>
+            <div class="step active">3</div>
+            <div class="step">4</div>
+            <div class="step">5</div>
+        </div>
+        <div style="color: #667eea; font-weight: bold;">
+            <i class="fas fa-star"></i> الدرس: التقريب لأقرب عشرة
+        </div>
+        <button onclick="window.location.href='../../../../math_dashboard.html'" class="math-btn" style="padding: 8px 20px; font-size: 14px;">
+            <i class="fas fa-home"></i> الرئيسية
+        </button>
+    </div>
+
+    <div class="container">
+        <div class="math-lesson">
+            <!-- عنوان الدرس -->
+            <div class="lesson-title">
+                <h1><i class="fas fa-bullseye"></i> درس التقريب لأقرب عشرة</h1>
+                <p>تعلم كيف تقرب الأعداد لأقرب عشرة بطريقة سهلة وممتعة</p>
+            </div>
+
+            <!-- مقدمة الدرس -->
+            <div class="rounding-section">
+                <h2><i class="fas fa-bullseye"></i> ما هو التقريب؟</h2>
+                <p>التقريب هو جعل العدد أقرب إلى عشرة (10، 20، 30، ...) لتسهيل الحساب والفهم</p>
+                <div style="text-align: center; margin: 30px 0;">
+                    <div style="display: inline-block; padding: 20px; background: rgba(255,255,255,0.2); border-radius: 15px;">
+                        <div style="font-size: 24px; margin-bottom: 10px;">مثال سريع:</div>
+                        <div style="font-size: 36px; font-weight: bold;">
+                            <span style="color: #FF9800;">23</span> → <span style="color: #4CAF50;">20</span>
+                        </div>
+                        <div style="font-size: 18px; margin-top: 10px;">
+                            لأن 23 أقرب إلى 20 من 30
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- خط الأعداد التفاعلي -->
+            <div class="number-line-container">
+                <h3 style="color: #2196F3;"><i class="fas fa-ruler-combined"></i> خط الأعداد التفاعلي</h3>
+                <p>انظر كيف تقع الأعداد بين العشرات</p>
+                <div class="number-line" id="numberLine"></div>
+                <div style="text-align: center; margin: 20px 0;">
+                    <button onclick="generateRandomNumber()" class="math-btn math-btn-primary">
+                        <i class="fas fa-random"></i> عدد عشوائي
+                    </button>
+                    <button onclick="showNextNumber()" class="math-btn">
+                        <i class="fas fa-arrow-right"></i> التالي
+                    </button>
+                </div>
+                <div id="roundingDecision" style="text-align: center; margin-top: 20px; display: none;">
+                    <div style="font-size: 20px; padding: 15px; background: #E3F2FD; border-radius: 10px; display: inline-block;">
+                        <span id="currentNumberText"></span> → 
+                        <span id="roundedResult"></span>
+                    </div>
+                    <div style="margin-top: 10px; color: #666;">
+                        <i class="fas fa-info-circle"></i>
+                        <span id="roundingExplanation"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- قواعد التقريب -->
+            <div class="rounding-rules">
+                <h3 style="color: #2196F3;"><i class="fas fa-graduation-cap"></i> قواعد التقريب</h3>
+                <div class="rule-item">
+                    <div class="rule-icon down-icon">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div>
+                        <h4 style="color: #FF6B6B; margin: 0;">القاعدة الأولى: التقريب لأسفل</h4>
+                        <p style="margin: 5px 0;">إذا كان رقم الآحاد 0، 1، 2، 3، أو 4 ← نربط لأسفل</p>
+                        <div style="font-size: 18px; font-weight: bold; color: #FF6B6B;">
+                            مثال: 34 → 30
+                        </div>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-icon up-icon">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div>
+                        <h4 style="color: #4CAF50; margin: 0;">القاعدة الثانية: التقريب لأعلى</h4>
+                        <p style="margin: 5px 0;">إذا كان رقم الآحاد 5، 6، 7، 8، أو 9 ← نربط لأعلى</p>
+                        <div style="font-size: 18px; font-weight: bold; color: #4CAF50;">
+                            مثال: 37 → 40
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- المساعدة البصرية -->
+            <div style="background: #FFF9C4; padding: 25px; border-radius: 15px; margin: 20px 0;">
+                <h3 style="color: #FF9800;"><i class="fas fa-eye"></i> المساعدة البصرية</h3>
+                <p>انظر إلى رقم الآحاد لتحديد طريقة التقريب:</p>
+                <div style="display: flex; justify-content: center; gap: 10px; margin: 20px 0;">
+                    <div style="text-align: center;">
+                        <div style="display: flex; justify-content: center;">
+                            <div class="unit-block" style="width: 40px; height: 40px; background: #2196F3; color: white; display: flex; align-items: center; justify-content: center; margin: 0 2px; border-radius: 5px; font-weight: bold;">2</div>
+                            <div class="unit-block" style="width: 40px; height: 40px; background: #FF9800; color: white; display: flex; align-items: center; justify-content: center; margin: 0 2px; border-radius: 5px; font-weight: bold;">4</div>
+                        </div>
+                        <div style="margin-top: 10px; color: #FF6B6B;">
+                            <i class="fas fa-arrow-down"></i> نربط لأسفل
+                        </div>
+                        <div>→ 20</div>
+                    </div>
+                    <div style="align-self: center; font-size: 24px; margin: 0 20px;">↔</div>
+                    <div style="text-align: center;">
+                        <div style="display: flex; justify-content: center;">
+                            <div class="unit-block" style="width: 40px; height: 40px; background: #2196F3; color: white; display: flex; align-items: center; justify-content: center; margin: 0 2px; border-radius: 5px; font-weight: bold;">3</div>
+                            <div class="unit-block" style="width: 40px; height: 40px; background: #FF9800; color: white; display: flex; align-items: center; justify-content: center; margin: 0 2px; border-radius: 5px; font-weight: bold;">7</div>
+                        </div>
+                        <div style="margin-top: 10px; color: #4CAF50;">
+                            <i class="fas fa-arrow-up"></i> نربط لأعلى
+                        </div>
+                        <div>→ 40</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- تمارين تفاعلية -->
+            <div class="interactive-exercise">
+                <h3 style="color: #FF9800;"><i class="fas fa-puzzle-piece"></i> التمارين التفاعلية</h3>
+                <p>اختبر فهمك وحاول تقريب الأعداد التالية:</p>
+                <div class="exercise-grid">
+                    <!-- التمرين 1 -->
+                    <div class="exercise-card" data-number="43" data-correct="40">
+                        <h4>التمرين 1</h4>
+                        <div class="number-display">43</div>
+                        <div class="options-container">
+                            <button class="round-option" onclick="checkAnswer(this, 40, 1)">40</button>
+                            <button class="round-option" onclick="checkAnswer(this, 50, 1)">50</button>
+                        </div>
+                        <div id="feedback1" class="feedback-message" style="display: none;"></div>
+                    </div>
+
+                    <!-- التمرين 2 -->
+                    <div class="exercise-card" data-number="58" data-correct="60">
+                        <h4>التمرين 2</h4>
+                        <div class="number-display">58</div>
+                        <div class="options-container">
+                            <button class="round-option" onclick="checkAnswer(this, 50, 2)">50</button>
+                            <button class="round-option" onclick="checkAnswer(this, 60, 2)">60</button>
+                        </div>
+                        <div id="feedback2" class="feedback-message" style="display: none;"></div>
+                    </div>
+
+                    <!-- التمرين 3 -->
+                    <div class="exercise-card" data-number="35" data-correct="40">
+                        <h4>التمرين 3</h4>
+                        <div class="number-display">35</div>
+                        <div class="options-container">
+                            <button class="round-option" onclick="checkAnswer(this, 30, 3)">30</button>
+                            <button class="round-option" onclick="checkAnswer(this, 40, 3)">40</button>
+                        </div>
+                        <div id="feedback3" class="feedback-message" style="display: none;"></div>
+                    </div>
+
+                    <!-- التمرين 4 -->
+                    <div class="exercise-card" data-number="86" data-correct="90">
+                        <h4>التمرين 4</h4>
+                        <div class="number-display">86</div>
+                        <div class="options-container">
+                            <button class="round-option" onclick="checkAnswer(this, 80, 4)">80</button>
+                            <button class="round-option" onclick="checkAnswer(this, 90, 4)">90</button>
+                        </div>
+                        <div id="feedback4" class="feedback-message" style="display: none;"></div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <button onclick="resetAllExercises()" class="math-btn math-btn-warning">
+                        <i class="fas fa-redo"></i> إعادة جميع التمارين
+                    </button>
+                </div>
+            </div>
+
+            <!-- تتبع التقدم -->
+            <div class="progress-tracking">
+                <h3><i class="fas fa-chart-line"></i> تقدمك في الدرس</h3>
+                <div style="display: flex; justify-content: space-between; margin: 20px 0;">
+                    <span>المستوى: <strong id="levelText">مبتدئ</strong></span>
+                    <span>الإجابات الصحيحة: <span id="correctCount">0</span>/4</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="overallProgress" style="width: 0%;"></div>
+                </div>
+                <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 24px; color: #4CAF50;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div>صحيحة: <span id="correctAnswers">0</span></div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 24px; color: #F44336;">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div>خاطئة: <span id="wrongAnswers">0</span></div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 24px; color: #FF9800;">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>المحاولات: <span id="attemptCount">0</span></div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <div class="stars-container">
+                        <div class="star">★</div>
+                        <div class="star">★</div>
+                        <div class="star">★</div>
+                        <div class="star">★</div>
+                        <div class="star">★</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- أزرار التنقل -->
+            <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid #eee;">
+                <button onclick="window.location.href='lesson2_subtraction.html'" class="math-btn math-btn-warning">
+                    <i class="fas fa-arrow-right"></i> الدرس السابق
+                </button>
+                <button onclick="showCertificateModal()" class="math-btn math-btn-primary" id="certificateBtn">
+                    <i class="fas fa-certificate"></i> عرض الشهادة
+                </button>
+                <button onclick="window.location.href='dicemal.html'" class="math-btn math-btn-success">
+                 الدرس التالي:  تقريب الكسور العشرية   
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة الشهادة -->
+    <div id="certificateModal" class="certificate-modal">
+        <div class="certificate-content">
+            <div style="border: 15px solid #FFD700; padding: 30px; border-radius: 15px; background: white;">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h2 style="color: #B8860B;">🏆 شهادة إنجاز 🏆</h2>
+                    <h3 style="color: #2196F3;">في مهارة التقريب لأقرب عشرة</h3>
+                </div>
+                <div style="text-align: center; margin: 30px 0;">
+                    <div style="font-size: 60px; color: #FFD700;">🎉</div>
+                </div>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0; border-right: 5px solid #4CAF50;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span style="font-weight: bold;">الطالب:</span>
+                        <span style="font-size: 18px; color: #333;">______________</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span style="font-weight: bold;">التاريخ:</span>
+                        <span style="font-size: 18px; color: #333;" id="certificateDate"></span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span style="font-weight: bold;">المستوى:</span>
+                        <span style="font-size: 18px; color: #4CAF50;" id="certificateLevel"></span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="font-weight: bold;">النتيجة:</span>
+                        <span style="font-size: 18px; color: #2196F3;" id="certificateScore"></span>
+                    </div>
+                </div>
+                <div style="text-align: center; margin: 30px 0;">
+                    <div style="font-size: 48px; font-weight: bold; color: #4CAF50;" id="certificatePercentage"></div>
+                    <div style="color: #666; margin-top: 10px;">نسبة النجاح</div>
+                </div>
+                <div style="text-align: center; margin: 20px 0; padding: 15px; background: #FFF3E0; border-radius: 10px;">
+                    <p style="margin: 0; font-size: 18px; color: #FF9800;">🎉 مبروك على الإنجاز! 🎉</p>
+                </div>
+                <div style="display: flex; justify-content: space-around; margin: 30px 0;">
+                    <div style="text-align: center;">
+                        <div style="border-top: 2px solid #333; width: 150px; margin: 5px auto;"></div>
+                        <div style="color: #666;">توقيع الطالب</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="border-top: 2px solid #333; width: 150px; margin: 5px auto;"></div>
+                        <div style="color: #666;">توقيع المعلم</div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button onclick="printCertificate()" class="math-btn math-btn-primary" style="margin: 5px;">
+                        <i class="fas fa-print"></i> طباعة الشهادة
+                    </button>
+                    <button onclick="closeCertificateModal()" class="math-btn" style="background: #f0f0f0; color: #333; margin: 5px;">
+                        <i class="fas fa-times"></i> إغلاق
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // المتغيرات العامة
+        let currentNumber = 23;
+        let correctAnswers = 0;
+        let wrongAnswers = 0;
+        let attempts = 0;
+        let completedExercises = [];
+
+        // إنشاء خط الأعداد
+        function createNumberLine() {
+            const numberLine = document.getElementById('numberLine');
+            numberLine.innerHTML = '';
+            
+            // إنشاء عشرات من 0 إلى 100
+            for(let i = 0; i <= 100; i += 10) {
+                const tick = document.createElement('div');
+                tick.className = i % 20 === 0 ? 'tick big-tick' : 'tick';
+                tick.style.left = `${(i / 100) * 100}%`;
+                
+                const label = document.createElement('div');
+                label.className = 'tick-label';
+                label.textContent = i;
+                label.style.left = `${(i / 100) * 100}%`;
+                
+                numberLine.appendChild(tick);
+                numberLine.appendChild(label);
+            }
+            
+            // إضافة مناطق التقريب
+            const roundDownZone = document.createElement('div');
+            roundDownZone.className = 'number-zone round-down-zone';
+            roundDownZone.style.left = '0%';
+            roundDownZone.style.width = '50%';
+            numberLine.appendChild(roundDownZone);
+            
+            const roundUpZone = document.createElement('div');
+            roundUpZone.className = 'number-zone round-up-zone';
+            roundUpZone.style.left = '50%';
+            roundUpZone.style.width = '50%';
+            numberLine.appendChild(roundUpZone);
+            
+            // إضافة العدد الحالي
+            showNumberOnLine(currentNumber);
+        }
+
+        // عرض عدد على خط الأعداد
+        function showNumberOnLine(number) {
+            // إزالة المؤشر السابق
+            const oldPointer = document.querySelector('.current-number');
+            if(oldPointer) oldPointer.remove();
+            
+            // حساب الموقع
+            const position = (number / 100) * 100;
+            
+            // إنشاء مؤشر جديد
+            const pointer = document.createElement('div');
+            pointer.className = 'current-number';
+            pointer.textContent = number;
+            pointer.style.left = `${position}%`;
+            pointer.id = 'currentPointer';
+            document.getElementById('numberLine').appendChild(pointer);
+            
+            // تحديث النص
+            document.getElementById('currentNumberText').textContent = number;
+            
+            // حساب التقريب
+            const rounded = roundToTen(number);
+            const explanation = getRoundingExplanation(number, rounded);
+            
+            document.getElementById('roundedResult').textContent = rounded;
+            document.getElementById('roundedResult').style.color = 
+                Math.floor(number / 10) * 10 === rounded ? '#FF6B6B' : '#4CAF50';
+            
+            document.getElementById('roundingExplanation').textContent = explanation;
+            document.getElementById('roundingDecision').style.display = 'block';
+        }
+
+        // تقريب لأقرب عشرة
+        function roundToTen(number) {
+            const onesDigit = number % 10;
+            const tens = Math.floor(number / 10) * 10;
+            
+            if(onesDigit >= 5) {
+                return tens + 10;
+            } else {
+                return tens;
+            }
+        }
+
+        // شرح التقريب
+        function getRoundingExplanation(number, rounded) {
+            const onesDigit = number % 10;
+            
+            if(onesDigit >= 5) {
+                return `لأن رقم الآحاد ${onesDigit} أكبر من أو يساوي 5، نربط لأعلى`;
+            } else if(onesDigit === 0) {
+                return `العدد ${number} هو بالفعل مضاعف للعشرة`;
+            } else {
+                return `لأن رقم الآحاد ${onesDigit} أصغر من 5، نربط لأسفل`;
+            }
+        }
+
+        // توليد عدد عشوائي
+        function generateRandomNumber() {
+            currentNumber = Math.floor(Math.random() * 100);
+            showNumberOnLine(currentNumber);
+        }
+
+        // عرض العدد التالي في سلسلة
+        function showNextNumber() {
+            const numbers = [15, 28, 34, 47, 52, 66, 73, 81, 95];
+            const currentIndex = numbers.indexOf(currentNumber);
+            const nextIndex = (currentIndex + 1) % numbers.length;
+            currentNumber = numbers[nextIndex];
+            showNumberOnLine(currentNumber);
+        }
+
+        // التحقق من الإجابة
+        function checkAnswer(button, userAnswer, exerciseNumber) {
+            const exerciseCard = button.closest('.exercise-card');
+            const correctAnswer = parseInt(exerciseCard.dataset.correct);
+            const feedbackId = 'feedback' + exerciseNumber;
+            const buttons = exerciseCard.querySelectorAll('.round-option');
+            
+            // إذا كان التمرين مكتماً بالفعل، لا تفعل شيئاً
+            if (completedExercises.includes(exerciseNumber)) {
+                return;
+            }
+            
+            // منع النقر على الأزرار الأخرى في نفس التمرين
+            buttons.forEach(btn => {
+                btn.style.pointerEvents = 'none';
+            });
+            
+            const isCorrect = userAnswer === correctAnswer;
+            
+            // تحديث الإحصائيات
+            attempts++;
+            if (isCorrect) {
+                correctAnswers++;
+                completedExercises.push(exerciseNumber);
+            } else {
+                wrongAnswers++;
+            }
+            
+            // تحديث الواجهة
+            updateUI(button, exerciseCard, isCorrect, exerciseNumber, userAnswer, correctAnswer);
+            updateProgress();
+            
+            // التحقق من إكمال جميع التمارين
+            if (completedExercises.length === 4) {
+                setTimeout(showFinalResults, 500);
+            }
+        }
+
+        // تحديث واجهة المستخدم
+        function updateUI(button, exerciseCard, isCorrect, exerciseNumber, userAnswer, correctAnswer) {
+            const feedbackDiv = document.getElementById('feedback' + exerciseNumber);
+            const onesDigit = parseInt(exerciseCard.dataset.number) % 10;
+            
+            // تحديث لون الزر
+            if (isCorrect) {
+                button.classList.add('correct-answer');
+                feedbackDiv.innerHTML = `
+                    <div class="feedback-correct">
+                        <i class="fas fa-check-circle"></i> أحسنت! ${exerciseCard.dataset.number} → ${correctAnswer}
+                        <div style="font-size: 14px; margin-top: 5px;">
+                            لأن رقم الآحاد ${onesDigit} ${onesDigit >= 5 ? '≥ 5' : '< 5'}
+                        </div>
+                    </div>
+                `;
+            } else {
+                button.classList.add('wrong-answer');
+                // إظهار الإجابة الصحيحة
+                const buttons = exerciseCard.querySelectorAll('.round-option');
+                buttons.forEach(btn => {
+                    if (parseInt(btn.textContent) === correctAnswer) {
+                        btn.classList.add('correct-answer');
+                    }
+                });
+                
+                feedbackDiv.innerHTML = `
+                    <div class="feedback-wrong">
+                        <i class="fas fa-times-circle"></i> حاول مرة أخرى
+                        <div style="font-size: 14px; margin-top: 5px;">
+                            ${exerciseCard.dataset.number} → ${correctAnswer} (لأن رقم الآحاد ${onesDigit} ${onesDigit >= 5 ? '≥ 5' : '< 5'})
+                        </div>
+                    </div>
+                `;
+            }
+            feedbackDiv.style.display = 'block';
+        }
+
+        // إعادة تعيين جميع التمارين
+        function resetAllExercises() {
+            // إعادة تعيين المتغيرات
+            correctAnswers = 0;
+            wrongAnswers = 0;
+            attempts = 0;
+            completedExercises = [];
+            
+            // إعادة تعيين واجهة المستخدم
+            document.querySelectorAll('.round-option').forEach(button => {
+                button.classList.remove('correct-answer', 'wrong-answer');
+                button.style.pointerEvents = 'auto';
+            });
+            
+            document.querySelectorAll('[id^="feedback"]').forEach(feedback => {
+                feedback.style.display = 'none';
+                feedback.innerHTML = '';
+            });
+            
+            // إخفاء رسالة النتائج النهائية إذا كانت موجودة
+            const finalResults = document.querySelector('.final-results');
+            if (finalResults) {
+                finalResults.remove();
+            }
+            
+            updateProgress();
+        }
+
+        // عرض النتائج النهائية
+        function showFinalResults() {
+            const percentage = Math.round((correctAnswers / 4) * 100);
+            let message = '';
+            let emoji = '';
+            
+            if (percentage === 100) {
+                message = '🎊 مبروك! لقد أجبت على جميع الأسئلة بشكل صحيح!';
+                emoji = '🎉';
+                updateLevel('خبير');
+            } else if (percentage >= 75) {
+                message = '👏 عمل رائع! لقد أجبت على معظم الأسئلة بشكل صحيح';
+                emoji = '👍';
+                updateLevel('متقدم');
+            } else if (percentage >= 50) {
+                message = '👌 جيد، لكن يمكنك التحسن أكثر';
+                emoji = '✅';
+                updateLevel('متوسط');
+            } else {
+                message = '📚 راجع قواعد التقريب وحاول مرة أخرى';
+                emoji = '📖';
+                updateLevel('مبتدئ');
+            }
+            
+            // إنشاء عنصر النتائج
+            const resultsDiv = document.createElement('div');
+            resultsDiv.className = 'final-results';
+            resultsDiv.innerHTML = `
+                <div style="margin-top: 30px; padding: 25px; background: linear-gradient(135deg, #FFD700, #FFA500); 
+                    color: white; border-radius: 15px; text-align: center; animation: fadeIn 1s;">
+                    <h3><i class="fas fa-trophy"></i> نتائج التمارين</h3>
+                    <div style="font-size: 48px; margin: 15px 0;">${emoji}</div>
+                    <div style="font-size: 24px; margin: 10px 0;">
+                        ${correctAnswers} / 4 إجابات صحيحة
+                    </div>
+                    <div style="font-size: 20px; margin-bottom: 15px;">
+                        النسبة: ${percentage}%
+                    </div>
+                    <div style="font-size: 18px; background: rgba(255,255,255,0.2); padding: 10px; border-radius: 10px;">
+                        ${message}
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <button onclick="resetAllExercises()" class="math-btn" style="background: white; color: #FF9800;">
+                            <i class="fas fa-redo"></i> حاول مرة أخرى
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // إضافة النتائج بعد التمارين
+            const exerciseSection = document.querySelector('.interactive-exercise');
+            const existingResults = exerciseSection.querySelector('.final-results');
+            
+            if (existingResults) {
+                existingResults.remove();
+            }
+            
+            exerciseSection.appendChild(resultsDiv);
+        }
+
+        // تحديث المستوى
+        function updateLevel(level) {
+            document.getElementById('levelText').textContent = level;
+            document.getElementById('levelText').style.color = 
+                level === 'خبير' ? '#FFD700' : 
+                level === 'متقدم' ? '#4CAF50' : 
+                level === 'متوسط' ? '#2196F3' : '#FF9800';
+        }
+
+        // تحديث التقدم
+        function updateProgress() {
+            document.getElementById('correctCount').textContent = correctAnswers;
+            document.getElementById('correctAnswers').textContent = correctAnswers;
+            document.getElementById('wrongAnswers').textContent = wrongAnswers;
+            document.getElementById('attemptCount').textContent = attempts;
+            
+            const total = correctAnswers + wrongAnswers;
+            const progress = total > 0 ? (correctAnswers / 4) * 100 : 0;
+            document.getElementById('overallProgress').style.width = `${progress}%`;
+            
+            // تحديث النجوم
+            updateStars(correctAnswers);
+        }
+
+        // تحديث النجوم
+        function updateStars(score) {
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                if (index < score) {
+                    star.classList.remove('empty');
+                    star.innerHTML = '★';
+                } else {
+                    star.classList.add('empty');
+                    star.innerHTML = '☆';
+                }
+            });
+        }
+
+        // نافذة الشهادة
+        function showCertificateModal() {
+            if (correctAnswers === 0) {
+                alert('⚠️ يرجى حل تمرين واحد على الأقل قبل الحصول على الشهادة');
+                return;
+            }
+            
+            const percentage = Math.round((correctAnswers / 4) * 100);
+            const currentLevel = document.getElementById('levelText').textContent;
+            const currentDate = new Date().toLocaleDateString('ar-EG');
+            
+            // تحديث بيانات الشهادة
+            document.getElementById('certificateDate').textContent = currentDate;
+            document.getElementById('certificateLevel').textContent = currentLevel;
+            document.getElementById('certificateScore').textContent = `${correctAnswers}/4`;
+            document.getElementById('certificatePercentage').textContent = `${percentage}%`;
+            
+            // إظهار النافذة
+            document.getElementById('certificateModal').classList.add('active');
+        }
+
+        function closeCertificateModal() {
+            document.getElementById('certificateModal').classList.remove('active');
+        }
+
+        // طباعة الشهادة
+        function printCertificate() {
+            const percentage = Math.round((correctAnswers / 4) * 100);
+            const currentLevel = document.getElementById('levelText').textContent;
+            const currentDate = new Date().toLocaleDateString('ar-EG');
+            
+            // إغلاق نافذة المعاينة أولاً
+            closeCertificateModal();
+            
+            // الطباعة بعد تأخير بسيط
+            setTimeout(() => {
+                const printContent = `
+                    <!DOCTYPE html>
+                    <html dir="rtl" lang="ar">
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>شهادة إنجاز</title>
+                        <style>
+                            @page {
+                                size: A4 portrait;
+                                margin: 0;
+                                padding: 0;
+                            }
+                            body {
+                                margin: 0;
+                                padding: 20mm;
+                                font-family: 'Arial', sans-serif;
+                                text-align: center;
+                            }
+                            .certificate {
+                                border: 15px double #FFD700;
+                                padding: 30px;
+                                height: 100%;
+                                box-sizing: border-box;
+                            }
+                            h1 { color: #B8860B; margin-bottom: 30px; }
+                            h2 { color: #2196F3; margin-bottom: 20px; }
+                            .info-grid {
+                                display: grid;
+                                grid-template-columns: repeat(2, 1fr);
+                                gap: 15px;
+                                margin: 30px 0;
+                                text-align: right;
+                            }
+                            .info-item {
+                                padding: 15px;
+                                background: #f8f9fa;
+                                border-radius: 10px;
+                            }
+                            .percentage {
+                                font-size: 48px;
+                                color: #4CAF50;
+                                font-weight: bold;
+                                margin: 20px 0;
+                            }
+                            .signatures {
+                                display: flex;
+                                justify-content: space-between;
+                                margin-top: 60px;
+                                padding-top: 20px;
+                                border-top: 2px solid #333;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="certificate">
+                            <h1>🏆 شهادة إنجاز 🏆</h1>
+                            <h2>في مهارة التقريب لأقرب عشرة</h2>
+                            
+                            <div style="font-size: 60px; color: #FFD700; margin: 30px 0;">🎉</div>
+                            
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div>الطالب:</div>
+                                    <div style="font-size: 20px; font-weight: bold;">______________</div>
+                                </div>
+                                <div class="info-item">
+                                    <div>التاريخ:</div>
+                                    <div style="font-size: 20px; font-weight: bold;">${currentDate}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div>المستوى:</div>
+                                    <div style="font-size: 20px; font-weight: bold; color: #4CAF50;">${currentLevel}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div>النتيجة:</div>
+                                    <div style="font-size: 20px; font-weight: bold; color: #2196F3;">${correctAnswers}/4</div>
+                                </div>
+                            </div>
+                            
+                            <div class="percentage">${percentage}%</div>
+                            <div style="color: #666; margin: 20px 0; font-size: 18px;">نسبة النجاح</div>
+                            
+                            <div style="margin: 40px 0; padding: 20px; background: #FFF3E0; border-radius: 10px;">
+                                <p style="font-size: 24px; color: #FF9800; margin: 0;">🎉 مبروك على هذا الإنجاز الرائع! 🎉</p>
+                            </div>
+                            
+                            <div class="signatures">
+                                <div>
+                                    <div style="border-top: 2px solid #333; width: 150px; margin: 0 auto;"></div>
+                                    <div style="margin-top: 10px;">توقيع الطالب</div>
+                                </div>
+                                <div>
+                                    <div style="border-top: 2px solid #333; width: 150px; margin: 0 auto;"></div>
+                                    <div style="margin-top: 10px;">توقيع المعلم</div>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            setTimeout(() => {
+                                window.print();
+                                setTimeout(() => window.close(), 1000);
+                            }, 1000);
+                        <\/script>
+                    </body>
+                    </html>
+                `;
+                
+                const printWindow = window.open('', '_blank', 'width=800,height=600');
+                if (printWindow) {
+                    printWindow.document.write(printContent);
+                    printWindow.document.close();
+                }
+            }, 300);
+        }
+
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            createNumberLine();
+            showNumberOnLine(currentNumber);
+            updateProgress();
+            
+            // إضافة تأثيرات للنجوم
+            document.querySelectorAll('.star').forEach(star => {
+                star.innerHTML = '☆';
+                star.classList.add('empty');
+            });
+        });
+    </script>
+</body>
+</html>

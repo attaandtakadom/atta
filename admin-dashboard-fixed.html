@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم المدير</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Cairo', sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .welcome-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-primary {
+            background: #4361ee;
+            color: white;
+        }
+        .btn-danger {
+            background: #ef476f;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1><i class="fas fa-user-shield"></i> لوحة تحكم المدير</h1>
+        <button class="btn btn-danger" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+        </button>
+    </nav>
+
+    <div class="container">
+        <div class="welcome-box">
+            <h2>مرحباً بك في لوحة التحكم!</h2>
+            <p>أنت مسجل كمدير النظام.</p>
+            <div style="margin-top: 20px;">
+                <button class="btn btn-primary" onclick="manageUsers()">
+                    <i class="fas fa-users"></i> إدارة المستخدمين
+                </button>
+                <button class="btn btn-primary" onclick="viewReports()">
+                    <i class="fas fa-chart-bar"></i> التقارير
+                </button>
+                <button class="btn btn-primary" onclick="goToHome()">
+                    <i class="fas fa-home"></i> الرئيسية
+                </button>
+            </div>
+        </div>
+        
+        <div style="background: white; padding: 20px; border-radius: 10px; margin-top: 20px;">
+            <h3><i class="fas fa-info-circle"></i> معلومات النظام:</h3>
+            <p>المستخدمون: <span id="userCount">3</span></p>
+            <p>الطلاب: <span id="studentCount">1</span></p>
+            <p>المعلمون: <span id="teacherCount">1</span></p>
+        </div>
+    </div>
+
+    <script>
+        // التحقق من تسجيل الدخول
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('is_logged_in') === 'true';
+            const user = JSON.parse(localStorage.getItem('current_user') || '{}');
+            
+            if (!isLoggedIn || user.userType !== 'admin') {
+                alert('يجب تسجيل الدخول كمدير للوصول لهذه الصفحة');
+                window.location.href = 'login-fixed.html';
+                return;
+            }
+            
+            console.log('مدير مسجل:', user.fullName);
+            updateStats();
+        });
+        
+        function updateStats() {
+            // يمكن تحميل الإحصائيات من localStorage
+            const users = JSON.parse(localStorage.getItem('platform_users') || '[]');
+            const students = users.filter(u => u.userType === 'student').length;
+            const teachers = users.filter(u => u.userType === 'teacher').length;
+            
+            document.getElementById('userCount').textContent = users.length;
+            document.getElementById('studentCount').textContent = students;
+            document.getElementById('teacherCount').textContent = teachers;
+        }
+        
+        function logout() {
+            localStorage.removeItem('current_user');
+            localStorage.removeItem('is_logged_in');
+            window.location.href = 'index-fixed.html';
+        }
+        
+        function manageUsers() {
+            alert('صفحة إدارة المستخدمين قيد التطوير');
+        }
+        
+        function viewReports() {
+            alert('صفحة التقارير قيد التطوير');
+        }
+        
+        function goToHome() {
+            window.location.href = 'index-fixed.html';
+        }
+    </script>
+</body>
+</html>

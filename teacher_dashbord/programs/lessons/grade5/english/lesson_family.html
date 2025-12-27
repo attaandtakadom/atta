@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Members Learning Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --dark: #2C3E50;
+            --light: #F7F9FB;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            direction: ltr;
+        }
+
+        .app-container {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+
+        /* شبكة الصور */
+        .family-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .family-card {
+            background: #fff;
+            border: 3px solid #eee;
+            border-radius: 20px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .family-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--secondary);
+            box-shadow: 0 10px 20px rgba(78, 205, 196, 0.2);
+        }
+
+        .family-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            background: #f0f0f0;
+        }
+
+        .family-card h3 {
+            margin: 10px 0 5px 0;
+            color: var(--dark);
+            font-size: 22px;
+        }
+
+        .family-card p {
+            margin: 0;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .btn-speak {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        /* منطقة الاختبار */
+        .quiz-section {
+            background: #fdf2f2;
+            padding: 20px;
+            border-radius: 20px;
+            border: 2px dashed var(--primary);
+            margin-top: 20px;
+        }
+
+        .feedback {
+            font-size: 20px;
+            font-weight: bold;
+            height: 30px;
+            margin-top: 10px;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .success-anim {
+            animation: bounce 0.5s ease;
+            color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+
+<a href="../../../../english_dashboard.html" class="nav-btn">
+                    <i class="fas fa-arrow-right"></i> العودة للبرامج
+                </a>
+
+
+
+    <h1><i class="fas fa-users"></i> My Family</h1>
+    <p class="subtitle">Click on a family member to hear the name!</p>
+
+    <div class="family-grid" id="familyGrid">
+        </div>
+
+    <div class="quiz-section">
+        <h2>Who is this?</h2>
+        <div id="quiz-question">
+            <p id="target-name" style="font-size: 28px; color: var(--primary); font-weight: bold;">...</p>
+            <p>Click on the correct picture above!</p>
+        </div>
+        <div id="feedback" class="feedback"></div>
+    </div>
+</div>
+
+<audio id="success-sound" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3"></audio>
+<audio id="applause-sound" src="https://www.soundjay.com/human/sounds/applause-01.mp3"></audio>
+
+<script>
+    const familyMembers = [
+        { name: 'Father', arabic: 'الأب', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png' },
+        { name: 'Mother', arabic: 'الأم', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140047.png' },
+        { name: 'Brother', arabic: 'الأخ', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140037.png' },
+        { name: 'Sister', arabic: 'الأخت', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140040.png' },
+        { name: 'Grandfather', arabic: 'الجد', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140052.png' },
+        { name: 'Grandmother', arabic: 'الجدة', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140051.png' }
+    ];
+
+    let currentTarget = "";
+
+    // إنشاء البطاقات
+    function initApp() {
+        const grid = document.getElementById('familyGrid');
+        familyMembers.forEach(member => {
+            const card = document.createElement('div');
+            card.className = 'family-card';
+            card.onclick = () => checkChoice(member.name);
+            
+            card.innerHTML = `
+                <img src="${member.img}" alt="${member.name}">
+                <h3>${member.name}</h3>
+                <p>${member.arabic}</p>
+                <button class="btn-speak" onclick="event.stopPropagation(); speak('${member.name}')">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+            `;
+            grid.appendChild(card);
+        });
+        nextQuestion();
+    }
+
+    // نطق الكلمات
+    function speak(text) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    // اختيار سؤال جديد
+    function nextQuestion() {
+        const randomMember = familyMembers[Math.floor(Math.random() * familyMembers.length)];
+        currentTarget = randomMember.name;
+        document.getElementById('target-name').textContent = currentTarget;
+        document.getElementById('feedback').textContent = "";
+        document.getElementById('feedback').className = "feedback";
+    }
+
+    // التحقق من الإجابة
+    // دالة التحقق من الإجابة مع إضافة التصفيق
+function checkChoice(name) {
+    const feedback = document.getElementById('feedback');
+    const applauseSound = document.getElementById('applause-sound');
+    const successSound = document.getElementById('success-sound');
+
+    if (name === currentTarget) {
+        // 1. تغيير النص وظهور تأثير النجاح
+        feedback.textContent = "Great Job! 🎉";
+        feedback.className = "feedback success-anim";
+        feedback.style.color = "#27ae60";
+
+        // 2. تشغيل نغمة النجاح القصيرة
+        successSound.currentTime = 0;
+        successSound.play();
+
+        // 3. تشغيل صوت التصفيق
+        applauseSound.currentTime = 0;
+        applauseSound.play();
+        
+        // 4. نطق الإجابة الصحيحة بعد ثانية واحدة
+        setTimeout(() => {
+            speak("Correct, this is " + name);
+            // الانتقال للسؤال التالي بعد انتهاء النطق
+            setTimeout(nextQuestion, 1500);
+        }, 500);
+
+    } else {
+        // في حالة الإجابة الخاطئة
+        feedback.textContent = "Try again! 😊";
+        feedback.style.color = "#e74c3c";
+        speak("No, try again");
+    }
+}
+
+    window.onload = initApp;
+</script>
+<audio id="applause-sound" src="https://www.soundjay.com/human/sounds/applause-01.mp3" preload="auto"></audio>
+<audio id="success-chime" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" preload="auto"></audio>
+</body>
+</html>

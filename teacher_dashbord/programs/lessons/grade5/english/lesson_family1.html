@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Learning - Data Show Version</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --dark: #2C3E50;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --bg-accent: #f8f9fa;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+            margin: 0; padding: 10px; display: flex; justify-content: center; min-height: 100vh;
+        }
+        .app-container {
+            max-width: 1300px; width: 100%; background: rgba(255, 255, 255, 0.95);
+            border-radius: 50px; box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            padding: 40px; text-align: center; position: relative;
+        }
+
+        /* تنسيق زر العودة للرئيسية */
+        .home-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: var(--dark);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+            z-index: 100;
+        }
+        .home-btn:hover {
+            background: #000;
+            transform: scale(1.05);
+        }
+
+        .header-btns {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .family-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px; margin-bottom: 40px;
+        }
+        .family-card {
+            background: white; border: 6px solid #eee; border-radius: 40px;
+            padding: 25px; cursor: pointer; transition: 0.4s;
+        }
+        .family-card:hover { transform: scale(1.08); border-color: var(--secondary); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .family-card img { width: 160px; height: 160px; border-radius: 50%; margin-bottom: 15px; }
+        .family-card h3 { font-size: 38px; margin: 10px 0; color: var(--dark); }
+        .family-card p { font-size: 24px; color: #666; font-weight: bold; }
+
+        .quiz-section {
+            background: white; padding: 50px; border-radius: 50px; border: 8px dashed var(--primary);
+        }
+        .instruction-text { color: #576574; font-size: 35px; margin-bottom: 10px; font-weight: bold; }
+        #target-name { 
+            font-size: 130px; /* حجم هائل للداتا شو */
+            color: var(--primary); font-weight: 900; display: block; 
+            margin: 20px 0; text-transform: uppercase; text-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+        }
+
+        .feedback { font-size: 50px; font-weight: bold; min-height: 70px; margin-top: 25px; }
+        .btn-music { background: #5f27cd; color: white; border: none; padding: 15px 35px; border-radius: 30px; cursor: pointer; font-size: 24px; }
+        .repeat-btn { background: var(--primary); color: white; border: none; padding: 20px 40px; border-radius: 25px; cursor: pointer; font-size: 28px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <a href="../../../../../teacher_dashbord/english_dashboard.html" class="home-btn">
+        <i class="fas fa-arrow-left"></i> الرئيسية
+    </a>
+
+    <div class="header-btns">
+        <button class="btn-music" onclick="toggleMusic()">
+            <i class="fas fa-music"></i> MUSIC ON/OFF
+        </button>
+    </div>
+    
+    <h1 style="font-size: 60px; color: var(--dark); margin: 20px 0;">Family Members</h1>
+    
+    <div class="family-grid" id="familyGrid"></div>
+
+    <div class="quiz-section">
+        <p class="instruction-text">Find the correct person!</p>
+        <h2 style="font-size: 45px; margin:0; color: var(--dark);">WHO IS:</h2>
+        <span id="target-name">...</span>
+        <button class="repeat-btn" onclick="speakQuestion()">
+            <i class="fas fa-volume-up"></i> HEAR QUESTION
+        </button>
+        <div id="feedback" class="feedback"></div>
+    </div>
+</div>
+
+<audio id="bg-music" loop src="https://www.soundjay.com/free-music/sounds/barn-beat-01.mp3"></audio>
+<audio id="applause-sound" src="https://www.soundjay.com/human/sounds/applause-01.mp3"></audio>
+<audio id="error-sound" src="https://www.soundjay.com/buttons/sounds/button-05.mp3"></audio>
+
+<script>
+    const familyMembers = [
+        { name: 'Dad', arabic: 'الأب', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png' },
+        { name: 'Mom', arabic: 'الأم', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140047.png' },
+        { name: 'Uncle', arabic: 'العم/الخال', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140061.png' },
+        { name: 'Aunt', arabic: 'العمة/الخالة', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140045.png' },
+        { name: 'Cousin', arabic: 'ابن العم', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140039.png' },
+        { name: 'Grandpa', arabic: 'الجد', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140052.png' },
+        { name: 'Grandma', arabic: 'الجدة', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140051.png' },
+        { name: 'Brother', arabic: 'الأخ', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140037.png' },
+        { name: 'Sister', arabic: 'الأخت', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140040.png' }
+    ];
+
+    let currentTarget = "";
+
+    function initApp() {
+        const grid = document.getElementById('familyGrid');
+        familyMembers.forEach(member => {
+            const card = document.createElement('div');
+            card.className = 'family-card';
+            card.onclick = () => handleChoice(member.name);
+            card.innerHTML = `
+                <img src="${member.img}">
+                <h3>${member.name}</h3>
+                <p>${member.arabic}</p>
+            `;
+            grid.appendChild(card);
+        });
+        generateQuestion();
+    }
+
+    function generateQuestion() {
+        const random = familyMembers[Math.floor(Math.random() * familyMembers.length)];
+        currentTarget = random.name;
+        document.getElementById('target-name').textContent = currentTarget;
+        document.getElementById('feedback').textContent = "";
+        setTimeout(speakQuestion, 800); 
+    }
+
+    function speakQuestion() {
+        speak("Where is " + currentTarget + "?");
+    }
+
+    function handleChoice(selectedName) {
+        const feedback = document.getElementById('feedback');
+        if(selectedName === currentTarget) {
+            feedback.textContent = "FANTASTIC! 👏🌟";
+            feedback.style.color = "var(--success)";
+            document.getElementById('applause-sound').play();
+            speak("Yes! That is " + selectedName);
+            setTimeout(generateQuestion, 3000);
+        } else {
+            feedback.textContent = "TRY AGAIN! IT'S " + selectedName.toUpperCase();
+            feedback.style.color = "var(--danger)";
+            document.getElementById('error-sound').play();
+            speak("No, that is " + selectedName);
+        }
+    }
+
+    function speak(text) {
+        window.speechSynthesis.cancel();
+        const msg = new SpeechSynthesisUtterance(text);
+        msg.lang = 'en-US';
+        msg.rate = 0.8;
+        window.speechSynthesis.speak(msg);
+    }
+
+    let isMusicOn = false;
+    function toggleMusic() {
+        const music = document.getElementById('bg-music');
+        if(!isMusicOn) { music.play(); isMusicOn = true; }
+        else { music.pause(); isMusicOn = false; }
+    }
+
+    window.onload = initApp;
+</script>
+</body>
+</html>

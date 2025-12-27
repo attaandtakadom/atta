@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جدول الضرب - مؤسسة التقدم والعطاء</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --success: #2ECC71;
+            --danger: #E74C3C;
+            --bg: #F0F4F8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            margin: 0; padding: 20px; display: flex; justify-content: center;
+        }
+
+        .app-container {
+            max-width: 1100px; width: 100%; background: white; border-radius: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); padding: 30px; text-align: center; position: relative;
+        }
+
+        .home-btn {
+            position: absolute; top: 20px; right: 20px; background: #34495E;
+            color: white; padding: 12px 25px; border-radius: 15px; text-decoration: none; font-size: 18px;
+        }
+
+        .logo-text { color: var(--primary); font-size: 26px; font-weight: bold; margin-bottom: 10px; }
+
+        .table-selector { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
+
+        .table-btn {
+            width: 90px; height: 90px; font-size: 35px; border: 4px solid var(--primary);
+            border-radius: 20px; background: #FFF; color: var(--primary); cursor: pointer; font-weight: bold;
+        }
+
+        .table-btn.active { background: var(--primary); color: white; }
+
+        .quiz-area { background: #F9F9F9; border: 8px dashed #DDD; border-radius: 40px; padding: 40px; margin-top: 10px; }
+
+        .equation { font-size: 130px; font-weight: 900; color: #2C3E50; margin: 10px 0; direction: ltr; }
+
+        /* منطقة الصور التوضيحية (النجوم) */
+        .visual-aid {
+            display: flex; flex-wrap: wrap; justify-content: center; 
+            gap: 10px; margin: 20px auto; min-height: 100px; max-width: 80% ;
+        }
+        .dot { width: 40px; height: 40px; background: #FFD700; border-radius: 50%; border: 2px solid #DAA520; box-shadow: 0 4px 0 #DAA520; }
+
+        .options-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+        .option-btn {
+            padding: 25px; font-size: 60px; border: none; border-radius: 25px;
+            background: white; box-shadow: 0 8px 0 #DDD; border: 3px solid #EEE; cursor: pointer;
+        }
+
+        .feedback { font-size: 45px; font-weight: bold; height: 60px; margin-top: 20px; }
+        
+        .win { animation: celebrate 0.5s ease; color: var(--success); }
+        @keyframes celebrate { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <a href="../../../../math_dashboard.html" class="home-btn">العودة للرئيسية</a>
+    <div class="logo-text">مؤسسة التقدم والعطاء - البيضاء</div>
+    
+    <div class="table-selector">
+        <button class="table-btn active" onclick="setTable(1)">1</button>
+        <button class="table-btn" onclick="setTable(2)">2</button>
+        <button class="table-btn" onclick="setTable(3)">3</button>
+        <button class="table-btn" onclick="setTable(4)">4</button>
+        <button class="table-btn" onclick="setTable(5)">5</button>
+    </div>
+
+    <div class="quiz-area">
+        <div id="equation-display" class="equation">...</div>
+        
+        <div id="visual-aid" class="visual-aid"></div>
+
+        <div class="options-grid" id="options"></div>
+        <div id="feedback" class="feedback"></div>
+    </div>
+</div>
+
+<audio id="applause" src="https://www.soundjay.com/human/sounds/applause-01.mp3"></audio>
+<audio id="error-snd" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
+
+<script>
+    let currentTable = 1;
+    let num2 = 1;
+    let correctAnswer = 0;
+
+    function setTable(num) {
+        currentTable = num;
+        document.querySelectorAll('.table-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        generateQuestion();
+        speak("جدول الضرب رقم " + num);
+    }
+
+    function generateQuestion() {
+        num2 = Math.floor(Math.random() * 10) + 1;
+        correctAnswer = currentTable * num2;
+        document.getElementById('equation-display').innerText = `${currentTable} × ${num2}`;
+        document.getElementById('feedback').innerText = "";
+        
+        // تحديث الصور التوضيحية
+        updateVisualAid();
+        createOptions();
+        
+        // نطق السؤال بصوت مرتفع وواضح
+        setTimeout(() => {
+            speak(`${currentTable} ضرب ${num2}.. كم يساوي؟`);
+        }, 500);
+    }
+
+    function updateVisualAid() {
+        const aid = document.getElementById('visual-aid');
+        aid.innerHTML = "";
+        // إضافة نقاط تعبر عن ناتج الضرب لمساعدة الطفل على العد
+        for(let i=0; i < correctAnswer; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            aid.appendChild(dot);
+        }
+    }
+
+    function createOptions() {
+        const optionsDiv = document.getElementById('options');
+        optionsDiv.innerHTML = "";
+        let choices = [correctAnswer];
+        while(choices.length < 3) {
+            let wrong = Math.max(0, correctAnswer + (Math.floor(Math.random() * 5) - 2));
+            if(!choices.includes(wrong)) choices.push(wrong);
+        }
+        choices.sort(() => Math.random() - 0.5);
+        choices.forEach(val => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = val;
+            btn.onclick = () => checkAnswer(val);
+            optionsDiv.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selected) {
+        const fb = document.getElementById('feedback');
+        if(selected === correctAnswer) {
+            fb.innerText = "أحسنت! إجابة صحيحة 🌟";
+            fb.className = "feedback win";
+            document.getElementById('applause').play();
+            speak("ممتاز.. إجابة صحيحة");
+            setTimeout(generateQuestion, 4000);
+        } else {
+            fb.innerText = "حاول ثانية 😊";
+            fb.style.color = "var(--danger)";
+            document.getElementById('error-snd').play();
+            speak("لا.. حاول مرة أخرى");
+        }
+    }
+
+    function speak(text) {
+        window.speechSynthesis.cancel();
+        const msg = new SpeechSynthesisUtterance(text);
+        msg.lang = 'ar-SA';
+        msg.volume = 1.0; // أقصى درجة صوت برمجياً
+        msg.rate = 0.8;   // سرعة بطيئة للوضوح
+        msg.pitch = 1.1;  // نبرة واضحة
+        window.speechSynthesis.speak(msg);
+    }
+
+    window.onload = generateQuestion;
+</script>
+
+</body>
+</html>

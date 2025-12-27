@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>تعلم الألوان للأطفال</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f7f9fc;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #4b4b4b;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* لوحة العرض الكبيرة */
+        .color-display {
+            width: 100%;
+            max-width: 400px;
+            height: 200px;
+            border-radius: 30px;
+            background-color: #fff;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+            transition: all 0.5s ease;
+            border: 8px solid white;
+        }
+
+        #colorName {
+            font-size: 45px;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* شبكة الألوان */
+        .colors-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 100px; /* مساحة للأزرار */
+        }
+
+        .color-item {
+            aspect-ratio: 1/1;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+            border: 4px solid white;
+        }
+
+        .color-item:active {
+            transform: scale(0.9);
+        }
+
+        /* أزرار التنقل السفلية */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            background: white;
+            border-top: 2px solid #eee;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 15px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .home { background: #f1f2f6; color: #2f3542; }
+        .back { background: #6c5ce7; color: white; }
+
+        /* الألوان */
+        .red { background-color: #ff4757; }
+        .blue { background-color: #1e90ff; }
+        .green { background-color: #2ed573; }
+        .yellow { background-color: #eccc68; }
+        .orange { background-color: #ffa502; }
+        .purple { background-color: #a442ee; }
+        .pink { background-color: #ff6b81; }
+        .black { background-color: #2f3542; }
+        .brown { background-color: #8b4513; }
+    </style>
+</head>
+<body>
+
+    <h1>🎨 عالم الألوان الممتع</h1>
+
+    <div class="color-display" id="mainDisplay" style="background-color: #ff4757;">
+        <span id="colorName">أحمر</span>
+    </div>
+
+    <div class="colors-grid">
+        <div class="color-item red" onclick="showColor('#ff4757', 'أحمر', 'Red')"></div>
+        <div class="color-item blue" onclick="showColor('#1e90ff', 'أزرق', 'Blue')"></div>
+        <div class="color-item green" onclick="showColor('#2ed573', 'أخضر', 'Green')"></div>
+        <div class="color-item yellow" onclick="showColor('#eccc68', 'أصفر', 'Yellow')"></div>
+        <div class="color-item orange" onclick="showColor('#ffa502', 'برتقالي', 'Orange')"></div>
+        <div class="color-item purple" onclick="showColor('#a442ee', 'بنفسجي', 'Purple')"></div>
+        <div class="color-item pink" onclick="showColor('#ff6b81', 'وردي', 'Pink')"></div>
+        <div class="color-item black" onclick="showColor('#2f3542', 'أسود', 'Black')"></div>
+        <div class="color-item brown" onclick="showColor('#8b4513', 'بني', 'Brown')"></div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="../../../../../teacher_dashbord/english_dashboard.html" class="nav-btn home">
+            <i class="fas fa-home"></i> الرئيسية
+        </a>
+        <a href="A_Z.html" class="nav-btn back">
+            <i class="fas fa-font"></i> تعلم الحروف
+        </a>
+    </div>
+
+    <script>
+        function showColor(hex, nameAr, nameEn) {
+            const display = document.getElementById('mainDisplay');
+            const text = document.getElementById('colorName');
+            
+            // تغيير اللون والنص
+            display.style.backgroundColor = hex;
+            text.innerText = nameAr;
+
+            // نطق اللون بصوت ناعم
+            speakColor(nameAr, nameEn);
+        }
+
+        function speakColor(ar, en) {
+            window.speechSynthesis.cancel();
+            
+            // نطق بالعربي
+            const msgAr = new SpeechSynthesisUtterance(ar);
+            msgAr.lang = 'ar-SA';
+            msgAr.rate = 0.8;
+            msgAr.pitch = 1.2;
+
+            // نطق بالإنجليزي بعد العربي
+            const msgEn = new SpeechSynthesisUtterance(en);
+            msgEn.lang = 'en-US';
+            msgEn.rate = 0.8;
+            msgEn.pitch = 1.2;
+
+            window.speechSynthesis.speak(msgAr);
+            window.speechSynthesis.speak(msgEn);
+        }
+
+        // نطق ترحيبي عند البداية
+        window.onload = () => {
+            setTimeout(() => {
+                const welcome = new SpeechSynthesisUtterance("هيا نتعلم الألوان");
+                welcome.lang = 'ar-SA';
+                window.speechSynthesis.speak(welcome);
+            }, 500);
+        };
+    </script>
+</body>
+</html>
