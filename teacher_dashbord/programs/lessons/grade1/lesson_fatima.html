@@ -1126,59 +1126,6 @@
                 header.classList.remove('hidden');
             });
         });
-
-// 1. تعريف مصفوفة الأصوات عالمياً
-let voices = [];
-
-function loadVoices() {
-    voices = window.speechSynthesis.getVoices();
-}
-
-// 2. تحديث الأصوات فور جاهزيتها (ضروري جداً للجوال)
-if (speechSynthesis.onvoiceschanged !== undefined) {
-    speechSynthesis.onvoiceschanged = loadVoices;
-}
-
-function playSound(text) {
-    // إلغاء أي عملية نطق سابقة لمنع التداخل
-    window.speechSynthesis.cancel();
-
-    // إنشاء كائن النطق
-    const utterance = new SpeechSynthesisUtterance(text);
-    
-    // ضبط اللغة
-    utterance.lang = 'ar-SA';
-    
-    // 3. البحث عن أفضل صوت عربي متاح في الجوال
-    loadVoices(); // تحديث القائمة
-    const arabicVoice = voices.find(voice => 
-        voice.lang.includes('ar-SA') || voice.lang.includes('ar-EG') || voice.lang.includes('ar')
-    );
-
-    if (arabicVoice) {
-        utterance.voice = arabicVoice;
-    }
-
-    // إعدادات الصوت لتكون واضحة للأطفال
-    utterance.rate = 0.8;  // سرعة هادئة
-    utterance.pitch = 1.0; // درجة صوت طبيعية
-
-    // 4. التشغيل
-    window.speechSynthesis.speak(utterance);
-}
-
-// 5. خدعة "تفعيل الصوت" لأجهزة الجوال
-// المتصفح يرفض النطق إلا إذا لمس المستخدم الشاشة ولو لمرة واحدة
-document.addEventListener('click', function() {
-    const silentUtterance = new SpeechSynthesisUtterance("");
-    window.speechSynthesis.speak(silentUtterance);
-}, { once: true });
-
-
-
-
-
-
     </script>
 </body>
 </html>

@@ -1,701 +1,422 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام تحميل الملفات - منصة التوحد</title>
+    <title>رفع الملفات - الإصدار النهائي</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
-            padding: 20px;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
-        
         .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background: white;
+            width: 100%;
+            max-width: 500px;
             padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #4a6fa5;
-        }
-        
         h1 {
-            color: #2c3e50;
-            margin-bottom: 10px;
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
             font-size: 28px;
         }
-        
-        .subtitle {
-            color: #7f8c8d;
-            font-size: 16px;
-        }
-        
-        .upload-section {
-            margin-bottom: 40px;
-            background-color: #f8f9fa;
-            padding: 25px;
-            border-radius: 10px;
-            border: 2px dashed #ddd;
-            transition: all 0.3s ease;
-        }
-        
-        .upload-section:hover {
-            border-color: #4a6fa5;
-            background-color: #f0f7ff;
-        }
-        
-        .section-title {
-            display: flex;
-            align-items: center;
+        .form-group {
             margin-bottom: 20px;
-            color: #2c3e50;
         }
-        
-        .section-title i {
-            margin-left: 10px;
-            font-size: 24px;
-            color: #4a6fa5;
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
         }
-        
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus,
+        input[type="file"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
         .upload-area {
-            border: 2px dashed #3498db;
+            border: 3px dashed #667eea;
             border-radius: 10px;
             padding: 40px 20px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            background-color: white;
-            margin-bottom: 20px;
-        }
-        
-        .upload-area:hover {
-            background-color: #e8f4fc;
-            border-color: #2980b9;
-        }
-        
-        .upload-area i {
-            font-size: 48px;
-            color: #3498db;
+            transition: all 0.3s;
             margin-bottom: 15px;
         }
-        
-        .upload-area p {
-            margin-bottom: 10px;
-            color: #555;
+        .upload-area:hover {
+            background: #f8f9ff;
+            border-color: #764ba2;
         }
-        
-        .file-input {
+        .upload-area.dragover {
+            background: #e6e9ff;
+            border-color: #4a5568;
+        }
+        .file-info {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 14px;
             display: none;
         }
-        
-        .file-list {
-            margin-top: 20px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        
-        .file-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 15px;
-            background-color: white;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #e0e0e0;
-            transition: all 0.2s ease;
-        }
-        
-        .file-item:hover {
-            background-color: #f9f9f9;
-            transform: translateY(-2px);
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-        }
-        
-        .file-info {
-            display: flex;
-            align-items: center;
-            flex-grow: 1;
-        }
-        
-        .file-icon {
-            margin-left: 15px;
-            font-size: 20px;
-            color: #4a6fa5;
-        }
-        
-        .file-name {
-            font-weight: 500;
-            color: #333;
-        }
-        
-        .file-size {
-            color: #7f8c8d;
-            font-size: 14px;
-            margin-right: 10px;
-        }
-        
-        .remove-btn {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s;
-        }
-        
-        .remove-btn:hover {
-            background-color: #c0392b;
-        }
-        
         .upload-btn {
-            background-color: #27ae60;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            cursor: pointer;
+            padding: 15px;
             font-size: 18px;
-            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
             width: 100%;
-            transition: background-color 0.3s, transform 0.2s;
+            font-weight: bold;
+            transition: transform 0.3s;
             margin-top: 10px;
         }
-        
         .upload-btn:hover {
-            background-color: #219653;
             transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(39, 174, 96, 0.3);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
         }
-        
         .upload-btn:disabled {
-            background-color: #95a5a6;
+            opacity: 0.6;
             cursor: not-allowed;
             transform: none;
-            box-shadow: none;
         }
-        
-        .progress-container {
+        .result {
             margin-top: 20px;
-            display: none;
-        }
-        
-        .progress-bar {
-            width: 100%;
-            height: 20px;
-            background-color: #ecf0f1;
+            padding: 20px;
             border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background-color: #27ae60;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-        
-        .progress-text {
-            text-align: center;
-            color: #555;
-            font-weight: 500;
-        }
-        
-        .status-message {
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-            text-align: center;
-            font-weight: 500;
             display: none;
         }
-        
         .success {
-            background-color: #d4edda;
+            background: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
         }
-        
         .error {
-            background-color: #f8d7da;
+            background: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
-        
-        .tabs {
-            display: flex;
-            margin-bottom: 30px;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .tab {
-            padding: 15px 30px;
-            cursor: pointer;
-            font-weight: 500;
-            color: #7f8c8d;
-            transition: all 0.3s;
-            border-bottom: 3px solid transparent;
-        }
-        
-        .tab.active {
-            color: #4a6fa5;
-            border-bottom: 3px solid #4a6fa5;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            color: #7f8c8d;
+        .server-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 10px;
             font-size: 14px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
         }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-            
-            h1 {
-                font-size: 24px;
-            }
-            
-            .upload-section {
-                padding: 15px;
-            }
+        .port-selector {
+            margin-bottom: 20px;
+        }
+        .port-btn {
+            padding: 8px 15px;
+            margin: 0 5px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .port-btn.active {
+            background: #667eea;
+            color: white;
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1><i class="fas fa-cloud-upload-alt"></i> نظام تحميل الملفات التعليمية</h1>
-            <p class="subtitle">منصة التوحد - قسم المعلمين</p>
-        </header>
+        <h1>📤 رفع ملفات الصوت</h1>
         
-        <div class="tabs">
-            <div class="tab active" data-target="images-tab">
-                <i class="fas fa-image"></i> تحميل الصور
-            </div>
-            <div class="tab" data-target="sounds-tab">
-                <i class="fas fa-music"></i> تحميل ملفات الصوت
-            </div>
+        <div class="port-selector">
+            <label>اختر منفذ السيرفر:</label><br>
+            <button class="port-btn active" onclick="setPort(3000)">3000</button>
+            <button class="port-btn" onclick="setPort(8000)">8000</button>
+            <button class="port-btn" onclick="setPort(8080)">8080</button>
         </div>
         
-        <!-- قسم تحميل الصور -->
-        <div id="images-tab" class="tab-content active">
-            <div class="upload-section">
-                <div class="section-title">
-                    <i class="fas fa-image"></i>
-                    <h2>تحميل الصور للمجلد التعليمي</h2>
-                </div>
-                <p style="margin-bottom: 20px; color: #666;">الموقع الهدف: <code>/var/www/html/autism_platfor_html/teacher_dashbord/programs/images</code></p>
-                
-                <div class="upload-area" id="images-drop-area">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <p>اسحب وأفلت الصور هنا أو انقر للاختيار</p>
-                    <p style="font-size: 14px; color: #888;">(الملفات المدعومة: JPG, PNG, GIF, WEBP - الحد الأقصى: 10MB لكل ملف)</p>
-                    <input type="file" id="images-input" class="file-input" accept=".jpg,.jpeg,.png,.gif,.webp" multiple>
-                </div>
-                
-                <div id="images-list" class="file-list"></div>
-                
-                <button id="upload-images-btn" class="upload-btn" disabled>
-                    <i class="fas fa-upload"></i> رفع الصور المحددة
-                </button>
-                
-                <div id="images-progress" class="progress-container">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="images-progress-fill"></div>
-                    </div>
-                    <div class="progress-text" id="images-progress-text">0%</div>
-                </div>
-                
-                <div id="images-status" class="status-message"></div>
-            </div>
+        <div class="upload-area" id="dropArea">
+            <div style="font-size: 48px; margin-bottom: 10px;">📁</div>
+            <strong>اسحب وأفلت الملف هنا</strong><br>
+            <small>أو انقر لاختيار ملف صوتي</small>
+            <input type="file" id="audioFile" accept="audio/*" style="display: none;">
         </div>
         
-        <!-- قسم تحميل ملفات الصوت -->
-        <div id="sounds-tab" class="tab-content">
-            <div class="upload-section">
-                <div class="section-title">
-                    <i class="fas fa-music"></i>
-                    <h2>تحميل ملفات الصوت للمجلد التعليمي</h2>
-                </div>
-                <p style="margin-bottom: 20px; color: #666;">الموقع الهدف: <code>/var/www/html/autism_platfor_html/teacher_dashbord/programs/sound</code></p>
-                
-                <div class="upload-area" id="sounds-drop-area">
-                    <i class="fas fa-file-audio"></i>
-                    <p>اسحب وأفلت ملفات الصوت هنا أو انقر للاختيار</p>
-                    <p style="font-size: 14px; color: #888;">(الملفات المدعومة: MP3, WAV, OGG - الحد الأقصى: 20MB لكل ملف)</p>
-                    <input type="file" id="sounds-input" class="file-input" accept=".mp3,.wav,.ogg,.m4a" multiple>
-                </div>
-                
-                <div id="sounds-list" class="file-list"></div>
-                
-                <button id="upload-sounds-btn" class="upload-btn" disabled>
-                    <i class="fas fa-upload"></i> رفع ملفات الصوت المحددة
-                </button>
-                
-                <div id="sounds-progress" class="progress-container">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="sounds-progress-fill"></div>
-                    </div>
-                    <div class="progress-text" id="sounds-progress-text">0%</div>
-                </div>
-                
-                <div id="sounds-status" class="status-message"></div>
-            </div>
+        <div id="fileInfo" class="file-info"></div>
+        
+        <div class="form-group">
+            <label for="letter">الحرف (اختياري):</label>
+            <input type="text" id="letter" placeholder="مثال: أ">
         </div>
         
-        <footer>
-            <p>© 2023 منصة التوحد التعليمية - نظام تحميل الملفات | الإصدار 1.0</p>
-        </footer>
+        <div class="form-group">
+            <label for="fileName">اسم الملف (اختياري):</label>
+            <input type="text" id="fileName" placeholder="مثال: صوت_الحرف">
+        </div>
+        
+        <button class="upload-btn" id="uploadBtn" onclick="uploadFile()">رفع الملف 🚀</button>
+        
+        <div id="result" class="result"></div>
+        
+        <div class="server-info">
+            <strong>معلومات السيرفر:</strong><br>
+            <div id="currentPort">المنفذ الحالي: 3000</div>
+            <div id="serverStatus">الحالة: جاهز</div>
+        </div>
     </div>
-
+    
     <script>
-        // عناصر الواجهة الرئيسية
-        const imagesInput = document.getElementById('images-input');
-        const soundsInput = document.getElementById('sounds-input');
-        const imagesDropArea = document.getElementById('images-drop-area');
-        const soundsDropArea = document.getElementById('sounds-drop-area');
-        const imagesList = document.getElementById('images-list');
-        const soundsList = document.getElementById('sounds-list');
-        const uploadImagesBtn = document.getElementById('upload-images-btn');
-        const uploadSoundsBtn = document.getElementById('upload-sounds-btn');
-        const imagesProgress = document.getElementById('images-progress');
-        const soundsProgress = document.getElementById('sounds-progress');
-        const imagesProgressFill = document.getElementById('images-progress-fill');
-        const soundsProgressFill = document.getElementById('sounds-progress-fill');
-        const imagesProgressText = document.getElementById('images-progress-text');
-        const soundsProgressText = document.getElementById('sounds-progress-text');
-        const imagesStatus = document.getElementById('images-status');
-        const soundsStatus = document.getElementById('sounds-status');
+    // متغيرات عامة
+    let currentPort = 3000;
+    let selectedFile = null;
+    
+    // DOM elements
+    const dropArea = document.getElementById('dropArea');
+    const fileInput = document.getElementById('audioFile');
+    const fileInfo = document.getElementById('fileInfo');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const resultDiv = document.getElementById('result');
+    const currentPortDiv = document.getElementById('currentPort');
+    const serverStatusDiv = document.getElementById('serverStatus');
+    
+    // تعريف المنفذ
+    function setPort(port) {
+        currentPort = port;
         
-        // متغيرات لتخزين الملفات
-        let selectedImages = [];
-        let selectedSounds = [];
-        
-        // علامات التبويب
-        const tabs = document.querySelectorAll('.tab');
-        const tabContents = document.querySelectorAll('.tab-content');
-        
-        // تهيئة علامات التبويب
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const targetId = tab.getAttribute('data-target');
-                
-                // تحديد التبويب النشط
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                
-                // عرض المحتوى المناسب
-                tabContents.forEach(content => {
-                    content.classList.remove('active');
-                });
-                document.getElementById(targetId).classList.add('active');
-            });
+        // تحديث الأزرار
+        document.querySelectorAll('.port-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (parseInt(btn.textContent) === port) {
+                btn.classList.add('active');
+            }
         });
         
-        // دالة لعرض الملفات في القائمة
-        function displayFiles(files, container, type) {
-            container.innerHTML = '';
+        // تحديث العرض
+        currentPortDiv.textContent = `المنفذ الحالي: ${port}`;
+        serverStatusDiv.textContent = 'الحالة: جاهز';
+        
+        // اختبار الاتصال
+        testConnection();
+    }
+    
+    // اختبار اتصال بالسيرفر
+    async function testConnection() {
+        serverStatusDiv.textContent = 'الحالة: يختبر الاتصال...';
+        
+        const urls = [
+            `http://localhost:${currentPort}/upload_fixed.php`,
+            `http://localhost:${currentPort}/upload.php`,
+            `http://127.0.0.1:${currentPort}/upload_fixed.php`
+        ];
+        
+        for (const url of urls) {
+            try {
+                const response = await fetch(url, { method: 'HEAD' });
+                if (response.ok) {
+                    serverStatusDiv.innerHTML = `الحالة: <span style="color: green;">✅ متصل بـ ${url}</span>`;
+                    return url;
+                }
+            } catch (error) {
+                console.log(`فشل ${url}:`, error.message);
+            }
+        }
+        
+        serverStatusDiv.innerHTML = `الحالة: <span style="color: red;">❌ غير متصل</span>`;
+        return null;
+    }
+    
+    // معالجة السحب والإفلات
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, preventDefaults, false);
+    });
+    
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, () => {
+            dropArea.classList.add('dragover');
+        }, false);
+    });
+    
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, () => {
+            dropArea.classList.remove('dragover');
+        }, false);
+    });
+    
+    dropArea.addEventListener('drop', (e) => {
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            handleFileSelect();
+        }
+    });
+    
+    dropArea.addEventListener('click', () => {
+        fileInput.click();
+    });
+    
+    fileInput.addEventListener('change', handleFileSelect);
+    
+    function handleFileSelect() {
+        if (fileInput.files.length > 0) {
+            selectedFile = fileInput.files[0];
             
-            if (files.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #888; padding: 20px;">لم يتم اختيار أي ملفات</p>';
+            // التحقق من نوع الملف
+            const allowedTypes = ['audio/mpeg', 'audio/wav', 'audio/ogg'];
+            if (!allowedTypes.includes(selectedFile.type)) {
+                showResult('error', '❌ نوع الملف غير مدعوم. يسمح فقط بـ MP3, WAV, OGG');
+                selectedFile = null;
                 return;
             }
             
-            files.forEach((file, index) => {
-                const fileItem = document.createElement('div');
-                fileItem.className = 'file-item';
-                
-                const fileSize = formatFileSize(file.size);
-                const fileName = file.name.length > 30 ? file.name.substring(0, 30) + '...' : file.name;
-                
-                fileItem.innerHTML = `
-                    <div class="file-info">
-                        <div class="file-icon">
-                            ${type === 'image' ? '<i class="fas fa-image"></i>' : '<i class="fas fa-music"></i>'}
-                        </div>
-                        <div>
-                            <div class="file-name">${fileName}</div>
-                            <div class="file-size">${fileSize}</div>
-                        </div>
-                    </div>
-                    <button class="remove-btn" data-index="${index}">
-                        <i class="fas fa-times"></i> إزالة
-                    </button>
-                `;
-                
-                container.appendChild(fileItem);
-                
-                // إضافة حدث لإزالة الملف
-                const removeBtn = fileItem.querySelector('.remove-btn');
-                removeBtn.addEventListener('click', () => {
-                    if (type === 'image') {
-                        selectedImages.splice(index, 1);
-                        displayFiles(selectedImages, imagesList, 'image');
-                        uploadImagesBtn.disabled = selectedImages.length === 0;
-                    } else {
-                        selectedSounds.splice(index, 1);
-                        displayFiles(selectedSounds, soundsList, 'sound');
-                        uploadSoundsBtn.disabled = selectedSounds.length === 0;
-                    }
-                });
-            });
+            // التحقق من الحجم
+            const fileSizeMB = (selectedFile.size / (1024*1024)).toFixed(2);
+            if (selectedFile.size > 5 * 1024 * 1024) {
+                showResult('error', `❌ الملف كبير جداً (${fileSizeMB} MB). الحد الأقصى: 5 MB`);
+                selectedFile = null;
+                return;
+            }
+            
+            // عرض معلومات الملف
+            fileInfo.style.display = 'block';
+            fileInfo.innerHTML = `
+                <strong>📁 ${selectedFile.name}</strong><br>
+                الحجم: ${fileSizeMB} MB | النوع: ${selectedFile.type}
+            `;
+        }
+    }
+    
+    // رفع الملف
+    async function uploadFile() {
+        if (!selectedFile) {
+            showResult('error', '❌ الرجاء اختيار ملف أولاً');
+            return;
         }
         
-        // دالة لتنسيق حجم الملف
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 بايت';
+        const letter = document.getElementById('letter').value;
+        const fileName = document.getElementById('fileName').value;
+        
+        // تعطيل الزر
+        uploadBtn.disabled = true;
+        uploadBtn.textContent = 'جاري الرفع...';
+        
+        // إعداد FormData
+        const formData = new FormData();
+        formData.append('audioFile', selectedFile);
+        formData.append('letter', letter);
+        formData.append('fileName', fileName);
+        
+        // قائمة بالمسارات المحتملة
+        const urls = [
+            `http://localhost:${currentPort}/upload_fixed.php`,
+            `http://localhost:${currentPort}/upload.php`,
+            `http://127.0.0.1:${currentPort}/upload_fixed.php`,
+            `upload_fixed.php`,
+            `upload.php`
+        ];
+        
+        // محاولة الرفع
+        const result = await tryUpload(urls, formData);
+        
+        // إعادة تمكين الزر
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = 'رفع الملف 🚀';
+        
+        if (result.success) {
+            showResult('success', `
+                ✅ ${result.message}<br><br>
+                <strong>تفاصيل:</strong><br>
+                📁 اسم الملف: ${result.file_name}<br>
+                💾 الحجم: ${result.file_size}<br>
+                📅 التاريخ: ${result.upload_time}<br>
+                ${result.file_path ? `📍 المسار: ${result.file_path}<br>` : ''}
+                <small style="color: #666;">تم الرفع إلى المنفذ ${currentPort}</small>
+            `);
             
-            const k = 1024;
-            const sizes = ['بايت', 'كيلوبايت', 'ميجابايت', 'جيجابايت'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            // إعادة تعيين
+            fileInput.value = '';
+            fileInfo.style.display = 'none';
+            selectedFile = null;
+        } else {
+            showResult('error', `
+                ❌ ${result.message}<br><br>
+                <small>تأكد من:<br>
+                1. تشغيل سيرفر PHP على المنفذ ${currentPort}<br>
+                2. ملف upload.php موجود في المجلد الصحيح<br>
+                3. صلاحيات الكتابة للمجلد sounds/</small>
+            `);
         }
-        
-        // أحداث سحب وإفلات للملفات (للصور)
-        imagesDropArea.addEventListener('click', () => imagesInput.click());
-        
-        imagesDropArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            imagesDropArea.style.borderColor = '#2980b9';
-            imagesDropArea.style.backgroundColor = '#e8f4fc';
-        });
-        
-        imagesDropArea.addEventListener('dragleave', () => {
-            imagesDropArea.style.borderColor = '#3498db';
-            imagesDropArea.style.backgroundColor = 'white';
-        });
-        
-        imagesDropArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            imagesDropArea.style.borderColor = '#3498db';
-            imagesDropArea.style.backgroundColor = 'white';
-            
-            const files = Array.from(e.dataTransfer.files).filter(file => 
-                file.type.startsWith('image/') || 
-                ['.jpg', '.jpeg', '.png', '.gif', '.webp'].some(ext => 
-                    file.name.toLowerCase().endsWith(ext)
-                )
-            );
-            
-            selectedImages = [...selectedImages, ...files];
-            displayFiles(selectedImages, imagesList, 'image');
-            uploadImagesBtn.disabled = selectedImages.length === 0;
-        });
-        
-        // أحداث سحب وإفلات للملفات (للملفات الصوتية)
-        soundsDropArea.addEventListener('click', () => soundsInput.click());
-        
-        soundsDropArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            soundsDropArea.style.borderColor = '#2980b9';
-            soundsDropArea.style.backgroundColor = '#e8f4fc';
-        });
-        
-        soundsDropArea.addEventListener('dragleave', () => {
-            soundsDropArea.style.borderColor = '#3498db';
-            soundsDropArea.style.backgroundColor = 'white';
-        });
-        
-        soundsDropArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            soundsDropArea.style.borderColor = '#3498db';
-            soundsDropArea.style.backgroundColor = 'white';
-            
-            const files = Array.from(e.dataTransfer.files).filter(file => 
-                file.type.startsWith('audio/') || 
-                ['.mp3', '.wav', '.ogg', '.m4a'].some(ext => 
-                    file.name.toLowerCase().endsWith(ext)
-                )
-            );
-            
-            selectedSounds = [...selectedSounds, ...files];
-            displayFiles(selectedSounds, soundsList, 'sound');
-            uploadSoundsBtn.disabled = selectedSounds.length === 0;
-        });
-        
-        // حدث اختيار الملفات (للصور)
-        imagesInput.addEventListener('change', (e) => {
-            const files = Array.from(e.target.files);
-            selectedImages = [...selectedImages, ...files];
-            displayFiles(selectedImages, imagesList, 'image');
-            uploadImagesBtn.disabled = selectedImages.length === 0;
-            imagesInput.value = ''; // إعادة تعيين الإدخال للسماح باختيار نفس الملف مرة أخرى
-        });
-        
-        // حدث اختيار الملفات (للملفات الصوتية)
-        soundsInput.addEventListener('change', (e) => {
-            const files = Array.from(e.target.files);
-            selectedSounds = [...selectedSounds, ...files];
-            displayFiles(selectedSounds, soundsList, 'sound');
-            uploadSoundsBtn.disabled = selectedSounds.length === 0;
-            soundsInput.value = ''; // إعادة تعيين الإدخال للسماح باختيار نفس الملف مرة أخرى
-        });
-        
-        // دالة لرفع الملفات
-        async function uploadFiles(files, type) {
-            const formData = new FormData();
-            
-            // إضافة جميع الملفات إلى FormData
-            files.forEach(file => {
-                formData.append('files[]', file);
-            });
-            
-            // تحديد المسار بناءً على نوع الملف
-            formData.append('type', type);
-            
+    }
+    
+    // محاولة الرفع بجميع المسارات
+    async function tryUpload(urls, formData) {
+        for (const url of urls) {
             try {
-                // إظهار شريط التقدم
-                if (type === 'image') {
-                    imagesProgress.style.display = 'block';
-                    imagesStatus.style.display = 'none';
-                } else {
-                    soundsProgress.style.display = 'block';
-                    soundsStatus.style.display = 'none';
-                }
+                console.log(`محاولة الرفع إلى: ${url}`);
                 
-                // استخدام Fetch API لرفع الملفات
-                const response = await fetch('upload.php', {
+                const response = await fetch(url, {
                     method: 'POST',
                     body: formData
                 });
                 
-                // محاكاة شريط التقدم (في الواقع الفعلي، سيكون من الأفضل استخدام XMLHttpRequest لتتبع التقدم)
-                let progress = 0;
-                const interval = setInterval(() => {
-                    progress += 5;
-                    if (progress > 90) {
-                        clearInterval(interval);
-                    }
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('الاستجابة:', data);
                     
-                    if (type === 'image') {
-                        imagesProgressFill.style.width = `${progress}%`;
-                        imagesProgressText.textContent = `${progress}%`;
+                    if (data.success) {
+                        return {
+                            success: true,
+                            ...data
+                        };
                     } else {
-                        soundsProgressFill.style.width = `${progress}%`;
-                        soundsProgressText.textContent = `${progress}%`;
-                    }
-                }, 100);
-                
-                const result = await response.json();
-                clearInterval(interval);
-                
-                // إكمال شريط التقدم
-                if (type === 'image') {
-                    imagesProgressFill.style.width = '100%';
-                    imagesProgressText.textContent = '100%';
-                } else {
-                    soundsProgressFill.style.width = '100%';
-                    soundsProgressText.textContent = '100%';
-                }
-                
-                // عرض رسالة النجاح أو الخطأ
-                if (result.success) {
-                    if (type === 'image') {
-                        imagesStatus.textContent = `✅ تم رفع ${result.uploaded_count} من ${files.length} صورة بنجاح`;
-                        imagesStatus.className = 'status-message success';
-                        imagesStatus.style.display = 'block';
-                        
-                        // إعادة تعيين القائمة بعد التحميل الناجح
-                        setTimeout(() => {
-                            selectedImages = [];
-                            displayFiles(selectedImages, imagesList, 'image');
-                            uploadImagesBtn.disabled = true;
-                            imagesProgress.style.display = 'none';
-                        }, 3000);
-                    } else {
-                        soundsStatus.textContent = `✅ تم رفع ${result.uploaded_count} من ${files.length} ملف صوت بنجاح`;
-                        soundsStatus.className = 'status-message success';
-                        soundsStatus.style.display = 'block';
-                        
-                        // إعادة تعيين القائمة بعد التحميل الناجح
-                        setTimeout(() => {
-                            selectedSounds = [];
-                            displayFiles(selectedSounds, soundsList, 'sound');
-                            uploadSoundsBtn.disabled = true;
-                            soundsProgress.style.display = 'none';
-                        }, 3000);
-                    }
-                } else {
-                    if (type === 'image') {
-                        imagesStatus.textContent = `❌ حدث خطأ: ${result.message}`;
-                        imagesStatus.className = 'status-message error';
-                        imagesStatus.style.display = 'block';
-                    } else {
-                        soundsStatus.textContent = `❌ حدث خطأ: ${result.message}`;
-                        soundsStatus.className = 'status-message error';
-                        soundsStatus.style.display = 'block';
+                        // استمرار المحاولة بالمسار التالي
+                        continue;
                     }
                 }
-                
             } catch (error) {
-                console.error('Error uploading files:', error);
-                
-                if (type === 'image') {
-                    imagesStatus.textContent = `❌ فشل الاتصال بالخادم: ${error.message}`;
-                    imagesStatus.className = 'status-message error';
-                    imagesStatus.style.display = 'block';
-                    imagesProgress.style.display = 'none';
-                } else {
-                    soundsStatus.textContent = `❌ فشل الاتصال بالخادم: ${error.message}`;
-                    soundsStatus.className = 'status-message error';
-                    soundsStatus.style.display = 'block';
-                    soundsProgress.style.display = 'none';
-                }
+                console.log(`فشل ${url}:`, error.message);
+                // استمرار المحاولة بالمسار التالي
             }
         }
         
-        // حدث رفع الصور
-        uploadImagesBtn.addEventListener('click', () => {
-            if (selectedImages.length > 0) {
-                uploadFiles(selectedImages, 'image');
-            }
-        });
-        
-        // حدث رفع ملفات الصوت
-        uploadSoundsBtn.addEventListener('click', () => {
-            if (selectedSounds.length > 0) {
-                uploadFiles(selectedSounds, 'sound');
-            }
-        });
-        
-        // تهيئة القوائم الفارغة
-        displayFiles([], imagesList, 'image');
-        displayFiles([], soundsList, 'sound');
+        return {
+            success: false,
+            message: 'فشل جميع محاولات الرفع'
+        };
+    }
+    
+    // عرض النتائج
+    function showResult(type, message) {
+        resultDiv.className = `result ${type}`;
+        resultDiv.innerHTML = message;
+        resultDiv.style.display = 'block';
+        resultDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // التهيئة الأولية
+    window.onload = function() {
+        testConnection();
+    };
     </script>
 </body>
 </html>

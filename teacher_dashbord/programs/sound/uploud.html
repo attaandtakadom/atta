@@ -1,0 +1,701 @@
+<?php
+// upload.php - نظام رفع ملفات الصوت
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// إعدادات رفع الملفات
+$uploadDir = 'sounds/';
+$maxFileSize = 10 * 1024 * 1024; // 10MB
+$allowedTypes = [
+    'audio/mpeg' => 'mp3',
+    'audio/wav' => 'wav',
+    'audio/ogg' => 'ogg',
+    'audio/x-wav' => 'wav',
+    'audio/x-m4a' => 'm4a'
+];
+
+// السماح بالطلبات من أي مصدر (لتطوير محلي)
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+header('Content-Type: application/json; charset=utf-8');
+
+// معالجة طلبات OPTIONS
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
+// تسجيل الطلبات للتصحيح
+$log = date('Y-m-d H:i:s') . " - " . $_SERVER['REQUEST_METHOD'] . " " . $_SERVER['REQUEST_URI'] . "\n";
+file_put_contents('upload_log.txt', $log, FILE_APPEND);
+
+// ========== دالة GET لعرض الملفات ==========
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    if (isset($_GET['action']) && $_GET['action'] == 'list') {
+        $files = [];
+        if (is_dir($uploadDir)) {
+            $fileList = scandir($uploadDir);
+            foreach ($fileList as $file) {
+                if ($file != '.' && $file != '..') {
+                    $filePath = $uploadDir . $file;
+                    $files[] = [
+                        'name' => $file,
+                        'path' => $filePath,
+                        'size' => filesize($filePath),
+                        'size_formatted' => formatBytes(filesize($filePath)),
+                        'modified' => date('Y-m-d H:i:s', filemtime($filePath)),
+                        'url' => $filePath
+                    ];
+                }
+            }
+        }
+        
+        echo json_encode([
+            'success' => true,
+            'count' => count($files),
+            'files' => $files,
+            'upload_dir' => realpath($uploadDir)
+        ]);
+        exit();
+    }
+    
+    // صفحة HTML بسيطة للرفع
+    if (!isset($_GET['api'])) {
+        ?>
+        <!DOCTYPE html>
+        <html lang="ar" dir="rtl">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>رفع ملفات الصوت - منصة التوحد</title>
+            <style>
+                * { margin: 0; padding: 0; box-sizing: border-box; }
+                body {
+                    font-family: 'Tahoma', sans-serif;
+                    background: linear-gradient(135deg, #4a90e2 0%, #9013fe 100%);
+                    min-height: 100vh;
+                    padding: 20px;
+                    color: #333;
+                }
+                .container {
+                    max-width: 800px;
+                    margin: 0 auto;
+                    background: white;
+                    padding: 30px;
+                    border-radius: 15px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                }
+                h1 {
+                    text-align: center;
+                    color: #2c3e50;
+                    margin-bottom: 30px;
+                    font-size: 28px;
+                }
+                .upload-area {
+                    border: 3px dashed #3498db;
+                    border-radius: 10px;
+                    padding: 40px 20px;
+                    text-align: center;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    margin-bottom: 20px;
+                }
+                .upload-area:hover {
+                    background: #f8f9fa;
+                    border-color: #2980b9;
+                }
+                .upload-area.dragover {
+                    background: #e3f2fd;
+                    border-color: #1a5276;
+                }
+                .upload-icon {
+                    font-size: 48px;
+                    color: #3498db;
+                    margin-bottom: 10px;
+                }
+                .form-group {
+                    margin: 20px 0;
+                }
+                label {
+                    display: block;
+                    margin-bottom: 8px;
+                    font-weight: bold;
+                    color: #2c3e50;
+                }
+                input[type="text"], select {
+                    width: 100%;
+                    padding: 12px;
+                    border: 2px solid #ddd;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    transition: border-color 0.3s;
+                }
+                input[type="text"]:focus, select:focus {
+                    outline: none;
+                    border-color: #3498db;
+                }
+                .upload-btn {
+                    background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+                    color: white;
+                    border: none;
+                    padding: 15px 30px;
+                    font-size: 18px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    width: 100%;
+                    font-weight: bold;
+                    transition: transform 0.3s;
+                    margin-top: 20px;
+                }
+                .upload-btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+                }
+                .upload-btn:disabled {
+                    opacity: 0.6;
+                    cursor: not-allowed;
+                    transform: none;
+                }
+                .result {
+                    margin-top: 20px;
+                    padding: 20px;
+                    border-radius: 10px;
+                    display: none;
+                }
+                .success {
+                    background: #d5edda;
+                    color: #155724;
+                    border: 1px solid #c3e6cb;
+                }
+                .error {
+                    background: #f8d7da;
+                    color: #721c24;
+                    border: 1px solid #f5c6cb;
+                }
+                .files-list {
+                    margin-top: 30px;
+                    border-top: 2px solid #eee;
+                    padding-top: 20px;
+                }
+                .file-item {
+                    background: #f8f9fa;
+                    padding: 15px;
+                    margin: 10px 0;
+                    border-radius: 8px;
+                    border-left: 4px solid #3498db;
+                }
+                .file-name {
+                    font-weight: bold;
+                    color: #2c3e50;
+                }
+                .file-info {
+                    color: #666;
+                    font-size: 14px;
+                    margin-top: 5px;
+                }
+                .play-btn {
+                    background: #2ecc71;
+                    color: white;
+                    border: none;
+                    padding: 8px 15px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    margin-top: 10px;
+                }
+                .delete-btn {
+                    background: #e74c3c;
+                    color: white;
+                    border: none;
+                    padding: 8px 15px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    margin-top: 10px;
+                    margin-right: 10px;
+                }
+                .progress-bar {
+                    height: 8px;
+                    background: #e0e0e0;
+                    border-radius: 4px;
+                    margin: 15px 0;
+                    overflow: hidden;
+                    display: none;
+                }
+                .progress-fill {
+                    height: 100%;
+                    background: linear-gradient(90deg, #3498db, #2c3e50);
+                    width: 0%;
+                    transition: width 0.3s;
+                }
+                .server-info {
+                    background: #f1f8ff;
+                    padding: 15px;
+                    border-radius: 8px;
+                    margin-top: 20px;
+                    font-size: 14px;
+                    color: #666;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>📤 رفع ملفات الصوت - منصة التوحد</h1>
+                
+                <div class="upload-area" id="dropArea">
+                    <div class="upload-icon">🎵</div>
+                    <strong>اسحب وأفلت ملفات الصوت هنا</strong><br>
+                    <small>أو انقر لاختيار الملفات (MP3, WAV, OGG, M4A)</small>
+                    <input type="file" id="audioFile" accept="audio/*" multiple style="display: none;">
+                </div>
+                
+                <div id="fileInfo" style="display: none;"></div>
+                
+                <div class="form-group">
+                    <label for="category">التصنيف:</label>
+                    <select id="category">
+                        <option value="">اختر تصنيفاً</option>
+                        <option value="letters">أحرف عربية</option>
+                        <option value="numbers">أرقام</option>
+                        <option value="animals">حيوانات</option>
+                        <option value="objects">أشياء</option>
+                        <option value="words">كلمات</option>
+                        <option value="songs">أناشيد</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">وصف الملف (اختياري):</label>
+                    <input type="text" id="description" placeholder="مثال: صوت الحرف أ">
+                </div>
+                
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                
+                <button class="upload-btn" id="uploadBtn" onclick="startUpload()">رفع الملفات 🚀</button>
+                
+                <div id="result" class="result"></div>
+                
+                <div class="files-list">
+                    <h3>📁 الملفات المرفوعة:</h3>
+                    <div id="filesContainer">جاري تحميل قائمة الملفات...</div>
+                </div>
+                
+                <div class="server-info">
+                    <strong>معلومات السيرفر:</strong><br>
+                    المسار: <?php echo __DIR__; ?><br>
+                    مجلد الرفع: <?php echo realpath($uploadDir); ?>
+                </div>
+            </div>
+            
+            <script>
+            // المتغيرات العامة
+            let selectedFiles = [];
+            const dropArea = document.getElementById('dropArea');
+            const fileInput = document.getElementById('audioFile');
+            const fileInfo = document.getElementById('fileInfo');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const resultDiv = document.getElementById('result');
+            const progressBar = document.getElementById('progressBar');
+            const progressFill = document.getElementById('progressFill');
+            const filesContainer = document.getElementById('filesContainer');
+            
+            // معالجة السحب والإفلات
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, () => {
+                    dropArea.classList.add('dragover');
+                }, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, () => {
+                    dropArea.classList.remove('dragover');
+                }, false);
+            });
+            
+            dropArea.addEventListener('drop', (e) => {
+                const files = e.dataTransfer.files;
+                handleFiles(files);
+            });
+            
+            dropArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            fileInput.addEventListener('change', (e) => {
+                handleFiles(e.target.files);
+            });
+            
+            function handleFiles(files) {
+                selectedFiles = Array.from(files);
+                
+                if (selectedFiles.length === 0) return;
+                
+                // التحقق من الملفات
+                const validFiles = [];
+                const errors = [];
+                
+                selectedFiles.forEach(file => {
+                    const fileSizeMB = (file.size / (1024*1024)).toFixed(2);
+                    
+                    if (file.size > 10 * 1024 * 1024) {
+                        errors.push(`❌ ${file.name}: الحجم كبير جداً (${fileSizeMB} MB)`);
+                    } else if (!file.type.startsWith('audio/')) {
+                        errors.push(`❌ ${file.name}: ليس ملف صوتي`);
+                    } else {
+                        validFiles.push(file);
+                    }
+                });
+                
+                if (errors.length > 0) {
+                    showResult('error', errors.join('<br>'));
+                }
+                
+                if (validFiles.length > 0) {
+                    selectedFiles = validFiles;
+                    displayFileInfo();
+                } else {
+                    selectedFiles = [];
+                    fileInfo.style.display = 'none';
+                }
+            }
+            
+            function displayFileInfo() {
+                let html = '<strong>الملفات المختارة:</strong><br>';
+                selectedFiles.forEach(file => {
+                    const fileSizeMB = (file.size / (1024*1024)).toFixed(2);
+                    html += `📁 ${file.name} (${fileSizeMB} MB)<br>`;
+                });
+                fileInfo.innerHTML = html;
+                fileInfo.style.display = 'block';
+            }
+            
+            // رفع الملفات
+            async function startUpload() {
+                if (selectedFiles.length === 0) {
+                    showResult('error', '❌ الرجاء اختيار ملفات أولاً');
+                    return;
+                }
+                
+                const category = document.getElementById('category').value;
+                const description = document.getElementById('description').value;
+                
+                uploadBtn.disabled = true;
+                uploadBtn.textContent = 'جاري الرفع...';
+                progressBar.style.display = 'block';
+                resultDiv.style.display = 'none';
+                
+                const results = [];
+                const totalFiles = selectedFiles.length;
+                
+                for (let i = 0; i < selectedFiles.length; i++) {
+                    const file = selectedFiles[i];
+                    const progress = ((i / totalFiles) * 100).toFixed(0);
+                    progressFill.style.width = progress + '%';
+                    
+                    const result = await uploadFile(file, category, description);
+                    results.push(result);
+                }
+                
+                progressFill.style.width = '100%';
+                
+                // عرض النتائج
+                const successful = results.filter(r => r.success).length;
+                const failed = results.filter(r => !r.success).length;
+                
+                let resultHtml = '';
+                if (successful > 0) {
+                    resultHtml += `<strong>✅ تم رفع ${successful} ملف بنجاح</strong><br>`;
+                    results.filter(r => r.success).forEach(r => {
+                        resultHtml += `📁 ${r.file_name}<br>`;
+                    });
+                }
+                
+                if (failed > 0) {
+                    resultHtml += `<br><strong>❌ فشل رفع ${failed} ملف</strong><br>`;
+                    results.filter(r => !r.success).forEach(r => {
+                        resultHtml += `❌ ${r.message}<br>`;
+                    });
+                }
+                
+                showResult(successful > 0 ? 'success' : 'error', resultHtml);
+                
+                // إعادة التعيين
+                uploadBtn.disabled = false;
+                uploadBtn.textContent = 'رفع الملفات 🚀';
+                setTimeout(() => {
+                    progressBar.style.display = 'none';
+                    progressFill.style.width = '0%';
+                }, 1000);
+                
+                // تحديث قائمة الملفات
+                loadFiles();
+            }
+            
+            async function uploadFile(file, category, description) {
+                const formData = new FormData();
+                formData.append('audioFile', file);
+                formData.append('category', category);
+                formData.append('description', description);
+                
+                try {
+                    const response = await fetch('upload.php?api=1', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    return await response.json();
+                } catch (error) {
+                    return {
+                        success: false,
+                        message: `خطأ في الاتصال: ${error.message}`
+                    };
+                }
+            }
+            
+            // تحميل قائمة الملفات
+            async function loadFiles() {
+                try {
+                    const response = await fetch('upload.php?action=list');
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        if (data.files.length === 0) {
+                            filesContainer.innerHTML = '<p style="color: #666;">لا توجد ملفات مرفوعة بعد</p>';
+                            return;
+                        }
+                        
+                        let html = '';
+                        data.files.forEach(file => {
+                            html += `
+                                <div class="file-item">
+                                    <div class="file-name">🎵 ${file.name}</div>
+                                    <div class="file-info">
+                                        الحجم: ${file.size_formatted} | 
+                                        التعديل: ${file.modified}
+                                    </div>
+                                    <button class="play-btn" onclick="playAudio('${file.url}')">▶ تشغيل</button>
+                                    <button class="delete-btn" onclick="deleteFile('${file.name}')">🗑 حذف</button>
+                                    <a href="${file.url}" download style="text-decoration: none;">
+                                        <button style="background: #3498db; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px;">
+                                            ⬇ تحميل
+                                        </button>
+                                    </a>
+                                </div>
+                            `;
+                        });
+                        
+                        filesContainer.innerHTML = html;
+                    }
+                } catch (error) {
+                    filesContainer.innerHTML = `<p style="color: red;">❌ خطأ في تحميل الملفات: ${error.message}</p>`;
+                }
+            }
+            
+            // تشغيل الصوت
+            function playAudio(url) {
+                const audio = new Audio(url);
+                audio.play().catch(e => {
+                    showResult('error', '❌ لا يمكن تشغيل الملف');
+                });
+            }
+            
+            // حذف الملف
+            async function deleteFile(fileName) {
+                if (!confirm(`هل أنت متأكد من حذف الملف "${fileName}"؟`)) return;
+                
+                try {
+                    const response = await fetch(`upload.php?action=delete&file=${encodeURIComponent(fileName)}`);
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        showResult('success', `✅ تم حذف الملف "${fileName}"`);
+                        loadFiles();
+                    } else {
+                        showResult('error', data.message);
+                    }
+                } catch (error) {
+                    showResult('error', `❌ خطأ في الحذف: ${error.message}`);
+                }
+            }
+            
+            function showResult(type, message) {
+                resultDiv.className = `result ${type}`;
+                resultDiv.innerHTML = message;
+                resultDiv.style.display = 'block';
+                resultDiv.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // التهيئة الأولية
+            window.onload = function() {
+                loadFiles();
+            };
+            </script>
+        </body>
+        </html>
+        <?php
+        exit();
+    }
+}
+
+// ========== دالة POST لرفع الملفات ==========
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // التحقق من وجود الملف
+    if (!isset($_FILES['audioFile'])) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'لم يتم إرسال أي ملف'
+        ]);
+        exit();
+    }
+    
+    $file = $_FILES['audioFile'];
+    
+    // التحقق من الأخطاء
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        $errorMessages = [
+            1 => 'حجم الملف أكبر من الحد المسموح',
+            2 => 'حجم الملف أكبر من الحد في النموذج',
+            3 => 'تم رفع جزء من الملف فقط',
+            4 => 'لم يتم رفع أي ملف',
+            6 => 'المجلد المؤقت مفقود',
+            7 => 'فشل في كتابة الملف',
+            8 => 'تم إيقاف الرفع بواسطة إضافة PHP'
+        ];
+        
+        echo json_encode([
+            'success' => false,
+            'message' => $errorMessages[$file['error']] ?? 'خطأ غير معروف في الرفع'
+        ]);
+        exit();
+    }
+    
+    // التحقق من الحجم
+    if ($file['size'] > $maxFileSize) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'حجم الملف كبير جداً. الحد الأقصى 10 ميجابايت'
+        ]);
+        exit();
+    }
+    
+    // التحقق من النوع
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mimeType = finfo_file($finfo, $file['tmp_name']);
+    finfo_close($finfo);
+    
+    if (!array_key_exists($mimeType, $allowedTypes)) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'نوع الملف غير مدعوم. يسمح فقط بملفات الصوت'
+        ]);
+        exit();
+    }
+    
+    // إنشاء مجلد الرفع إذا لم يكن موجوداً
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+    
+    // إنشاء اسم ملف فريد
+    $category = $_POST['category'] ?? '';
+    $description = $_POST['description'] ?? '';
+    
+    $originalName = pathinfo($file['name'], PATHINFO_FILENAME);
+    $extension = $allowedTypes[$mimeType];
+    
+    // تنظيف الاسم
+    $cleanName = preg_replace('/[^a-zA-Z0-9اأإآبتثجحخدذرزسشصضطظعغفقكلمنهويىء-]+/u', '_', $originalName);
+    
+    // بناء الاسم النهائي
+    if (!empty($description)) {
+        $fileName = preg_replace('/[^a-zA-Z0-9اأإآبتثجحخدذرزسشصضطظعغفقكلمنهويىء-]+/u', '_', $description);
+    } else {
+        $fileName = $cleanName;
+    }
+    
+    // إضافة المعرف الفريد إذا كان الملف موجوداً
+    $counter = 1;
+    $finalName = $fileName . '.' . $extension;
+    while (file_exists($uploadDir . $finalName)) {
+        $finalName = $fileName . '_' . $counter . '.' . $extension;
+        $counter++;
+    }
+    
+    // رفع الملف
+    $targetPath = $uploadDir . $finalName;
+    
+    if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+        // تسجيل معلومات الملف
+        $fileInfo = [
+            'name' => $finalName,
+            'original_name' => $file['name'],
+            'size' => $file['size'],
+            'type' => $mimeType,
+            'category' => $category,
+            'description' => $description,
+            'upload_date' => date('Y-m-d H:i:s'),
+            'upload_ip' => $_SERVER['REMOTE_ADDR']
+        ];
+        
+        file_put_contents($uploadDir . 'files.json', json_encode($fileInfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        
+        echo json_encode([
+            'success' => true,
+            'message' => 'تم رفع الملف بنجاح',
+            'file_name' => $finalName,
+            'file_path' => $targetPath,
+            'file_size' => formatBytes($file['size']),
+            'file_size_bytes' => $file['size'],
+            'category' => $category,
+            'description' => $description,
+            'upload_date' => date('Y-m-d H:i:s')
+        ]);
+    } else {
+        echo json_encode([
+            'success' => false,
+            'message' => 'فشل في حفظ الملف على الخادم'
+        ]);
+    }
+    
+    exit();
+}
+
+// ========== دالة DELETE لحذف الملفات ==========
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['file'])) {
+    $fileName = basename($_GET['file']);
+    $filePath = $uploadDir . $fileName;
+    
+    if (file_exists($filePath) && unlink($filePath)) {
+        echo json_encode([
+            'success' => true,
+            'message' => 'تم حذف الملف بنجاح'
+        ]);
+    } else {
+        echo json_encode([
+            'success' => false,
+            'message' => 'فشل في حذف الملف'
+        ]);
+    }
+    exit();
+}
+
+// ========== دالة مساعدة لتنسيق الحجم ==========
+function formatBytes($bytes, $precision = 2) {
+    $units = ['بايت', 'ك.ب', 'م.ب', 'ج.ب', 'ت.ب'];
+    $bytes = max($bytes, 0);
+    $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+    $pow = min($pow, count($units) - 1);
+    $bytes /= pow(1024, $pow);
+    return round($bytes, $precision) . ' ' . $units[$pow];
+}
+?>

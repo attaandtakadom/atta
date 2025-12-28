@@ -1,0 +1,344 @@
+/* تنسيق عام */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+    color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 10px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 20px;
+}
+
+/* الترويسة */
+header {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(90deg, #4CAF50, #2E7D32);
+    color: white;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.logo i {
+    font-size: 2.5rem;
+}
+
+.logo h1 {
+    font-size: 1.8rem;
+}
+
+.subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* التعليمات */
+.instructions {
+    background-color: #f1f8e9;
+    padding: 15px 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    border-right: 5px solid #4CAF50;
+}
+
+.instructions h2 {
+    color: #2E7D32;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.instructions ol {
+    padding-right: 20px;
+}
+
+.instructions li {
+    margin-bottom: 8px;
+    padding: 5px 0;
+}
+
+/* البطاقة التعليمية الرئيسية */
+.letter-card {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    border: 3px solid #4CAF50;
+}
+
+.progress-indicator {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.letter-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.letter-image-container {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    margin-bottom: 20px;
+}
+
+.letter-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 15px;
+    border: 3px solid #BBDEFB;
+    background-color: #f9f9f9;
+}
+
+.positive-feedback {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: rgba(255, 235, 59, 0.95);
+    color: #333;
+    padding: 15px 25px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.5s ease;
+    z-index: 10;
+}
+
+.positive-feedback.active {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.letter-info {
+    text-align: center;
+}
+
+.letter-name {
+    font-size: 3.5rem;
+    color: #1565C0;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.letter-example {
+    font-size: 1.8rem;
+    color: #666;
+    background-color: #E3F2FD;
+    padding: 10px 20px;
+    border-radius: 50px;
+    display: inline-block;
+}
+
+/* أزرار التحكم */
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.play-button {
+    background: linear-gradient(90deg, #4CAF50, #66BB6A);
+    color: white;
+    border: none;
+    padding: 20px 40px;
+    border-radius: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+    width: 100%;
+    max-width: 400px;
+    justify-content: center;
+}
+
+.play-button:hover {
+    background: linear-gradient(90deg, #388E3C, #4CAF50);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+}
+
+.play-button:active {
+    transform: translateY(1px);
+}
+
+.navigation {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.nav-button {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+#prev-button {
+    background-color: #E3F2FD;
+    color: #1565C0;
+}
+
+#next-button {
+    background-color: #1565C0;
+    color: white;
+}
+
+.nav-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* قائمة الحروف */
+.letters-menu {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+}
+
+.letters-menu h3 {
+    color: #2E7D32;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.letters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+}
+
+.letter-option {
+    background-color: white;
+    border: 2px solid #BBDEFB;
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #1565C0;
+}
+
+.letter-option:hover {
+    background-color: #E3F2FD;
+    transform: translateY(-3px);
+}
+
+.letter-option.active {
+    background-color: #4CAF50;
+    color: white;
+    border-color: #388E3C;
+}
+
+/* التذييل */
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    border-top: 1px solid #eee;
+    font-size: 0.9rem;
+}
+
+.footer-note {
+    color: #4CAF50;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* تصميم متجاوب للهواتف */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        border-radius: 15px;
+    }
+    
+    .logo {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .logo h1 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+    
+    .letter-image-container {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .letter-name {
+        font-size: 2.8rem;
+    }
+    
+    .letter-example {
+        font-size: 1.5rem;
+    }
+    
+    .play-button {
+        padding: 18px 30px;
+        font-size: 1.3rem;
+    }
+    
+    .letters-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+    
+    .letter-option {
+        font-size: 1.5rem;
+        padding: 12px;
+    }
+}

@@ -11,6 +11,7 @@
             --primary: #6c5ce7;
             --success: #00b894;
             --bg: #f9f7ff;
+            --accent: #ff7675;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'Quicksand', sans-serif; }
@@ -27,17 +28,30 @@
             text-shadow: 2px 2px white;
         }
 
-        /* منطقة التمرين */
+        /* منطقة السؤال */
         .quiz-box {
             width: 100%; max-width: 400px;
             background: white; border-radius: 25px;
             padding: 20px; text-align: center;
             box-shadow: 0 8px 20px rgba(0,0,0,0.05);
             border: 4px solid #a29bfe; margin-bottom: 20px;
+            position: relative;
         }
 
         .question-text { font-size: 20px; font-weight: bold; color: #2d3436; margin-bottom: 10px; }
-        .target-number { font-size: 50px; font-family: 'Fredoka One'; color: #ff7675; }
+        .target-container { display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .target-number { font-size: 60px; font-family: 'Fredoka One'; color: var(--accent); }
+
+        /* زر إعادة السماع المطور */
+        .repeat-btn {
+            background: var(--primary); color: white; border: none;
+            width: 50px; height: 50px; border-radius: 50%;
+            font-size: 20px; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+            transition: transform 0.2s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .repeat-btn:active { transform: scale(0.9); }
 
         /* شبكة الأرقام */
         .numbers-grid {
@@ -68,6 +82,7 @@
             position: fixed; bottom: 0; left: 0; right: 0;
             display: flex; gap: 10px; padding: 15px;
             background: white; border-top: 1px solid #eee;
+            z-index: 100;
         }
 
         .nav-btn {
@@ -78,7 +93,7 @@
         .home { background: #f1f2f6; color: #2d3436; }
         .back { background: #fd79a8; color: white; }
 
-        /* تأثيرات النجاح */
+        /* تأثير النجاح */
         .success-anim { animation: celebrate 0.5s ease-in-out; background: var(--success) !important; color: white !important; }
         @keyframes celebrate { 50% { transform: scale(1.2); } }
     </style>
@@ -89,11 +104,15 @@
 
     <div class="quiz-box">
         <div class="question-text">Can you find number?</div>
-        <div id="targetDisplay" class="target-number">?</div>
+        <div class="target-container">
+            <div id="targetDisplay" class="target-number">?</div>
+            <button class="repeat-btn" onclick="repeatQuestion()" title="Listen Again">
+                <i class="fas fa-volume-up"></i>
+            </button>
+        </div>
     </div>
 
-    <div class="numbers-grid" id="grid">
-        </div>
+    <div class="numbers-grid" id="grid"></div>
 
     <div class="nav-bar">
         <a href="../../../../../teacher_dashbord/english_dashboard.html" class="nav-btn home">
@@ -111,8 +130,15 @@
         const grid = document.getElementById('grid');
         const targetDisplay = document.getElementById('targetDisplay');
         let targetNum = 0;
+        let voices = [];
 
-        // إنشاء الأرقام من 1 إلى 20
+        // تحميل الأصوات لضمان عملها على الجوال
+        function loadVoices() {
+            voices = window.speechSynthesis.getVoices();
+        }
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+
         function initNumbers() {
             grid.innerHTML = '';
             for (let i = 1; i <= 20; i++) {
@@ -129,12 +155,16 @@
         function newQuestion() {
             targetNum = Math.floor(Math.random() * 20) + 1;
             targetDisplay.innerText = "?";
+            repeatQuestion();
+        }
+
+        // دالة إعادة السماع
+        function repeatQuestion() {
             speak("Can you find number " + targetNum);
         }
 
         function checkAnswer(selected, element) {
             if (selected === targetNum) {
-                // إجابة صحيحة
                 element.classList.add('success-anim');
                 targetDisplay.innerText = targetNum;
                 document.getElementById('clapSnd').play();
@@ -145,7 +175,6 @@
                     newQuestion();
                 }, 2500);
             } else {
-                // إجابة خاطئة
                 document.getElementById('wrongSnd').play();
                 speak("No, this is " + selected + ". Try again.");
             }
@@ -155,10 +184,22 @@
             window.speechSynthesis.cancel();
             const msg = new SpeechSynthesisUtterance(text);
             msg.lang = 'en-US';
-            msg.rate = 0.8; // صوت ناعم وبطيء
-            msg.pitch = 1.2; // نبرة طفولية لطيفة
+            
+            // محاولة اختيار صوت إنجليزي واضح
+            if (voices.length === 0) voices = window.speechSynthesis.getVoices();
+            const enVoice = voices.find(v => v.lang.startsWith('en'));
+            if (enVoice) msg.voice = enVoice;
+
+            msg.rate = 0.8; 
+            msg.pitch = 1.1;
             window.speechSynthesis.speak(msg);
         }
+
+        // تفعيل الصوت عند أول لمسة للجوال
+        document.addEventListener('touchstart', () => {
+            const s = new SpeechSynthesisUtterance("");
+            window.speechSynthesis.speak(s);
+        }, { once: true });
 
         window.onload = initNumbers;
     </script>

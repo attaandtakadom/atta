@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برنامج تعلم الحروف العربية - المعلمة فاطمة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* أزرار التنقل */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 30px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .home-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .nav-btn:active {
+            transform: translateY(1px);
+        }
+
+        .nav-btn i {
+            font-size: 1.2em;
+        }
+
+        /* الهيدر */
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .title-section {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        /* صورة المعلمة والطالبة */
+        .teacher-section {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+
+        .teacher-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 8px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .teacher-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            border-radius: 50%;
+        }
+
+        .flower-decoration {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23FFD700" d="M50 20A30 30 0 1 1 20 50A30 30 0 0 1 50 20Z"/><path fill="%23FF6B6B" d="M50 15L55 30L70 30L60 40L65 55L50 45L35 55L40 40L30 30L45 30Z"/></svg>') no-repeat;
+            background-size: 40px 40px;
+            animation: rotateFlowers 20s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes rotateFlowers {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* الحروف */
+        .letters-section {
+            padding: 40px;
+            background: #f8f9fa;
+        }
+
+        .letters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .letter-card {
+            background: white;
+            padding: 25px 15px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .letter-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .letter {
+            font-size: 4em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .letter-name {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            font-weight: bold;
+        }
+
+        .letter-image {
+            width: 60px;
+            height: 60px;
+            margin: 10px auto;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            opacity: 0.7;
+        }
+
+        /* تفاصيل الحرف */
+        .letter-details {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .letter-details.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .selected-letter {
+            font-size: 6em;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .letter-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .info-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #4facfe;
+            padding-bottom: 8px;
+        }
+
+        /* التمارين */
+        .exercises-section {
+            padding: 40px;
+            background: #e8f4f8;
+        }
+
+        .exercise {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .exercise h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        /* أزرار أصغر للهواتف */
+        .option {
+            background: #4facfe;
+            color: white;
+            padding: 8px !important;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80px !important;
+            max-width: 120px;
+            margin: 0 auto;
+        }
+
+        .option:hover {
+            background: #3a9df5;
+            transform: scale(1.05);
+        }
+
+        .option-icon {
+            font-size: 1.8em !important;
+            margin-bottom: 5px;
+        }
+
+        .option-text {
+            font-size: 0.8em !important;
+            line-height: 1.2;
+        }
+
+        .result {
+            text-align: center;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .correct {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        /* الفوتر */
+        .footer {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .encouragement {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #4facfe;
+        }
+
+        /* ألوان الحروف */
+        .alef { background: linear-gradient(135deg, #FF9A8B, #FF6A88); }
+        .baa { background: linear-gradient(135deg, #6A11CB, #2575FC); }
+        .taa { background: linear-gradient(135deg, #FFE29F, #FFA99F); }
+        .thaa { background: linear-gradient(135deg, #A3BDFF, #7AE1FF); }
+        .jeem { background: linear-gradient(135deg, #FF9A8B, #FF6A88); }
+        .haa { background: linear-gradient(135deg, #6A11CB, #2575FC); }
+        .khaa { background: linear-gradient(135deg, #FFE29F, #FFA99F); }
+        .dal { background: linear-gradient(135deg, #A3BDFF, #7AE1FF); }
+        .thal { background: linear-gradient(135deg, #FF9A8B, #FF6A88); }
+        .raa { background: linear-gradient(135deg, #6A11CB, #2575FC); }
+        .zay { background: linear-gradient(135deg, #FFE29F, #FFA99F); }
+        .seen { background: linear-gradient(135deg, #A3BDFF, #7AE1FF); }
+        .sheen { background: linear-gradient(135deg, #FF9A8B, #FF6A88); }
+        .sad { background: linear-gradient(135deg, #6A11CB, #2575FC); }
+        .dad { background: linear-gradient(135deg, #FFE29F, #FFA99F); }
+        .taa-m { background: linear-gradient(135deg, #A3BDFF, #7AE1FF); }
+        .thaa-m { background: linear-gradient(135deg, #FF9A8B, #FF6A88); }
+        .ayn { background: linear-gradient(135deg, #6A11CB, #2575FC); }
+        .ghayn { background: linear-gradient(135deg, #FFE29F, #FFA99F); }
+        .faa { background: linear-gradient(135deg, #A3BDFF, #7AE1FF); }
+        .qaf { background: linear-gradient(135deg, #FF9A8B, #FF6A88); }
+        .kaf { background: linear-gradient(135deg, #6A11CB, #2575FC); }
+        .lam { background: linear-gradient(135deg, #FFE29F, #FFA99F); }
+        .meem { background: linear-gradient(135deg, #A3BDFF, #7AE1FF); }
+        .noon { background: linear-gradient(135deg, #FF9A8B, #FF6A88); }
+        .ha { background: linear-gradient(135deg, #6A11CB, #2575FC); }
+        .waw { background: linear-gradient(135deg, #FFE29F, #FFA99F); }
+        .yaa { background: linear-gradient(135deg, #A3BDFF, #7AE1FF); }
+
+        /* التجاووب - تحسينات للهواتف */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-section {
+                margin: 0 auto;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .subtitle {
+                font-size: 1em;
+            }
+            
+            .letters-grid {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                gap: 10px;
+            }
+            
+            .letter {
+                font-size: 2.5em;
+            }
+            
+            .letter-name {
+                font-size: 0.9em;
+            }
+            
+            .letter-image {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5em;
+            }
+            
+            /* تحسين أزرار التمارين للهاتف */
+            .options {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .option {
+                min-height: 70px !important;
+                padding: 5px !important;
+                max-width: 100px;
+            }
+            
+            .option-icon {
+                font-size: 1.5em !important;
+            }
+            
+            .option-text {
+                font-size: 0.7em !important;
+            }
+            
+            #exerciseImage {
+                font-size: 8em !important;
+                margin: 10px 0;
+            }
+            
+            .exercise h3 {
+                font-size: 1.2em;
+                text-align: center;
+            }
+            
+            .letter-details {
+                padding: 20px;
+            }
+            
+            .selected-letter {
+                font-size: 4em;
+            }
+            
+            .letter-info {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .info-card {
+                padding: 15px;
+            }
+            
+            .info-card h3 {
+                font-size: 1em;
+            }
+            
+            .footer {
+                padding: 20px;
+                font-size: 0.9em;
+            }
+            
+            /* تحسين أزرار التنقل للهاتف */
+            .navigation-buttons {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .nav-btn {
+                padding: 10px 20px;
+                font-size: 1em;
+                justify-content: center;
+            }
+        }
+        
+        /* تحسينات للهواتف الصغيرة جداً */
+        @media (max-width: 480px) {
+            .container {
+                margin: 20px auto;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .teacher-section {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .teacher-photo {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .letters-grid {
+                grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+            }
+            
+            .letter-card {
+                padding: 15px 8px;
+            }
+            
+            .letter {
+                font-size: 2em;
+            }
+            
+            /* أزرار أصغر للهواتف الصغيرة */
+            .options {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+            
+            .option {
+                min-height: 60px !important;
+                padding: 4px !important;
+                max-width: 90px;
+            }
+            
+            .option-icon {
+                font-size: 1.3em !important;
+            }
+            
+            .option-text {
+                font-size: 0.65em !important;
+            }
+        }
+
+        /* تكبير صورة الحيوانات والفواكه داخل بطاقات الحروف */
+        .letter-image {
+            font-size: 4em !important;
+            width: 100px !important;
+            height: 100px !important;
+        }
+
+        /* تكبير الصورة في التمرين */
+        #exerciseImage {
+            font-size: 12em !important;
+        }
+        
+        /* إصلاح الهيدر وتأثير الإخفاء */
+        .header {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 1000 !important;
+            transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out !important;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .header.hidden {
+            transform: translateY(-100%) !important;
+            opacity: 0 !important;
+        }
+
+        /* تحسين المساحة عند إخفاء الهيدر */
+        body {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- أزرار التنقل -->
+        <div class="navigation-buttons">
+            <a href="../../../../../teacher_dashbord/arabic_dashboard.html" class="nav-btn home-btn" >
+                <i class="fas fa-home"></i>
+                <span>عودة للرئيسية</span>
+            </a>
+            
+            
+        </div>
+
+        <!-- الهيدر -->
+        <header class="header">
+            <div class="header-content">
+                <div class="title-section">
+                    <h1>🌺 برنامج تعلم الحروف العربية 🌺</h1>
+                    <p class="subtitle">مع المعلمة فاطمة وطلابها الأعزاء</p>
+                    <p class="subtitle">مخصص لأطفال القوقعة السمعية وضعاف النطق</p>
+                </div>
+                <div class="teacher-section">
+                    <div class="flower-decoration"></div>
+                    <div class="teacher-photo">
+                        <!-- سيتم إضافة الصورة عبر الجافاسكريبت -->
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- قسم الحروف -->
+        <section class="letters-section">
+            <h2 style="text-align: center; color: #2c3e50; margin-bottom: 20px; font-size: 2em;">
+                🎵 هيا نتعلم الحروف معًا!
+            </h2>
+            <div class="letters-grid" id="lettersGrid">
+                <!-- سيتم إضافة الحروف بالجافاسكريبت -->
+            </div>
+            
+            <!-- تفاصيل الحرف -->
+            <div class="letter-details" id="letterDetails">
+                <div class="selected-letter" id="selectedLetter">أ</div>
+                <div class="letter-info">
+                    <div class="info-card">
+                        <h3>📖 طريقة النطق</h3>
+                        <p id="pronunciation">اضغط على حرف لمعرفة طريقة نطقه</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>🎯 كلمات تبدأ بالحرف</h3>
+                        <p id="words">سيظهر هنا كلمات تبدأ بالحرف</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>🖼️ صورة مساعدة</h3>
+                        <p id="helperImage">صورة لتذكر الحرف</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- التمارين -->
+        <section class="exercises-section">
+            <h2 style="text-align: center; color: #2c3e50; margin-bottom: 30px; font-size: 2em;">
+                🎲 هيا نلعب ونتعلم!
+            </h2>
+            <div class="exercise">
+                <h3>🔤 اختر الحرف المناسب للصورة</h3>
+                <div id="exerciseImage" style="text-align: center; font-size: 4em; margin: 20px 0;">🦁</div>
+                <div class="options" id="exerciseOptions">
+                    <!-- سيتم إضافة الخيارات بالجافاسكريبت -->
+                </div>
+                <div class="result" id="exerciseResult"></div>
+            </div>
+        </section>
+
+        <!-- الفوتر -->
+        <footer class="footer">
+            <p class="encouragement">🌹 أحسنت! أنت تتقدم بشكل رائع 🌹</p>
+            <p>برنامج تعلم الحروف العربية - إهداء للمعلمة فاطمة وطلابها الأعزاء</p>
+            <p>© 2024 designed with ❤️ for children with hearing aids</p>
+        </footer>
+    </div>
+
+    <script>
+        // بيانات الحروف العربية
+        const arabicLetters = [
+            {
+                letter: 'أ',
+                name: 'الألف',
+                pronunciation: 'ينطق من أقى الحلق - صوت حنجري',
+                words: 'أسد - أرنب - إبرة',
+                helper: '🦁 حرف الألف مثل أجنحة الطائر',
+                image: '🦁',
+                colorClass: 'alef'
+            },
+            {
+                letter: 'ب',
+                name: 'الباء',
+                pronunciation: 'شفتي - تضم الشفتان معاً',
+                words: 'باب - بيت - بقرة',
+                helper: '🚪 حرف الباء مثل باب المنزل',
+                image: '🚪',
+                colorClass: 'baa'
+            },
+            {
+                letter: 'ت',
+                name: 'التاء',
+                pronunciation: 'لساني أسناني - طرف اللسان مع الأسنان',
+                words: 'تاج - تين - تفاحة',
+                helper: '👑 حرف التاء مثل تاج الملك',
+                image: '👑',
+                colorClass: 'taa'
+            },
+            {
+                letter: 'ث',
+                name: 'الثاء',
+                pronunciation: 'لساني أسناني - مع خروج الهواء',
+                words: 'ثعبان - ثور - ثلج',
+                helper: '🐍 حرف الثاء مثل ثعبان',
+                image: '🐍',
+                colorClass: 'thaa'
+            },
+            {
+                letter: 'ج',
+                name: 'الجيم',
+                pronunciation: 'من وسط اللسان - صوت مجهور',
+                words: 'جمل - جبل - جزرة',
+                helper: '🐫 حرف الجيم مثل جمل',
+                image: '🐫',
+                colorClass: 'jeem'
+            },
+            {
+                letter: 'ح',
+                name: 'الحاء',
+                pronunciation: 'من أقى الحلق - صوت مهموس',
+                words: 'حبل - حصان - حليب',
+                helper: '🐴 حرف الحاء مثل حصان',
+                image: '🐴',
+                colorClass: 'haa'
+            },
+            {
+                letter: 'خ',
+                name: 'الخاء',
+                pronunciation: 'من أقى الحلق - مع خروج الهواء',
+                words: 'خروف - خيار - خاتم',
+                helper: '🐑 حرف الخاء مثل خروف',
+                image: '🐑',
+                colorClass: 'khaa'
+            },
+            {
+                letter: 'د',
+                name: 'الدال',
+                pronunciation: 'من طرف اللسان مع الأسنان',
+                words: 'دب - دمية - دراجة',
+                helper: '🐻 حرف الدال مثل دب',
+                image: '🐻',
+                colorClass: 'dal'
+            },
+            {
+                letter: 'ذ',
+                name: 'الذال',
+                pronunciation: 'من طرف اللسان مع خروج الهواء',
+                words: 'ذئب - ذرة - ذيل',
+                helper: '🐺 حرف الذال مثل ذئب',
+                image: '🐺',
+                colorClass: 'thal'
+            },
+            {
+                letter: 'ر',
+                name: 'الراء',
+                pronunciation: 'طرف اللسان مع تحريكه',
+                words: 'رمان - ريشة - رسم',
+                helper: '🍈 حرف الراء مثل رمان',
+                image: '🍈',
+                colorClass: 'raa'
+            },
+            {
+                letter: 'ز',
+                name: 'الزاي',
+                pronunciation: 'طرف اللسان مع اهتزازه',
+                words: 'زرافة - زهرة - زباد',
+                helper: '🦒 حرف الزاي مثل زرافة',
+                image: '🦒',
+                colorClass: 'zay'
+            },
+            {
+                letter: 'س',
+                name: 'السين',
+                pronunciation: 'من طرف اللسان - صوت ساكن',
+                words: 'سيارة - سمكة - ساعة',
+                helper: '🚗 حرف السين مثل سيارة',
+                image: '🚗',
+                colorClass: 'seen'
+            },
+            {
+                letter: 'ش',
+                name: 'الشين',
+                pronunciation: 'من وسط اللسان - صوت مشدد',
+                words: 'شمس - شجرة - شوكة',
+                helper: '☀️ حرف الشين مثل شمس',
+                image: '☀️',
+                colorClass: 'sheen'
+            },
+            {
+                letter: 'ص',
+                name: 'الصاد',
+                pronunciation: 'من طرف اللسان - صوت مفخم',
+                words: 'صقر - صابون - صنوبر',
+                helper: '🦅 حرف الصاد مثل صقر',
+                image: '🦅',
+                colorClass: 'sad'
+            },
+            {
+                letter: 'ض',
+                name: 'الضاد',
+                pronunciation: 'من إحدى حافتي اللسان',
+                words: 'ضفدع - ضرس - ضوء',
+                helper: '🐸 حرف الضاد مثل ضفدع',
+                image: '🐸',
+                colorClass: 'dad'
+            },
+            {
+                letter: 'ط',
+                name: 'الطاء',
+                pronunciation: 'من أقى اللسان - صوت مفخم',
+                words: 'طائر - طبق - طبل',
+                helper: '🐦 حرف الطاء مثل طائر',
+                image: '🐦',
+                colorClass: 'taa-m'
+            },
+            {
+                letter: 'ظ',
+                name: 'الظاء',
+                pronunciation: 'من طرف اللسان - صوت مجهور',
+                words: 'ظبي - ظفر - ظل',
+                helper: '🦌 حرف الظاء مثل ظبي',
+                image: '🦌',
+                colorClass: 'thaa-m'
+            },
+            {
+                letter: 'ع',
+                name: 'العين',
+                pronunciation: 'من وسط الحلق - صوت حنجري',
+                words: 'عصفور - عنب - عسل',
+                helper: '🐦 حرف العين مثل عصفور',
+                image: '🐦',
+                colorClass: 'ayn'
+            },
+            {
+                letter: 'غ',
+                name: 'الغين',
+                pronunciation: 'من أقى الحلق - صوت مجهور',
+                words: 'غيومة - غزال - غرفة',
+                helper: '☁️ حرف الغين مثل غيومة',
+                image: '☁️',
+                colorClass: 'ghayn'
+            },
+            {
+                letter: 'ف',
+                name: 'الفاء',
+                pronunciation: 'شفتي - باستخدام الشفة السفلى',
+                words: 'فيل - فراشة - فستان',
+                helper: '🐘 حرف الفاء مثل فيل',
+                image: '🐘',
+                colorClass: 'faa'
+            },
+            {
+                letter: 'ق',
+                name: 'القاف',
+                pronunciation: 'من أقى اللسان - صوت قوي',
+                words: 'قمر - قلم - قطة',
+                helper: '🌙 حرف القاف مثل قمر',
+                image: '🌙',
+                colorClass: 'qaf'
+            },
+            {
+                letter: 'ك',
+                name: 'الكاف',
+                pronunciation: 'من أقى اللسان - صوت انفجاري',
+                words: 'كتاب - كلب - كرة',
+                helper: '📚 حرف الكاف مثل كتاب',
+                image: '📚',
+                colorClass: 'kaf'
+            },
+            {
+                letter: 'ل',
+                name: 'اللام',
+                pronunciation: 'من طرف اللسان',
+                words: 'ليمون - ليل - لسان',
+                helper: '🍋 حرف اللام مثل ليمون',
+                image: '🍋',
+                colorClass: 'lam'
+            },
+            {
+                letter: 'م',
+                name: 'الميم',
+                pronunciation: 'شفتي - بإطباق الشفتين',
+                words: 'موز - منزل - ملك',
+                helper: '🍌 حرف الميم مثل موز',
+                image: '🍌',
+                colorClass: 'meem'
+            },
+            {
+                letter: 'ن',
+                name: 'النون',
+                pronunciation: 'طرف اللسان مع الخيشوم',
+                words: 'نمر - نهر - نافذة',
+                helper: '🐯 حرف النون مثل نمر',
+                image: '🐯',
+                colorClass: 'noon'
+            },
+            {
+                letter: 'ه',
+                name: 'الهاء',
+                pronunciation: 'من الحلق - صوت حنجري',
+                words: 'هدهد - هلال - هدية',
+                helper: '🐦 حرف الهاء مثل هدهد',
+                image: '🐦',
+                colorClass: 'ha'
+            },
+            {
+                letter: 'و',
+                name: 'الواو',
+                pronunciation: 'شفتي - بتقريب الشفتين',
+                words: 'وردة - ولد - وسادة',
+                helper: '🌹 حرف الواو مثل وردة',
+                image: '🌹',
+                colorClass: 'waw'
+            },
+            {
+                letter: 'ي',
+                name: 'الياء',
+                pronunciation: 'من وسط اللسان',
+                words: 'يمامة - يد - ياقوت',
+                helper: '🕊️ حرف الياء مثل يمامة',
+                image: '🕊️',
+                colorClass: 'yaa'
+            }
+        ];
+
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // إضافة صورة الأستاذة فاطمة
+            const teacherPhoto = document.querySelector('.teacher-photo');
+            const img = document.createElement('img');
+            img.src = 'fatima_images/Fatima1.jpg';
+            img.alt = 'صورة المعلمة فاطمة';
+            img.onerror = function() {
+                // إذا لم توجد الصورة، نعرض إيموجي بدلاً منها
+                this.style.display = 'none';
+                teacherPhoto.innerHTML = '👩🏽‍🏫';
+                teacherPhoto.style.fontSize = '4em';
+                teacherPhoto.style.color = 'white';
+            };
+            teacherPhoto.appendChild(img);
+
+            // إنشاء شبكة الحروف
+            const lettersGrid = document.getElementById('lettersGrid');
+            arabicLetters.forEach((letterData, index) => {
+                const letterCard = document.createElement('div');
+                letterCard.className = `letter-card ${letterData.colorClass}`;
+                letterCard.innerHTML = `
+                    <div class="letter">${letterData.letter}</div>
+                    <div class="letter-name">${letterData.name}</div>
+                    <div class="letter-image">${letterData.image}</div>
+                `;
+                letterCard.addEventListener('click', () => showLetterDetails(letterData));
+                lettersGrid.appendChild(letterCard);
+            });
+
+            // إنشاء تمرين عشوائي
+            createExercise();
+
+            // إضافة أحداث لأزرار التنقل
+            setupNavigationButtons();
+        });
+
+        // إعداد أحداث أزرار التنقل
+        function setupNavigationButtons() {
+            // زر العودة للرئيسية
+            const homeBtn = document.getElementById('homeBtn');
+            homeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('هل تريد العودة للصفحة الرئيسية؟')) {
+                    // يمكن تغيير الرابط حسب الحاجة
+                    window.location.href = '../../dashboard.php';
+                }
+            });
+
+            // زر الدرس التالي
+            const nextLessonBtn = document.getElementById('nextLessonBtn');
+            nextLessonBtn.addEventListener('click', function() {
+                // هنا يمكن إضافة منطق للانتقال للدرس التالي
+                showNextLesson();
+            });
+        }
+
+        // عرض الدرس التالي (محاكاة)
+        function showNextLesson() {
+            // يمكن تغيير هذا المنطق حسب الدروس المتاحة
+            const lessons = [
+                "الدرس التالي: قراءة كلمات بسيطة",
+                "الدرس التالي: كتابة الحروف",
+                "الدرس التالي: قصص مصورة",
+                "الدرس التالي: أغاني الحروف"
+            ];
+            
+            const randomLesson = lessons[Math.floor(Math.random() * lessons.length)];
+            
+            // عرض رسالة تأكيد
+            if (confirm(`${randomLesson}\n\nهل تريد الانتقال لهذا الدرس؟`)) {
+                // محاكاة الانتقال للدرس التالي
+                alert('🎉 تهانينا! ستنتقل الآن للدرس التالي.\n\n(في النسخة الحقيقية، سيتم تحويلك للدرس التالي)');
+                
+                // هنا يمكن إضافة الرابط الفعلي للدرس التالي
+                // window.location.href = 'next-lesson.html';
+            }
+        }
+
+        // عرض تفاصيل الحرف
+        function showLetterDetails(letterData) {
+            const detailsSection = document.getElementById('letterDetails');
+            const selectedLetter = document.getElementById('selectedLetter');
+            const pronunciation = document.getElementById('pronunciation');
+            const words = document.getElementById('words');
+            const helperImage = document.getElementById('helperImage');
+
+            selectedLetter.textContent = letterData.letter;
+            pronunciation.textContent = letterData.pronunciation;
+            words.textContent = letterData.words;
+            helperImage.textContent = letterData.helper;
+
+            detailsSection.classList.add('active');
+
+            // تأثير صوتي (يمكن إضافة أصوات حقيقية لاحقاً)
+            playLetterSound(letterData.letter);
+            
+            // التمرير إلى قسم التفاصيل
+            detailsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // تشغيل صوت الحرف (محاكاة)
+        function playLetterSound(letter) {
+            console.log(`تشغيل صوت حرف ${letter}`);
+        }
+
+        // إنشاء تمرين
+        function createExercise() {
+            const randomIndex = Math.floor(Math.random() * arabicLetters.length);
+            const correctLetter = arabicLetters[randomIndex];
+            const exerciseImage = document.getElementById('exerciseImage');
+            const exerciseOptions = document.getElementById('exerciseOptions');
+            exerciseImage.textContent = correctLetter.image;
+
+            // إنشاء خيارات عشوائية
+            const options = [correctLetter];
+            while (options.length < 4) {
+                const randomOption = arabicLetters[Math.floor(Math.random() * arabicLetters.length)];
+                if (!options.includes(randomOption)) {
+                    options.push(randomOption);
+                }
+            }
+
+            // خلط الخيارات
+            options.sort(() => Math.random() - 0.5);
+            exerciseOptions.innerHTML = '';
+            options.forEach(option => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.innerHTML = `
+                    <div class="option-icon">${option.letter}</div>
+                    <div class="option-text">${option.name}</div>
+                `;
+                optionElement.addEventListener('click', () => checkAnswer(option, correctLetter));
+                exerciseOptions.appendChild(optionElement);
+            });
+        }
+
+        // التحقق من الإجابة
+        function checkAnswer(selected, correct) {
+            const resultElement = document.getElementById('exerciseResult');
+            if (selected.letter === correct.letter) {
+                resultElement.textContent = '🎉 أحسنت! إجابة صحيحة';
+                resultElement.className = 'result correct';
+                resultElement.style.display = 'block';
+                // تأثير نجاح
+                setTimeout(() => {
+                    createExercise();
+                    resultElement.style.display = 'none';
+                }, 2000);
+            } else {
+                resultElement.textContent = `❌ حاول مرة أخرى! الحرف الصحيح هو ${correct.letter}`;
+                resultElement.className = 'result incorrect';
+                resultElement.style.display = 'block';
+                setTimeout(() => {
+                    resultElement.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // رسالة ترحيب
+        setTimeout(() => {
+            alert('مرحباً بأطفالنا الأعزاء! 🌹\n\nهيا نتعلم الحروف العربية معاً بطريقة ممتعة!');
+        }, 1000);
+
+        // كود إخفاء الهيدر المؤكد
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('.header');
+            const lettersSection = document.querySelector('.letters-section');
+            
+            if (!header || !lettersSection) return;
+            
+            let lastScrollTop = 0;
+            const scrollThreshold = 100;
+            
+            function handleScroll() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const sectionTop = lettersSection.offsetTop - 150;
+                
+                // إذا وصلنا لقسم الحروف
+                if (scrollTop >= sectionTop) {
+                    // إخفاء عند التمرير لأسفل
+                    if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
+                        header.classList.add('hidden');
+                    } 
+                    // إظهار عند التمرير لأعلى
+                    else if (scrollTop < lastScrollTop) {
+                        header.classList.remove('hidden');
+                    }
+                } else {
+                    // إظهار الهيدر إذا كنا في الأعلى
+                    header.classList.remove('hidden');
+                }
+                lastScrollTop = scrollTop;
+            }
+            
+            // تفعيل التتبع
+            window.addEventListener('scroll', handleScroll);
+            
+            // إظهار الهيدر عند النقر على أي شيء
+            document.addEventListener('click', function() {
+                header.classList.remove('hidden');
+            });
+            
+            // إظهار الهيدر عند اللمس على الجوال
+            document.addEventListener('touchstart', function() {
+                header.classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #fcebeb; /* Light pink background */
-            --primary-color: #ff6b81; /* Pink accent */
+            --bg-color: #fcebeb; 
+            --primary-color: #ff6b81; 
             --correct-color: #55efc4;
             --wrong-color: #ff4757;
             --text-color: #2d3436;
@@ -19,7 +19,7 @@
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
             font-family: 'Quicksand', sans-serif;
-            touch-action: manipulation; /* Improves drag/touch response */
+            touch-action: manipulation;
         }
 
         body {
@@ -30,7 +30,7 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding-bottom: 120px; /* Space for fixed navigation */
+            padding-bottom: 120px;
         }
 
         h1 {
@@ -46,7 +46,6 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
 
-        /* Drag & Drop Area */
         .exercise-area {
             width: 100%;
             max-width: 450px;
@@ -58,12 +57,38 @@
             margin-bottom: 25px;
         }
 
+        /* تنسيق منطقة التعليمات مع زر الصوت */
+        .instruction-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
         .instruction {
             font-size: 18px;
             font-weight: 700;
             color: var(--text-color);
-            margin-bottom: 20px;
+            margin: 0;
         }
+
+        .repeat-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(255, 107, 129, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .repeat-btn:active { transform: scale(0.9); }
 
         .target-day {
             min-height: 70px;
@@ -81,33 +106,20 @@
             transition: all 0.3s ease;
         }
 
-        .target-day.drag-over {
-            background-color: #e0f2f7;
-            border-color: #a2d2ff;
-        }
-
-        .target-day.correct-drop {
-            background-color: var(--correct-color);
-            border-color: #2eaf7e;
-            color: white;
-        }
-
-        .target-day.incorrect-drop {
-            background-color: var(--wrong-color);
-            border-color: #c93545;
-            color: white;
-        }
+        .target-day.drag-over { background-color: #e0f2f7; border-color: #a2d2ff; }
+        .target-day.correct-drop { background-color: var(--correct-color); border-color: #2eaf7e; color: white; }
+        .target-day.incorrect-drop { background-color: var(--wrong-color); border-color: #c93545; color: white; }
 
         .draggable-options {
             display: flex;
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            flex-wrap: wrap;
             justify-content: center;
             gap: 10px;
             margin-top: 20px;
         }
 
         .draggable-item {
-            background: #ffeaa7; /* Cheerful yellow */
+            background: #ffeaa7;
             color: var(--text-color);
             padding: 15px 20px;
             border-radius: 25px;
@@ -115,62 +127,28 @@
             font-weight: bold;
             cursor: grab;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            transition: transform 0.2s, background-color 0.2s;
+            transition: transform 0.2s;
             border: 2px solid #fdcb6e;
         }
 
-        .draggable-item:active {
-            transform: scale(0.95);
-            background-color: #fcd55c;
-        }
-
-        .feedback-message {
-            font-size: 22px;
-            font-weight: bold;
-            min-height: 30px;
-            margin-top: 20px;
-        }
-
+        .feedback-message { font-size: 22px; font-weight: bold; min-height: 30px; margin-top: 20px; }
         .feedback-message.correct { color: var(--correct-color); animation: bounce 0.5s; }
         .feedback-message.wrong { color: var(--wrong-color); animation: shake 0.5s; }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-5px); }
-            40%, 80% { transform: translateX(5px); }
-        }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
 
-        /* Navigation Bar */
         .nav-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            gap: 10px;
-            padding: 15px;
-            background: white;
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
-            border-radius: 25px 25px 0 0;
-            z-index: 1000;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            display: flex; gap: 10px; padding: 15px;
+            background: white; box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+            border-radius: 25px 25px 0 0; z-index: 1000;
         }
 
         .nav-btn {
-            flex: 1;
-            padding: 12px;
-            border-radius: 15px;
-            text-decoration: none;
-            text-align: center;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 14px;
+            flex: 1; padding: 12px; border-radius: 15px;
+            text-decoration: none; text-align: center; font-weight: bold;
+            display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px;
         }
 
         .home-btn { background: #f1f2f6; color: #2d3436; }
@@ -182,206 +160,158 @@
     <h1>Drag & Drop the Days!</h1>
 
     <div class="exercise-area">
-        <p class="instruction" id="instruction">Drag 'Saturday' to its box!</p>
+        <div class="instruction-container">
+            <p class="instruction" id="instruction">Drag 'Saturday' to its box!</p>
+            <button class="repeat-btn" onclick="repeatInstruction()">
+                <i class="fas fa-volume-up"></i>
+            </button>
+        </div>
+
         <div class="target-day" id="targetBox" ondragover="event.preventDefault();" ondrop="drop(event)" ondragleave="dragLeave(event)">
             <span id="targetDayText">Drag day here</span>
         </div>
 
-        <div class="draggable-options" id="draggableOptions">
-            </div>
+        <div class="draggable-options" id="draggableOptions"></div>
 
         <p class="feedback-message" id="feedbackMessage"></p>
     </div>
 
     <div class="nav-bar">
         <a href="../../../../../teacher_dashbord/english_dashboard.html" class="nav-btn home-btn">
-            <i class="fas fa-home"></i> Home
+            <i class="fas fa-home"></i> الرئيسية
         </a>
-        <a href="A_Z.html" class="nav-btn alpha-btn">
-            <i class="fas fa-font"></i> درس الحروف
+        <a href="days.html" class="nav-btn alpha-btn">
+            <i class="fas fa-font"></i>  درس ايام الاسبوع
         </a>
     </div>
 
-    <audio id="applauseSound" src="https://www.soundjay.com/human/applause-01.mp3" preload="auto"></audio>
+    <audio id="applauseSound" src="https://www.soundjay.com/human/sounds/applause-01.mp3" preload="auto"></audio>
     <audio id="wrongSound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3" preload="auto"></audio>
 
     <script>
         const days = [
-            {en: 'Saturday', ar: 'السبت'},
-            {en: 'Sunday', ar: 'الأحد'},
-            {en: 'Monday', ar: 'الاثنين'},
-            {en: 'Tuesday', ar: 'الثلاثاء'},
-            {en: 'Wednesday', ar: 'الأربعاء'},
-            {en: 'Thursday', ar: 'الخميس'},
-            {en: 'Friday', ar: 'الجمعة'}
+            {en: 'Saturday'}, {en: 'Sunday'}, {en: 'Monday'}, 
+            {en: 'Tuesday'}, {en: 'Wednesday'}, {en: 'Thursday'}, {en: 'Friday'}
         ];
 
         let currentTargetDay = '';
-        let draggableItems = [];
         const targetBox = document.getElementById('targetBox');
         const instruction = document.getElementById('instruction');
         const feedbackMessage = document.getElementById('feedbackMessage');
         const draggableOptionsContainer = document.getElementById('draggableOptions');
 
-        function speak(text, lang = 'en-US', rate = 0.8, pitch = 1.2) {
+        function speak(text) {
             window.speechSynthesis.cancel();
             const msg = new SpeechSynthesisUtterance(text);
-            msg.lang = lang;
-            msg.rate = rate;
-            msg.pitch = pitch;
+            msg.lang = 'en-US';
+            msg.rate = 0.8;
+            msg.pitch = 1.2;
             window.speechSynthesis.speak(msg);
         }
 
-        function playSound(isCorrect) {
-            const sound = document.getElementById(isCorrect ? 'applauseSound' : 'wrongSound');
-            sound.currentTime = 0;
-            sound.play().catch(e => console.warn("Sound playback prevented:", e));
+        function repeatInstruction() {
+            speak(`Drag ${currentTargetDay} to its box!`);
         }
 
         function generateExercise() {
-            // Pick a random day to be the target
             const targetIndex = Math.floor(Math.random() * days.length);
             currentTargetDay = days[targetIndex].en;
             
             instruction.innerText = `Drag '${currentTargetDay}' to its box!`;
-            speak(`Drag ${currentTargetDay} to its box!`);
+            repeatInstruction();
             
-            targetBox.innerText = ''; // Clear previous text
+            targetBox.innerText = 'Drag day here';
             targetBox.classList.remove('correct-drop', 'incorrect-drop', 'drag-over');
 
-            // Shuffle draggable options (including the correct one)
             let shuffledDays = [...days].sort(() => Math.random() - 0.5);
             draggableOptionsContainer.innerHTML = '';
             
-            draggableItems = []; // Clear array for new draggable elements
-
             shuffledDays.forEach(day => {
                 const item = document.createElement('div');
                 item.className = 'draggable-item';
                 item.innerText = day.en;
                 item.setAttribute('draggable', true);
-                item.id = day.en; // Set ID for drag data
+                item.id = day.en;
                 item.ondragstart = drag;
-                // Add touch event listeners for mobile drag-like behavior
                 item.ontouchstart = touchStart;
                 item.ontouchmove = touchMove;
                 item.ontouchend = touchEnd;
-
                 draggableOptionsContainer.appendChild(item);
-                draggableItems.push(item);
             });
             feedbackMessage.innerText = '';
         }
 
-        // --- Drag & Drop Functions (for desktop/proper drag events) ---
+        // تحسين لضمان تفعيل الصوت عند أول لمسة للجوال
+        document.addEventListener('touchstart', () => {
+            const s = new SpeechSynthesisUtterance("");
+            window.speechSynthesis.speak(s);
+        }, { once: true });
+
+        // دوال السحب والإسقاط (Desktop)
         function drag(event) {
             event.dataTransfer.setData("text", event.target.id);
-            event.target.style.opacity = '0.5';
             targetBox.classList.add('drag-over');
         }
 
-        function dragLeave(event) {
-            targetBox.classList.remove('drag-over');
-        }
+        function dragLeave(event) { targetBox.classList.remove('drag-over'); }
 
         function drop(event) {
             event.preventDefault();
             targetBox.classList.remove('drag-over');
             const data = event.dataTransfer.getData("text");
-            const draggedElement = document.getElementById(data);
-            
-            if (draggedElement.id === currentTargetDay) {
-                // Correct answer
+            handleDrop(data);
+        }
+
+        // معالجة النتيجة
+        function handleDrop(draggedId) {
+            if (draggedId === currentTargetDay) {
                 targetBox.classList.add('correct-drop');
                 targetBox.innerText = currentTargetDay;
                 feedbackMessage.innerText = 'Fantastic! ✨';
                 feedbackMessage.className = 'feedback-message correct';
                 speak('Fantastic!');
-                playSound(true);
-                draggedElement.style.display = 'none'; // Hide correct day
+                document.getElementById('applauseSound').play();
                 setTimeout(generateExercise, 2000);
             } else {
-                // Wrong answer
                 targetBox.classList.add('incorrect-drop');
                 feedbackMessage.innerText = 'Oops! Try again. 😕';
                 feedbackMessage.className = 'feedback-message wrong';
                 speak('Oops! Try again.');
-                playSound(false);
-                draggedElement.style.opacity = '1'; // Reset opacity
+                document.getElementById('wrongSound').play();
                 setTimeout(() => targetBox.classList.remove('incorrect-drop'), 1000);
             }
         }
 
-        // --- Touch Emulation for Drag (for mobile) ---
+        // دوال اللمس للجوال (Touch)
         let currentDraggedItem = null;
-        let originalParent = null;
-
         function touchStart(event) {
             currentDraggedItem = event.target;
-            originalParent = currentDraggedItem.parentNode;
-            currentDraggedItem.style.position = 'absolute';
-            currentDraggedItem.style.zIndex = '1000';
-            currentDraggedItem.style.transform = 'scale(1.1)';
-            currentDraggedItem.style.boxShadow = '0 8px 15px rgba(0,0,0,0.2)';
-            
-            const touch = event.touches[0];
-            currentDraggedItem.dataset.offsetX = touch.clientX - currentDraggedItem.getBoundingClientRect().left;
-            currentDraggedItem.dataset.offsetY = touch.clientY - currentDraggedItem.getBoundingClientRect().top;
-            
-            targetBox.classList.add('drag-over'); // Indicate target is ready
+            currentDraggedItem.style.position = 'fixed';
+            targetBox.classList.add('drag-over');
         }
 
         function touchMove(event) {
             if (!currentDraggedItem) return;
-            event.preventDefault(); // Prevent scrolling
+            event.preventDefault();
             const touch = event.touches[0];
-            currentDraggedItem.style.left = (touch.clientX - parseFloat(currentDraggedItem.dataset.offsetX)) + 'px';
-            currentDraggedItem.style.top = (touch.clientY - parseFloat(currentDraggedItem.dataset.offsetY)) + 'px';
+            currentDraggedItem.style.left = (touch.clientX - 50) + 'px';
+            currentDraggedItem.style.top = (touch.clientY - 25) + 'px';
         }
 
         function touchEnd(event) {
             if (!currentDraggedItem) return;
-
             const dropZoneRect = targetBox.getBoundingClientRect();
-            const draggedRect = currentDraggedItem.getBoundingClientRect();
-
-            // Check if the dragged item is over the target box
-            if (draggedRect.left < dropZoneRect.right &&
-                draggedRect.right > dropZoneRect.left &&
-                draggedRect.top < dropZoneRect.bottom &&
-                draggedRect.bottom > dropZoneRect.top) {
-                
-                // Perform drop logic
-                if (currentDraggedItem.id === currentTargetDay) {
-                    targetBox.classList.add('correct-drop');
-                    targetBox.innerText = currentTargetDay;
-                    feedbackMessage.innerText = 'Fantastic! ✨';
-                    feedbackMessage.className = 'feedback-message correct';
-                    speak('Fantastic!');
-                    playSound(true);
-                    currentDraggedItem.style.display = 'none'; // Hide correct day
-                    setTimeout(generateExercise, 2000);
-                } else {
-                    targetBox.classList.add('incorrect-drop');
-                    feedbackMessage.innerText = 'Oops! Try again. 😕';
-                    feedbackMessage.className = 'feedback-message wrong';
-                    speak('Oops! Try again.');
-                    playSound(false);
-                    currentDraggedItem.style.position = 'static'; // Reset position
-                    currentDraggedItem.style.transform = 'scale(1)';
-                    currentDraggedItem.style.boxShadow = '';
-                    setTimeout(() => targetBox.classList.remove('incorrect-drop'), 1000);
-                }
-            } else {
-                // If not dropped on target, return to original position
-                currentDraggedItem.style.position = 'static';
-                currentDraggedItem.style.transform = 'scale(1)';
-                currentDraggedItem.style.boxShadow = '';
+            const touch = event.changedTouches[0];
+            
+            if (touch.clientX > dropZoneRect.left && touch.clientX < dropZoneRect.right &&
+                touch.clientY > dropZoneRect.top && touch.clientY < dropZoneRect.bottom) {
+                handleDrop(currentDraggedItem.id);
             }
+            
+            currentDraggedItem.style.position = 'static';
             targetBox.classList.remove('drag-over');
             currentDraggedItem = null;
         }
-
 
         window.onload = generateExercise;
     </script>

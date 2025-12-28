@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعليم الحروف العربية - مؤسسة التقدم والعطاء، البيضاء، ليبيا</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                <h1>برنامج تعليم الحروف العربية</h1>
+            </div>
+            <p class="subtitle">مخصص لأطفال مؤسسة التقدم والعطاء - البيضاء، ليبيا</p>
+        </header>
+
+        <div class="instructions">
+            <h2><i class="fas fa-info-circle"></i> كيف تستخدم البرنامج؟</h2>
+            <ol>
+                <li>انظر إلى صورة الحرف</li>
+                <li>اضغط على الزر الأخضر لسماع صوت الحرف</li>
+                <li>شاهد رد الفعل الإيجابي بعد الضغط</li>
+                <li>انتقل للحرف التالي باستخدام الأسهم</li>
+            </ol>
+        </div>
+
+        <main>
+            <!-- بطاقة الحرف التعليمية -->
+            <div class="letter-card" id="current-card">
+                <div class="progress-indicator">
+                    <span id="current-letter-number">1</span> / <span id="total-letters">3</span>
+                </div>
+                
+                <div class="letter-display">
+                    <div class="letter-image-container">
+                        <img src="images/alif.jpg" alt="صورة الحرف ألف" id="letter-image" class="letter-image">
+                        <div class="positive-feedback" id="positive-feedback">
+                            <i class="fas fa-star"></i>
+                            <span>ممتاز!</span>
+                        </div>
+                    </div>
+                    
+                    <div class="letter-info">
+                        <h2 class="letter-name" id="letter-name">ألف</h2>
+                        <div class="letter-example" id="letter-example">أَسد</div>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <button class="play-button" id="play-button">
+                        <i class="fas fa-play"></i>
+                        <span>تشغيل صوت الحرف</span>
+                    </button>
+                    
+                    <div class="navigation">
+                        <button class="nav-button" id="prev-button">
+                            <i class="fas fa-arrow-right"></i>
+                            السابق
+                        </button>
+                        <button class="nav-button" id="next-button">
+                            التالي
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- قائمة جميع الحروف -->
+            <div class="letters-menu">
+                <h3><i class="fas fa-th-list"></i> اختر حرفاً</h3>
+                <div class="letters-grid" id="letters-grid">
+                    <!-- سيتم ملؤها بواسطة JavaScript -->
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>© 2023 مؤسسة التقدم والعطاء للرعاية والتأهيل - مدينة البيضاء، ليبيا</p>
+            <p class="footer-note">تم تصميم هذا البرنامج خصيصاً لتنمية مهارات أطفال التوحد</p>
+        </footer>
+    </div>
+
+    <!-- ملفات الصوت المخفية -->
+    <audio id="sound-alif" preload="auto">
+        <source src="sounds/alif.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sound-baa" preload="auto">
+        <source src="sounds/baa.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sound-ta" preload="auto">
+        <source src="sounds/ta.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- صوت التعزيز الإيجابي -->
+    <audio id="positive-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
