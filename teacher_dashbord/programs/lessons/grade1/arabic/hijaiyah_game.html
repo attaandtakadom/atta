@@ -832,13 +832,15 @@
                 examples: ["تفاحة", "تاج", "تمساح"]
             },
             {
-                letter: "ث", 
-                name: "الثاء", 
-                words: ["ثعلب"],
-                images: ["../../../images/fox.png"],
-                sound: "ث",
-                examples: ["ثعلب", "ثوب", "ثوم"]
-            },
+    letter: "ث", 
+    name: "الثاء", 
+    words: ["ثعلب"],
+    images: ["../../../images/fox.png"],
+    sound: "ث",
+    // أضف هذا السطر ↓
+    soundFile: "https://drive.google.com/uc?export=download&id=1jwa4f_enY1ke-s8Qre9erX0va25XFoZc",
+    examples: ["ثعلب", "ثوب", "ثوم"]
+},
             {
                 letter: "ج", 
                 name: "الجيم", 
@@ -1142,12 +1144,20 @@
         }
 
         // تشغيل الصوت
-        function playSound(sound) {
-            const utterance = new SpeechSynthesisUtterance(sound);
-            utterance.lang = 'ar-SA';
-            utterance.rate = 0.8;
-            speechSynthesis.speak(utterance);
-        }
+       // استبدل الدالة القديمة بهذه الدالة الجديدة
+function playSound(sound, soundFile) {
+    // إذا كان هناك ملف صوتي مرفوع، شغله
+    if(soundFile) {
+        const audio = new Audio(soundFile);
+        audio.play();
+    } else {
+        // إذا لم يكن هناك ملف، استخدم الصوت الصناعي كبديل
+        const utterance = new SpeechSynthesisUtterance(sound);
+        utterance.lang = 'ar-SA';
+        utterance.rate = 0.8;
+        speechSynthesis.speak(utterance);
+    }
+}
 
         function playWordSound() {
             const currentLetter = arabicLetters[currentIdx];

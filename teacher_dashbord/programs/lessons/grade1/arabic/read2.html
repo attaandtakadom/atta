@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برنامج تعليم الحروف العربية - متصل بالسحابة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1E88E5;
+            --primary-dark: #1565C0;
+            --success: #4CAF50;
+            --danger: #f44336;
+            --purple: #9C27B0;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        .letter-display {
+            font-size: 120px;
+            color: var(--primary-dark);
+            margin: 10px 0;
+            font-weight: bold;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+        }
+
+        .letter-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .letter-name {
+            font-size: 28px;
+            color: var(--primary-dark);
+            font-weight: bold;
+            background: #f0f7ff;
+            padding: 10px 25px;
+            border-radius: 50px;
+        }
+
+        .sound-btn {
+            background: var(--purple);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(156, 39, 176, 0.3);
+        }
+
+        .sound-btn:hover {
+            transform: scale(1.1);
+            background: #7b1fa2;
+        }
+
+        .main-image {
+            width: 100%;
+            max-width: 350px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 5px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .action-btn {
+            padding: 15px 35px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            background: var(--primary);
+            margin: 10px;
+        }
+
+        /* إخفاء مشغل الصوت الأصلي */
+        #audio-player { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1><i class="fas fa-music"></i> تعليم الحروف العربية بالصوت</h1>
+    <p>استمع وتعلم الحروف مباشرة من السحابة</p>
+
+    <div class="letter-section">
+        <div class="letter-display" id="current-letter">أ</div>
+        
+        <div class="letter-info">
+            <div class="letter-name" id="letter-name">الألف</div>
+            <button class="sound-btn" id="play-sound-btn">
+                <i class="fas fa-volume-up"></i>
+            </button>
+        </div>
+
+        <div class="image-section">
+            <img id="main-image" class="main-image" src="../../../images/lion.png" alt="صورة">
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="action-btn" onclick="prevLetter()">السابق</button>
+        <button class="action-btn" onclick="nextLetter()" style="background: var(--success)">الحرف التالي</button>
+    </div>
+
+    <audio id="audio-player"></audio>
+</div>
+
+<script>
+    // بيانات الحروف مع رموز Google Drive
+    // استبدلي "اكتبي_الرمز_هنا" بالرمز الخاص بكل ملف صوتي من درايف
+    const arabicLetters = [
+        {
+            letter: "أ", 
+            name: "الألف", 
+            image: "../../../images/lion.png",
+            driveId: "1HwcNoGKJkQ3Cr42ivlBQMZANazH73EhE" // الرابط الذي أرسلتيه
+        },
+        {
+            letter: "ب", 
+            name: "الباء", 
+            image: "../../../images/dor.png",
+            driveId: "اكتبي_هنا_رمز_صوت_حرف_الباء"
+        },
+        {
+            letter: "ت", 
+            name: "التاء", 
+            image: "../../../images/Apple.png",
+            driveId: "اكتبي_هنا_رمز_صوت_حرف_التاء"
+        }
+        // أضيفي بقية الحروف بنفس الطريقة
+    ];
+
+    let currentIndex = 0;
+    const audioPlayer = document.getElementById('audio-player');
+
+    function loadLetter(index) {
+        const data = arabicLetters[index];
+        document.getElementById('current-letter').textContent = data.letter;
+        document.getElementById('letter-name').textContent = data.name;
+        document.getElementById('main-image').src = data.image;
+
+        // تحديث وظيفة زر الصوت
+        document.getElementById('play-sound-btn').onclick = () => {
+            if(data.driveId.includes("اكتبي")) {
+                alert("صوت هذا الحرف غير متوفر حالياً");
+                return;
+            }
+            // رابط التشغيل المباشر من قوقل درايف
+            const directLink = `https://docs.google.com/uc?export=download&id=${data.driveId}`;
+            audioPlayer.src = directLink;
+            audioPlayer.play();
+        };
+    }
+
+    function nextLetter() {
+        currentIndex = (currentIndex + 1) % arabicLetters.length;
+        loadLetter(currentIndex);
+    }
+
+    function prevLetter() {
+        currentIndex = (currentIndex - 1 + arabicLetters.length) % arabicLetters.length;
+        loadLetter(currentIndex);
+    }
+
+    // تشغيل الحرف الأول عند الفتح
+    window.onload = () => loadLetter(0);
+</script>
+
+</body>
+</html>
