@@ -108,19 +108,19 @@
             opacity: 0.9;
         }
 
-        /* صورة المعلمة والطالبة */
+        /* صورة المعلمة والطالبة - حجم معدل */
         .teacher-section {
             position: relative;
-            width: 200px;
-            height: 200px;
+            width: 150px; /* حجم مصغر */
+            height: 150px;
         }
 
         .teacher-photo {
-            width: 200px;
-            height: 200px;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: 8px solid white;
+            border: 6px solid white; /* إطار أصغر */
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             display: flex;
             align-items: center;
@@ -134,7 +134,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center top;
+            object-position: center center; /* توسيط الصورة */
             border-radius: 50%;
         }
 
@@ -163,60 +163,61 @@
 
         .letters-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* أصغر */
+            gap: 15px; /* فجوة أصغر */
             margin-top: 30px;
         }
 
         .letter-card {
             background: white;
-            padding: 25px 15px;
-            border-radius: 20px;
+            padding: 15px 10px; /* padding أصغر */
+            border-radius: 15px; /* زوايا أقل استدارة */
             text-align: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 3px solid transparent;
+            border: 2px solid transparent; /* إطار أرق */
             position: relative;
             overflow: hidden;
         }
 
         .letter-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            transform: translateY(-5px); /* حركة أقل */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
         }
 
         .letter {
-            font-size: 4em;
+            font-size: 2.5em; /* حجم أصغر */
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             color: #2c3e50;
         }
 
         .letter-name {
-            font-size: 1.2em;
+            font-size: 0.9em; /* خط أصغر */
             color: #7f8c8d;
             font-weight: bold;
+            margin-bottom: 8px;
         }
 
         .letter-image {
-            width: 60px;
-            height: 60px;
-            margin: 10px auto;
+            width: 50px; /* أصغر */
+            height: 50px;
+            margin: 0 auto;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2em;
+            font-size: 1.8em; /* حجم إيموجي أصغر */
             opacity: 0.7;
         }
 
         /* تفاصيل الحرف */
         .letter-details {
             background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            padding: 40px;
-            border-radius: 20px;
-            margin-top: 30px;
+            padding: 30px; /* padding أقل */
+            border-radius: 15px;
+            margin-top: 20px;
             display: none;
         }
 
@@ -231,66 +232,67 @@
         }
 
         .selected-letter {
-            font-size: 6em;
+            font-size: 4em; /* أصغر */
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             color: #2c3e50;
         }
 
         .letter-info {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* أصغر */
+            gap: 15px;
+            margin-top: 15px;
         }
 
         .info-card {
             background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 15px; /* أقل padding */
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
 
         .info-card h3 {
             color: #2c3e50;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             border-bottom: 2px solid #4facfe;
-            padding-bottom: 8px;
+            padding-bottom: 5px;
+            font-size: 1em; /* خط أصغر */
         }
 
         /* التمارين */
         .exercises-section {
-            padding: 40px;
+            padding: 30px; /* padding أقل */
             background: #e8f4f8;
         }
 
         .exercise {
             background: white;
-            padding: 30px;
-            border-radius: 20px;
+            padding: 20px; /* أقل padding */
+            border-radius: 15px;
             margin-bottom: 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .exercise h3 {
             color: #2c3e50;
-            margin-bottom: 20px;
-            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-size: 1.3em; /* خط أصغر */
         }
 
         .options {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* أصغر */
+            gap: 10px;
+            margin: 15px 0;
         }
 
         /* أزرار أصغر للهواتف */
         .option {
             background: #4facfe;
             color: white;
-            padding: 8px !important;
-            border-radius: 10px;
+            padding: 5px !important; /* أقل padding */
+            border-radius: 8px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -299,8 +301,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 80px !important;
-            max-width: 120px;
+            min-height: 60px !important; /* ارتفاع أقل */
+            max-width: 100px; /* عرض أقل */
             margin: 0 auto;
         }
 
@@ -310,22 +312,23 @@
         }
 
         .option-icon {
-            font-size: 1.8em !important;
-            margin-bottom: 5px;
+            font-size: 1.5em !important; /* حجم أصغر */
+            margin-bottom: 3px;
         }
 
         .option-text {
-            font-size: 0.8em !important;
+            font-size: 0.7em !important; /* خط أصغر */
             line-height: 1.2;
         }
 
         .result {
             text-align: center;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
             font-weight: bold;
             display: none;
+            font-size: 0.9em; /* خط أصغر */
         }
 
         .correct {
@@ -345,237 +348,300 @@
             background: linear-gradient(135deg, #2c3e50, #34495e);
             color: white;
             text-align: center;
-            padding: 30px;
+            padding: 20px; /* أقل padding */
         }
 
         .encouragement {
-            font-size: 1.3em;
-            margin-bottom: 15px;
+            font-size: 1.1em; /* خط أصغر */
+            margin-bottom: 10px;
             color: #4facfe;
         }
 
-        /* ألوان الحروف */
-        .alef { background: linear-gradient(135deg, #FF9A8B, #FF6A88); }
-        .baa { background: linear-gradient(135deg, #6A11CB, #2575FC); }
-        .taa { background: linear-gradient(135deg, #FFE29F, #FFA99F); }
-        .thaa { background: linear-gradient(135deg, #A3BDFF, #7AE1FF); }
-        .jeem { background: linear-gradient(135deg, #FF9A8B, #FF6A88); }
-        .haa { background: linear-gradient(135deg, #6A11CB, #2575FC); }
-        .khaa { background: linear-gradient(135deg, #FFE29F, #FFA99F); }
-        .dal { background: linear-gradient(135deg, #A3BDFF, #7AE1FF); }
-        .thal { background: linear-gradient(135deg, #FF9A8B, #FF6A88); }
-        .raa { background: linear-gradient(135deg, #6A11CB, #2575FC); }
-        .zay { background: linear-gradient(135deg, #FFE29F, #FFA99F); }
-        .seen { background: linear-gradient(135deg, #A3BDFF, #7AE1FF); }
-        .sheen { background: linear-gradient(135deg, #FF9A8B, #FF6A88); }
-        .sad { background: linear-gradient(135deg, #6A11CB, #2575FC); }
-        .dad { background: linear-gradient(135deg, #FFE29F, #FFA99F); }
-        .taa-m { background: linear-gradient(135deg, #A3BDFF, #7AE1FF); }
-        .thaa-m { background: linear-gradient(135deg, #FF9A8B, #FF6A88); }
-        .ayn { background: linear-gradient(135deg, #6A11CB, #2575FC); }
-        .ghayn { background: linear-gradient(135deg, #FFE29F, #FFA99F); }
-        .faa { background: linear-gradient(135deg, #A3BDFF, #7AE1FF); }
-        .qaf { background: linear-gradient(135deg, #FF9A8B, #FF6A88); }
-        .kaf { background: linear-gradient(135deg, #6A11CB, #2575FC); }
-        .lam { background: linear-gradient(135deg, #FFE29F, #FFA99F); }
-        .meem { background: linear-gradient(135deg, #A3BDFF, #7AE1FF); }
-        .noon { background: linear-gradient(135deg, #FF9A8B, #FF6A88); }
-        .ha { background: linear-gradient(135deg, #6A11CB, #2575FC); }
-        .waw { background: linear-gradient(135deg, #FFE29F, #FFA99F); }
-        .yaa { background: linear-gradient(135deg, #A3BDFF, #7AE1FF); }
+        /* ألوان الحروف - تم تعديلها لتكون أقل سطوعاً */
+        .alef { background: linear-gradient(135deg, #FFB6C1, #FF69B4); }
+        .baa { background: linear-gradient(135deg, #87CEEB, #4169E1); }
+        .taa { background: linear-gradient(135deg, #FFD700, #FFA500); }
+        .thaa { background: linear-gradient(135deg, #98FB98, #32CD32); }
+        .jeem { background: linear-gradient(135deg, #FFB6C1, #FF69B4); }
+        .haa { background: linear-gradient(135deg, #87CEEB, #4169E1); }
+        .khaa { background: linear-gradient(135deg, #FFD700, #FFA500); }
+        .dal { background: linear-gradient(135deg, #98FB98, #32CD32); }
+        .thal { background: linear-gradient(135deg, #FFB6C1, #FF69B4); }
+        .raa { background: linear-gradient(135deg, #87CEEB, #4169E1); }
+        .zay { background: linear-gradient(135deg, #FFD700, #FFA500); }
+        .seen { background: linear-gradient(135deg, #98FB98, #32CD32); }
+        .sheen { background: linear-gradient(135deg, #FFB6C1, #FF69B4); }
+        .sad { background: linear-gradient(135deg, #87CEEB, #4169E1); }
+        .dad { background: linear-gradient(135deg, #FFD700, #FFA500); }
+        .taa-m { background: linear-gradient(135deg, #98FB98, #32CD32); }
+        .thaa-m { background: linear-gradient(135deg, #FFB6C1, #FF69B4); }
+        .ayn { background: linear-gradient(135deg, #87CEEB, #4169E1); }
+        .ghayn { background: linear-gradient(135deg, #FFD700, #FFA500); }
+        .faa { background: linear-gradient(135deg, #98FB98, #32CD32); }
+        .qaf { background: linear-gradient(135deg, #FFB6C1, #FF69B4); }
+        .kaf { background: linear-gradient(135deg, #87CEEB, #4169E1); }
+        .lam { background: linear-gradient(135deg, #FFD700, #FFA500); }
+        .meem { background: linear-gradient(135deg, #98FB98, #32CD32); }
+        .noon { background: linear-gradient(135deg, #FFB6C1, #FF69B4); }
+        .ha { background: linear-gradient(135deg, #87CEEB, #4169E1); }
+        .waw { background: linear-gradient(135deg, #FFD700, #FFA500); }
+        .yaa { background: linear-gradient(135deg, #98FB98, #32CD32); }
 
-        /* التجاووب - تحسينات للهواتف */
+        /* التأثيرات البصرية للنجاح */
+        .celebration {
+            animation: celebration 0.5s ease 3;
+        }
+
+        @keyframes celebration {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .star-effect {
+            position: absolute;
+            width: 15px; /* أصغر */
+            height: 15px;
+            background: gold;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: starFloat 1.5s ease-out forwards;
+        }
+
+        @keyframes starFloat {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-80px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* رسائل التشجيع - مصغرة */
+        .encouragement-popup {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            color: white;
+            padding: 10px 15px; /* أقل padding */
+            border-radius: 8px;
+            z-index: 1000;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            animation: slideIn 0.5s ease, slideOut 0.5s ease 2.5s forwards;
+            font-size: 0.9em; /* خط أصغر */
+            max-width: 250px; /* عرض محدود */
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* التأثيرات للهواتف - مصغرة */
+        .success-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em; /* أصغر */
+            z-index: 1000;
+            animation: celebrate 1.5s ease;
+            pointer-events: none;
+        }
+
+        @keyframes celebrate {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+        }
+
+        /* الصورة في التمرين - مصغرة */
+        #exerciseImage {
+            font-size: 5em !important; /* حجم مصغر */
+            margin: 15px 0;
+        }
+
+        /* التجاوب - تحسينات للهواتف */
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
                 text-align: center;
             }
-            
             .teacher-section {
                 margin: 0 auto;
+                width: 120px; /* أصغر للهاتف */
+                height: 120px;
             }
-            
             .header h1 {
-                font-size: 1.8em;
+                font-size: 1.5em; /* أصغر */
             }
-            
             .subtitle {
-                font-size: 1em;
+                font-size: 0.9em; /* أصغر */
             }
-            
             .letters-grid {
-                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-                gap: 10px;
+                grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); /* أصغر */
+                gap: 8px;
             }
-            
             .letter {
-                font-size: 2.5em;
+                font-size: 2em; /* أصغر */
             }
-            
             .letter-name {
-                font-size: 0.9em;
+                font-size: 0.8em; /* أصغر */
             }
-            
             .letter-image {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5em;
+                width: 40px; /* أصغر */
+                height: 40px;
+                font-size: 1.5em; /* إيموجي أصغر */
             }
-            
             /* تحسين أزرار التمارين للهاتف */
-            .options {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
-            
-            .option {
-                min-height: 70px !important;
-                padding: 5px !important;
-                max-width: 100px;
-            }
-            
-            .option-icon {
-                font-size: 1.5em !important;
-            }
-            
-            .option-text {
-                font-size: 0.7em !important;
-            }
-            
-            #exerciseImage {
-                font-size: 8em !important;
-                margin: 10px 0;
-            }
-            
-            .exercise h3 {
-                font-size: 1.2em;
-                text-align: center;
-            }
-            
-            .letter-details {
-                padding: 20px;
-            }
-            
-            .selected-letter {
-                font-size: 4em;
-            }
-            
-            .letter-info {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-            
-            .info-card {
-                padding: 15px;
-            }
-            
-            .info-card h3 {
-                font-size: 1em;
-            }
-            
-            .footer {
-                padding: 20px;
-                font-size: 0.9em;
-            }
-            
-            /* تحسين أزرار التنقل للهاتف */
-            .navigation-buttons {
-                padding: 15px 20px;
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .nav-btn {
-                padding: 10px 20px;
-                font-size: 1em;
-                justify-content: center;
-            }
-        }
-        
-        /* تحسينات للهواتف الصغيرة جداً */
-        @media (max-width: 480px) {
-            .container {
-                margin: 20px auto;
-                border-radius: 15px;
-            }
-            
-            .header {
-                padding: 20px 15px;
-            }
-            
-            .teacher-section {
-                width: 150px;
-                height: 150px;
-            }
-            
-            .teacher-photo {
-                width: 150px;
-                height: 150px;
-            }
-            
-            .letters-grid {
-                grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-            }
-            
-            .letter-card {
-                padding: 15px 8px;
-            }
-            
-            .letter {
-                font-size: 2em;
-            }
-            
-            /* أزرار أصغر للهواتف الصغيرة */
             .options {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 8px;
             }
-            
             .option {
-                min-height: 60px !important;
+                min-height: 55px !important; /* أصغر */
                 padding: 4px !important;
-                max-width: 90px;
+                max-width: 85px;
             }
-            
             .option-icon {
-                font-size: 1.3em !important;
+                font-size: 1.3em !important; /* أصغر */
             }
-            
             .option-text {
-                font-size: 0.65em !important;
+                font-size: 0.65em !important; /* أصغر */
+            }
+            #exerciseImage {
+                font-size: 4em !important; /* أصغر للهاتف */
+            }
+            .exercise h3 {
+                font-size: 1.1em; /* أصغر */
+                text-align: center;
+            }
+            .letter-details {
+                padding: 20px; /* أقل padding */
+            }
+            .selected-letter {
+                font-size: 3em; /* أصغر */
+            }
+            .letter-info {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .info-card {
+                padding: 12px; /* أقل padding */
+            }
+            .info-card h3 {
+                font-size: 0.9em; /* أصغر */
+            }
+            .footer {
+                padding: 15px; /* أقل padding */
+                font-size: 0.8em; /* خط أصغر */
+            }
+            /* تحسين أزرار التنقل للهاتف */
+            .navigation-buttons {
+                padding: 12px 15px; /* أقل padding */
+                flex-direction: column;
+                gap: 8px;
+            }
+            .nav-btn {
+                padding: 8px 15px; /* أقل padding */
+                font-size: 0.9em; /* خط أصغر */
+                justify-content: center;
             }
         }
 
-        /* تكبير صورة الحيوانات والفواكه داخل بطاقات الحروف */
-        .letter-image {
-            font-size: 4em !important;
-            width: 100px !important;
-            height: 100px !important;
+        /* تحسينات للهواتف الصغيرة جداً */
+        @media (max-width: 480px) {
+            .container {
+                margin: 10px auto;
+                border-radius: 10px;
+            }
+            .header {
+                padding: 15px; /* أقل padding */
+            }
+            .teacher-section {
+                width: 100px; /* أصغر جداً */
+                height: 100px;
+            }
+            .teacher-photo {
+                border: 4px solid white; /* إطار أرق */
+            }
+            .letters-grid {
+                grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); /* أصغر جداً */
+            }
+            .letter-card {
+                padding: 10px 5px; /* أقل padding */
+            }
+            .letter {
+                font-size: 1.8em; /* أصغر جداً */
+            }
+            .letter-name {
+                font-size: 0.7em; /* أصغر جداً */
+            }
+            .letter-image {
+                width: 35px; /* أصغر جداً */
+                height: 35px;
+                font-size: 1.3em; /* إيموجي أصغر جداً */
+            }
+            /* أزرار أصغر للهواتف الصغيرة */
+            .options {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+            }
+            .option {
+                min-height: 50px !important; /* أصغر جداً */
+                padding: 3px !important;
+                max-width: 75px;
+            }
+            .option-icon {
+                font-size: 1.2em !important; /* أصغر جداً */
+            }
+            .option-text {
+                font-size: 0.6em !important; /* أصغر جداً */
+            }
+            #exerciseImage {
+                font-size: 3.5em !important; /* أصغر جداً */
+            }
         }
 
-        /* تكبير الصورة في التمرين */
-        #exerciseImage {
-            font-size: 12em !important;
-        }
-        
-        /* إصلاح الهيدر وتأثير الإخفاء */
-        .header {
-            position: sticky !important;
-            top: 0 !important;
-            z-index: 1000 !important;
-            transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out !important;
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .header.hidden {
-            transform: translateY(-100%) !important;
-            opacity: 0 !important;
+        /* تحسينات للأجهزة اللوحية */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .teacher-section {
+                width: 130px;
+                height: 130px;
+            }
+            .letters-grid {
+                grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            }
+            .option {
+                max-width: 110px;
+            }
         }
 
-        /* تحسين المساحة عند إخفاء الهيدر */
-        body {
-            scroll-behavior: smooth;
+        /* تحسينات للشاشات الكبيرة */
+        @media (min-width: 1025px) {
+            .teacher-section {
+                width: 140px;
+                height: 140px;
+            }
         }
     </style>
 </head>
@@ -583,19 +649,17 @@
     <div class="container">
         <!-- أزرار التنقل -->
         <div class="navigation-buttons">
-            <a href="../../../../../teacher_dashbord/arabic_dashboard.html" class="nav-btn home-btn" >
+            <a href="../../../../../teacher_dashbord/arabic_dashboard.html" class="nav-btn home-btn">
                 <i class="fas fa-home"></i>
                 <span>عودة للرئيسية</span>
             </a>
-            
-            
         </div>
 
         <!-- الهيدر -->
         <header class="header">
             <div class="header-content">
                 <div class="title-section">
-                    <h1>🌺 برنامج تعلم الحروف العربية 🌺</h1>
+                    <h1>🌻 برنامج تعلم الحروف العربية 🌻</h1>
                     <p class="subtitle">مع المعلمة فاطمة وطلابها الأعزاء</p>
                     <p class="subtitle">مخصص لأطفال القوقعة السمعية وضعاف النطق</p>
                 </div>
@@ -610,8 +674,8 @@
 
         <!-- قسم الحروف -->
         <section class="letters-section">
-            <h2 style="text-align: center; color: #2c3e50; margin-bottom: 20px; font-size: 2em;">
-                🎵 هيا نتعلم الحروف معًا!
+            <h2 style="text-align: center; color: #2c3e50; margin-bottom: 20px; font-size: 1.8em;">
+                🎵 هيا نتعلم الحروف معا!
             </h2>
             <div class="letters-grid" id="lettersGrid">
                 <!-- سيتم إضافة الحروف بالجافاسكريبت -->
@@ -626,7 +690,7 @@
                         <p id="pronunciation">اضغط على حرف لمعرفة طريقة نطقه</p>
                     </div>
                     <div class="info-card">
-                        <h3>🎯 كلمات تبدأ بالحرف</h3>
+                        <h3>🎶 كلمات تبدأ بالحرف</h3>
                         <p id="words">سيظهر هنا كلمات تبدأ بالحرف</p>
                     </div>
                     <div class="info-card">
@@ -639,12 +703,12 @@
 
         <!-- التمارين -->
         <section class="exercises-section">
-            <h2 style="text-align: center; color: #2c3e50; margin-bottom: 30px; font-size: 2em;">
-                🎲 هيا نلعب ونتعلم!
+            <h2 style="text-align: center; color: #2c3e50; margin-bottom: 25px; font-size: 1.8em;">
+                🎮 هيا نلعب ونتعلم!
             </h2>
             <div class="exercise">
                 <h3>🔤 اختر الحرف المناسب للصورة</h3>
-                <div id="exerciseImage" style="text-align: center; font-size: 4em; margin: 20px 0;">🦁</div>
+                <div id="exerciseImage" style="text-align: center; font-size: 4em; margin: 20px 0;">🐱</div>
                 <div class="options" id="exerciseOptions">
                     <!-- سيتم إضافة الخيارات بالجافاسكريبت -->
                 </div>
@@ -668,14 +732,14 @@
                 name: 'الألف',
                 pronunciation: 'ينطق من أقى الحلق - صوت حنجري',
                 words: 'أسد - أرنب - إبرة',
-                helper: '🦁 حرف الألف مثل أجنحة الطائر',
-                image: '🦁',
+                helper: '🦅 حرف الألف مثل أجنحة الطائر',
+                image: '🦅',
                 colorClass: 'alef'
             },
             {
                 letter: 'ب',
                 name: 'الباء',
-                pronunciation: 'شفتي - تضم الشفتان معاً',
+                pronunciation: 'شفوي - تضم الشفتان معاً',
                 words: 'باب - بيت - بقرة',
                 helper: '🚪 حرف الباء مثل باب المنزل',
                 image: '🚪',
@@ -703,9 +767,9 @@
                 letter: 'ج',
                 name: 'الجيم',
                 pronunciation: 'من وسط اللسان - صوت مجهور',
-                words: 'جمل - جبل - جزرة',
-                helper: '🐫 حرف الجيم مثل جمل',
-                image: '🐫',
+                words: 'جمل - جبل - جزيرة',
+                helper: '🐪 حرف الجيم مثل جمل',
+                image: '🐪',
                 colorClass: 'jeem'
             },
             {
@@ -713,8 +777,8 @@
                 name: 'الحاء',
                 pronunciation: 'من أقى الحلق - صوت مهموس',
                 words: 'حبل - حصان - حليب',
-                helper: '🐴 حرف الحاء مثل حصان',
-                image: '🐴',
+                helper: '🐎 حرف الحاء مثل حصان',
+                image: '🐎',
                 colorClass: 'haa'
             },
             {
@@ -749,8 +813,8 @@
                 name: 'الراء',
                 pronunciation: 'طرف اللسان مع تحريكه',
                 words: 'رمان - ريشة - رسم',
-                helper: '🍈 حرف الراء مثل رمان',
-                image: '🍈',
+                helper: '🌺 حرف الراء مثل رمان',
+                image: '🌺',
                 colorClass: 'raa'
             },
             {
@@ -837,7 +901,7 @@
             {
                 letter: 'ف',
                 name: 'الفاء',
-                pronunciation: 'شفتي - باستخدام الشفة السفلى',
+                pronunciation: 'شفوي - باستخدام الشفة السفلى',
                 words: 'فيل - فراشة - فستان',
                 helper: '🐘 حرف الفاء مثل فيل',
                 image: '🐘',
@@ -873,7 +937,7 @@
             {
                 letter: 'م',
                 name: 'الميم',
-                pronunciation: 'شفتي - بإطباق الشفتين',
+                pronunciation: 'شفوي - بإطباق الشفتين',
                 words: 'موز - منزل - ملك',
                 helper: '🍌 حرف الميم مثل موز',
                 image: '🍌',
@@ -900,7 +964,7 @@
             {
                 letter: 'و',
                 name: 'الواو',
-                pronunciation: 'شفتي - بتقريب الشفتين',
+                pronunciation: 'شفوي - بتقريب الشفتين',
                 words: 'وردة - ولد - وسادة',
                 helper: '🌹 حرف الواو مثل وردة',
                 image: '🌹',
@@ -922,20 +986,34 @@
             // إضافة صورة الأستاذة فاطمة
             const teacherPhoto = document.querySelector('.teacher-photo');
             const img = document.createElement('img');
+            
+            // استخدام صورة مصغرة أو إيموجي
             img.src = 'fatima_images/Fatima1.jpg';
             img.alt = 'صورة المعلمة فاطمة';
+            
+            // تقليل حجم الصورة إذا كانت كبيرة
+            img.onload = function() {
+                console.log('تم تحميل صورة المعلمة');
+            };
+            
             img.onerror = function() {
                 // إذا لم توجد الصورة، نعرض إيموجي بدلاً منها
                 this.style.display = 'none';
                 teacherPhoto.innerHTML = '👩🏽‍🏫';
-                teacherPhoto.style.fontSize = '4em';
+                teacherPhoto.style.fontSize = '2em';
                 teacherPhoto.style.color = 'white';
             };
+            
+            // ضبط خصائص الصورة للحجم الأمثل
+            img.style.objectFit = 'cover';
+            img.style.objectPosition = 'center center';
+            img.loading = 'lazy'; // تحميل كسول للصورة
+            
             teacherPhoto.appendChild(img);
 
             // إنشاء شبكة الحروف
             const lettersGrid = document.getElementById('lettersGrid');
-            arabicLetters.forEach((letterData, index) => {
+            arabicLetters.forEach((letterData) => {
                 const letterCard = document.createElement('div');
                 letterCard.className = `letter-card ${letterData.colorClass}`;
                 letterCard.innerHTML = `
@@ -950,51 +1028,11 @@
             // إنشاء تمرين عشوائي
             createExercise();
 
-            // إضافة أحداث لأزرار التنقل
-            setupNavigationButtons();
+            // رسالة ترحيب
+            setTimeout(() => {
+                alert('مرحباً بأطفالنا الأعزاء! 🌻\n\nهيا نتعلم الحروف العربية معاً بطريقة ممتعة!');
+            }, 1000);
         });
-
-        // إعداد أحداث أزرار التنقل
-        function setupNavigationButtons() {
-            // زر العودة للرئيسية
-            const homeBtn = document.getElementById('homeBtn');
-            homeBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                if (confirm('هل تريد العودة للصفحة الرئيسية؟')) {
-                    // يمكن تغيير الرابط حسب الحاجة
-                    window.location.href = '../../dashboard.php';
-                }
-            });
-
-            // زر الدرس التالي
-            const nextLessonBtn = document.getElementById('nextLessonBtn');
-            nextLessonBtn.addEventListener('click', function() {
-                // هنا يمكن إضافة منطق للانتقال للدرس التالي
-                showNextLesson();
-            });
-        }
-
-        // عرض الدرس التالي (محاكاة)
-        function showNextLesson() {
-            // يمكن تغيير هذا المنطق حسب الدروس المتاحة
-            const lessons = [
-                "الدرس التالي: قراءة كلمات بسيطة",
-                "الدرس التالي: كتابة الحروف",
-                "الدرس التالي: قصص مصورة",
-                "الدرس التالي: أغاني الحروف"
-            ];
-            
-            const randomLesson = lessons[Math.floor(Math.random() * lessons.length)];
-            
-            // عرض رسالة تأكيد
-            if (confirm(`${randomLesson}\n\nهل تريد الانتقال لهذا الدرس؟`)) {
-                // محاكاة الانتقال للدرس التالي
-                alert('🎉 تهانينا! ستنتقل الآن للدرس التالي.\n\n(في النسخة الحقيقية، سيتم تحويلك للدرس التالي)');
-                
-                // هنا يمكن إضافة الرابط الفعلي للدرس التالي
-                // window.location.href = 'next-lesson.html';
-            }
-        }
 
         // عرض تفاصيل الحرف
         function showLetterDetails(letterData) {
@@ -1011,38 +1049,55 @@
 
             detailsSection.classList.add('active');
 
-            // تأثير صوتي (يمكن إضافة أصوات حقيقية لاحقاً)
+            // التأثير الصوتي
             playLetterSound(letterData.letter);
-            
+
             // التمرير إلى قسم التفاصيل
             detailsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // تشغيل صوت الحرف (محاكاة)
+        // تشغيل صوت الحرف
         function playLetterSound(letter) {
             console.log(`تشغيل صوت حرف ${letter}`);
         }
 
         // إنشاء تمرين
+        let currentCorrectLetter = null;
+        
         function createExercise() {
             const randomIndex = Math.floor(Math.random() * arabicLetters.length);
-            const correctLetter = arabicLetters[randomIndex];
+            currentCorrectLetter = arabicLetters[randomIndex];
             const exerciseImage = document.getElementById('exerciseImage');
             const exerciseOptions = document.getElementById('exerciseOptions');
-            exerciseImage.textContent = correctLetter.image;
-
-            // إنشاء خيارات عشوائية
-            const options = [correctLetter];
+            const resultDiv = document.getElementById('exerciseResult');
+            
+            // إخفاء نتيجة التمرين السابق
+            resultDiv.style.display = 'none';
+            resultDiv.className = 'result';
+            
+            // عرض الصورة الجديدة بحجم مناسب
+            exerciseImage.innerHTML = `
+                <div style="position: relative;">
+                    <div style="font-size: 2em; margin: 10px 0;">${currentCorrectLetter.image}</div>
+                    <div style="font-size: 0.3em; margin-top: 10px; color: #666;">
+                        ما هو هذا الحرف؟
+                    </div>
+                </div>
+            `;
+            
+            // إنشاء خيارات جديدة
+            const options = [currentCorrectLetter];
             while (options.length < 4) {
                 const randomOption = arabicLetters[Math.floor(Math.random() * arabicLetters.length)];
-                if (!options.includes(randomOption)) {
+                if (!options.some(opt => opt.letter === randomOption.letter)) {
                     options.push(randomOption);
                 }
             }
-
+            
             // خلط الخيارات
             options.sort(() => Math.random() - 0.5);
             exerciseOptions.innerHTML = '';
+            
             options.forEach(option => {
                 const optionElement = document.createElement('div');
                 optionElement.className = 'option';
@@ -1050,82 +1105,251 @@
                     <div class="option-icon">${option.letter}</div>
                     <div class="option-text">${option.name}</div>
                 `;
-                optionElement.addEventListener('click', () => checkAnswer(option, correctLetter));
+                
+                // إعادة تعيين الأنماط
+                optionElement.style.background = '';
+                optionElement.style.border = '';
+                optionElement.style.transform = '';
+                optionElement.style.boxShadow = '';
+                
+                optionElement.addEventListener('click', () => checkAnswer(option));
                 exerciseOptions.appendChild(optionElement);
             });
         }
 
         // التحقق من الإجابة
-        function checkAnswer(selected, correct) {
-            const resultElement = document.getElementById('exerciseResult');
-            if (selected.letter === correct.letter) {
-                resultElement.textContent = '🎉 أحسنت! إجابة صحيحة';
-                resultElement.className = 'result correct';
-                resultElement.style.display = 'block';
-                // تأثير نجاح
+        function checkAnswer(selectedOption) {
+            const resultDiv = document.getElementById('exerciseResult');
+            const options = document.querySelectorAll('.option');
+            
+            resultDiv.style.display = 'block';
+            
+            if (selectedOption.letter === currentCorrectLetter.letter) {
+                // الإجابة صحيحة
+                resultDiv.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <i class="fas fa-trophy" style="color: gold; font-size: 1.2em;"></i>
+                        <span>أحسنت! إجابة صحيحة 🎉</span>
+                        <i class="fas fa-star" style="color: gold; font-size: 1.2em;"></i>
+                    </div>
+                    <div style="margin-top: 8px; color: #155724; font-size: 0.9em;">
+                        <i class="fas fa-check-circle"></i> حرف ${currentCorrectLetter.letter} (${currentCorrectLetter.name})
+                    </div>
+                `;
+                resultDiv.className = "result correct";
+                
+                // تشغيل أصوات التصفيق والجرس
+                playSuccessSounds();
+                
+                // إضافة تأثيرات بصرية
+                options.forEach(option => {
+                    if (option.querySelector('.option-icon').textContent === currentCorrectLetter.letter) {
+                        option.style.background = 'linear-gradient(135deg, #4CAF50, #8BC34A)';
+                        option.style.transform = 'scale(1.05)';
+                        option.style.boxShadow = '0 0 15px rgba(76, 175, 80, 0.4)';
+                    }
+                });
+                
+                // إضافة تأثيرات النجوم
+                addStarEffects();
+                
+                // إظهار رسالة تشجيعية بعد ثانية
+                setTimeout(() => {
+                    showEncouragement();
+                }, 1000);
+                
+                // إنشاء تمرين جديد بعد 3 ثوانٍ
                 setTimeout(() => {
                     createExercise();
-                    resultElement.style.display = 'none';
-                }, 2000);
+                }, 3000);
+                
             } else {
-                resultElement.textContent = `❌ حاول مرة أخرى! الحرف الصحيح هو ${correct.letter}`;
-                resultElement.className = 'result incorrect';
-                resultElement.style.display = 'block';
+                // الإجابة خاطئة
+                resultDiv.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <i class="fas fa-redo" style="color: #dc3545; font-size: 1.1em;"></i>
+                        <span>حاول مرة أخرى! 💪</span>
+                    </div>
+                    <div style="margin-top: 8px; color: #721c24; font-size: 0.9em;">
+                        <i class="fas fa-lightbulb"></i> الحرف الصحيح: ${currentCorrectLetter.letter}
+                    </div>
+                `;
+                resultDiv.className = "result incorrect";
+                
+                // تسليط الضوء على الإجابة الصحيحة والخاطئة
+                options.forEach(option => {
+                    if (option.querySelector('.option-icon').textContent === currentCorrectLetter.letter) {
+                        option.style.background = 'linear-gradient(135deg, #4CAF50, #8BC34A)';
+                        option.style.border = '2px solid #4CAF50';
+                    }
+                    if (option.querySelector('.option-icon').textContent === selectedOption.letter) {
+                        option.style.background = 'linear-gradient(135deg, #f44336, #e57373)';
+                        option.style.border = '2px solid #f44336';
+                    }
+                });
+                
+                // إخفاء النتيجة بعد 3 ثوانٍ
                 setTimeout(() => {
-                    resultElement.style.display = 'none';
+                    resultDiv.style.display = 'none';
+                    // إعادة تعيين الألوان
+                    options.forEach(option => {
+                        option.style.background = '';
+                        option.style.border = '';
+                        option.style.transform = '';
+                        option.style.boxShadow = '';
+                    });
                 }, 3000);
             }
         }
 
-        // رسالة ترحيب
-        setTimeout(() => {
-            alert('مرحباً بأطفالنا الأعزاء! 🌹\n\nهيا نتعلم الحروف العربية معاً بطريقة ممتعة!');
-        }, 1000);
-
-        // كود إخفاء الهيدر المؤكد
-        document.addEventListener('DOMContentLoaded', function() {
-            const header = document.querySelector('.header');
-            const lettersSection = document.querySelector('.letters-section');
-            
-            if (!header || !lettersSection) return;
-            
-            let lastScrollTop = 0;
-            const scrollThreshold = 100;
-            
-            function handleScroll() {
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const sectionTop = lettersSection.offsetTop - 150;
+        // دالة تشغيل أصوات النجاح
+        function playSuccessSounds() {
+            try {
+                // إنشاء أصوات محاكاة
+                const bellSound = createBellSound();
+                const clapSound = createClapSound();
                 
-                // إذا وصلنا لقسم الحروف
-                if (scrollTop >= sectionTop) {
-                    // إخفاء عند التمرير لأسفل
-                    if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
-                        header.classList.add('hidden');
-                    } 
-                    // إظهار عند التمرير لأعلى
-                    else if (scrollTop < lastScrollTop) {
-                        header.classList.remove('hidden');
-                    }
-                } else {
-                    // إظهار الهيدر إذا كنا في الأعلى
-                    header.classList.remove('hidden');
-                }
-                lastScrollTop = scrollTop;
+                // تشغيل الجرس أولاً
+                bellSound.play();
+                
+                // بعد نصف ثانية، تشغيل التصفيق
+                setTimeout(() => {
+                    clapSound.play();
+                }, 500);
+                
+            } catch (error) {
+                console.log("لم يتمكن المتصفح من تشغيل الأصوات: ", error);
             }
+        }
+
+        // إنشاء صوت جرس محاكى
+        function createBellSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 1);
+                
+                return {
+                    play: function() {
+                        createBellSound();
+                    }
+                };
+            } catch (e) {
+                return { play: function() {} };
+            }
+        }
+
+        // إنشاء صوت تصفيق محاكى
+        function createClapSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const bufferSize = 2 * audioContext.sampleRate;
+                const noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+                const output = noiseBuffer.getChannelData(0);
+                
+                for (let i = 0; i < bufferSize; i++) {
+                    output[i] = Math.random() * 2 - 1;
+                }
+                
+                const noise = audioContext.createBufferSource();
+                noise.buffer = noiseBuffer;
+                
+                const filter = audioContext.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.value = 1000;
+                filter.Q.value = 1;
+                
+                const gainNode = audioContext.createGain();
+                gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3);
+                
+                noise.connect(filter);
+                filter.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                noise.start(audioContext.currentTime);
+                noise.stop(audioContext.currentTime + 0.3);
+                
+                return {
+                    play: function() {
+                        createClapSound();
+                    }
+                };
+            } catch (e) {
+                return { play: function() {} };
+            }
+        }
+
+        // دالة إضافة تأثيرات النجوم
+        function addStarEffects() {
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    createStar();
+                }, i * 100);
+            }
+        }
+
+        // دالة إنشاء نجمة
+        function createStar() {
+            const star = document.createElement('div');
+            star.className = 'star-effect';
             
-            // تفعيل التتبع
-            window.addEventListener('scroll', handleScroll);
+            // وضع عشوائي
+            const left = Math.random() * 80 + 10;
+            star.style.left = left + '%';
+            star.style.top = '50%';
             
-            // إظهار الهيدر عند النقر على أي شيء
-            document.addEventListener('click', function() {
-                header.classList.remove('hidden');
-            });
+            document.body.appendChild(star);
             
-            // إظهار الهيدر عند اللمس على الجوال
-            document.addEventListener('touchstart', function() {
-                header.classList.remove('hidden');
-            });
-        });
+            // إزالة النجمة بعد الانتهاء
+            setTimeout(() => {
+                star.remove();
+            }, 1500);
+        }
+
+        // دالة عرض رسالة تشجيعية
+        function showEncouragement() {
+            const encouragements = [
+                "ممتاز! 🌟",
+                "رائع! ⭐",
+                "أحسنت! 🚀",
+                "برافو! 🎯",
+                "واصل التقدم! 💫",
+                "المعلمة فاطمة فخورة بك! 👩🏽‍🏫",
+                "ذهبي! 🏆"
+            ];
+            
+            const randomEncouragement = encouragements[Math.floor(Math.random() * encouragements.length)];
+            
+            // إنشاء رسالة مؤقتة
+            const popup = document.createElement('div');
+            popup.className = 'encouragement-popup';
+            popup.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-award" style="color: gold; font-size: 1em;"></i>
+                    <span>${randomEncouragement}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(popup);
+            
+            // إزالة الرسالة بعد 3 ثوانٍ
+            setTimeout(() => {
+                popup.remove();
+            }, 3000);
+        }
     </script>
 </body>
 </html>
