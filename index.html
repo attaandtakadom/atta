@@ -1335,15 +1335,9 @@
             },
             
             getDashboardPath: function(userType) {
-                const paths = {
-                    'admin': 'teacher_dashbord/index.html',
-                    'teacher': 'teacher-dashboard-fixed.html',
-                    'student': 'student-dashboard-fixed.html',
-                    'parent': 'parent-dashboard-fixed.html'
-                };
-                return paths[userType] || 'dashboard-fixed.html';
-            },
-            
+    // جميع المستخدمين يتم توجيههم إلى نفس الصفحة
+    return 'teacher_dashbord/index.html';
+},
             addUser: function(userData) {
                 const newUser = {
                     id: Date.now(),
