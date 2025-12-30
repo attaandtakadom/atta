@@ -156,6 +156,17 @@
     </div>
 
     <script>
+
+document.body.addEventListener('touchstart', function() {
+    // تشغيل نطق فارغ لمرة واحدة لفك حظر المتصفح
+    const silent = new SpeechSynthesisUtterance('');
+    window.speechSynthesis.speak(silent);
+}, { once: true });
+
+
+
+
+
         const alphabet = [
             {l: 'A', w: 'Apple', i: '🍎', c: 'c1'},
             {l: 'B', w: 'Ball', i: '⚽', c: 'c2'},

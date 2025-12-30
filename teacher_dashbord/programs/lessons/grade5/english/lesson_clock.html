@@ -1197,6 +1197,16 @@
     </div>
 
     <script>
+
+document.body.addEventListener('touchstart', function() {
+    // تشغيل نطق فارغ لمرة واحدة لفك حظر المتصفح
+    const silent = new SpeechSynthesisUtterance('');
+    window.speechSynthesis.speak(silent);
+}, { once: true });
+
+
+
+
         // ====================== البيانات ======================
         const timeTranslations = {
             '1:00': 'one o clock', '2:00': 'two o clock', '3:00': 'three o clock',

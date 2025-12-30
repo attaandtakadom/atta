@@ -1027,6 +1027,14 @@
     <div id="notification" class="notification" style="display: none;"></div>
 
     <script>
+document.body.addEventListener('touchstart', function() {
+    // تشغيل نطق فارغ لمرة واحدة لفك حظر المتصفح
+    const silent = new SpeechSynthesisUtterance('');
+    window.speechSynthesis.speak(silent);
+}, { once: true });
+
+
+
         // قاعدة بيانات المفردات مع جمل للنطق
         const vocabulary = [
             {

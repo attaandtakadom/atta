@@ -109,6 +109,12 @@
     <audio id="errorSnd" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
 
     <script>
+document.body.addEventListener('touchstart', function() {
+    // تشغيل نطق فارغ لمرة واحدة لفك حظر المتصفح
+    const silent = new SpeechSynthesisUtterance('');
+    window.speechSynthesis.speak(silent);
+}, { once: true });
+
         const animals = [
             { name: 'Lion', emoji: '🦁' },
             { name: 'Elephant', emoji: '🐘' },

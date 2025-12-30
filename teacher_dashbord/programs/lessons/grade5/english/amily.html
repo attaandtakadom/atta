@@ -71,6 +71,15 @@
 <audio id="error-sound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
 
 <script>
+
+document.body.addEventListener('touchstart', function() {
+    // تشغيل نطق فارغ لمرة واحدة لفك حظر المتصفح
+    const silent = new SpeechSynthesisUtterance('');
+    window.speechSynthesis.speak(silent);
+}, { once: true });
+
+
+
     const familyMembers = [
         { name: 'Dad', arabic: 'بابا', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png' },
         { name: 'Mom', arabic: 'ماما', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140047.png' },

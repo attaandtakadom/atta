@@ -153,6 +153,13 @@
     </div>
 
     <script>
+document.body.addEventListener('touchstart', function() {
+    // تشغيل نطق فارغ لمرة واحدة لفك حظر المتصفح
+    const silent = new SpeechSynthesisUtterance('');
+    window.speechSynthesis.speak(silent);
+}, { once: true });
+
+
         function showColor(hex, nameAr, nameEn) {
             const display = document.getElementById('mainDisplay');
             const text = document.getElementById('colorName');

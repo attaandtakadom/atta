@@ -189,6 +189,14 @@
     <audio id="wrongSound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3" preload="auto"></audio>
 
     <script>
+
+document.body.addEventListener('touchstart', function() {
+    // تشغيل نطق فارغ لمرة واحدة لفك حظر المتصفح
+    const silent = new SpeechSynthesisUtterance('');
+    window.speechSynthesis.speak(silent);
+}, { once: true });
+
+
         const days = [
             {en: 'Saturday'}, {en: 'Sunday'}, {en: 'Monday'}, 
             {en: 'Tuesday'}, {en: 'Wednesday'}, {en: 'Thursday'}, {en: 'Friday'}

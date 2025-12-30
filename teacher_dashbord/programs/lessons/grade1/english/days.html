@@ -205,6 +205,14 @@
     </div>
 
     <script>
+
+document.body.addEventListener('touchstart', function() {
+    // تشغيل نطق فارغ لمرة واحدة لفك حظر المتصفح
+    const silent = new SpeechSynthesisUtterance('');
+    window.speechSynthesis.speak(silent);
+}, { once: true });
+
+
         function speakDay(ar, en) {
             window.speechSynthesis.cancel();
             

@@ -157,6 +157,14 @@
 <audio id="applause-sound" src="https://www.soundjay.com/human/sounds/applause-01.mp3"></audio>
 
 <script>
+
+document.body.addEventListener('touchstart', function() {
+    // تشغيل نطق فارغ لمرة واحدة لفك حظر المتصفح
+    const silent = new SpeechSynthesisUtterance('');
+    window.speechSynthesis.speak(silent);
+}, { once: true });
+
+
     const familyMembers = [
         { name: 'Father', arabic: 'الأب', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png' },
         { name: 'Mother', arabic: 'الأم', img: 'https://cdn-icons-png.flaticon.com/512/4140/4140047.png' },
