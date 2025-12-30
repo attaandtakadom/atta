@@ -163,7 +163,21 @@ document.body.addEventListener('touchstart', function() {
     window.speechSynthesis.speak(silent);
 }, { once: true });
 
+// إذا كنتِ تستخدمين نطق النصوص (Text-to-Speech)
+function speakEnglish(text) {
+    // إنشاء كائن النطق
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US'; // تحديد اللغة الإنجليزية
+    
+    // ضبط السرعة والحدة (اختياري)
+    utterance.rate = 0.8; 
+    
+    // تفعيل النطق
+    window.speechSynthesis.speak(utterance);
+}
 
+// مثال لربطه بزر (ضروري جداً للجوال)
+// <button onclick="speakEnglish('Apple')">Listen</button>
 
 
 
