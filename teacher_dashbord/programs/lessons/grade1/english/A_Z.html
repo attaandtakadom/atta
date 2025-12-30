@@ -164,18 +164,20 @@ document.body.addEventListener('touchstart', function() {
 }, { once: true });
 
 // إذا كنتِ تستخدمين نطق النصوص (Text-to-Speech)
-function speakEnglish(text) {
-    // إنشاء كائن النطق
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US'; // تحديد اللغة الإنجليزية
-    
-    // ضبط السرعة والحدة (اختياري)
-    utterance.rate = 0.8; 
-    
-    // تفعيل النطق
-    window.speechSynthesis.speak(utterance);
-}
+function speakEnglish(word) {
+    // 1. إلغاء أي نطق سابق عالق
+    window.speechSynthesis.cancel();
 
+    // 2. إنشاء الطلب
+    const msg = new SpeechSynthesisUtterance(word);
+    
+    // 3. ضبط اللغة (ضروري جداً)
+    msg.lang = 'en-US';
+    msg.rate = 0.8; // سرعة هادئة لتناسب الطلاب
+    
+    // 4. التشغيل
+    window.speechSynthesis.speak(msg);
+}
 // مثال لربطه بزر (ضروري جداً للجوال)
 // <button onclick="speakEnglish('Apple')">Listen</button>
 
