@@ -10,10 +10,9 @@
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 10px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
         .app-container { width: 100%; max-width: 500px; background: white; border-radius: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); padding: 25px; text-align: center; }
         
-        /* شبكة الرياضيات بنظام الأعمدة الثابتة لمنع التداخل */
         .math-grid {
             display: grid;
-            grid-template-columns: 50px 120px 80px; /* عمود العشرات واسع جداً لمنع التداخل */
+            grid-template-columns: 50px 120px 80px;
             justify-content: center;
             align-items: center;
             font-family: 'Courier New', monospace;
@@ -21,10 +20,9 @@
             font-size: 65px;
             color: #2D3436;
             row-gap: 15px;
-            direction: ltr; /* للحفاظ على ترتيب الأعمدة من اليسار لليمين برمجياً وضبطها بصرياً */
+            direction: ltr;
         }
 
-        /* رقم الحمل الأحمر */
         .carry-spot {
             grid-column: 2;
             height: 60px; width: 60px; font-size: 40px;
@@ -37,7 +35,6 @@
 
         .line-separator { grid-column: 1 / span 3; height: 6px; background: #2D3436; margin: 5px 0; }
 
-        /* مدخلات الإجابة - مفصولة تماماً */
         .digit-input {
             height: 85px; font-size: 55px;
             text-align: center; border: 3px solid #DDD;
@@ -45,12 +42,12 @@
             font-weight: bold; color: var(--primary);
             padding: 0;
         }
-                .nav-buttons { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 25px; }
+        
+        .nav-buttons { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 25px; }
         .nav-btn { flex: 1; padding: 12px; border-radius: 15px; text-decoration: none; font-weight: bold; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; color: white; transition: 0.3s; border: none; cursor: pointer; }
         .home-btn { background: #34495E; }
         .sub-btn { background: var(--warning); }
 
-        /* خانة العشرات عريضة لتقبل رقمين دون مضايقة الآحاد */
         #ans-tens { width: 110px; grid-column: 2; justify-self: center; }
         #ans-units { width: 80px; grid-column: 3; justify-self: center; }
         
@@ -64,96 +61,98 @@
 
 <div class="app-container">
     <div class="nav-buttons">
-        <a href="../../../../math_dashboard.html" class="nav-btn home-btn"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="#" class="nav-btn home-btn" onclick="location.reload()"><i class="fas fa-sync"></i> سؤال جديد</a>
         <a href="sub.html" class="nav-btn sub-btn"><i class="fas fa-minus-circle"></i> درس الطرح</a>
     </div>
-    <div style="font-size: 18px; color: var(--primary); font-weight: bold; margin-bottom: 20px;">مؤسسة التقدم والعطاء - البيضاء</div>
+    <div style="font-size: 18px; color: var(--primary); font-weight: bold; margin-bottom: 20px;">مؤسسة التقدم والعطاء - الجمع مع الحمل</div>
 
     <div class="math-grid">
         <div></div>
         <div id="carry" class="carry-spot">1</div>
         <div></div>
 
-        <div style="font-size:40px"></div>
-        <div id="num1_tens" style="text-align:center">7</div>
-        <div id="num1_units" style="text-align:center">2</div>
+        <div></div>
+        <div id="num1_tens">0</div>
+        <div id="num1_units">0</div>
 
         <div style="font-size:40px">+</div>
-        <div id="num2_tens" style="text-align:center">8</div>
-        <div id="num2_units" style="text-align:center">3</div>
+        <div id="num2_tens">0</div>
+        <div id="num2_units">0</div>
 
         <div class="line-separator"></div>
 
         <div></div>
-        <input type="number" id="ans-tens" class="digit-input" placeholder="ع">
-        <input type="number" id="ans-units" class="digit-input" placeholder="آ">
+        <input type="number" id="ans-tens" class="digit-input" placeholder="0">
+        <input type="number" id="ans-units" class="digit-input" placeholder="0">
     </div>
 
     <button class="check-btn" onclick="checkAnswer()">تحقق من الإجابة ✅</button>
     <div id="status" class="feedback-msg"></div>
 </div>
 
-<audio id="snd-clap" src="https://www.soundjay.com/human/sounds/applause-01.mp3"></audio>
 <audio id="snd-win" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3"></audio>
 <audio id="snd-fail" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
 
 <script>
-    let total;
+    let correctAnswer;
 
     function start() {
-        // توليد أرقام كبيرة تضمن الحمل
+        // توليد أرقام تضمن وجود حمل (الآحاد مجموعها > 10)
         let u1 = Math.floor(Math.random() * 9) + 1; 
-        let u2 = Math.floor(Math.random() * 5) + 6; // نضمن أن الآحاد ستتجاوز 10
-        let t1 = Math.floor(Math.random() * 7) + 2; 
-        let t2 = Math.floor(Math.random() * 7) + 2; 
+        let u2 = Math.floor(Math.random() * 5) + 6; 
+        let t1 = Math.floor(Math.random() * 4) + 1; 
+        let t2 = Math.floor(Math.random() * 4) + 1; 
 
         let val1 = (t1 * 10) + u1;
         let val2 = (t2 * 10) + u2;
-        total = val1 + val2;
+        correctAnswer = val1 + val2;
 
         document.getElementById('num1_tens').innerText = t1;
         document.getElementById('num1_units').innerText = u1;
         document.getElementById('num2_tens').innerText = t2;
         document.getElementById('num2_units').innerText = u2;
 
+        // تصفير الخانات
         document.getElementById('ans-units').value = "";
         document.getElementById('ans-tens').value = "";
         document.getElementById('carry').classList.remove('show-carry');
         document.getElementById('status').innerText = "";
         
-        speak(`اجمع ${val1} زائد ${val2}`);
-        document.getElementById('ans-units').focus();
+        speak(`كم ناتج جمع ${val1} زائد ${val2}`);
     }
 
-    // بمجرد لمس خانة الآحاد، يظهر الحمل فوراً
+    // إظهار الحمل تلقائياً عند كتابة الآحاد
     document.getElementById('ans-units').oninput = function() {
-        if(this.value.length >= 1) {
+        if(this.value !== "") {
             document.getElementById('carry').classList.add('show-carry');
-            // ننتظر قليلاً ثم ننتقل للعشرات ليعطي فرصة للطفل لرؤية ما كتب
-            setTimeout(() => { document.getElementById('ans-tens').focus(); }, 500);
         }
     }
 
     function checkAnswer() {
         const u = document.getElementById('ans-units').value;
         const t = document.getElementById('ans-tens').value;
-        if(u === "" || t === "") return;
+        
+        if(u === "" || t === "") {
+            alert("من فضلك ادخل الإجابة كاملة");
+            return;
+        }
 
-        const userAns = parseInt(t + u);
+        // دمج العشرات والآحاد كأرقام وليس كنص
+        const userAns = parseInt(t) * 10 + parseInt(u);
         const s = document.getElementById('status');
 
-        if(userAns === total) {
+        if(userAns === correctAnswer) {
             s.innerText = "أحسنت! إجابة صحيحة 🌟";
             s.style.color = "var(--success)";
             document.getElementById('snd-win').play();
-            setTimeout(() => { document.getElementById('snd-clap').play(); }, 200);
             speak("ممتاز، إجابة صحيحة");
-            setTimeout(start, 5000);
+            // الانتقال لسؤال جديد بعد 3 ثواني
+            setTimeout(start, 3000);
         } else {
-            s.innerText = "حاول مرة ثانية 😊";
+            s.innerText = "خطأ، حاول مرة أخرى 😊";
             s.style.color = "var(--carry)";
             document.getElementById('snd-fail').play();
-            speak("لا، حاول مرة أخرى");
+            speak("الإجابة غير صحيحة، حاول مرة ثانية");
         }
     }
 
@@ -161,12 +160,11 @@
         window.speechSynthesis.cancel();
         const m = new SpeechSynthesisUtterance(t);
         m.lang = 'ar-SA';
-        m.pitch = 1.6; 
-        m.rate = 0.8;
         window.speechSynthesis.speak(m);
     }
 
     window.onload = start;
 </script>
+
 </body>
 </html>
