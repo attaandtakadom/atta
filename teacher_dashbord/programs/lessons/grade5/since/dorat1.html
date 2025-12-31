@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برنامج علوم الصف الخامس - دورات الحياة والموارد</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f9ff;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e5799 0%, #207cca 51%, #2989d8 100%);
+            color: white;
+            padding: 25px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-bottom: 5px solid #ffcc00;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .home-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #2989d8;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .home-btn:hover {
+            background-color: #1e5799;
+            transform: scale(1.1);
+        }
+        
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .topic-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-img {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            color: #2989d8;
+            margin-bottom: 15px;
+        }
+        
+        .card-content h3 {
+            color: #1e5799;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .page-content {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .page-title {
+            color: #1e5799;
+            border-bottom: 3px solid #ffcc00;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            font-size: 2rem;
+        }
+        
+        .cycle-diagram {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 25px 0;
+            justify-content: center;
+        }
+        
+        .gallery-img {
+            width: 180px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 3px solid #ddd;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-img:hover {
+            transform: scale(1.05);
+            border-color: #2989d8;
+        }
+        
+        .questions-section {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border-right: 5px solid #2989d8;
+        }
+        
+        .question {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .option {
+            padding: 12px 15px;
+            background-color: #f0f7ff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .option:hover {
+            background-color: #e1f0ff;
+        }
+        
+        .correct {
+            background-color: #d4edda !important;
+            border-right: 4px solid #28a745;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da !important;
+            border-right: 4px solid #dc3545;
+        }
+        
+        .feedback {
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .positive-feedback {
+            background-color: #d4edda;
+            color: #155724;
+            border-right: 4px solid #28a745;
+        }
+        
+        .encouragement {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            border-right: 4px solid #ffcc00;
+        }
+        
+        .encouragement i {
+            color: #ffcc00;
+            margin-left: 10px;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .nav-btn {
+            background-color: #2989d8;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background-color: #1e5799;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .page-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- زر العودة للصفحة الرئيسية -->
+    <a href="#" class="home-btn" id="homeBtn">
+        <i class="fas fa-home"></i>
+    </a>
+    
+    <!-- الصفحة الرئيسية -->
+    <div id="homePage">
+        <header>
+            <div class="container">
+                <h1><i class="fas fa-seedling"></i> برنامج علوم الصف الخامس</h1>
+                <p>دورات الحياة والموارد الطبيعية للكائنات الحية</p>
+            </div>
+        </header>
+        
+        <div class="container">
+            <div class="encouragement">
+                <i class="fas fa-trophy"></i>
+                <strong>أهلاً بك عزيزي الطالب!</strong> هذا البرنامج سيساعدك على فهم دورات الحياة في الطبيعة. استمتع بالتعلم وحل الأسئلة!
+            </div>
+            
+            <div class="topics-grid">
+                <div class="topic-card" data-page="water-cycle">
+                    <div class="card-img" style="background-color: #a6d4f7; background-image: url('https://images.unsplash.com/photo-1621451537084-482c73073a0f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80');"></div>
+                    <div class="card-content">
+                        <div class="card-icon"><i class="fas fa-tint"></i></div>
+                        <h3>دورة الماء في الطبيعة</h3>
+                        <p>تعرف على كيفية تحول الماء بين حالاته الصلبة والسائلة والغازية في دورة مستمرة.</p>
+                    </div>
+                </div>
+                
+                <div class="topic-card" data-page="oxygen-cycle">
+                    <div class="card-img" style="background-color: #d4f7e8; background-image: url('https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80');"></div>
+                    <div class="card-content">
+                        <div class="card-icon"><i class="fas fa-wind"></i></div>
+                        <h3>دورة الأكسجين</h3>
+                        <p>اكتشف كيف تنتج النباتات الأكسجين وكيف تستهلكه الكائنات الحية في دورة متكاملة.</p>
+                    </div>
+                </div>
+                
+                <div class="topic-card" data-page="day-night-cycle">
+                    <div class="card-img" style="background-color: #f7f0a6; background-image: url('https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80');"></div>
+                    <div class="card-content">
+                        <div class="card-icon"><i class="fas fa-sun"></i></div>
+                        <h3>دورة الليل والنهار</h3>
+                        <p>افهم أسباب تعاقب الليل والنهار وتأثير الشمس على الحياة على الأرض.</p>
+                    </div>
+                </div>
+                
+                <div class="topic-card" data-page="flowering-plants">
+                    <div class="card-img" style="background-color: #e8d4f7; background-image: url('https://images.unsplash.com/photo-1516205651411-aef33a44f7c2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80');"></div>
+                    <div class="card-content">
+                        <div class="card-icon"><i class="fas fa-leaf"></i></div>
+                        <h3>دورة حياة النباتات الزهرية</h3>
+                        <p>تتبع مراحل نمو النباتات الزهرية من البذرة إلى النبتة المكتملة وإنتاج الأزهار.</p>
+                    </div>
+                </div>
+                
+                <div class="topic-card" data-page="resources">
+                    <div class="card-img" style="background-color: #f7d4d4; background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80');"></div>
+                    <div class="card-content">
+                        <div class="card-icon"><i class="fas fa-tree"></i></div>
+                        <h3>موارد الحياة للكائنات الحية</h3>
+                        <p>تعرف على الموارد الأساسية التي تحتاجها الكائنات الحية للبقاء والنمو.</p>
+                    </div>
+                </div>
+                
+                <div class="topic-card" data-page="quiz">
+                    <div class="card-img" style="background-color: #d4f7f7; background-image: url('https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80');"></div>
+                    <div class="card-content">
+                        <div class="card-icon"><i class="fas fa-question-circle"></i></div>
+                        <h3>أسئلة وتقييم</h3>
+                        <p>اختبر معلوماتك من خلال مجموعة من الأسئلة التفاعلية حول ما تعلمته.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="encouragement">
+                <i class="fas fa-star"></i>
+                <strong>نصيحة:</strong> يمكنك النقر على أي موضوع لمعرفة المزيد عنه. حاول أن تحل جميع الأسئلة في نهاية كل قسم!
+            </div>
+        </div>
+    </div>
+    
+    <!-- صفحات المحتوى (مخفية في البداية) -->
+    
+    <!-- صفحة دورة الماء -->
+    <div id="waterCyclePage" class="hidden">
+        <div class="page-content">
+            <h2 class="page-title"><i class="fas fa-tint"></i> دورة الماء في الطبيعة</h2>
+            
+            <p>دورة الماء هي عملية مستمرة تتحول فيها المياه بين حالاتها الثلاث: الصلبة والسائلة والغازية. تسمى هذه العملية أيضًا <strong>الدورة الهيدرولوجية</strong>.</p>
+            
+            <div class="encouragement">
+                <i class="fas fa-lightbulb"></i>
+                <strong>معلومة ممتعة:</strong> كل الماء الموجود على الأرض الآن هو نفس الماء الموجود منذ ملايين السنين! إنه يعيد تدوير نفسه باستمرار.
+            </div>
+            
+            <h3>مراحل دورة الماء:</h3>
+            <ol>
+                <li><strong>التبخر:</strong> تحول الماء من الحالة السائلة إلى الحالة الغازية بفعل حرارة الشمس.</li>
+                <li><strong>التكاثف:</strong> تحول بخار الماء إلى قطرات ماء سائلة في الغلاف الجوي مشكلاً السحب.</li>
+                <li><strong>الهطول:</strong> سقوط الماء من السحب على شكل أمطار أو ثلوج أو برد.</li>
+                <li><strong>الجريان السطحي:</strong> تدفق الماء على سطح الأرض نحو المسطحات المائية.</li>
+                <li><strong>التسلل:</strong> تسرب الماء إلى باطن الأرض مخزناً المياه الجوفية.</li>
+            </ol>
+            
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="دورة الماء" class="cycle-diagram">
+            
+            <div class="image-gallery">
+                <img src="https://images.unsplash.com/photo-1563974318767-a4de855d7b43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="تبخر الماء" class="gallery-img">
+                <img src="https://images.unsplash.com/photo-1519692933481-e162a57d6721?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="سحب مطر" class="gallery-img">
+                <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="جريان مائي" class="gallery-img">
+            </div>
+            
+            <div class="questions-section">
+                <h3><i class="fas fa-question-circle"></i> أسئلة عن دورة الماء</h3>
+                
+                <div class="question">
+                    <p>1. ما هي العملية التي يتحول فيها الماء من سائل إلى غاز؟</p>
+                    <div class="options">
+                        <div class="option" data-correct="true">التبخر</div>
+                        <div class="option" data-correct="false">التكاثف</div>
+                        <div class="option" data-correct="false">الهطول</div>
+                        <div class="option" data-correct="false">التسلل</div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <p>2. ماذا يسمى تحول بخار الماء إلى قطرات ماء سائلة في الغلاف الجوي؟</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">التبخر</div>
+                        <div class="option" data-correct="true">التكاثف</div>
+                        <div class="option" data-correct="false">الهطول</div>
+                        <div class="option" data-correct="false">الجريان السطحي</div>
+                    </div>
+                </div>
+                
+                <div class="feedback positive-feedback" id="waterFeedback">
+                    <p><i class="fas fa-check-circle"></i> <strong>أحسنت!</strong> إجاباتك صحيحة. الماء يدور في الطبيعة باستمرار دون أن يفنى.</p>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <a href="#" class="nav-btn prev-btn"><i class="fas fa-arrow-right"></i> العودة للرئيسية</a>
+                <a href="#" class="nav-btn next-btn" data-next="oxygen-cycle">التالي: دورة الأكسجين <i class="fas fa-arrow-left"></i></a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- صفحة دورة الأكسجين -->
+    <div id="oxygenCyclePage" class="hidden">
+        <div class="page-content">
+            <h2 class="page-title"><i class="fas fa-wind"></i> دورة الأكسجين</h2>
+            
+            <p>دورة الأكسجين هي العملية التي يتم فيها تبادل الأكسجين بين الغلاف الجوي والكائنات الحية. تعتمد هذه الدورة بشكل أساسي على عمليتي <strong>البناء الضوئي</strong> و<strong>التنفس</strong>.</p>
+            
+            <div class="encouragement">
+                <i class="fas fa-lightbulb"></i>
+                <strong>معلومة ممتعة:</strong> النباتات تنتج حوالي 70% من الأكسجين في الغلاف الجوي، بينما تأتي النسبة الباقية من العوالق النباتية في المحيطات.
+            </div>
+            
+            <h3>كيف تعمل دورة الأكسجين:</h3>
+            <ul>
+                <li>تقوم النباتات والطحالب وبعض البكتيريا بعملية <strong>البناء الضوئي</strong>، حيث تستخدم ثاني أكسيد الكربون والماء وضوء الشمس لإنتاج الغذاء وتطلق الأكسجين.</li>
+                <li>تتنفس الكائنات الحية (الإنسان، الحيوانات، النباتات ليلاً) فتأخذ الأكسجين وتطلق ثاني أكسيد الكربون.</li>
+                <li>يتفاعل الأكسجين في الغلاف الجوي مع العناصر الأخرى مكوناً مركبات مختلفة.</li>
+                <li>يذوب الأكسجين في مياه المحيطات والبحيرات، حيث تستخدمه الكائنات المائية للتنفس.</li>
+            </ul>
+            
+            <img src="https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="دورة الأكسجين" class="cycle-diagram">
+            
+            <div class="questions-section">
+                <h3><i class="fas fa-question-circle"></i> أسئلة عن دورة الأكسجين</h3>
+                
+                <div class="question">
+                    <p>1. ما العملية التي تنتج الأكسجين في دورة الأكسجين؟</p>
+                    <div class="options">
+                        <div class="option" data-correct="true">البناء الضوئي</div>
+                        <div class="option" data-correct="false">التنفس</div>
+                        <div class="option" data-correct="false">الاحتراق</div>
+                        <div class="option" data-correct="false">التبخر</div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <p>2. أي من هذه الكائنات لا يشارك في إنتاج الأكسجين؟</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">النباتات</div>
+                        <div class="option" data-correct="false">الطحالب</div>
+                        <div class="option" data-correct="true">الإنسان</div>
+                        <div class="option" data-correct="false">البكتيريا الزرقاء</div>
+                    </div>
+                </div>
+                
+                <div class="feedback positive-feedback" id="oxygenFeedback">
+                    <p><i class="fas fa-check-circle"></i> <strong>ممتاز!</strong> الأكسجين ضروري لبقاء جميع الكائنات الحية على الأرض.</p>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <a href="#" class="nav-btn prev-btn" data-prev="water-cycle"><i class="fas fa-arrow-right"></i> السابق: دورة الماء</a>
+                <a href="#" class="nav-btn next-btn" data-next="day-night-cycle">التالي: دورة الليل والنهار <i class="fas fa-arrow-left"></i></a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- صفحة دورة الليل والنهار -->
+    <div id="dayNightCyclePage" class="hidden">
+        <div class="page-content">
+            <h2 class="page-title"><i class="fas fa-sun"></i> دورة الليل والنهار</h2>
+            
+            <p>يحدث تعاقب الليل والنهار بسبب <strong>دوران الأرض حول محورها</strong>. الأرض تدور دورة كاملة حول محورها كل 24 ساعة، مما يجعل جزءاً منها يواجه الشمس (نهاراً) والجزء الآخر يكون في الظل (ليلاً).</p>
+            
+            <div class="encouragement">
+                <i class="fas fa-lightbulb"></i>
+                <strong>معلومة ممتعة:</strong> الأرض تدور بسرعة تصل إلى حوالي 1670 كم/ساعة عند خط الاستواء! لكننا لا نشعر بهذه السرعة لأنها منتظمة ومستمرة.
+            </div>
+            
+            <h3>أهمية دورة الليل والنهار:</h3>
+            <ul>
+                <li><strong>للنباتات:</strong> تحتاج إلى ضوء النهار للقيام بعملية البناء الضوئي، والظلام للراحة.</li>
+                <li><strong>للحيوانات:</strong> بعض الحيوانات تنشط في النهار (نهارية) وبعضها في الليل (ليلية).</li>
+                <li><strong>للإنسان:</strong> النهار للنشاط والعمل، والليل للراحة والنوم.</li>
+                <li><strong>للمناخ:</strong> تساعد في تنظيم درجات الحرارة على سطح الأرض.</li>
+            </ul>
+            
+            <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="الليل والنهار" class="cycle-diagram">
+            
+            <div class="image-gallery">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="شروق الشمس" class="gallery-img">
+                <img src="https://images.unsplash.com/photo-1476673160081-cf065607f449?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="غروب الشمس" class="gallery-img">
+                <img src="https://images.unsplash.com/photo-1532978379173-523e6a4a115e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="النجوم ليلاً" class="gallery-img">
+            </div>
+            
+            <div class="questions-section">
+                <h3><i class="fas fa-question-circle"></i> أسئلة عن دورة الليل والنهار</h3>
+                
+                <div class="question">
+                    <p>1. ما سبب تعاقب الليل والنهار؟</p>
+                    <div class="options">
+                        <div class="option" data-correct="true">دوران الأرض حول محورها</div>
+                        <div class="option" data-correct="false">دوران الأرض حول الشمس</div>
+                        <div class="option" data-correct="false">حركة القمر حول الأرض</div>
+                        <div class="option" data-correct="false">تغير الفصول</div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <p>2. كم تستغرق الأرض لدورة كاملة حول محورها؟</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">12 ساعة</div>
+                        <div class="option" data-correct="true">24 ساعة</div>
+                        <div class="option" data-correct="false">30 يوم</div>
+                        <div class="option" data-correct="false">365 يوم</div>
+                    </div>
+                </div>
+                
+                <div class="feedback positive-feedback" id="dayNightFeedback">
+                    <p><i class="fas fa-check-circle"></i> <strong>رائع!</strong> فهمك لدورة الليل والنهار يساعدك على فهم العديد من الظواهر الطبيعية الأخرى.</p>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <a href="#" class="nav-btn prev-btn" data-prev="oxygen-cycle"><i class="fas fa-arrow-right"></i> السابق: دورة الأكسجين</a>
+                <a href="#" class="nav-btn next-btn" data-next="flowering-plants">التالي: النباتات الزهرية <i class="fas fa-arrow-left"></i></a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- صفحة النباتات الزهرية -->
+    <div id="floweringPlantsPage" class="hidden">
+        <div class="page-content">
+            <h2 class="page-title"><i class="fas fa-leaf"></i> دورة حياة النباتات الزهرية</h2>
+            
+            <p>النباتات الزهرية هي نباتات تنتج أزهاراً وتتكاثر عن طريق البذور. تشكل هذه النباتات المجموعة الأكبر في مملكة النباتات.</p>
+            
+            <div class="encouragement">
+                <i class="fas fa-lightbulb"></i>
+                <strong>معلومة ممتعة:</strong> بعض الأزهار تتغير ألوانها لتجذب أنواعاً معينة من الحشرات للتلقيح. زهرة "البتونيا" البيضاء مثلاً تتحول إلى زرقاء ليلاً لجذب العث.
+            </div>
+            
+            <h3>مراحل دورة حياة النبات الزهري:</h3>
+            <ol>
+                <li><strong>البذرة:</strong> تحتوي على الجنين والغذاء المخزن.</li>
+                <li><strong>الإنبات:</strong> خروج الجنين من البذرة عند توفر الظروف المناسبة (ماء، هواء، حرارة).</li>
+                <li><strong>النمو:</strong> تطور الجذور والساق والأوراق.</li>
+                <li><strong>الإزهار:</strong> تكون الأزهار التي تحتوي على الأعضاء التناسلية للنبات.</li>
+                <li><strong>التلقيح:</strong> نقل حبوب اللقاح من المتك إلى الميسم.</li>
+                <li><strong>الإخصاب:</strong> اتحاد حبة اللقاح مع البويضة لتكوين البذرة.</li>
+                <li><strong>نضج الثمرة:</strong> تكوين الثمار التي تحمي البذور وتنشرها.</li>
+            </ol>
+            
+            <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="دورة حياة النباتات الزهرية" class="cycle-diagram">
+            
+            <div class="image-gallery">
+                <img src="https://images.unsplash.com/photo-1526402973497-0d4e4c5c2c7c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="بذور نبات" class="gallery-img">
+                <img src="https://images.unsplash.com/photo-1542931287-023b922fa89b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="إنبات البذور" class="gallery-img">
+                <img src="https://images.unsplash.com/photo-1470755008296-2939845775eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="أزهار نبات" class="gallery-img">
+            </div>
+            
+            <div class="questions-section">
+                <h3><i class="fas fa-question-circle"></i> أسئلة عن النباتات الزهرية</h3>
+                
+                <div class="question">
+                    <p>1. ما هي المرحلة الأولى في دورة حياة النبات الزهري؟</p>
+                    <div class="options">
+                        <div class="option" data-correct="true">البذرة</div>
+                        <div class="option" data-correct="false">الإنبات</div>
+                        <div class="option" data-correct="false">الإزهار</div>
+                        <div class="option" data-correct="false">التلقيح</div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <p>2. ما العملية التي يتم فيها نقل حبوب اللقاح من المتك إلى الميسم؟</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">الإخصاب</div>
+                        <div class="option" data-correct="true">التلقيح</div>
+                        <div class="option" data-correct="false">الإنبات</div>
+                        <div class="option" data-correct="false">النمو</div>
+                    </div>
+                </div>
+                
+                <div class="feedback positive-feedback" id="plantsFeedback">
+                    <p><i class="fas fa-check-circle"></i> <strong>أحسنت!</strong> النباتات الزهرية جميلة ومهمة للحياة على الأرض.</p>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <a href="#" class="nav-btn prev-btn" data-prev="day-night-cycle"><i class="fas fa-arrow-right"></i> السابق: دورة الليل والنهار</a>
+                <a href="#" class="nav-btn next-btn" data-next="resources">التالي: موارد الحياة <i class="fas fa-arrow-left"></i></a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- صفحة موارد الحياة -->
+    <div id="resourcesPage" class="hidden">
+        <div class="page-content">
+            <h2 class="page-title"><i class="fas fa-tree"></i> موارد الحياة للكائنات الحية</h2>
+            
+            <p>تحتاج جميع الكائنات الحية إلى موارد أساسية للبقاء على قيد الحياة. هذه الموارد تختلف بعض الشيء بين الكائنات، لكن هناك موارد أساسية مشتركة.</p>
+            
+            <div class="encouragement">
+                <i class="fas fa-lightbulb"></i>
+                <strong>معلومة ممتعة:</strong> بعض الكائنات الحية تستطيع العيش في ظروف قاسية جداً، مثل بكتيريا "المحببة للحر" التي تعيش في الينابيع الساخنة بدرجات حرارة تصل إلى 80°م!
+            </div>
+            
+            <h3>الموارد الأساسية للكائنات الحية:</h3>
+            
+            <h4>1. الموارد المشتركة لجميع الكائنات:</h4>
+            <ul>
+                <li><strong>الماء:</strong> ضروري لجميع العمليات الحيوية.</li>
+                <li><strong>الهواء (الأكسجين):</strong> للتنفس (مع استثناء بعض الكائنات اللاهوائية).</li>
+                <li><strong>الغذاء:</strong> مصدر الطاقة والمواد الغذائية.</li>
+                <li><strong>الملجأ:</strong> للحماية من الظروف البيئية والأعداء.</li>
+            </ul>
+            
+            <h4>2. موارد خاصة بالنباتات:</h4>
+            <ul>
+                <li><strong>ضوء الشمس:</strong> للقيام بعملية البناء الضوئي.</li>
+                <li><strong>ثاني أكسيد الكربون:</strong> لصنع الغذاء.</li>
+                <li><strong>التربة الغنية:</strong> للحصول على المعادن والماء.</li>
+            </ul>
+            
+            <h4>3. موارد خاصة بالحيوانات:</h4>
+            <ul>
+                <li><strong>الأكسجين:</strong> لتنفس الخلايا.</li>
+                <li><strong>الماء:</strong> للشرب ووظائف الجسم.</li>
+                <li><strong>الغذاء:</strong> نباتي أو حيواني حسب نوع الحيوان.</li>
+                <li><strong>مكان للتكاثر:</strong> لضمان استمرارية النوع.</li>
+            </ul>
+            
+            <img src="https://images.unsplash.com/photo-1534088568595-a066f410bcda?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="موارد الحياة" class="cycle-diagram">
+            
+            <div class="questions-section">
+                <h3><i class="fas fa-question-circle"></i> أسئلة عن موارد الحياة</h3>
+                
+                <div class="question">
+                    <p>1. أي من هذه الموارد تحتاجه النباتات فقط؟</p>
+                    <div class="options">
+                        <div class="option" data-correct="true">ثاني أكسيد الكربون</div>
+                        <div class="option" data-correct="false">الماء</div>
+                        <div class="option" data-correct="false">الغذاء</div>
+                        <div class="option" data-correct="false">الملجأ</div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <p>2. ما المورد الذي تحتاجه جميع الكائنات الحية تقريباً؟</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">ضوء الشمس</div>
+                        <div class="option" data-correct="true">الماء</div>
+                        <div class="option" data-correct="false">ثاني أكسيد الكربون</div>
+                        <div class="option" data-correct="false">التربة</div>
+                    </div>
+                </div>
+                
+                <div class="feedback positive-feedback" id="resourcesFeedback">
+                    <p><i class="fas fa-check-circle"></i> <strong>ممتاز!</strong> حماية الموارد الطبيعية تساعد في الحفاظ على جميع الكائنات الحية.</p>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <a href="#" class="nav-btn prev-btn" data-prev="flowering-plants"><i class="fas fa-arrow-right"></i> السابق: النباتات الزهرية</a>
+                <a href="#" class="nav-btn next-btn" data-next="quiz">التالي: الأسئلة والتقييم <i class="fas fa-arrow-left"></i></a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- صفحة الأسئلة والتقييم -->
+    <div id="quizPage" class="hidden">
+        <div class="page-content">
+            <h2 class="page-title"><i class="fas fa-question-circle"></i> أسئلة وتقييم شامل</h2>
+            
+            <p>هذا قسم الأسئلة الشاملة. حاول الإجابة على جميع الأسئلة لاختبار معلوماتك في جميع المواضيع التي تعلمتها.</p>
+            
+            <div class="encouragement">
+                <i class="fas fa-star"></i>
+                <strong>تحدي:</strong> حاول الإجابة على جميع الأسئلة دون الرجوع إلى الدروس السابقة!
+            </div>
+            
+            <div class="questions-section">
+                <h3>الاختبار النهائي</h3>
+                
+                <div class="question">
+                    <p>1. ما هي العملية التي يتم فيها تحول بخار الماء إلى قطرات ماء سائلة؟</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">التبخر</div>
+                        <div class="option" data-correct="true">التكاثف</div>
+                        <div class="option" data-correct="false">الهطول</div>
+                        <div class="option" data-correct="false">الجريان السطحي</div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <p>2. أي من هذه الكائنات ينتج الأكسجين؟</p>
+                    <div class="options">
+                        <div class="option" data-correct="true">النباتات</div>
+                        <div class="option" data-correct="false">الحيوانات</div>
+                        <div class="option" data-correct="false">الإنسان</div>
+                        <div class="option" data-correct="false">جميع ما سبق</div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <p>3. ما سبب تعاقب الليل والنهار؟</p>
+                    <div class="options">
+                        <div class="option" data-correct="true">دوران الأرض حول محورها</div>
+                        <div class="option" data-correct="false">دوران الأرض حول الشمس</div>
+                        <div class="option" data-correct="false">دوران القمر حول الأرض</div>
+                        <div class="option" data-correct="false">حركة النجوم</div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <p>4. ما هي المرحلة الأولى في دورة حياة النبات الزهري؟</p>
+                    <div class="options">
+                        <div class="option" data-correct="true">البذرة</div>
+                        <div class="option" data-correct="false">الإنبات</div>
+                        <div class="option" data-correct="false">الإزهار</div>
+                        <div class="option" data-correct="false">الإثمار</div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <p>5. أي من هذه الموارد تحتاجه النباتات فقط؟</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">الأكسجين</div>
+                        <div class="option" data-correct="true">ثاني أكسيد الكربون</div>
+                        <div class="option" data-correct="false">الغذاء الجاهز</div>
+                        <div class="option" data-correct="false">اللحم</div>
+                    </div>
+                </div>
+                
+                <button id="checkAllBtn" class="nav-btn" style="width: 100%; margin-top: 20px;">
+                    <i class="fas fa-check-circle"></i> تحقق من جميع إجاباتك
+                </button>
+                
+                <div class="feedback positive-feedback" id="quizFeedback" style="display: none;">
+                    <p id="quizResultText"></p>
+                </div>
+                
+                <div class="encouragement" id="scoreEncouragement" style="display: none;">
+                    <i class="fas fa-trophy"></i>
+                    <strong id="scoreText"></strong>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <a href="#" class="nav-btn prev-btn" data-prev="resources"><i class="fas fa-arrow-right"></i> السابق: موارد الحياة</a>
+                <a href="#" class="nav-btn next-btn" data-next="home">العودة للرئيسية <i class="fas fa-arrow-left"></i></a>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>برنامج تعليمي لدورات الحياة والموارد الطبيعية - علوم الصف الخامس</p>
+            <p>تم التصميم ليكون تفاعلياً وشاملاً لجميع المواضيع المطلوبة</p>
+        </div>
+    </footer>
+
+    <script>
+        // متغيرات للتحكم في الصفحات
+        const pages = {
+            'home': document.getElementById('homePage'),
+            'water-cycle': document.getElementById('waterCyclePage'),
+            'oxygen-cycle': document.getElementById('oxygenCyclePage'),
+            'day-night-cycle': document.getElementById('dayNightCyclePage'),
+            'flowering-plants': document.getElementById('floweringPlantsPage'),
+            'resources': document.getElementById('resourcesPage'),
+            'quiz': document.getElementById('quizPage')
+        };
+        
+        // زر العودة للصفحة الرئيسية
+        const homeBtn = document.getElementById('homeBtn');
+        
+        // عرض صفحة مع إخفاء الآخرين
+        function showPage(pageId) {
+            // إخفاء جميع الصفحات
+            Object.values(pages).forEach(page => {
+                page.classList.add('hidden');
+            });
+            
+            // إظهار الصفحة المطلوبة
+            if (pages[pageId]) {
+                pages[pageId].classList.remove('hidden');
+            }
+            
+            // التمرير لأعلى الصفحة
+            window.scrollTo(0, 0);
+        }
+        
+        // التعامل مع النقر على بطاقات المواضيع
+        document.querySelectorAll('.topic-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const pageId = this.getAttribute('data-page');
+                showPage(pageId);
+            });
+        });
+        
+        // التعامل مع أزرار التوجيه
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (this.classList.contains('prev-btn')) {
+                    const prevPage = this.getAttribute('data-prev');
+                    if (prevPage) {
+                        showPage(prevPage);
+                    } else {
+                        showPage('home');
+                    }
+                } else if (this.classList.contains('next-btn')) {
+                    const nextPage = this.getAttribute('data-next');
+                    if (nextPage) {
+                        showPage(nextPage);
+                    } else {
+                        showPage('home');
+                    }
+                }
+            });
+        });
+        
+        // زر العودة للصفحة الرئيسية
+        homeBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            showPage('home');
+        });
+        
+        // التعامل مع الأسئلة التفاعلية
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                const questionDiv = this.closest('.question');
+                const options = questionDiv.querySelectorAll('.option');
+                
+                // إزالة التنسيق من جميع الخيارات في السؤال
+                options.forEach(opt => {
+                    opt.classList.remove('correct', 'incorrect');
+                });
+                
+                // تطبيق التنسيق المناسب
+                const isCorrect = this.getAttribute('data-correct') === 'true';
+                
+                if (isCorrect) {
+                    this.classList.add('correct');
+                } else {
+                    this.classList.add('incorrect');
+                    
+                    // إظهار الإجابة الصحيحة
+                    options.forEach(opt => {
+                        if (opt.getAttribute('data-correct') === 'true') {
+                            opt.classList.add('correct');
+                        }
+                    });
+                }
+                
+                // إظهار التغذية الراجعة إذا كانت موجودة
+                const feedback = questionDiv.closest('.questions-section').querySelector('.feedback');
+                if (feedback) {
+                    feedback.style.display = 'block';
+                }
+            });
+        });
+        
+        // التعامل مع زر التحقق من جميع الإجابات في صفحة الاختبار
+        const checkAllBtn = document.getElementById('checkAllBtn');
+        if (checkAllBtn) {
+            checkAllBtn.addEventListener('click', function() {
+                let correctCount = 0;
+                let totalQuestions = 0;
+                
+                // التحقق من جميع الأسئلة في صفحة الاختبار
+                const quizQuestions = document.querySelectorAll('#quizPage .question');
+                
+                quizQuestions.forEach(question => {
+                    totalQuestions++;
+                    const options = question.querySelectorAll('.option');
+                    let answered = false;
+                    let isCorrect = false;
+                    
+                    options.forEach(option => {
+                        if (option.classList.contains('correct') || option.classList.contains('incorrect')) {
+                            answered = true;
+                            if (option.classList.contains('correct') && option.getAttribute('data-correct') === 'true') {
+                                isCorrect = true;
+                            }
+                        }
+                    });
+                    
+                    // إذا لم يتم الإجابة على السؤال، نضيف التنسيق
+                    if (!answered) {
+                        options.forEach(option => {
+                            if (option.getAttribute('data-correct') === 'true') {
+                                option.classList.add('correct');
+                            } else {
+                                option.classList.add('incorrect');
+                            }
+                        });
+                    }
+                    
+                    if (isCorrect) {
+                        correctCount++;
+                    }
+                });
+                
+                // حساب النتيجة
+                const score = Math.round((correctCount / totalQuestions) * 100);
+                
+                // عرض النتيجة
+                const quizFeedback = document.getElementById('quizFeedback');
+                const quizResultText = document.getElementById('quizResultText');
+                const scoreEncouragement = document.getElementById('scoreEncouragement');
+                const scoreText = document.getElementById('scoreText');
+                
+                quizResultText.innerHTML = `<strong>نتيجتك:</strong> ${correctCount} من ${totalQuestions} (${score}%)`;
+                
+                let encouragementMessage = '';
+                if (score >= 90) {
+                    encouragementMessage = 'مذهل! أنت خبير في دورات الحياة والموارد الطبيعية.';
+                } else if (score >= 70) {
+                    encouragementMessage = 'جيد جداً! لديك معرفة ممتازة بالموضوع.';
+                } else if (score >= 50) {
+                    encouragementMessage = 'ليس سيئاً! يمكنك مراجعة بعض الدروس لتحسين معرفتك.';
+                } else {
+                    encouragementMessage = 'حاول مراجعة الدروس مرة أخرى ثم أعِد الاختبار.';
+                }
+                
+                scoreText.textContent = encouragementMessage;
+                
+                quizFeedback.style.display = 'block';
+                scoreEncouragement.style.display = 'block';
+                
+                // التمرير لأسفل لرؤية النتيجة
+                quizFeedback.scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+        
+        // تهيئة البرنامج عند التحميل
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('home');
+            
+            // إضافة تأثير عند تحميل الصفحة
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>

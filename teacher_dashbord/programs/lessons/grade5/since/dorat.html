@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>علوم الصف الخامس - دورات الحياة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --water: #3498db; --life: #2ecc71; --sun: #f1c40f; 
+            --night: #2c3e50; --plant: #27ae60; --text: #2d3436;
+        }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; color: var(--text); }
+        .container { max-width: 900px; margin: auto; }
+        
+        /* Header */
+        header { text-align: center; padding: 30px; background: white; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        h1 { color: var(--plant); margin: 0; }
+
+        /* Navigation Grid */
+        .topics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .topic-card { background: white; padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; transition: 0.3s; border-bottom: 5px solid #ddd; }
+        .topic-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .topic-card i { font-size: 40px; margin-bottom: 10px; }
+        
+        /* Content Section */
+        .content-section { background: white; padding: 30px; border-radius: 20px; display: none; animation: fadeIn 0.5s; }
+        .active { display: block; }
+
+        .image-box { width: 100%; max-height: 300px; background: #eee; border-radius: 15px; margin: 20px 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .image-box img { width: 100%; height: auto; }
+
+        /* Quiz Style */
+        .quiz-box { background: #f9f9f9; padding: 20px; border-radius: 15px; border: 2px dashed var(--life); margin-top: 20px; }
+        .option-btn { display: block; width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #ddd; border-radius: 10px; background: white; cursor: pointer; text-align: right; font-size: 16px; }
+        .option-btn:hover { background: #f0f0f0; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <i class="fas fa-microscope" style="font-size: 50px; color: var(--life);"></i>
+        <h1>مستكشف العلوم الذكي</h1>
+        <p>رحلة ممتعة في دورات الحياة وموارد الطبيعة</p>
+    </header>
+
+    <div class="topics-grid">
+        <div class="topic-card" onclick="showSection('water-cycle')" style="border-color: var(--water);">
+            <i class="fas fa-cloud-showers-heavy" style="color: var(--water);"></i>
+            <h3>دورة الماء</h3>
+        </div>
+        <div class="topic-card" onclick="showSection('day-night')" style="border-color: var(--sun);">
+            <i class="fas fa-sun" style="color: var(--sun);"></i>
+            <h3>الليل والنهار</h3>
+        </div>
+        <div class="topic-card" onclick="showSection('plant-cycle')" style="border-color: var(--plant);">
+            <i class="fas fa-seedling" style="color: var(--plant);"></i>
+            <h3>دورة حياة النبات</h3>
+        </div>
+        <div class="topic-card" onclick="showSection('life-resources')" style="border-color: var(--life);">
+            <i class="fas fa-apple-alt" style="color: var(--life);"></i>
+            <h3>موارد الحياة</h3>
+        </div>
+    </div>
+
+    <div id="water-cycle" class="content-section">
+        <h2><i class="fas fa-tint"></i> دورة الماء في الطبيعة</h2>
+        <p>يتحرك الماء في رحلة مستمرة بين السماء والأرض من خلال التبخر، التكاثف، والأسقاط.</p>
+        <div class="image-box">
+            <img src="images/water_cycle.jpg" alt="رسم توضيحي لدورة الماء">
+        </div>
+        <div class="quiz-box">
+            <h4>سؤال سريع: ماذا نسمي تحول الماء من سائل إلى بخار؟</h4>
+            <button class="option-btn" onclick="checkQuiz(true, 'أحسنت! التبخر هو البداية')">أ- التبخر</button>
+            <button class="option-btn" onclick="checkQuiz(false, 'حاول ثانية، فكر في حرارة الشمس')">ب- التجمد</button>
+        </div>
+    </div>
+
+    <div id="day-night" class="content-section">
+        <h2><i class="fas fa-moon"></i> تعاقب الليل والنهار</h2>
+        <p>يحدث الليل والنهار نتيجة دوران الأرض حول محورها أمام الشمس كل 24 ساعة.</p>
+        <div class="image-box">
+            <img src="images/earth_rotation.jpg" alt="دوران الأرض">
+        </div>
+        <div class="quiz-box">
+            <h4>لماذا تشرق الشمس؟</h4>
+            <button class="option-btn" onclick="checkQuiz(true, 'رائع! دوران الأرض هو السر')">بسبب دوران الأرض حول نفسها</button>
+            <button class="option-btn" onclick="checkQuiz(false, 'لا، الشمس ثابتة والأرض تدور')">بسبب تحرك الشمس حول الأرض</button>
+        </div>
+    </div>
+
+    <div id="plant-cycle" class="content-section">
+        <h2><i class="fas fa-flower"></i> دورة حياة النباتات الزهرية</h2>
+        <p>تبدأ من البذرة، ثم الإنبات، ثم نمو الأوراق، وأخيراً تكوين الأزهار والثمار.</p>
+        <div class="image-box">
+            <img src="images/plant_lifecycle.jpg" alt="دورة حياة النبتة">
+        </div>
+        <ul>
+            <li>البذرة: تحتوي على الجنين والغذاء.</li>
+            <li>الزهرة: هي عضو التكاثر في النبات الزهري.</li>
+        </ul>
+    </div>
+
+</div>
+
+<script>
+    function showSection(sectionId) {
+        // إخفاء جميع الأقسام
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.classList.remove('active');
+        });
+        // إظهار القسم المطلوب
+        document.getElementById(sectionId).classList.add('active');
+        // تمرير الشاشة للأسفل قليلاً
+        window.scrollTo({ top: 400, behavior: 'smooth' });
+    }
+
+    function checkQuiz(isCorrect, message) {
+        if(isCorrect) {
+            alert("🌟 " + message);
+        } else {
+            alert("❌ " + message);
+        }
+    }
+
+    // إظهار القسم الأول تلقائياً عند الفتح
+    window.onload = () => showSection('water-cycle');
+</script>
+
+</body>
+</html>

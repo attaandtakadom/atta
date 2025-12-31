@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعلم الأرقام من 1 إلى 20 بالحروف - الصف الثالث الابتدائي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f0f7ff;
+            color: #333;
+            line-height: 1.6;
+            direction: rtl;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* زر العودة للرئيسية */
+        .home-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(to left, #ff6b6b, #ff8e53);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+        
+        .home-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(255, 107, 107, 0.6);
+        }
+        
+        /* زر الانتقال للأعلى */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(to right, #4a9eff, #6c63ff);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(74, 158, 255, 0.4);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1001;
+        }
+        
+        .scroll-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .scroll-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(74, 158, 255, 0.6);
+        }
+        
+        /* رأس الصفحة */
+        header {
+            background: linear-gradient(135deg, #1e5799 0%, #207cca 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* قسم التعليم */
+        .learning-section {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        h2 {
+            color: #1e5799;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px dashed #e0e0e0;
+            text-align: center;
+            font-size: 1.3rem;
+        }
+        
+        /* شبكة الأرقام */
+        .numbers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        
+        .number-card {
+            background: linear-gradient(145deg, #f5f7fa, #e4e8f0);
+            border-radius: 8px;
+            padding: 12px 5px;
+            text-align: center;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .number-card:hover {
+            transform: translateY(-3px);
+            border-color: #4a9eff;
+        }
+        
+        .number-digit {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #1e5799;
+            margin-bottom: 5px;
+        }
+        
+        .number-word {
+            font-size: 0.95rem;
+            color: #333;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* لعبة السحب والإفلات */
+        .game-section {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .instructions {
+            background-color: #f8f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-right: 5px solid #4a9eff;
+            font-size: 0.9rem;
+        }
+        
+        .instructions h3 {
+            color: #1e5799;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .game-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            align-items: stretch;
+        }
+        
+        .game-half {
+            flex: 1;
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .drag-section, .drop-section {
+            padding: 15px;
+            border-radius: 10px;
+            min-height: 220px;
+            max-height: 250px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .drag-section {
+            background-color: #e8f4ff;
+            border: 2px dashed #4a9eff;
+        }
+        
+        .drop-section {
+            background-color: #f0ffe8;
+            border: 2px dashed #6cff63;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 12px;
+            color: #1e5799;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .items-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* عناصر السحب */
+        .draggable-item {
+            background-color: white;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            text-align: center;
+            cursor: move;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .draggable-item.digit {
+            background: linear-gradient(to left, #a1c4fd, #c2e9fb);
+            color: #1e5799;
+        }
+        
+        .draggable-item.word {
+            background: linear-gradient(to right, #fad0c4, #ffd1ff);
+            color: #8a2be2;
+        }
+        
+        /* مناطق الإفلات */
+        .drop-zone {
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            text-align: center;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #aaa;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        
+        .drop-zone.highlight {
+            border-color: #4a9eff;
+            background-color: rgba(74, 158, 255, 0.1);
+        }
+        
+        .drop-zone.correct {
+            border-color: #4CAF50;
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+        
+        .drop-zone.incorrect {
+            border-color: #f44336;
+            background-color: rgba(244, 67, 54, 0.1);
+        }
+        
+        /* رسائل التشجيع */
+        .feedback {
+            text-align: center;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .feedback.success {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: #2e7d32;
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        .feedback.error {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: #c62828;
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        .controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #4a9eff, #6c63ff);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+            box-shadow: 0 4px 10px rgba(108, 99, 255, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(108, 99, 255, 0.4);
+        }
+        
+        .btn-reset {
+            background: linear-gradient(to right, #ff6b6b, #ff8e53);
+        }
+        
+        /* تصميم متجاوب */
+        @media (max-width: 768px) {
+            .home-button, .scroll-to-top {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .home-button {
+                top: 15px;
+                right: 15px;
+            }
+            
+            .scroll-to-top {
+                bottom: 20px;
+                left: 20px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .game-half {
+                min-width: 100%;
+            }
+            
+            .drag-section, .drop-section {
+                min-height: 200px;
+                max-height: 220px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .numbers-grid {
+                grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+                gap: 8px;
+            }
+            
+            .number-digit {
+                font-size: 1.5rem;
+            }
+            
+            .number-word {
+                font-size: 0.85rem;
+                height: 35px;
+            }
+            
+            .learning-section, .game-section {
+                padding: 15px;
+            }
+            
+            .game-container {
+                gap: 10px;
+            }
+            
+            .game-half {
+                gap: 10px;
+            }
+            
+            h2 {
+                font-size: 1.2rem;
+            }
+            
+            .draggable-item, .drop-zone {
+                font-size: 0.9rem;
+                padding: 8px;
+            }
+        }
+        
+        /* الرسوم المتحركة */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-5px); }
+            60% { transform: translateY(-3px); }
+        }
+        
+        .bounce {
+            animation: bounce 1s;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.8rem;
+            border-top: 1px solid #ddd;
+        }
+        
+        .counter {
+            background-color: #f8f9ff;
+            padding: 8px 15px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #1e5799;
+            border: 2px solid #4a9eff;
+            font-size: 0.9rem;
+        }
+        
+        .game-nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+        
+        .game-nav-btn {
+            background: linear-gradient(to right, #8a2be2, #4a9eff);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .game-nav-btn.active {
+            background: linear-gradient(to right, #ff6b6b, #ff8e53);
+            box-shadow: 0 3px 8px rgba(255, 107, 107, 0.3);
+        }
+        
+        .game-set {
+            display: none;
+        }
+        
+        .game-set.active {
+            display: flex;
+        }
+        
+        .empty-message {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            padding: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .centered-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <!-- زر العودة للرئيسية -->
+    <a href="#" class="home-button" id="homeButton" title="العودة للرئيسية">
+        <i class="fas fa-home"></i>
+    </a>
+    
+    <!-- زر الانتقال للأعلى -->
+    <div class="scroll-to-top" id="scrollToTop" title="انتقل للأعلى">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <!-- المحتوى الرئيسي -->
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-numbers"></i> تعلم الأرقام من 1 إلى 20 بالحروف</h1>
+            <p class="subtitle">برنامج تعليمي تفاعلي للصف الثالث الابتدائي - تعلم مطابقة الأرقام بأسمائها</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- قسم التعلم -->
+        <section class="learning-section">
+            <h2><i class="fas fa-book-open"></i> تعرف على الأرقام من 1 إلى 20</h2>
+            <p style="text-align: center; margin-bottom: 15px; font-size: 1rem;">انظر إلى الأرقام وأسمائها المكتوبة بالحروف العربية</p>
+            
+            <div class="numbers-grid" id="numbersGrid">
+                <!-- سيتم إضافة الأرقام هنا بالجافا سكريبت -->
+            </div>
+        </section>
+        
+        <!-- قسم اللعبة -->
+        <section class="game-section">
+            <h2><i class="fas fa-gamepad"></i> لعبة السحب والإفلات</h2>
+            
+            <div class="instructions">
+                <h3><i class="fas fa-info-circle"></i> كيفية اللعب:</h3>
+                <p>1. اسحب الرقم من العمود الأيمن وأفلته على الاسم الصحيح له في العمود الأيسر</p>
+                <p>2. أو اسحب الاسم من العمود الأيسر وأفلته على الرقم الصحيح له في العمود الأيمن</p>
+                <p>3. عندما تطابق جميع الأرقام مع أسمائها بشكل صحيح، ستحصل على رسالة تشجيعية!</p>
+            </div>
+            
+            <div class="counter" id="scoreCounter">النتيجة: <span id="score">0</span> / 5 تطابقات صحيحة</div>
+            
+            <!-- تنقل بين مجموعتي اللعبة -->
+            <div class="game-nav">
+                <button class="game-nav-btn active" id="set1Btn">المجموعة الأولى (1-10)</button>
+                <button class="game-nav-btn" id="set2Btn">المجموعة الثانية (11-20)</button>
+            </div>
+            
+            <!-- المجموعة الأولى -->
+            <div class="game-set active" id="gameSet1">
+                <div class="game-container">
+                    <!-- النصف الأول - الأسماء -->
+                    <div class="game-half">
+                        <div class="drag-section">
+                            <h3 class="section-title">أسماء الأرقام بالحروف</h3>
+                            <div class="items-container" id="wordsContainer1">
+                                <!-- سيتم إضافة أسماء الأرقام هنا بالجافا سكريبت -->
+                            </div>
+                        </div>
+                        
+                        <div class="drop-section">
+                            <h3 class="section-title">الأرقام</h3>
+                            <div class="items-container" id="digitsDropContainer1">
+                                <!-- مناطق الإفلات للأرقام -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- النصف الثاني - الأرقام -->
+                    <div class="game-half">
+                        <div class="drop-section">
+                            <h3 class="section-title">أسماء الأرقام بالحروف</h3>
+                            <div class="items-container" id="wordsDropContainer1">
+                                <!-- مناطق الإفلات للأسماء -->
+                            </div>
+                        </div>
+                        
+                        <div class="drag-section">
+                            <h3 class="section-title">الأرقام</h3>
+                            <div class="items-container" id="digitsContainer1">
+                                <!-- الأرقام القابلة للسحب -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- المجموعة الثانية -->
+            <div class="game-set" id="gameSet2">
+                <div class="game-container">
+                    <!-- النصف الأول - الأسماء -->
+                    <div class="game-half">
+                        <div class="drag-section">
+                            <h3 class="section-title">أسماء الأرقام بالحروف</h3>
+                            <div class="items-container" id="wordsContainer2">
+                                <!-- سيتم إضافة أسماء الأرقام هنا بالجافا سكريبت -->
+                            </div>
+                        </div>
+                        
+                        <div class="drop-section">
+                            <h3 class="section-title">الأرقام</h3>
+                            <div class="items-container" id="digitsDropContainer2">
+                                <!-- مناطق الإفلات للأرقام -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- النصف الثاني - الأرقام -->
+                    <div class="game-half">
+                        <div class="drop-section">
+                            <h3 class="section-title">أسماء الأرقام بالحروف</h3>
+                            <div class="items-container" id="wordsDropContainer2">
+                                <!-- مناطق الإفلات للأسماء -->
+                            </div>
+                        </div>
+                        
+                        <div class="drag-section">
+                            <h3 class="section-title">الأرقام</h3>
+                            <div class="items-container" id="digitsContainer2">
+                                <!-- الأرقام القابلة للسحب -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feedback" id="feedbackMessage"></div>
+            
+            <div class="controls">
+                <button class="btn" id="checkAnswers"><i class="fas fa-check-circle"></i> تحقق من الإجابات</button>
+                <button class="btn btn-reset" id="resetGame"><i class="fas fa-redo"></i> إعادة اللعبة</button>
+            </div>
+        </section>
+        
+        <footer>
+            <p>برنامج تعليمي للصف الثالث الابتدائي - تم التصميم باستخدام HTML و CSS وجافا سكريبت</p>
+            <p>جميع الحقوق محفوظة © 2023 - وزارة التعليم</p>
+        </footer>
+    </div>
+    
+    <script>
+        // بيانات الأرقام من 1 إلى 20 مع أسماء صحيحة
+        const numbers = [
+            { digit: "1", word: "واحد" },
+            { digit: "2", word: "اثنان" },
+            { digit: "3", word: "ثلاثة" },
+            { digit: "4", word: "أربعة" },
+            { digit: "5", word: "خمسة" },
+            { digit: "6", word: "ستة" },
+            { digit: "7", word: "سبعة" },
+            { digit: "8", word: "ثمانية" },
+            { digit: "9", word: "تسعة" },
+            { digit: "10", word: "عشرة" },
+            { digit: "11", word: "أحد عشر" },
+            { digit: "12", word: "اثنا عشر" },
+            { digit: "13", word: "ثلاثة عشر" },
+            { digit: "14", word: "أربعة عشر" },
+            { digit: "15", word: "خمسة عشر" },
+            { digit: "16", word: "ستة عشر" },
+            { digit: "17", word: "سبعة عشر" },
+            { digit: "18", word: "ثمانية عشر" },
+            { digit: "19", word: "تسعة عشر" },
+            { digit: "20", word: "عشرون" }
+        ];
+
+        // تقسيم الأرقام إلى مجموعتين
+        const numbersSet1 = numbers.slice(0, 10); // من 1 إلى 10
+        const numbersSet2 = numbers.slice(10, 20); // من 11 إلى 20
+        
+        // تهيئة المتغيرات
+        let draggedItem = null;
+        let score = 0;
+        let currentSet = 1;
+        
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // عرض جميع الأرقام في قسم التعلم
+            displayAllNumbers();
+            
+            // إعداد لعبة السحب والإفلات للمجموعة الأولى
+            setupGameSet(1);
+            setupGameSet(2);
+            
+            // إضافة أحداث السحب والإفلات
+            setupDragAndDrop();
+            
+            // أحداث الأزرار
+            document.getElementById('checkAnswers').addEventListener('click', checkAnswers);
+            document.getElementById('resetGame').addEventListener('click', resetGame);
+            
+            // أحداث التنقل بين المجموعتين
+            document.getElementById('set1Btn').addEventListener('click', () => switchGameSet(1));
+            document.getElementById('set2Btn').addEventListener('click', () => switchGameSet(2));
+            
+            // زر العودة للرئيسية
+            document.getElementById('homeButton').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert("مرحباً بك في الصفحة الرئيسية! هذا البرنامج مصمم لتعليم الأرقام للصف الثالث الابتدائي.");
+            });
+            
+            // زر الانتقال للأعلى
+            const scrollToTopBtn = document.getElementById('scrollToTop');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    scrollToTopBtn.classList.add('show');
+                } else {
+                    scrollToTopBtn.classList.remove('show');
+                }
+            });
+            
+            scrollToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // عرض جميع الأرقام في قسم التعلم
+        function displayAllNumbers() {
+            const numbersGrid = document.getElementById('numbersGrid');
+            numbersGrid.innerHTML = '';
+            
+            numbers.forEach(number => {
+                const numberCard = document.createElement('div');
+                numberCard.className = 'number-card';
+                numberCard.innerHTML = `
+                    <div class="number-digit">${number.digit}</div>
+                    <div class="number-word">${number.word}</div>
+                `;
+                numbersGrid.appendChild(numberCard);
+            });
+        }
+        
+        // إعداد لعبة السحب والإفلات لمجموعة محددة
+        function setupGameSet(setNumber) {
+            const numbersSet = setNumber === 1 ? numbersSet1 : numbersSet2;
+            const setPrefix = setNumber === 1 ? '1' : '2';
+            
+            // اختيار 5 أرقام عشوائية من المجموعة للعبة
+            let gameNumbers = [...numbersSet].sort(() => Math.random() - 0.5).slice(0, 5);
+            
+            // الحاويات للمجموعة المحددة
+            const wordsContainer = document.getElementById(`wordsContainer${setPrefix}`);
+            const digitsContainer = document.getElementById(`digitsContainer${setPrefix}`);
+            const wordsDropContainer = document.getElementById(`wordsDropContainer${setPrefix}`);
+            const digitsDropContainer = document.getElementById(`digitsDropContainer${setPrefix}`);
+            
+            // تفريغ الحاويات
+            wordsContainer.innerHTML = '';
+            digitsContainer.innerHTML = '';
+            wordsDropContainer.innerHTML = '';
+            digitsDropContainer.innerHTML = '';
+            
+            // خلط الأرقام والأسماء بشكل عشوائي
+            const shuffledWords = [...gameNumbers].sort(() => Math.random() - 0.5);
+            const shuffledDigits = [...gameNumbers].sort(() => Math.random() - 0.5);
+            
+            // إضافة أسماء الأرقام (قابلة للسحب)
+            shuffledWords.forEach(number => {
+                const wordElement = document.createElement('div');
+                wordElement.className = 'draggable-item word';
+                wordElement.textContent = number.word;
+                wordElement.draggable = true;
+                wordElement.dataset.value = number.digit;
+                wordElement.dataset.type = 'word';
+                wordElement.dataset.set = setNumber;
+                wordsContainer.appendChild(wordElement);
+            });
+            
+            // إضافة مناطق الإفلات للأرقام
+            shuffledDigits.forEach(number => {
+                const dropZone = document.createElement('div');
+                dropZone.className = 'drop-zone';
+                dropZone.dataset.target = number.digit;
+                dropZone.dataset.type = 'digit';
+                dropZone.dataset.set = setNumber;
+                
+                const digitElement = document.createElement('div');
+                digitElement.className = 'digit-placeholder';
+                digitElement.textContent = number.digit;
+                digitElement.style.fontSize = '1.5rem';
+                digitElement.style.fontWeight = 'bold';
+                digitElement.style.color = '#1e5799';
+                
+                dropZone.appendChild(digitElement);
+                digitsDropContainer.appendChild(dropZone);
+            });
+            
+            // إضافة الأرقام (قابلة للسحب)
+            shuffledDigits.forEach(number => {
+                const digitElement = document.createElement('div');
+                digitElement.className = 'draggable-item digit';
+                digitElement.textContent = number.digit;
+                digitElement.draggable = true;
+                digitElement.dataset.value = number.digit;
+                digitElement.dataset.type = 'digit';
+                digitElement.dataset.set = setNumber;
+                digitsContainer.appendChild(digitElement);
+            });
+            
+            // إضافة مناطق الإفلات للأسماء
+            shuffledWords.forEach(number => {
+                const dropZone = document.createElement('div');
+                dropZone.className = 'drop-zone';
+                dropZone.dataset.target = number.digit;
+                dropZone.dataset.type = 'word';
+                dropZone.dataset.set = setNumber;
+                
+                const wordElement = document.createElement('div');
+                wordElement.className = 'word-placeholder';
+                wordElement.textContent = "اسحب الاسم هنا";
+                wordElement.style.color = '#888';
+                wordElement.style.fontStyle = 'italic';
+                wordElement.style.fontSize = '0.9rem';
+                
+                dropZone.appendChild(wordElement);
+                wordsDropContainer.appendChild(dropZone);
+            });
+            
+            // التأكد من أن الحاويات ليست فارغة
+            if (wordsContainer.children.length === 0) {
+                wordsContainer.innerHTML = '<div class="empty-message">سيتم تحميل الأسماء...</div>';
+            }
+            
+            if (digitsContainer.children.length === 0) {
+                digitsContainer.innerHTML = '<div class="empty-message">سيتم تحميل الأرقام...</div>';
+            }
+        }
+        
+        // التبديل بين مجموعتي اللعبة
+        function switchGameSet(setNumber) {
+            // تحديث الأزرار النشطة
+            document.getElementById('set1Btn').classList.toggle('active', setNumber === 1);
+            document.getElementById('set2Btn').classList.toggle('active', setNumber === 2);
+            
+            // إظهار المجموعة المحددة وإخفاء الأخرى
+            document.getElementById('gameSet1').classList.toggle('active', setNumber === 1);
+            document.getElementById('gameSet2').classList.toggle('active', setNumber === 2);
+            
+            // تحديث المجموعة الحالية
+            currentSet = setNumber;
+            
+            // إعادة تعيين النتيجة
+            score = 0;
+            updateScore();
+            document.getElementById('feedbackMessage').className = 'feedback';
+        }
+        
+        // إعداد أحداث السحب والإفلات
+        function setupDragAndDrop() {
+            // أحداث العناصر القابلة للسحب
+            document.addEventListener('dragstart', function(e) {
+                if (e.target.classList.contains('draggable-item')) {
+                    draggedItem = e.target;
+                    e.target.classList.add('dragging');
+                    e.dataTransfer.setData('text/plain', e.target.dataset.value + '|' + e.target.dataset.type + '|' + e.target.dataset.set);
+                }
+            });
+            
+            document.addEventListener('dragend', function(e) {
+                if (e.target.classList.contains('draggable-item')) {
+                    e.target.classList.remove('dragging');
+                    draggedItem = null;
+                }
+            });
+            
+            // أحداث مناطق الإفلات
+            document.addEventListener('dragover', function(e) {
+                if (e.target.classList.contains('drop-zone')) {
+                    e.preventDefault();
+                    e.target.classList.add('highlight');
+                }
+            });
+            
+            document.addEventListener('dragleave', function(e) {
+                if (e.target.classList.contains('drop-zone')) {
+                    e.target.classList.remove('highlight');
+                }
+            });
+            
+            document.addEventListener('drop', function(e) {
+                if (e.target.classList.contains('drop-zone')) {
+                    e.preventDefault();
+                    e.target.classList.remove('highlight');
+                    
+                    if (draggedItem) {
+                        const data = e.dataTransfer.getData('text/plain').split('|');
+                        const value = data[0];
+                        const type = data[1];
+                        const set = data[2];
+                        
+                        // التحقق مما إذا كان السحب والإفلات متطابقين
+                        const targetType = e.target.dataset.type;
+                        const targetValue = e.target.dataset.target;
+                        const targetSet = e.target.dataset.set;
+                        
+                        // يمكن الإفلات فقط إذا كان النوع مختلف (رقم على اسم أو اسم على رقم) ونفس المجموعة
+                        if (type !== targetType && value === targetValue && set === targetSet) {
+                            // إزالة العنصر المسحوب
+                            draggedItem.style.visibility = 'hidden';
+                            
+                            // عرض القيمة في منطقة الإفلات
+                            e.target.innerHTML = '';
+                            const newElement = document.createElement('div');
+                            newElement.textContent = draggedItem.textContent;
+                            newElement.style.fontSize = '1.2rem';
+                            newElement.style.fontWeight = 'bold';
+                            newElement.style.color = (type === 'digit') ? '#1e5799' : '#8a2be2';
+                            e.target.appendChild(newElement);
+                            
+                            // تخزين المعلومات للتقييم لاحقاً
+                            e.target.dataset.filled = 'true';
+                            e.target.dataset.droppedValue = value;
+                            e.target.dataset.droppedType = type;
+                            
+                            // إزالة فئة الخطأ إذا كانت موجودة
+                            e.target.classList.remove('incorrect');
+                            
+                            // إضافة تأثير
+                            e.target.classList.add('correct');
+                            setTimeout(() => {
+                                e.target.classList.remove('correct');
+                            }, 1000);
+                            
+                            // زيادة النتيجة
+                            score++;
+                            updateScore();
+                            
+                            // إظهار رسالة تشجيعية عشوائية
+                            showRandomEncouragement();
+                        } else {
+                            // إذا كانت غير متطابقة
+                            e.target.classList.add('incorrect');
+                            setTimeout(() => {
+                                e.target.classList.remove('incorrect');
+                            }, 1000);
+                            
+                            // رسالة تحفيزية للاستمرار
+                            showTryAgainMessage();
+                        }
+                    }
+                }
+            });
+        }
+        
+        // تحديث عداد النقاط
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('scoreCounter').textContent = `النتيجة: ${score} / 5 تطابقات صحيحة`;
+            
+            // تغيير لون العداد حسب النتيجة
+            const counter = document.getElementById('scoreCounter');
+            if (score >= 4) {
+                counter.style.backgroundColor = '#e8f7e8';
+                counter.style.borderColor = '#4CAF50';
+            } else if (score >= 3) {
+                counter.style.backgroundColor = '#fff9e8';
+                counter.style.borderColor = '#ff9800';
+            } else {
+                counter.style.backgroundColor = '#ffe8e8';
+                counter.style.borderColor = '#f44336';
+            }
+        }
+        
+        // التحقق من جميع الإجابات
+        function checkAnswers() {
+            const setPrefix = currentSet === 1 ? '1' : '2';
+            const dropZones = document.querySelectorAll(`.drop-zone[data-filled="true"][data-set="${currentSet}"]`);
+            let correctCount = 0;
+            
+            dropZones.forEach(zone => {
+                const targetValue = zone.dataset.target;
+                const droppedValue = zone.dataset.droppedValue;
+                
+                if (targetValue === droppedValue) {
+                    zone.classList.add('correct');
+                    correctCount++;
+                } else {
+                    zone.classList.add('incorrect');
+                }
+            });
+            
+            // عرض رسالة النتيجة
+            const feedback = document.getElementById('feedbackMessage');
+            if (correctCount === 5) {
+                feedback.textContent = "ممتاز! لقد نجحت في مطابقة جميع الأرقام بشكل صحيح. أنت ذكي جداً! 🎉";
+                feedback.className = 'feedback success';
+            } else if (correctCount >= 4) {
+                feedback.textContent = `جيد جداً! لقد نجحت في مطابقة ${correctCount} من أصل 5. استمر في المحاولة! 👍`;
+                feedback.className = 'feedback success';
+            } else if (correctCount >= 3) {
+                feedback.textContent = `ليس سيئاً! لقد نجحت في مطابقة ${correctCount} من أصل 5. حاول مرة أخرى! 💪`;
+                feedback.className = 'feedback success';
+            } else {
+                feedback.textContent = `تحتاج إلى المزيد من الممارسة. لقد نجحت في مطابقة ${correctCount} من أصل 5. لا تستسلم! 🧠`;
+                feedback.className = 'feedback error';
+            }
+            
+            feedback.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // إعادة تعيين اللعبة
+        function resetGame() {
+            setupGameSet(currentSet);
+            setupDragAndDrop();
+            score = 0;
+            updateScore();
+            
+            const feedback = document.getElementById('feedbackMessage');
+            feedback.textContent = "تم إعادة اللعبة. حاول مرة أخرى!";
+            feedback.className = 'feedback success';
+            
+            setTimeout(() => {
+                feedback.className = 'feedback';
+            }, 2000);
+        }
+        
+        // عرض رسائل تشجيعية عشوائية
+        function showRandomEncouragement() {
+            const messages = [
+                "أحسنت! 👍",
+                "ممتاز! 🌟",
+                "رائع! 👏",
+                "ذهبي! 🏆",
+                "إجابة صحيحة! ✅",
+                "برافو! 🎉",
+                "أنت ذكي! 🧠",
+                "استمر هكذا! 💪",
+                "عمل رائع! ✨",
+                "أنا فخور بك! 😊"
+            ];
+            
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            
+            // عرض الرسالة بشكل مؤقت
+            const feedback = document.getElementById('feedbackMessage');
+            feedback.textContent = randomMessage;
+            feedback.className = 'feedback success';
+            
+            setTimeout(() => {
+                if (feedback.textContent === randomMessage) {
+                    feedback.className = 'feedback';
+                }
+            }, 1500);
+        }
+        
+        // عرض رسالة تشجيعية عند الخطأ
+        function showTryAgainMessage() {
+            const messages = [
+                "حاول مرة أخرى! 💪",
+                "لا بأس، جرب رقماً آخر! 🤔",
+                "فكر قليلاً ثم حاول! 🧠",
+                "أنت تستطيع! 😊",
+                "هذه فرصة للتعلم! 📚"
+            ];
+            
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            
+            // عرض الرسالة بشكل مؤقت
+            const feedback = document.getElementById('feedbackMessage');
+            feedback.textContent = randomMessage;
+            feedback.className = 'feedback error';
+            
+            setTimeout(() => {
+                if (feedback.textContent === randomMessage) {
+                    feedback.className = 'feedback';
+                }
+            }, 1500);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مغامرة جدول الضرب</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --p-color: #ff7675; --s-color: #55efc4; --bg: #f7f1e3; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); text-align: center; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; }
+        
+        /* تنسيق زر العودة للرئيسية */
+        .nav-header { display: flex; justify-content: flex-start; margin-bottom: 20px; }
+        .home-link { 
+            text-decoration: none; 
+            background: #34495e; 
+            color: white; 
+            padding: 10px 18px; 
+            border-radius: 15px; 
+            font-weight: bold; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            transition: 0.3s;
+            font-size: 14px;
+        }
+        .home-link:hover { background: #2c3e50; transform: scale(1.05); }
+
+        .header h1 { color: #6c5ce7; font-size: 28px; margin-top: 10px; }
+        .table-selector { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .table-btn { padding: 10px 20px; border: none; border-radius: 12px; background: #fab1a0; color: white; cursor: pointer; font-weight: bold; font-size: 18px; }
+        .table-btn:hover { background: var(--p-color); }
+        .active-table { background: #6c5ce7 !important; transform: scale(1.1); }
+
+        .question-box { font-size: 60px; font-weight: bold; margin: 30px 0; color: #2d3436; }
+        .input-area input { width: 140px; height: 70px; font-size: 40px; text-align: center; border: 3px solid #dfe6e9; border-radius: 20px; color: #6c5ce7; }
+        
+        .check-btn { margin-top: 20px; width: 100%; padding: 15px; border-radius: 20px; border: none; background: var(--s-color); color: white; font-size: 22px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 0 #00b894; }
+        
+        .stars { font-size: 30px; color: #f1c40f; margin-top: 20px; }
+        .feedback { font-size: 22px; font-weight: bold; margin-top: 15px; min-height: 30px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="nav-header">
+        <a href="../../../../math_dashboard.html" class="home-link">
+            <i class="fas fa-home"></i> الرئيسية
+        </a>
+    </div>
+
+    <div class="header">
+        <h1>✨ مغامرة جداول الضرب ✨</h1>
+        <p>اختر الجدول الذي تريد أن تتحداه اليوم:</p>
+    </div>
+
+    <div class="table-selector" id="selectors"></div>
+
+    <div id="game-area" style="display:none;">
+        <div class="question-box">
+            <span id="num1">5</span> × <span id="num2">3</span> = ؟
+        </div>
+        <div class="input-area">
+            <input type="number" id="user-answer" placeholder="؟">
+        </div>
+        <button class="check-btn" onclick="checkAnswer()">تحقق من ذكائك ✅</button>
+        <div class="feedback" id="feedback"></div>
+        <div class="stars" id="stars-container"></div>
+    </div>
+</div>
+
+<audio id="clap-sound" src="https://www.soundjay.com/human/sounds/applause-01.mp3"></audio>
+<audio id="fail-sound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
+
+<script>
+    let currentTable = 5;
+    let currentFactor = 1;
+    let stars = 0;
+
+    const selectors = document.getElementById('selectors');
+    for (let i = 5; i <= 12; i++) {
+        let btn = document.createElement('button');
+        btn.className = 'table-btn';
+        btn.innerText = 'جدول ' + i;
+        btn.onclick = () => startTable(i, btn);
+        selectors.appendChild(btn);
+    }
+
+    function startTable(num, btn) {
+        currentTable = num;
+        currentFactor = Math.floor(Math.random() * 12) + 1;
+        
+        document.querySelectorAll('.table-btn').forEach(b => b.classList.remove('active-table'));
+        btn.classList.add('active-table');
+
+        document.getElementById('game-area').style.display = 'block';
+        document.getElementById('num1').innerText = currentTable;
+        document.getElementById('num2').innerText = currentFactor;
+        document.getElementById('user-answer').value = '';
+        document.getElementById('feedback').innerText = '';
+        document.getElementById('user-answer').focus();
+    }
+
+    function checkAnswer() {
+        const inputElement = document.getElementById('user-answer');
+        const userVal = parseInt(inputElement.value);
+        const correctVal = currentTable * currentFactor;
+        const feedback = document.getElementById('feedback');
+
+        if (userVal === correctVal) {
+            stars++;
+            feedback.innerText = "رائع! إجابة عبقرية 🥳";
+            feedback.style.color = "#00b894";
+            document.getElementById('stars-container').innerHTML = "⭐".repeat(stars);
+            
+            document.getElementById('clap-sound').play();
+            
+            setTimeout(() => {
+                currentFactor = Math.floor(Math.random() * 12) + 1;
+                document.getElementById('num2').innerText = currentFactor;
+                inputElement.value = '';
+                feedback.innerText = '';
+                inputElement.focus();
+            }, 2000);
+        } else {
+            feedback.innerText = "قربت! حاول مرة ثانية 😊";
+            feedback.style.color = "#d63031";
+            document.getElementById('fail-sound').play();
+        }
+    }
+
+    // إضافة إمكانية الضغط على Enter للإجابة
+    document.getElementById('user-answer').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            checkAnswer();
+        }
+    });
+</script>
+
+</body>
+</html>
