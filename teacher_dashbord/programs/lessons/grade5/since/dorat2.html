@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستكشف العلوم - الصف الخامس</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --water: #3498db; --plant: #27ae60; --sun: #f1c40f; --bg: #f0f2f5; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 25px; border-radius: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        
+        .nav-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .home-btn { text-decoration: none; background: #34495e; color: white; padding: 10px 15px; border-radius: 12px; font-weight: bold; }
+
+        .main-title { color: var(--plant); text-align: center; margin-bottom: 25px; }
+        
+        /* أزرار المواضيع */
+        .topics-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .topic-card { background: #fff; border: 2px solid #eee; padding: 15px; border-radius: 20px; cursor: pointer; text-align: center; transition: 0.3s; }
+        .topic-card:hover { transform: translateY(-5px); border-color: var(--plant); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .topic-card i { font-size: 35px; margin-bottom: 10px; display: block; }
+
+        /* محتوى الدروس */
+        .content-box { display: none; border-top: 3px solid var(--plant); padding-top: 20px; animation: fadeIn 0.5s; }
+        .active { display: block; }
+        
+        .lesson-img { width: 100%; max-width: 500px; border-radius: 15px; margin: 15px auto; display: block; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        
+        .quiz-section { background: #f9f9f9; padding: 20px; border-radius: 15px; margin-top: 20px; border: 2px dashed #ddd; }
+        .opt-btn { display: block; width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 10px; background: white; cursor: pointer; text-align: right; font-size: 16px; }
+        .opt-btn:hover { background: #e8f5e9; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="nav-header">
+        <a href="../../../../teacher_dashboard.html" class="home-btn"><i class="fas fa-home"></i> الرئيسية</a>
+        <div style="font-weight: bold; color: #7f8c8d;">علوم الصف الخامس</div>
+    </div>
+
+    <h1 class="main-title">استكشف دورات الحياة 🌍</h1>
+
+    <div class="topics-menu">
+        <div class="topic-card" onclick="openLesson('water')">
+            <i class="fas fa-tint" style="color: var(--water);"></i>
+            <span>دورة الماء</span>
+        </div>
+        <div class="topic-card" onclick="openLesson('plants')">
+            <i class="fas fa-seedling" style="color: var(--plant);"></i>
+            <span>حياة النبات</span>
+        </div>
+        <div class="topic-card" onclick="openLesson('daynight')">
+            <i class="fas fa-cloud-sun" style="color: var(--sun);"></i>
+            <span>الليل والنهار</span>
+        </div>
+    </div>
+
+    <div id="water" class="content-box">
+        <h3>💧 رحلة قطرة الماء</h3>
+        <p>الماء لا ينتهي، بل يدور في الطبيعة بين الأرض والسماء.</p>
+        
+
+[Image of the water cycle diagram showing evaporation, condensation, and precipitation]
+
+        <div class="quiz-section">
+            <p><strong>سؤال:</strong> ماذا يسمى صعود الماء للسماء بسبب حرارة الشمس؟</p>
+            <button class="opt-btn" onclick="check(true)">التبخر</button>
+            <button class="opt-btn" onclick="check(false)">التجمد</button>
+        </div>
+    </div>
+
+    <div id="plants" class="content-box">
+        <h3>🌱 دورة حياة النبتة الزهرية</h3>
+        <p>تبدأ النبتة من بذرة صغيرة وتحتاج للماء والتربة لتكبر وتنتج أزهاراً.</p>
+        
+        <div class="quiz-section">
+            <p><strong>سؤال:</strong> أي جزء من النبتة مسؤول عن إنتاج البذور؟</p>
+            <button class="opt-btn" onclick="check(true)">الأزهار</button>
+            <button class="opt-btn" onclick="check(false)">الجذور</button>
+        </div>
+    </div>
+
+    <div id="daynight" class="content-box">
+        <h3>☀️ تعاقب الليل والنهار</h3>
+        <p>الأرض تدور حول نفسها أمام الشمس، الجزء المواجه للشمس يكون نهاراً والآخر ليلاً.</p>
+        
+        <div class="quiz-section">
+            <p><strong>سؤال:</strong> كم تستغرق الأرض لتدور حول نفسها دورة كاملة؟</p>
+            <button class="opt-btn" onclick="check(true)">24 ساعة</button>
+            <button class="opt-btn" onclick="check(false)">شهر كامل</button>
+        </div>
+    </div>
+</div>
+
+<audio id="win-snd" src="https://www.soundjay.com/human/sounds/applause-01.mp3"></audio>
+
+<script>
+    function openLesson(id) {
+        document.querySelectorAll('.content-box').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function check(isRight) {
+        if(isRight) {
+            document.getElementById('win-snd').play();
+            alert("ممتاز! إجابة ذكية جداً 🥳");
+        } else {
+            alert("حاول مرة أخرى، أنت تستطيع! 😊");
+        }
+    }
+    // فتح أول درس تلقائياً
+    window.onload = () => openLesson('water');
+</script>
+
+</body>
+</html>
