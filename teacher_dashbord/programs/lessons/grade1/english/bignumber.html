@@ -120,11 +120,38 @@
         }, 4000);
     }
 
+    // نستخدم هذا المتغير لضمان تفعيل الصوت عند أول لمسة للمستخدم
+    let voiceReady = false;
+
     function speak() {
-        const msg = new SpeechSynthesisUtterance(document.getElementById('res-word').innerText);
-        msg.lang = 'en-US';
-        window.speechSynthesis.speak(msg);
+        const text = document.getElementById('res-word').innerText;
+        
+        // محاولة تنشيط محرك الصوت
+        if (window.speechSynthesis) {
+            // إلغاء أي صوت يعمل حالياً لمنع التداخل
+            window.speechSynthesis.cancel(); 
+            
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'en-US';
+            msg.rate = 0.9; // سرعة نطق هادئة للطلاب
+            
+            // إضافة معالج للأخطاء
+            msg.onerror = (e) => console.error("Speech error", e);
+            
+            window.speechSynthesis.speak(msg);
+        } else {
+            alert("عذراً، هاتفك لا يدعم خاصية نطق الأصوات");
+        }
     }
+
+    // تفعيل المحرك بمجرد لمس المستخدم لأي مكان (شرط تقني للهواتف)
+    document.body.addEventListener('touchstart', function() {
+        if(!voiceReady) {
+            const msg = new SpeechSynthesisUtterance("");
+            window.speechSynthesis.speak(msg);
+            voiceReady = true;
+        }
+    }, {once: true});
 </script>
 </body>
 </html>
