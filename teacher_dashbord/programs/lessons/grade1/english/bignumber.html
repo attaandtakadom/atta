@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Big Numbers Spinner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f7f6; text-align: center; margin: 0; padding: 20px; }
+        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        /* السهم العلوي */
+        .pointer { 
+            width: 0; height: 0; 
+            border-left: 20px solid transparent; border-right: 20px solid transparent; 
+            border-top: 40px solid #ff4757; 
+            margin: 0 auto -20px auto; position: relative; z-index: 10;
+        }
+
+        .wheel-container { width: 300px; height: 300px; margin: 0 auto; position: relative; }
+        .wheel { 
+            width: 100%; height: 100%; border-radius: 50%; 
+            border: 10px solid #2f3542; position: relative; overflow: hidden;
+            transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1);
+            background: #fff;
+        }
+
+        /* تقسيم الألوان */
+        .sec { position: absolute; width: 100%; height: 100%; clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 50%); transform-origin: 50% 50%; }
+        .s1 { background: #1abc9c; transform: rotate(0deg); }
+        .s2 { background: #3498db; transform: rotate(60deg); }
+        .s3 { background: #9b59b6; transform: rotate(120deg); }
+        .s4 { background: #f1c40f; transform: rotate(180deg); }
+        .s5 { background: #e67e22; transform: rotate(240deg); }
+        .s6 { background: #e74c3c; transform: rotate(300deg); }
+
+        /* الأرقام داخل العجلة */
+        .num { position: absolute; width: 100%; height: 100%; top:0; left:0; font-weight: bold; color: white; font-size: 1.4rem; pointer-events: none; }
+        .num span { position: absolute; left: 50%; transform: translateX(-50%); top: 30px; }
+
+        .spin-btn { background: #6c5ce7; color: white; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.5rem; cursor: pointer; margin-top: 30px; box-shadow: 0 5px 0 #4834d4; }
+        
+        /* قسم النتيجة المطور */
+        #result { 
+            margin-top: 25px; display: none; border-top: 2px dashed #ddd; padding-top: 15px;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .result-row { display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .big-txt { font-size: 3.5rem; color: #6c5ce7; margin: 0; font-weight: bold; }
+        .speak-btn { background: #6c5ce7; color: white; border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .speak-btn:hover { background: #4834d4; transform: scale(1.1); }
+        .word-txt { font-size: 1.8rem; color: #2f3542; margin-top: 5px; font-style: italic; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Spin & Learn 🎡</h1>
+    
+    <div class="pointer"></div>
+    <div class="wheel-container">
+        <div class="wheel" id="wheel">
+            <div class="sec s1"></div><div class="sec s2"></div><div class="sec s3"></div>
+            <div class="sec s4"></div><div class="sec s5"></div><div class="sec s6"></div>
+            
+            <div class="num" style="transform: rotate(30deg);"><span>100</span></div>
+            <div class="num" style="transform: rotate(90deg);"><span>200</span></div>
+            <div class="num" style="transform: rotate(150deg);"><span>300</span></div>
+            <div class="num" style="transform: rotate(210deg);"><span>500</span></div>
+            <div class="num" style="transform: rotate(270deg);"><span>800</span></div>
+            <div class="num" style="transform: rotate(330deg);"><span>1000</span></div>
+        </div>
+    </div>
+
+    <button class="spin-btn" id="btn" onclick="spin()">SPIN!</button>
+
+    <div id="result">
+        <div class="result-row">
+            <p class="big-txt" id="res-num"></p>
+            <button class="speak-btn" onclick="speak()">
+                <i class="fas fa-volume-up"></i>
+            </button>
+        </div>
+        <p id="res-word" class="word-txt"></p>
+    </div>
+</div>
+
+<audio id="sSound" src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3"></audio>
+<audio id="wSound" src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3"></audio>
+
+<script>
+    let currentDeg = 0;
+    const config = [
+        { targetDeg: 330, n: "100",  w: "One Hundred" },
+        { targetDeg: 270, n: "200",  w: "Two Hundred" },
+        { targetDeg: 210, n: "300",  w: "Three Hundred" },
+        { targetDeg: 150, n: "500",  w: "Five Hundred" },
+        { targetDeg: 90,  n: "800",  w: "Eight Hundred" },
+        { targetDeg: 30,  n: "1000", w: "One Thousand" }
+    ];
+
+    function spin() {
+        const btn = document.getElementById('btn');
+        btn.disabled = true;
+        document.getElementById('result').style.display = 'none';
+        document.getElementById('sSound').play();
+
+        const res = config[Math.floor(Math.random() * config.length)];
+        currentDeg += 3600 + (360 - (currentDeg % 360)) + res.targetDeg;
+
+        document.getElementById('wheel').style.transform = `rotate(${currentDeg}deg)`;
+
+        setTimeout(() => {
+            document.getElementById('wSound').play();
+            document.getElementById('res-num').innerText = res.n;
+            document.getElementById('res-word').innerText = res.w;
+            document.getElementById('result').style.display = 'block';
+            btn.disabled = false;
+        }, 4000);
+    }
+
+    function speak() {
+        const msg = new SpeechSynthesisUtterance(document.getElementById('res-word').innerText);
+        msg.lang = 'en-US';
+        window.speechSynthesis.speak(msg);
+    }
+</script>
+</body>
+</html>
