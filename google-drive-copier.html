@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أداة نسخ ملفات من Google Drive</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        
+        h1 {
+            color: #4285f4;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #4285f4;
+            box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+        }
+        
+        textarea {
+            height: 200px;
+            resize: vertical;
+            font-family: monospace;
+        }
+        
+        .path-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-right: 4px solid #4285f4;
+            margin-top: 10px;
+            font-family: monospace;
+            direction: ltr;
+            text-align: left;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background-color: #4285f4;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3367d6;
+        }
+        
+        .btn-secondary {
+            background-color: #f1f3f4;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e8eaed;
+        }
+        
+        .btn-success {
+            background-color: #34a853;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #2e8b47;
+        }
+        
+        .output {
+            margin-top: 30px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 20px;
+            display: none;
+        }
+        
+        .output-title {
+            margin-top: 0;
+            color: #555;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        
+        pre {
+            background-color: #1e1e1e;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            direction: ltr;
+            text-align: left;
+        }
+        
+        .instructions {
+            background-color: #e8f4fd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .instructions h3 {
+            color: #4285f4;
+            margin-top: 0;
+        }
+        
+        .instructions ol {
+            padding-right: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 10px;
+        }
+        
+        .link-example {
+            background-color: #f1f3f4;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 10px 0;
+            direction: ltr;
+            text-align: left;
+            word-break: break-all;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .link-count {
+            background-color: #e8f4fd;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-cloud-download-alt"></i> أداة نسخ ملفات من Google Drive</h1>
+            <p class="description">أداة لإنشاء أوامر wget لنسخ ملفات من Google Drive إلى مسار محدد على الخادم</p>
+        </header>
+        
+        <div class="form-group">
+            <label for="path">مسار المجلد الهدف على الخادم:</label>
+            <input type="text" id="path" value="/home/queendreem199/autism_platfor_html/sound" placeholder="أدخل مسار المجلد الهدف">
+            <div class="path-info">سيتم حفظ الملفات في هذا المسار على الخادم</div>
+        </div>
+        
+        <div class="form-group">
+            <label for="links">روابط Google Drive (روابط واحدة في كل سطر):</label>
+            <textarea id="links" placeholder="https://drive.google.com/file/d/1lWPQIsz1dNI0BCyqq27CRC-hRXd7Tc2k/view?usp=sharing
+https://drive.google.com/file/d/ملف_آخر/view?usp=sharing"></textarea>
+            <div class="link-count" id="linkCount">0 رابط</div>
+        </div>
+        
+        <div class="buttons">
+            <button class="btn-primary" id="generateBtn">
+                <i class="fas fa-code"></i> إنشاء أوامر wget
+            </button>
+            <button class="btn-secondary" id="copyBtn" disabled>
+                <i class="far fa-copy"></i> نسخ الأوامر
+            </button>
+            <button class="btn-success" id="clearBtn">
+                <i class="fas fa-broom"></i> مسح الكل
+            </button>
+        </div>
+        
+        <div id="status" class="status"></div>
+        
+        <div class="output" id="output">
+            <h3 class="output-title">أوامر wget للتنفيذ على الخادم:</h3>
+            <pre id="commands"></pre>
+            <p style="margin-top: 15px; color: #666;">
+                <i class="fas fa-info-circle"></i> قم بنسخ هذه الأوامر وتنفيذها على الخادم الخاص بك باستخدام terminal أو SSH.
+            </p>
+        </div>
+        
+        <div class="instructions">
+            <h3><i class="fas fa-info-circle"></i> كيفية الاستخدام:</h3>
+            <ol>
+                <li>أدخل مسار المجلد الهدف على الخادم (يتم تعيينه افتراضيًا للمسار المطلوب)</li>
+                <li>الصق روابط Google Drive (رابط واحد في كل سطر)</li>
+                <li>انقر على "إنشاء أوامر wget" لإنشاء الأوامر المناسبة</li>
+                <li>انسخ الأوامر المنشأة</li>
+                <li>اتصل بخادمك عبر SSH وقم بتنفيذ الأوامر</li>
+                <li>ستتم عملية تحميل الملفات من Google Drive وحفظها في المسار المحدد</li>
+            </ol>
+            
+            <h3><i class="fas fa-lightbulb"></i> ملاحظات مهمة:</h3>
+            <ul>
+                <li>تأكد من أن المسار الهدف موجود على الخادم وأن لديك صلاحيات الكتابة فيه</li>
+                <li>لتحميل ملفات كبيرة، قد تحتاج إلى إضافة خيار <code>-w 2</code> لإضافة وقت انتظار بين الملفات</li>
+                <li>للملفات الكبيرة جدًا، قد تحتاج إلى استخدام <code>--continue</code> لاستكمال التحميل إذا انقطع</li>
+                <li>الأداة تستخرج معرف الملف من رابط Google Drive تلقائيًا</li>
+            </ul>
+            
+            <div class="link-example">مثال لرابط Google Drive: https://drive.google.com/file/d/1lWPQIsz1dNI0BCyqq27CRC-hRXd7Tc2k/view?usp=sharing</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const linksTextarea = document.getElementById('links');
+            const pathInput = document.getElementById('path');
+            const generateBtn = document.getElementById('generateBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const outputDiv = document.getElementById('output');
+            const commandsPre = document.getElementById('commands');
+            const linkCount = document.getElementById('linkCount');
+            const statusDiv = document.getElementById('status');
+            
+            // تحديث عدد الروابط عند الكتابة
+            linksTextarea.addEventListener('input', updateLinkCount);
+            
+            // زر إنشاء الأوامر
+            generateBtn.addEventListener('click', generateCommands);
+            
+            // زر نسخ الأوامر
+            copyBtn.addEventListener('click', copyCommands);
+            
+            // زر مسح الكل
+            clearBtn.addEventListener('click', clearAll);
+            
+            // تحديث عدد الروابط
+            function updateLinkCount() {
+                const links = getLinksArray();
+                const count = links.length;
+                linkCount.textContent = `${count} ${count === 1 ? 'رابط' : 'روابط'}`;
+            }
+            
+            // الحصول على الروابط كمصفوفة
+            function getLinksArray() {
+                const linksText = linksTextarea.value.trim();
+                if (!linksText) return [];
+                
+                return linksText.split('\n')
+                    .map(link => link.trim())
+                    .filter(link => link.length > 0);
+            }
+            
+            // استخراج معرف الملف من رابط Google Drive
+            function extractFileId(url) {
+                try {
+                    // نمط لاستخراج معرف الملف من روابط Google Drive
+                    const patterns = [
+                        /\/d\/([^\/]+)/,  // للنمط القياسي
+                        /id=([^&]+)/,     // للنمط البديل
+                        /\/file\/d\/([^\/]+)/ // لنمط آخر
+                    ];
+                    
+                    for (const pattern of patterns) {
+                        const match = url.match(pattern);
+                        if (match && match[1]) {
+                            return match[1];
+                        }
+                    }
+                    
+                    return null;
+                } catch (error) {
+                    console.error('خطأ في استخراج معرف الملف:', error);
+                    return null;
+                }
+            }
+            
+            // إنشاء أوامر wget
+            function generateCommands() {
+                const targetPath = pathInput.value.trim();
+                const links = getLinksArray();
+                
+                if (!targetPath) {
+                    showStatus('يرجى إدخال مسار المجلد الهدف', 'error');
+                    return;
+                }
+                
+                if (links.length === 0) {
+                    showStatus('يرجى إدخال روابط Google Drive', 'error');
+                    return;
+                }
+                
+                let commands = `# أوامر لنسخ ملفات من Google Drive إلى ${targetPath}\n`;
+                commands += `# تم إنشاء الأوامر في ${new Date().toLocaleString()}\n`;
+                commands += `# عدد الملفات: ${links.length}\n\n`;
+                
+                // إنشاء مجلد الهدف إذا لم يكن موجوداً
+                commands += `# إنشاء المجلد الهدف إذا لم يكن موجوداً\n`;
+                commands += `mkdir -p "${targetPath}"\n\n`;
+                
+                // الانتقال إلى المجلد الهدف
+                commands += `# الانتقال إلى المجلد الهدف\n`;
+                commands += `cd "${targetPath}"\n\n`;
+                
+                // إضافة أوامر wget لكل رابط
+                commands += `# أوامر تحميل الملفات من Google Drive\n`;
+                
+                let validLinksCount = 0;
+                
+                links.forEach((link, index) => {
+                    const fileId = extractFileId(link);
+                    
+                    if (fileId) {
+                        validLinksCount++;
+                        // إنشاء رابط التحميل المباشر من معرف الملف
+                        const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+                        
+                        // إضافة أمر wget مع خيارات مناسبة
+                        commands += `# الرابط الأصلي: ${link}\n`;
+                        commands += `wget --trust-server-names --content-disposition "${downloadUrl}"\n`;
+                        
+                        // إضافة وقت انتظار بين الملفات (اختياري)
+                        if (index < links.length - 1) {
+                            commands += `sleep 2\n`;
+                        }
+                        
+                        commands += `\n`;
+                    } else {
+                        commands += `# رابط غير صالح: ${link}\n`;
+                        commands += `echo "رابط غير صالح: ${link}"\n\n`;
+                    }
+                });
+                
+                commands += `# انتهى تحميل الملفات\n`;
+                commands += `echo "تم تحميل ${validLinksCount} من ${links.length} ملف بنجاح"\n`;
+                
+                // عرض الأوامر
+                commandsPre.textContent = commands;
+                outputDiv.style.display = 'block';
+                copyBtn.disabled = false;
+                
+                showStatus(`تم إنشاء أوامر لـ ${validLinksCount} من ${links.length} رابط بنجاح`, 'success');
+                
+                // التمرير إلى قسم الأوامر
+                outputDiv.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // نسخ الأوامر إلى الحافظة
+            function copyCommands() {
+                const commandsText = commandsPre.textContent;
+                
+                navigator.clipboard.writeText(commandsText)
+                    .then(() => {
+                        showStatus('تم نسخ الأوامر إلى الحافظة بنجاح', 'success');
+                        
+                        // تغيير زر النسخ مؤقتًا للإشارة إلى النسخ
+                        const originalText = copyBtn.innerHTML;
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i> تم النسخ!';
+                        copyBtn.disabled = true;
+                        
+                        setTimeout(() => {
+                            copyBtn.innerHTML = originalText;
+                            copyBtn.disabled = false;
+                        }, 2000);
+                    })
+                    .catch(err => {
+                        console.error('فشل النسخ: ', err);
+                        showStatus('فشل نسخ الأوامر إلى الحافظة', 'error');
+                    });
+            }
+            
+            // مسح كل المدخلات والمخرجات
+            function clearAll() {
+                linksTextarea.value = '';
+                pathInput.value = '/home/queendreem199/autism_platfor_html/sound';
+                outputDiv.style.display = 'none';
+                copyBtn.disabled = true;
+                showStatus('', 'success');
+                updateLinkCount();
+            }
+            
+            // عرض رسالة حالة
+            function showStatus(message, type) {
+                if (!message) {
+                    statusDiv.style.display = 'none';
+                    return;
+                }
+                
+                statusDiv.textContent = message;
+                statusDiv.className = `status status-${type}`;
+                statusDiv.style.display = 'block';
+                
+                // إخفاء الرسالة بعد 5 ثوانٍ
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 5000);
+            }
+            
+            // تحديث عدد الروابط عند التحميل
+            updateLinkCount();
+        });
+    </script>
+</body>
+</html>

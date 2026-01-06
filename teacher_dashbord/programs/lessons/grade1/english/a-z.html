@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>English Alphabet - My Sounds</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f0f9ff;
+            --card-bg: #ffffff;
+            --text-color: #2d3436;
+            --accent: #6c5ce7;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 120px; /* مساحة للبار السفلي */
+        }
+
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            color: #ff7675;
+            margin: 15px 0;
+            font-size: 24px;
+            text-shadow: 2px 2px #fff;
+        }
+
+        /* نافذة العرض الكبيرة */
+        .display-area {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            border-radius: 30px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 4px solid #fab1a0;
+        }
+
+        .big-char { font-size: 80px; font-family: 'Fredoka One', cursive; color: var(--accent); margin: 0; }
+        .big-icon { font-size: 80px; margin: 10px 0; display: block; }
+        .big-word { font-size: 28px; font-weight: 700; color: #2d3436; text-transform: capitalize; margin: 5px 0; }
+
+        /* شبكة الحروف */
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 12px;
+            width: 100%;
+            max-width: 500px;
+            padding: 10px;
+        }
+
+        .letter-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            height: 90px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 6px 0 #dfe6e9;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .letter-card:active { transform: translateY(4px); box-shadow: 0 2px 0 #dfe6e9; }
+        .letter-card .char { font-size: 32px; font-family: 'Fredoka One', cursive; }
+        .letter-card .word { font-size: 11px; font-weight: 700; color: #636e72; }
+
+        /* ألوان الحروف */
+        .c1 { color: #ff7675; } .c2 { color: #fdcb6e; } .c3 { color: #00b894; }
+        .c4 { color: #0984e3; } .c5 { color: #6c5ce7; } .c6 { color: #e84393; }
+
+        /* بار التنقل السفلي */
+        .navigation-bar {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            display: flex; gap: 15px; padding: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            border-radius: 25px 25px 0 0;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            flex: 1; display: flex; flex-direction: column; align-items: center;
+            justify-content: center; gap: 5px; padding: 12px;
+            text-decoration: none; border-radius: 18px;
+            font-weight: bold; font-size: 14px; transition: 0.3s;
+        }
+
+        .home-btn { background-color: #f1f2f6; color: #2f3542; border: 2px solid #dfe4ea; }
+        .colors-btn {
+            background: linear-gradient(135deg, #ff7675, #fdcb6e, #55efc4, #81ecec);
+            color: #2d3436; border: 2px solid #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="audioPlayer"></audio>
+
+    <h1>✨ My ABC World ✨</h1>
+
+    <div class="display-area" id="display">
+        <p class="big-char" id="mainChar">A</p>
+        <span class="big-icon" id="mainIcon">🍎</span>
+        <p class="big-word" id="mainWord">Apple</p>
+        <button onclick="playCurrent()" style="background: #55efc4; border:none; padding:10px 20px; border-radius:20px; cursor:pointer;">
+            Listen Again 🔊
+        </button>
+    </div>
+
+    <div class="alphabet-grid" id="grid"></div>
+
+    <div class="navigation-bar">
+        <a href="english_dashboard.html" class="nav-item home-btn">
+            <i class="fas fa-home"></i>
+            <span>الرئيسية</span>
+        </a>
+        <a href="colors_lesson.html" class="nav-item colors-btn">
+            <i class="fas fa-palette"></i>
+            <span>درس الألوان</span>
+        </a>
+    </div>
+
+    <script>
+    const alphabet = [
+        {l: 'A', w: 'Apple', i: '🍎', c: 'c1'},
+        {l: 'B', w: 'Ball', i: '⚽', c: 'c2'},
+        {l: 'C', w: 'Cat', i: '🐱', c: 'c3'},
+        {l: 'D', w: 'Dog', i: '🐶', c: 'c4'},
+        {l: 'E', w: 'Elephant', i: '🐘', c: 'c5'},
+        {l: 'F', w: 'Fish', i: '🐟', c: 'c6'},
+        {l: 'G', w: 'Grapes', i: '🍇', c: 'c1'},
+        {l: 'H', w: 'Hat', i: '🎩', c: 'c2'},
+        {l: 'I', w: 'Ice Cream', i: '🍦', c: 'c3'},
+        {l: 'J', w: 'Juice', i: '🧃', c: 'c4'},
+        {l: 'K', w: 'Kangaroo', i: '🦘', c: 'c5'},
+        {l: 'L', w: 'Lion', i: '🦁', c: 'c6'},
+        {l: 'M', w: 'Monkey', i: '🐒', c: 'c1'},
+        {l: 'N', w: 'Number', i: '🔢', c: 'c2'},
+        {l: 'O', w: 'Orange', i: '🍊', c: 'c3'},
+        {l: 'P', w: 'Panda', i: '🐼', c: 'c4'},
+        {l: 'Q', w: 'Queen', i: '👸', c: 'c5'},
+        {l: 'R', w: 'Rabbit', i: '🐰', c: 'c6'},
+        {l: 'S', w: 'Sun', i: '☀️', c: 'c1'},
+        {l: 'T', w: 'Tiger', i: '🐯', c: 'c2'},
+        {l: 'U', w: 'Umbrella', i: '☂️', c: 'c3'},
+        {l: 'V', w: 'Van', i: '🚐', c: 'c4'},
+        {l: 'W', w: 'Watch', i: '⌚', c: 'c5'},
+        {l: 'X', w: 'Xylophone', i: '🎹', c: 'c6'},
+        {l: 'Y', w: 'Yo-yo', i: '🪀', c: 'c1'},
+        {l: 'Z', w: 'Zebra', i: '🦓', c: 'c2'}
+    ];
+
+    const grid = document.getElementById('grid');
+    const audio = document.getElementById('audioPlayer');
+    let currentL = "A";
+
+    alphabet.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'letter-card';
+        card.innerHTML = `<span class="char ${item.c}">${item.l}</span><span class="word">${item.w}</span>`;
+        card.onclick = () => {
+            currentL = item.l;
+            document.getElementById('mainChar').innerText = item.l;
+            document.getElementById('mainChar').className = `big-char ${item.c}`;
+            document.getElementById('mainIcon').innerText = item.i;
+            document.getElementById('mainWord').innerText = item.w;
+            playCurrent();
+        };
+        grid.appendChild(card);
+    });
+
+    function playCurrent() {
+        // تشغيل الملف من مجلد sounds
+        // مثال: sounds/A.mp3
+        audio.src = `sounds/${currentL}.mp3`;
+        audio.load();
+        audio.play().catch(e => console.log("Audio play failed. Interact with page first."));
+    }
+    </script>
+</body>
+</html>

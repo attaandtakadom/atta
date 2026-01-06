@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برنامج تعلم الحروف بالتشكيل - النقر المباشر</title>
+    <style>
+        /* التصميم الأساسي */
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #f0f7ff 0%, #fff0f5 100%);
+            min-height: 100vh;
+            color: #2c3e50;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* العنوان */
+        .header {
+            background: linear-gradient(90deg, #3498db 0%, #9b59b6 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.25);
+        }
+        
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 32px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            margin: 0;
+            font-size: 20px;
+            opacity: 0.95;
+        }
+        
+        /* الشبكة الرئيسية */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 992px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* لوحة الحروف */
+        .letters-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .panel-title {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 24px;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #3498db;
+        }
+        
+        /* فلاتر التشكيل */
+        .harakat-filters {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 12px 24px;
+            border: 2px solid #3498db;
+            background: white;
+            color: #3498db;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 17px;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background: #3498db;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(52, 152, 219, 0.3);
+        }
+        
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+        }
+        
+        /* شبكة الحروف */
+        .letters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 15px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .letter-card {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 20px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            user-select: none;
+            min-height: 90px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .letter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            border-color: #3498db;
+            background: linear-gradient(145deg, #e3f2fd, #bbdefb);
+        }
+        
+        .letter-card.selected {
+            background: linear-gradient(145deg, #c8e6c9, #a5d6a7);
+            border-color: #4caf50;
+            transform: scale(1.05);
+        }
+        
+        .letter-main {
+            font-size: 36px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .letter-haraka {
+            font-size: 20px;
+            color: #e74c3c;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        /* منطقة التمارين */
+        .exercises-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        /* شريط التقدم */
+        .progress-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .score-box {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            min-width: 180px;
+            text-align: center;
+        }
+        
+        .score-value {
+            font-size: 42px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            flex-grow: 1;
+            background: #e0e0e0;
+            height: 20px;
+            border-radius: 10px;
+            margin: 0 25px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #9b59b6);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+        
+        /* تمرين حالي */
+        .current-exercise {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 3px solid #e0e0e0;
+        }
+        
+        .exercise-title {
+            color: #2c3e50;
+            margin-top: 0;
+            font-size: 26px;
+            text-align: center;
+        }
+        
+        .word-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 42px;
+            margin: 30px 0;
+            min-height: 120px;
+        }
+        
+        .word-part {
+            padding: 10px;
+        }
+        
+        .missing-part {
+            width: 100px;
+            height: 100px;
+            border: 4px dashed #ff9800;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff8e1;
+            font-size: 42px;
+            color: #555;
+            transition: all 0.3s ease;
+        }
+        
+        .missing-part.filled {
+            background: #e8f5e9;
+            border: 4px solid #4caf50;
+            transform: scale(1.05);
+        }
+        
+        .hint-box {
+            background: #e3f2fd;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 25px;
+            text-align: center;
+        }
+        
+        .hint-text {
+            font-size: 20px;
+            color: #1565c0;
+            margin: 0;
+        }
+        
+        /* زر التأكيد */
+        .confirm-btn {
+            display: block;
+            width: 100%;
+            padding: 22px;
+            background: linear-gradient(90deg, #4caf50, #2e7d32);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 25px;
+            box-shadow: 0 6px 12px rgba(76, 175, 80, 0.3);
+        }
+        
+        .confirm-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 18px rgba(76, 175, 80, 0.4);
+        }
+        
+        .confirm-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* الأزرار */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .action-btn {
+            padding: 18px;
+            border: none;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-next {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            color: white;
+        }
+        
+        .btn-reset {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+            color: white;
+        }
+        
+        .btn-hint {
+            background: linear-gradient(90deg, #ff9800, #ef6c00);
+            color: white;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+        
+        /* الرسائل */
+        .message {
+            position: fixed;
+            top: 30px;
+            right: 50%;
+            transform: translateX(50%);
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 20px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .message.show {
+            opacity: 1;
+        }
+        
+        .message.correct {
+            background: linear-gradient(90deg, #4caf50, #2e7d32);
+            color: white;
+        }
+        
+        .message.wrong {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+            color: white;
+        }
+        
+        /* خاصية إخفاء الحروف */
+        .hide-letters-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #9b59b6;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        /* النتيجة النهائية */
+        .final-score {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin-top: 30px;
+        }
+        
+        .final-emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .final-title {
+            color: #2c3e50;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .final-points {
+            font-size: 48px;
+            color: #e74c3c;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- رأس الصفحة -->
+        <div class="header">
+            <h1>🎓 برنامج تعلم الحروف العربية بالتشكيل</h1>
+            <p>مؤسسة التقدم والعطاء لأطفال التوحد - البيضاء، ليبيا</p>
+        </div>
+        
+        <!-- الشبكة الرئيسية -->
+        <div class="main-grid">
+            <!-- لوحة الحروف -->
+            <div class="letters-panel">
+                <h2 class="panel-title">🔤 الحروف العربية بالتشكيل</h2>
+                
+                <!-- فلاتر التشكيل -->
+                <div class="harakat-filters">
+                    <button class="filter-btn active" data-haraka="all">الكل</button>
+                    <button class="filter-btn" data-haraka="fatha">فتحة (ـَ)</button>
+                    <button class="filter-btn" data-haraka="kasra">كسرة (ـِ)</button>
+                    <button class="filter-btn" data-haraka="damma">ضمة (ـُ)</button>
+                    <button class="filter-btn" data-haraka="sukun">سكون (ـْ)</button>
+                </div>
+                
+                <!-- شبكة الحروف -->
+                <div class="letters-grid" id="lettersGrid">
+                    <!-- سيتم ملؤها بالحروف -->
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px; color: #666;">
+                    <p>انقر على أي حرف لتحديده، ثم انقر على المكان الفارغ في الكلمة</p>
+                </div>
+            </div>
+            
+            <!-- منطقة التمارين -->
+            <div class="exercises-panel">
+                <!-- شريط التقدم -->
+                <div class="progress-container">
+                    <div class="score-box">
+                        <div>النقاط</div>
+                        <div class="score-value" id="scoreValue">0</div>
+                    </div>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    
+                    <div style="text-align: center; min-width: 120px;">
+                        <div style="font-size: 18px; color: #666;">التقدم</div>
+                        <div style="font-size: 28px; font-weight: bold; color: #2c3e50;" id="progressText">1/30</div>
+                    </div>
+                </div>
+                
+                <!-- تمرين حالي -->
+                <div id="exerciseContainer">
+                    <!-- سيتم ملؤها بالتمارين -->
+                </div>
+                
+                <!-- زر التأكيد -->
+                <button class="confirm-btn" id="confirmBtn" disabled>
+                    ✓ تأكيد الإجابة
+                </button>
+                
+                <!-- أزرار التحكم -->
+                <div class="action-buttons">
+                    <button class="action-btn btn-hint" id="hintBtn">
+                        💡 عرض تلميح
+                    </button>
+                    <button class="action-btn btn-reset" id="resetBtn">
+                        🔄 إعادة التعيين
+                    </button>
+                    <button class="action-btn btn-next" id="nextBtn">
+                        التالي →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- الرسائل -->
+    <div class="message" id="correctMessage">🎉 أحسنت! الإجابة صحيحة</div>
+    <div class="message" id="wrongMessage">❌ حاول مرة أخرى</div>
+
+    <script>
+        // ============= قاعدة البيانات الكاملة =============
+        // جميع الحروف العربية مع التشكيلات الثلاث
+        const allArabicLetters = [
+            { letter: "أ", harakat: ["fatha", "damma"], name: "ألف" },
+            { letter: "إ", harakat: ["kasra"], name: "ألف مكسورة" },
+            { letter: "آ", harakat: ["fatha", "madda"], name: "ألف مد" },
+            { letter: "ب", harakat: ["fatha", "kasra", "damma", "sukun"], name: "باء" },
+            { letter: "ت", harakat: ["fatha", "kasra", "damma", "sukun"], name: "تاء" },
+            { letter: "ث", harakat: ["fatha", "kasra", "damma", "sukun"], name: "ثاء" },
+            { letter: "ج", harakat: ["fatha", "kasra", "damma", "sukun"], name: "جيم" },
+            { letter: "ح", harakat: ["fatha", "kasra", "damma", "sukun"], name: "حاء" },
+            { letter: "خ", harakat: ["fatha", "kasra", "damma", "sukun"], name: "خاء" },
+            { letter: "د", harakat: ["fatha", "kasra", "damma", "sukun"], name: "دال" },
+            { letter: "ذ", harakat: ["fatha", "kasra", "damma", "sukun"], name: "ذال" },
+            { letter: "ر", harakat: ["fatha", "kasra", "damma", "sukun"], name: "راء" },
+            { letter: "ز", harakat: ["fatha", "kasra", "damma", "sukun"], name: "زاي" },
+            { letter: "س", harakat: ["fatha", "kasra", "damma", "sukun"], name: "سين" },
+            { letter: "ش", harakat: ["fatha", "kasra", "damma", "sukun"], name: "شين" },
+            { letter: "ص", harakat: ["fatha", "kasra", "damma", "sukun"], name: "صاد" },
+            { letter: "ض", harakat: ["fatha", "kasra", "damma", "sukun"], name: "ضاد" },
+            { letter: "ط", harakat: ["fatha", "kasra", "damma", "sukun"], name: "طاء" },
+            { letter: "ظ", harakat: ["fatha", "kasra", "damma", "sukun"], name: "ظاء" },
+            { letter: "ع", harakat: ["fatha", "kasra", "damma", "sukun"], name: "عين" },
+            { letter: "غ", harakat: ["fatha", "kasra", "damma", "sukun"], name: "غين" },
+            { letter: "ف", harakat: ["fatha", "kasra", "damma", "sukun"], name: "فاء" },
+            { letter: "ق", harakat: ["fatha", "kasra", "damma", "sukun"], name: "قاف" },
+            { letter: "ك", harakat: ["fatha", "kasra", "damma", "sukun"], name: "كاف" },
+            { letter: "ل", harakat: ["fatha", "kasra", "damma", "sukun"], name: "لام" },
+            { letter: "م", harakat: ["fatha", "kasra", "damma", "sukun"], name: "ميم" },
+            { letter: "ن", harakat: ["fatha", "kasra", "damma", "sukun"], name: "نون" },
+            { letter: "ه", harakat: ["fatha", "kasra", "damma", "sukun"], name: "هاء" },
+            { letter: "و", harakat: ["fatha", "kasra", "damma", "sukun"], name: "واو" },
+            { letter: "ي", harakat: ["fatha", "kasra", "damma", "sukun"], name: "ياء" }
+        ];
+        
+        // 30 تمرين متنوع
+        const exercises = [
+            // 10 تمارين بفتحة
+            { id: 1, word: "أسد", parts: ["", "سد"], missingIndex: 0, letter: "أ", haraka: "fatha", hint: "كلمة تبدأ بألف مع فتحة" },
+            { id: 2, word: "فأس", parts: ["ف", "", "س"], missingIndex: 1, letter: "أ", haraka: "fatha", hint: "أداة قطع تحتوي على ألف مفتوحة" },
+            { id: 3, word: "بَاب", parts: ["", "اب"], missingIndex: 0, letter: "ب", haraka: "fatha", hint: "مدخل المنزل يبدأ بباء مفتوحة" },
+            { id: 4, word: "تِين", parts: ["", "ين"], missingIndex: 0, letter: "ت", haraka: "fatha", hint: "فاكهة تبدأ بتاء مفتوحة" },
+            { id: 5, word: "جَبل", parts: ["", "بل"], missingIndex: 0, letter: "ج", haraka: "fatha", hint: "مرتفع أرضي يبدأ بجيم مفتوحة" },
+            { id: 6, word: "دَرْس", parts: ["", "رس"], missingIndex: 0, letter: "د", haraka: "fatha", hint: "ما يتعلمه الطالب يبدأ بدال مفتوحة" },
+            { id: 7, word: "رَسْم", parts: ["", "سم"], missingIndex: 0, letter: "ر", haraka: "fatha", hint: "رسم يبدأ براء مفتوحة" },
+            { id: 8, word: "سَمَك", parts: ["", "مك"], missingIndex: 0, letter: "س", haraka: "fatha", hint: "حيوان مائي يبدأ بسين مفتوحة" },
+            { id: 9, word: "صَباح", parts: ["", "باح"], missingIndex: 0, letter: "ص", haraka: "fatha", hint: "وقت الصباح يبدأ بصاد مفتوحة" },
+            { id: 10, word: "ضَفْدع", parts: ["", "فدع"], missingIndex: 0, letter: "ض", haraka: "fatha", hint: "حيوان برمائي يبدأ بضاد مفتوحة" },
+            
+            // 10 تمارين بكسرة
+            { id: 11, word: "إبرة", parts: ["", "برة"], missingIndex: 0, letter: "إ", haraka: "kasra", hint: "أداة خياطة تبدأ بهمزة مكسورة" },
+            { id: 12, word: "بِنت", parts: ["", "نت"], missingIndex: 0, letter: "ب", haraka: "kasra", hint: "طفلة تبدأ بباء مكسورة" },
+            { id: 13, word: "تِلميذ", parts: ["", "لميذ"], missingIndex: 0, letter: "ت", haraka: "kasra", hint: "طالب يبدأ بتاء مكسورة" },
+            { id: 14, word: "جِدار", parts: ["", "دار"], missingIndex: 0, letter: "ج", haraka: "kasra", hint: "حائط يبدأ بجيم مكسورة" },
+            { id: 15, word: "حِذاء", parts: ["", "ذاء"], missingIndex: 0, letter: "ح", haraka: "kasra", hint: "ما نرتديه في القدم يبدأ بحاء مكسورة" },
+            { id: 16, word: "خِيمة", parts: ["", "يمة"], missingIndex: 0, letter: "خ", haraka: "fatha", hint: "مسكن بدوي يبدأ بخاء مفتوحة" },
+            { id: 17, word: "دِيك", parts: ["", "يك"], missingIndex: 0, letter: "د", haraka: "kasra", hint: "طائر يبدأ بدال مكسورة" },
+            { id: 18, word: "ذِئب", parts: ["", "ئب"], missingIndex: 0, letter: "ذ", haraka: "kasra", hint: "حيوان مفترس يبدأ بذال مكسورة" },
+            { id: 19, word: "رِحلة", parts: ["", "حلة"], missingIndex: 0, letter: "ر", haraka: "kasra", hint: "سفر يبدأ براء مكسورة" },
+            { id: 20, word: "زِجاج", parts: ["", "جاج"], missingIndex: 0, letter: "ز", haraka: "damma", hint: "مادة شفافة تبدأ بزاي مضمومة" },
+            
+            // 10 تمارين بضمة
+            { id: 21, word: "أُذن", parts: ["", "ذن"], missingIndex: 0, letter: "أ", haraka: "damma", hint: "عضو السمع يبدأ بألف مضمومة" },
+            { id: 22, word: "بُستان", parts: ["", "ستان"], missingIndex: 0, letter: "ب", haraka: "damma", hint: "حديقة أشجار تبدأ بباء مضمومة" },
+            { id: 23, word: "تُفاح", parts: ["", "فاح"], missingIndex: 0, letter: "ت", haraka: "damma", hint: "فاكهة حمراء تبدأ بتاء مضمومة" },
+            { id: 24, word: "جُحر", parts: ["", "حر"], missingIndex: 0, letter: "ج", haraka: "damma", hint: "مسكن الحيوان يبدأ بجيم مضمومة" },
+            { id: 25, word: "حُلم", parts: ["", "لم"], missingIndex: 0, letter: "ح", haraka: "damma", hint: "ما نراه أثناء النوم يبدأ بحاء مضمومة" },
+            { id: 26, word: "خُبز", parts: ["", "بز"], missingIndex: 0, letter: "خ", haraka: "damma", hint: "طعام أساسي يبدأ بخاء مضمومة" },
+            { id: 27, word: "دُب", parts: ["", "ب"], missingIndex: 0, letter: "د", haraka: "damma", hint: "حيوان كبير يبدأ بدال مضمومة" },
+            { id: 28, word: "رُكن", parts: ["", "كن"], missingIndex: 0, letter: "ر", haraka: "damma", hint: "زاوية المكان تبدأ براء مضمومة" },
+            { id: 29, word: "زُهور", parts: ["", "هور"], missingIndex: 0, letter: "ز", haraka: "damma", hint: "نباتات جميلة تبدأ بزاي مضمومة" },
+            { id: 30, word: "سُور", parts: ["", "ور"], missingIndex: 0, letter: "س", haraka: "damma", hint: "جدار عالٍ يبدأ بسين مضمومة" }
+        ];
+        
+        // حالة البرنامج
+        let currentExerciseIndex = 0;
+        let score = 0;
+        let selectedLetter = null;
+        let currentExercise = exercises[0];
+        let currentHarakaFilter = "all";
+        
+        // ============= تهيئة البرنامج =============
+        document.addEventListener('DOMContentLoaded', function() {
+            initLettersGrid();
+            loadExercise(currentExerciseIndex);
+            setupEventListeners();
+            updateProgress();
+        });
+        
+        // ============= إنشاء شبكة الحروف =============
+        function initLettersGrid() {
+            const lettersGrid = document.getElementById('lettersGrid');
+            lettersGrid.innerHTML = '';
+            
+            allArabicLetters.forEach(letterData => {
+                // عرض الحرف مع جميع تشكيلاته
+                ['fatha', 'kasra', 'damma', 'sukun'].forEach(haraka => {
+                    if (letterData.harakat.includes(haraka)) {
+                        const letterCard = document.createElement('div');
+                        letterCard.className = 'letter-card';
+                        letterCard.dataset.letter = letterData.letter;
+                        letterCard.dataset.haraka = haraka;
+                        letterCard.dataset.name = letterData.name;
+                        
+                        const harakaSymbol = getHarakaSymbol(haraka);
+                        const harakaText = getHarakaText(haraka);
+                        
+                        letterCard.innerHTML = `
+                            <div class="letter-main">${letterData.letter}</div>
+                            <div class="letter-haraka">${harakaSymbol}</div>
+                            <div style="font-size: 12px; color: #666; margin-top: 5px;">${harakaText}</div>
+                        `;
+                        
+                        letterCard.addEventListener('click', () => selectLetter(letterData.letter, haraka, letterCard));
+                        lettersGrid.appendChild(letterCard);
+                    }
+                });
+            });
+            
+            // تطبيق الفلتر الحالي
+            filterLetters(currentHarakaFilter);
+        }
+        
+        // ============= اختيار الحرف =============
+        function selectLetter(letter, haraka, element) {
+            // إلغاء تحديد الحرف السابق
+            document.querySelectorAll('.letter-card.selected').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // تحديد الحرف الجديد
+            selectedLetter = { letter, haraka };
+            element.classList.add('selected');
+            
+            // تفعيل زر التأكيد
+            document.getElementById('confirmBtn').disabled = false;
+            
+            // عرض رسالة
+            const harakaText = getHarakaText(haraka);
+            showMessage(`تم اختيار: ${letter} ${harakaText}`, "correct", 1500);
+        }
+        
+        // ============= تحميل التمرين =============
+        function loadExercise(index) {
+            if (index < 0 || index >= exercises.length) return;
+            
+            currentExerciseIndex = index;
+            currentExercise = exercises[index];
+            selectedLetter = null;
+            
+            // إلغاء تحديد أي حرف
+            document.querySelectorAll('.letter-card.selected').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // تعطيل زر التأكيد
+            document.getElementById('confirmBtn').disabled = true;
+            
+            // إنشاء واجهة التمرين
+            const exerciseContainer = document.getElementById('exerciseContainer');
+            
+            exerciseContainer.innerHTML = `
+                <div class="current-exercise">
+                    <h2 class="exercise-title">
+                        تمرين ${currentExercise.id}: ${getHarakaText(currentExercise.haraka)}
+                    </h2>
+                    
+                    <div class="word-display" id="wordDisplay">
+                        ${generateWordDisplay()}
+                    </div>
+                    
+                    <div class="hint-box">
+                        <p class="hint-text" id="hintText">
+                            ${currentExercise.hint}
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            // إضافة حدث النقر على الجزء الفارغ
+            const missingPart = document.querySelector('.missing-part');
+            if (missingPart) {
+                missingPart.addEventListener('click', () => {
+                    if (selectedLetter) {
+                        fillMissingPart(selectedLetter.letter);
+                    } else {
+                        showMessage("الرجاء اختيار حرف أولاً", "wrong");
+                    }
+                });
+            }
+            
+            // تحديث التقدم
+            updateProgress();
+        }
+        
+        // ============= توليد عرض الكلمة =============
+        function generateWordDisplay() {
+            let html = '';
+            
+            currentExercise.parts.forEach((part, index) => {
+                if (index === currentExercise.missingIndex) {
+                    // مكان الحرف الناقص
+                    html += `
+                        <div class="missing-part" id="missingPart">
+                            <span style="color: #999;">?</span>
+                        </div>
+                    `;
+                } else {
+                    // أجزاء الكلمة العادية
+                    html += `<div class="word-part">${part}</div>`;
+                }
+            });
+            
+            return html;
+        }
+        
+        // ============= ملء الجزء الناقص =============
+        function fillMissingPart(letter) {
+            const missingPart = document.getElementById('missingPart');
+            if (!missingPart) return;
+            
+            missingPart.innerHTML = `
+                <span style="font-size: 48px; font-weight: bold; color: #2c3e50;">
+                    ${letter}
+                </span>
+            `;
+            missingPart.classList.add('filled');
+            
+            // تفعيل زر التأكيد
+            document.getElementById('confirmBtn').disabled = false;
+        }
+        
+        // ============= التحقق من الإجابة =============
+        function checkAnswer() {
+            if (!selectedLetter) {
+                showMessage("الرجاء اختيار حرف أولاً", "wrong");
+                return;
+            }
+            
+            const isCorrect = selectedLetter.letter === currentExercise.letter && 
+                             selectedLetter.haraka === currentExercise.haraka;
+            
+            if (isCorrect) {
+                // الإجابة صحيحة
+                score += 10;
+                showMessage(`🎉 أحسنت! ${currentExercise.word}`, "correct");
+                playSound("correct");
+                
+                // تحديث النتيجة
+                updateProgress();
+                
+                // الانتقال التلقائي للتمرين التالي بعد 2 ثانية
+                setTimeout(() => {
+                    if (currentExerciseIndex < exercises.length - 1) {
+                        nextExercise();
+                    } else {
+                        showFinalResults();
+                    }
+                }, 2000);
+            } else {
+                // الإجابة خاطئة
+                showMessage(`غير صحيح. حاول مرة أخرى!`, "wrong");
+                playSound("wrong");
+                
+                // عرض الحرف الصحيح بعد 1.5 ثانية
+                setTimeout(() => {
+                    const correctHaraka = getHarakaText(currentExercise.haraka);
+                    showMessage(`الجواب الصحيح هو: ${currentExercise.letter} ${correctHaraka}`, "correct", 2000);
+                }, 1500);
+            }
+        }
+        
+        // ============= تمرين تالي =============
+        function nextExercise() {
+            if (currentExerciseIndex < exercises.length - 1) {
+                currentExerciseIndex++;
+                loadExercise(currentExerciseIndex);
+            } else {
+                showFinalResults();
+            }
+        }
+        
+        // ============= تصفية الحروف حسب التشكيل =============
+        function filterLetters(haraka) {
+            currentHarakaFilter = haraka;
+            
+            document.querySelectorAll('.letter-card').forEach(card => {
+                if (haraka === 'all' || card.dataset.haraka === haraka) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // تحديث أزرار الفلتر النشطة
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.haraka === haraka) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        
+        // ============= تحديث شريط التقدم =============
+        function updateProgress() {
+            // تحديث النقاط
+            document.getElementById('scoreValue').textContent = score;
+            
+            // تحديث النسبة
+            const progressPercent = ((currentExerciseIndex + 1) / exercises.length) * 100;
+            document.getElementById('progressFill').style.width = `${progressPercent}%`;
+            document.getElementById('progressText').textContent = 
+                `${currentExerciseIndex + 1}/${exercises.length}`;
+        }
+        
+        // ============= عرض النتيجة النهائية =============
+        function showFinalResults() {
+            const exerciseContainer = document.getElementById('exerciseContainer');
+            
+            let message = "";
+            let emoji = "🎓";
+            
+            if (score >= 280) {
+                message = "متفوق! إبداع رائع";
+                emoji = "🏆";
+            } else if (score >= 200) {
+                message = "ممتاز! أداء رائع";
+                emoji = "⭐";
+            } else if (score >= 150) {
+                message = "جيد جداً! واصل التقدم";
+                emoji = "👍";
+            } else {
+                message = "حاول مرة أخرى ستتحسن";
+                emoji = "💪";
+            }
+            
+            exerciseContainer.innerHTML = `
+                <div class="final-score">
+                    <div class="final-emoji">${emoji}</div>
+                    <h2 class="final-title">${message}</h2>
+                    <p style="font-size: 24px; color: #666;">لقد أكملت جميع التمارين</p>
+                    <div class="final-points">${score} نقطة</div>
+                    <p style="font-size: 20px; color: #666; margin: 20px 0;">
+                        لقد تعلمت جميع الحروف العربية بالتشكيلات الثلاثة
+                    </p>
+                    <button class="action-btn btn-reset" id="restartBtn" 
+                            style="padding: 20px 40px; font-size: 22px; margin-top: 30px;">
+                        🔄 إعادة البرنامج من البداية
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('restartBtn').addEventListener('click', restartProgram);
+        }
+        
+        // ============= إعادة تشغيل البرنامج =============
+        function restartProgram() {
+            score = 0;
+            currentExerciseIndex = 0;
+            selectedLetter = null;
+            loadExercise(currentExerciseIndex);
+            updateProgress();
+            showMessage("تم إعادة تشغيل البرنامج", "correct");
+        }
+        
+        // ============= إعداد مستمعي الأحداث =============
+        function setupEventListeners() {
+            // زر التأكيد
+            document.getElementById('confirmBtn').addEventListener('click', checkAnswer);
+            
+            // زر التالي
+            document.getElementById('nextBtn').addEventListener('click', nextExercise);
+            
+            // زر إعادة التعيين
+            document.getElementById('resetBtn').addEventListener('click', restartProgram);
+            
+            // زر التلميح
+            document.getElementById('hintBtn').addEventListener('click', () => {
+                showMessage(currentExercise.hint, "correct", 3000);
+            });
+            
+            // أزرار فلاتر التشكيل
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterLetters(btn.dataset.haraka);
+                });
+            });
+            
+            // اختصار لوحة المفاتيح: مسافة للتأكيد
+            document.addEventListener('keydown', (e) => {
+                if (e.code === 'Space' && !document.getElementById('confirmBtn').disabled) {
+                    e.preventDefault();
+                    checkAnswer();
+                }
+                if (e.code === 'ArrowRight') {
+                    nextExercise();
+                }
+                if (e.code === 'KeyR' && e.ctrlKey) {
+                    restartProgram();
+                }
+            });
+        }
+        
+        // ============= دوال مساعدة =============
+        function getHarakaSymbol(haraka) {
+            switch(haraka) {
+                case 'fatha': return 'ـَ';
+                case 'kasra': return 'ـِ';
+                case 'damma': return 'ـُ';
+                case 'sukun': return 'ـْ';
+                default: return '';
+            }
+        }
+        
+        function getHarakaText(haraka) {
+            switch(haraka) {
+                case 'fatha': return 'فتحة';
+                case 'kasra': return 'كسرة';
+                case 'damma': return 'ضمة';
+                case 'sukun': return 'سكون';
+                default: return '';
+            }
+        }
+        
+        function showMessage(text, type, duration = 3000) {
+            const messageElement = type === "correct" 
+                ? document.getElementById('correctMessage') 
+                : document.getElementById('wrongMessage');
+            
+            messageElement.textContent = text;
+            messageElement.classList.add('show');
+            
+            setTimeout(() => {
+                messageElement.classList.remove('show');
+            }, duration);
+        }
+        
+        function playSound(type) {
+            // محاكاة للأصوات (في التطبيق الحقيقي يتم استخدام ملفات صوتية)
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                if (type === "correct") {
+                    oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1);
+                    oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2);
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                } else {
+                    oscillator.frequency.setValueAtTime(220, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(196, audioContext.currentTime + 0.1);
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                }
+                
+                oscillator.start();
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                oscillator.stop(audioContext.currentTime + 0.5);
+            } catch (e) {
+                console.log("التطبيق يعمل بشكل طبيعي");
+            }
+        }
+        
+        // ============= تهيئة إضافية للأجهزة المحمولة =============
+        function initMobileFeatures() {
+            // منع التكبير بالضغط المزدوج
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function(event) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+            
+            // تحسين عرض الحروف على الشاشات الصغيرة
+            if (window.innerWidth < 768) {
+                document.querySelectorAll('.letter-card').forEach(card => {
+                    card.style.minHeight = '70px';
+                });
+                
+                document.querySelectorAll('.letter-main').forEach(el => {
+                    el.style.fontSize = '28px';
+                });
+            }
+        }
+        
+        // تشغيل ميزات الهاتف
+        setTimeout(initMobileFeatures, 1000);
+    </script>
+</body>
+</html>
