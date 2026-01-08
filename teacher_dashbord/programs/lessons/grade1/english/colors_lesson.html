@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>تعلم الألوان للأطفال</title>
+    <title>عالم الألوان الممتع</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -34,7 +34,6 @@
             text-align: center;
         }
 
-        /* لوحة العرض الكبيرة */
         .color-display {
             width: 100%;
             max-width: 400px;
@@ -57,14 +56,13 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        /* شبكة الألوان */
         .colors-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
             width: 100%;
             max-width: 400px;
-            margin-bottom: 100px; /* مساحة للأزرار */
+            margin-bottom: 100px;
         }
 
         .color-item {
@@ -80,7 +78,20 @@
             transform: scale(0.9);
         }
 
-        /* أزرار التنقل السفلية */
+        /* تعريف الألوان الجديدة والأساسية */
+        .red { background-color: #ff4757; }
+        .blue { background-color: #1e90ff; }
+        .green { background-color: #2ed573; }
+        .yellow { background-color: #eccc68; }
+        .orange { background-color: #ffa502; }
+        .purple { background-color: #a442ee; }
+        .pink { background-color: #ff6b81; }
+        .black { background-color: #2f3542; }
+        .brown { background-color: #8b4513; }
+        .white { background-color: #ffffff; border: 4px solid #ddd !important; } /* أبيض بحدود رمادية لبيانه */
+        .grey { background-color: #a1a1a1; } /* رمادي / رصاصي */
+        .gold { background-color: #ffd700; } /* ذهبي - اللون الثالث */
+
         .nav-bar {
             position: fixed;
             bottom: 0;
@@ -110,17 +121,6 @@
 
         .home { background: #f1f2f6; color: #2f3542; }
         .back { background: #6c5ce7; color: white; }
-
-        /* الألوان */
-        .red { background-color: #ff4757; }
-        .blue { background-color: #1e90ff; }
-        .green { background-color: #2ed573; }
-        .yellow { background-color: #eccc68; }
-        .orange { background-color: #ffa502; }
-        .purple { background-color: #a442ee; }
-        .pink { background-color: #ff6b81; }
-        .black { background-color: #2f3542; }
-        .brown { background-color: #8b4513; }
     </style>
 </head>
 <body>
@@ -132,15 +132,19 @@
     </div>
 
     <div class="colors-grid">
-        <div class="color-item red" onclick="showColor('#ff4757', 'أحمر', 'Red')"></div>
-        <div class="color-item blue" onclick="showColor('#1e90ff', 'أزرق', 'Blue')"></div>
-        <div class="color-item green" onclick="showColor('#2ed573', 'أخضر', 'Green')"></div>
-        <div class="color-item yellow" onclick="showColor('#eccc68', 'أصفر', 'Yellow')"></div>
-        <div class="color-item orange" onclick="showColor('#ffa502', 'برتقالي', 'Orange')"></div>
-        <div class="color-item purple" onclick="showColor('#a442ee', 'بنفسجي', 'Purple')"></div>
-        <div class="color-item pink" onclick="showColor('#ff6b81', 'وردي', 'Pink')"></div>
-        <div class="color-item black" onclick="showColor('#2f3542', 'أسود', 'Black')"></div>
-        <div class="color-item brown" onclick="showColor('#8b4513', 'بني', 'Brown')"></div>
+        <div class="color-item red" onclick="showColor('#ff4757', 'أحمر')"></div>
+        <div class="color-item blue" onclick="showColor('#1e90ff', 'أزرق')"></div>
+        <div class="color-item green" onclick="showColor('#2ed573', 'أخضر')"></div>
+        <div class="color-item yellow" onclick="showColor('#eccc68', 'أصفر')"></div>
+        <div class="color-item orange" onclick="showColor('#ffa502', 'برتقالي')"></div>
+        <div class="color-item purple" onclick="showColor('#a442ee', 'بنفسجي')"></div>
+        <div class="color-item pink" onclick="showColor('#ff6b81', 'وردي')"></div>
+        <div class="color-item black" onclick="showColor('#2f3542', 'أسود')"></div>
+        <div class="color-item brown" onclick="showColor('#8b4513', 'بني')"></div>
+        
+        <div class="color-item white" onclick="showColor('#ffffff', 'أبيض')"></div>
+        <div class="color-item grey" onclick="showColor('#a1a1a1', 'رصاصي')"></div>
+        <div class="color-item gold" onclick="showColor('#ffd700', 'ذهبي')"></div>
     </div>
 
     <div class="nav-bar">
@@ -153,50 +157,81 @@
     </div>
 
     <script>
-document.body.addEventListener('touchstart', function() {
-    // تشغيل نطق فارغ لمرة واحدة لفك حظر المتصفح
-    const silent = new SpeechSynthesisUtterance('');
-    window.speechSynthesis.speak(silent);
-}, { once: true });
+        // مصفوفة الروابط الصوتية المحدثة
+        const audioFiles = {
+            'أحمر': '../../../sound/english/color/red.mp3',
+            'أزرق': '../../../sound/english/color/blue.mp3',
+            'أخضر': '../../../sound/english/color/green.mp3',
+            'أصفر': '../../../sound/english/color/yalow.mp3',
+            'برتقالي': '../../../sound/english/color/orang.mp3',
+            'بنفسجي': '../../../sound/english/color/papel.mp3',
+            'وردي': '../../../sound/english/color/pink.mp3',
+            'أسود': '../../../sound/english/color/black.mp3',
+            'بني': '../../../sound/english/color/bron.mp3',
+            // مسارات الأصوات الجديدة (تأكد من مطابقة الأسماء في المجلد لديك)
+            'أبيض': '../../../sound/english/color/white.mp3',
+            'رصاصي': '../../../sound/english/color/grey.mp3',
+            'ذهبي': '../../../sound/english/color/gold.mp3'
+        };
 
+        let currentAudio = null;
 
-        function showColor(hex, nameAr, nameEn) {
+        function showColor(hex, nameAr) {
             const display = document.getElementById('mainDisplay');
             const text = document.getElementById('colorName');
             
-            // تغيير اللون والنص
             display.style.backgroundColor = hex;
             text.innerText = nameAr;
 
-            // نطق اللون بصوت ناعم
-            speakColor(nameAr, nameEn);
+            // ضبط لون النص ليكون ظاهراً عند اختيار اللون الأبيض
+            if (hex === '#ffffff') {
+                text.style.color = '#333';
+                text.style.textShadow = 'none';
+            } else {
+                text.style.color = '#fff';
+                text.style.textShadow = '2px 2px 4px rgba(0,0,0,0.3)';
+            }
+
+            playAudio(nameAr);
         }
 
-        function speakColor(ar, en) {
+        function playAudio(colorName) {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+
+            const audioUrl = audioFiles[colorName];
+
+            if (audioUrl) {
+                currentAudio = new Audio();
+                currentAudio.src = audioUrl;
+                
+                currentAudio.play().catch(error => {
+                    console.log("فشل تشغيل الملف، سيتم استخدام نطق الآلة:", error);
+                    fallbackSpeech(colorName);
+                });
+            } else {
+                fallbackSpeech(colorName);
+            }
+        }
+
+        function fallbackSpeech(text) {
             window.speechSynthesis.cancel();
-            
-            // نطق بالعربي
-            const msgAr = new SpeechSynthesisUtterance(ar);
-            msgAr.lang = 'ar-SA';
-            msgAr.rate = 0.8;
-            msgAr.pitch = 1.2;
-
-            // نطق بالإنجليزي بعد العربي
-            const msgEn = new SpeechSynthesisUtterance(en);
-            msgEn.lang = 'en-US';
-            msgEn.rate = 0.8;
-            msgEn.pitch = 1.2;
-
-            window.speechSynthesis.speak(msgAr);
-            window.speechSynthesis.speak(msgEn);
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'ar-SA';
+            msg.rate = 0.8;
+            window.speechSynthesis.speak(msg);
         }
 
-        // نطق ترحيبي عند البداية
+        document.body.addEventListener('touchstart', function() {
+            const silent = new SpeechSynthesisUtterance('');
+            window.speechSynthesis.speak(silent);
+        }, { once: true });
+
         window.onload = () => {
             setTimeout(() => {
-                const welcome = new SpeechSynthesisUtterance("هيا نتعلم الألوان");
-                welcome.lang = 'ar-SA';
-                window.speechSynthesis.speak(welcome);
+                fallbackSpeech("هيا نتعلم الألوان");
             }, 500);
         };
     </script>

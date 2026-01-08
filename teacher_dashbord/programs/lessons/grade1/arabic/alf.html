@@ -2,65 +2,68 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>تعلم حرف الألف - شامل</title>
     <style>
         :root { --primary: #4A90E2; --success: #2ECC71; --bg: #F8FAFC; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         
         .screen { display: none; width: 100%; max-width: 500px; text-align: center; padding: 20px; box-sizing: border-box; }
         .active { display: block; animation: fadeIn 0.4s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* الأزرار */
+        .home-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(30, 136, 229, 0.3);
+        }
+
         .btn-main { background: var(--primary); color: white; border: none; padding: 15px 25px; font-size: 1.2rem; border-radius: 50px; cursor: pointer; margin: 10px; width: 80%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .btn-home { background: #95a5a6; width: auto; padding: 8px 15px; font-size: 0.9rem; position: fixed; top: 10px; right: 10px; z-index: 100; border-radius: 10px; }
 
-        /* قسم الأشكال */
         .shape-card { background: white; margin: 15px 0; padding: 20px; border-radius: 20px; border-right: 8px solid var(--primary); display: flex; align-items: center; justify-content: space-around; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .shape-img { width: 180px; height: 180px; object-fit: contain; }
-        .shape-text h3 { margin: 0; color: #333; }
         .shape-text p { margin: 5px 0 0; font-size: 1.5rem; font-weight: bold; color: var(--primary); }
 
-        /* التمارين */
         .quiz-box { background: white; padding: 25px; border-radius: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .quiz-img { width: 140px; height: 140px; margin-bottom: 15px; }
-        .opt-btn { width: 70px; height: 70px; font-size: 1.8rem; border-radius: 15px; border: 3px solid var(--primary); background: white; cursor: pointer; margin: 5px; font-weight: bold; }
+        .quiz-img { width: 140px; height: 140px; margin-bottom: 15px; object-fit: contain; }
+        .opt-btn { width: 75px; height: 75px; font-size: 1.8rem; border-radius: 15px; border: 3px solid var(--primary); background: white; cursor: pointer; margin: 5px; font-weight: bold; }
         
         .progress-bar { width: 100%; height: 10px; background: #ddd; border-radius: 5px; margin: 40px 0 20px; overflow: hidden; }
         .progress-inner { height: 100%; background: var(--success); width: 0%; transition: 0.3s; }
     </style>
 </head>
 <body>
+    <div class="app-container">
+        <a href="../../../../../teacher_dashbord/arabic_dashboard.html" class="home-btn">الرئيسية</a>
 
-    <div id="home-screen" class="screen active">
-        <h1 style="color: var(--primary); margin-top: 40px;">مرحباً يا بطل 🌟</h1>
-        <img src="../../../images/taalm.png" class="shape-img">
-        <button class="btn-main" onclick="showScreen('shapes-screen')">تعلم أشكال الحرف 📖</button>
-        <button class="btn-main" onclick="startQuiz()">ابدأ التمارين (10) 📝</button>
-    </div>
-
-    <div id="shapes-screen" class="screen">
-        <button class="btn-main btn-home" onclick="goHome()">🏠 العودة</button>
-        <h2 style="margin-top: 50px;">أين يختبئ حرف الألف؟</h2>
-        
-        <div class="shape-card">
-            <img src="../../../images/rabit.png" class="shape-img">
-            <div class="shape-text">
-                <h3>أول الكلمة</h3>
-                <p><span style="color:red">أ</span>رنب</p>
-            </div>
+        <div id="home-screen" class="screen active">
+            <h1 style="color: var(--primary); margin-top: 40px;">مرحباً يا بطل 🌟</h1>
+            <img src="../../../images/taalm.png" class="shape-img">
+            <button class="btn-main" onclick="showScreen('shapes-screen')">تعلم أشكال الحرف 📖</button>
+            <button class="btn-main" onclick="startQuiz()">ابدأ التمارين (10) 📝</button>
         </div>
 
-        <div class="shape-card">
-            <img src="../../../images/lolo.png" class="shape-img">
-            <div class="shape-text">
-                <h3>وسط الكلمة</h3>
-                <p>لـ<span style="color:red">ؤ</span>لـ<span style="color:red">ؤ</span>ة</p>
+        <div id="shapes-screen" class="screen">
+            <button class="btn-main btn-home" onclick="goHome()">🏠 العودة</button>
+            <h2 style="margin-top: 50px;">أين يختبئ حرف الألف؟</h2>
+            <div class="shape-card">
+                <img src="../../../images/rabit.png" class="shape-img">
+                <div class="shape-text"><h3>أول الكلمة</h3><p><span style="color:red">أ</span>رنب</p></div>
             </div>
-        </div>
+            <div class="shape-card">
+                <img src="../../../images/lolo.png" class="shape-img">
+                <div class="shape-text"><h3>وسط الكلمة</h3><p>لـ<span style="color:red">ؤ</span>لـ<span style="color:red">ؤ</span>ة</p></div>
+            </div>
 
-        <div class="shape-card">
+<div class="shape-card">
             <img src="../../../images/shose.png" class="shape-img">
             <div class="shape-text">
                 <h3>آخر الكلمة</h3>
@@ -68,32 +71,32 @@
             </div>
         </div>
 
-        <button class="btn-main" onclick="startQuiz()">انتقل للتمارين الآن!</button>
-    </div>
 
-    <div id="quiz-screen" class="screen">
-        <button class="btn-main btn-home" onclick="goHome()">🏠 العودة</button>
-        <div class="progress-bar"><div id="progress" class="progress-inner"></div></div>
-        
-        <div class="quiz-box">
-            <h4 id="q-num">تمرين 1 من 10</h4>
-            <img id="q-img" src="" class="quiz-img">
-            <h2 id="q-word" style="font-size: 2.2rem; margin: 10px 0;"></h2>
-            
-            <div id="options">
-                <button class="opt-btn" onclick="checkAns('أَ')">أَ</button>
-                <button class="opt-btn" onclick="checkAns('أُ')">أُ</button>
-                <button class="opt-btn" onclick="checkAns('إِ')">إِ</button>
-            </div>
-            <p id="feedback" style="font-weight: bold; margin-top: 15px; height: 25px;"></p>
+
+            <button class="btn-main" onclick="startQuiz()">انتقل للتمارين الآن!</button>
         </div>
-    </div>
 
-    <div id="end-screen" class="screen">
-        <h1 style="font-size: 4rem;">🎉</h1>
-        <h2>أنت مذهل!</h2>
-        <p>لقد تعلمت أشكال وأصوات حرف الألف</p>
-        <button class="btn-main" onclick="goHome()">العب مرة أخرى</button>
+        <div id="quiz-screen" class="screen">
+            <button class="btn-main btn-home" onclick="goHome()">🏠 العودة</button>
+            <div class="progress-bar"><div id="progress" class="progress-inner"></div></div>
+            <div class="quiz-box">
+                <h4 id="q-num">تمرين 1 من 10</h4>
+                <img id="q-img" src="" class="quiz-img">
+                <h2 id="q-word" style="font-size: 2.2rem; margin: 10px 0;"></h2>
+                <div id="options">
+                    <button class="opt-btn" onclick="checkAns('أَ')">أَ</button>
+                    <button class="opt-btn" onclick="checkAns('أُ')">أُ</button>
+                    <button class="opt-btn" onclick="checkAns('إِ')">إِ</button>
+                </div>
+                <p id="feedback" style="font-weight: bold; margin-top: 15px; height: 25px;"></p>
+            </div>
+        </div>
+
+        <div id="end-screen" class="screen">
+            <h1 style="font-size: 4rem;">🎉</h1>
+            <h2>أنت مذهل!</h2>
+            <button class="btn-main" onclick="goHome()">العب مرة أخرى</button>
+        </div>
     </div>
 
     <script>
@@ -111,6 +114,7 @@
         ];
 
         let currentQ = 0;
+        let isProcessing = false; // لمنع التهنيج عند الضغط المتكرر
 
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -118,10 +122,11 @@
             window.scrollTo(0,0);
         }
 
-        function goHome() { showScreen('home-screen'); }
+        function goHome() { isProcessing = false; showScreen('home-screen'); }
 
         function startQuiz() {
             currentQ = 0;
+            isProcessing = false;
             updateQuiz();
             showScreen('quiz-screen');
         }
@@ -131,34 +136,58 @@
             document.getElementById('q-num').innerText = `تمرين ${currentQ + 1} من 10`;
             document.getElementById('q-img').src = q.img;
             document.getElementById('q-word').innerText = q.word;
-            document.getElementById('progress').style.width = (currentQ / 10 * 100) + "%";
+            document.getElementById('progress').style.width = (currentQ / exercises.length * 100) + "%";
             document.getElementById('feedback').innerText = "";
+            isProcessing = false;
         }
 
         function checkAns(selected) {
+            if (isProcessing) return; // إذا كان النظام يعالج الإجابة، لا تفعل شيئاً
+
             const q = exercises[currentQ];
             const feedback = document.getElementById('feedback');
+            
             if (selected === q.ans) {
+                isProcessing = true; // قفل الأزرار مؤقتاً
                 feedback.innerText = "ممتاز! ✅";
                 feedback.style.color = "var(--success)";
-                speak(q.name);
+                
+                // تشغيل الصوت بطريقة لا تعطل المتصفح
+                speakWord(q.name);
+
                 setTimeout(() => {
                     currentQ++;
-                    if (currentQ < exercises.length) updateQuiz();
-                    else showScreen('end-screen');
+                    if (currentQ < exercises.length) {
+                        updateQuiz();
+                    } else {
+                        showScreen('end-screen');
+                    }
                 }, 1000);
             } else {
                 feedback.innerText = "حاول ثانية ❌";
                 feedback.style.color = "red";
+                setTimeout(() => { feedback.innerText = ""; }, 800);
             }
         }
 
-        function speak(text) {
-            const msg = new SpeechSynthesisUtterance();
-            msg.text = text;
-            msg.lang = 'ar-SA';
-            window.speechSynthesis.speak(msg);
+        function speakWord(text) {
+            // كود صوتي أكثر استقراراً لمتصفحات الجوال
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const msg = new SpeechSynthesisUtterance(text);
+                msg.lang = 'ar-SA';
+                msg.rate = 0.9;
+                window.speechSynthesis.speak(msg);
+            }
         }
+
+        // تفعيل الصوت عند أول لمسة (ضروري جداً لمتصفح التيليجرام)
+        document.addEventListener('touchstart', function() {
+            if ('speechSynthesis' in window) {
+                const silent = new SpeechSynthesisUtterance('');
+                window.speechSynthesis.speak(silent);
+            }
+        }, { once: true });
     </script>
 </body>
 </html>

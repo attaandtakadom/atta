@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>محول روابط جوجل درايف للأصوات</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; padding: 50px; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 100%; max-width: 500px; text-align: center; }
+        input { width: 90%; padding: 12px; margin: 15px 0; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; }
+        button { background-color: #4285F4; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        button:hover { background-color: #357ae8; }
+        .result-box { margin-top: 20px; padding: 15px; background: #e8f0fe; border-radius: 8px; word-break: break-all; display: none; border: 1px dashed #4285F4; }
+        h2 { color: #333; }
+        p { color: #666; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>🔄 محول روابط جوجل درايف</h2>
+    <p>ضع رابط المشاركة من جوجل درايف هنا لتحويله لرابط تشغيل مباشر:</p>
+    
+    <input type="text" id="driveLink" placeholder="انسخ الرابط هنا...">
+    <br>
+    <button onclick="convertLink()">تحويل الآن</button>
+
+    <div id="resultBox" class="result-box">
+        <strong>الرابط الجاهز للكود:</strong>
+        <p id="finalLink"></p>
+        <button onclick="copyLink()" style="background-color: #34a853; padding: 5px 15px; font-size: 12px;">نسخ الرابط</button>
+    </div>
+</div>
+
+<script>
+    function convertLink() {
+        const input = document.getElementById('driveLink').value;
+        const resultBox = document.getElementById('resultBox');
+        const finalLink = document.getElementById('finalLink');
+
+        // استخراج الـ ID الخاص بالملف من الرابط
+        const regex = /\/d\/([a-zA-Z0-9_-]+)/;
+        const match = input.match(regex);
+
+        if (match && match[1]) {
+            const fileId = match[1];
+            // الشكل الجديد للرابط الذي يعمل في البرمجة
+            const directLink = `https://docs.google.com/uc?export=download&id=${fileId}`;
+            
+            finalLink.innerText = directLink;
+            resultBox.style.display = 'block';
+        } else {
+            alert("عذراً، الرابط غير صحيح. تأكد من نسخ رابط المشاركة من جوجل درايف.");
+        }
+    }
+
+    function copyLink() {
+        const text = document.getElementById('finalLink').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("تم نسخ الرابط بنجاح!");
+        });
+    }
+</script>
+
+</body>
+</html>
