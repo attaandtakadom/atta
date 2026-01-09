@@ -961,6 +961,9 @@
             background: var(--success);
         }
     </style>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
 </head>
 <body>
     <!-- رسالة الخطأ المخفية -->
@@ -998,10 +1001,10 @@
             </div>
         </div>
     </nav>
-
+<button onclick="closeAndGoToChannel()">إنهاء والعودة للقناة</button>
     <!-- ... (بقية HTML كما هو) ... -->
 <div class="alert" id="alertMessage" style="display: none;"></div>
-
+<button onclick="closeAndGoToChannel()">إنهاء والعودة للقناة</button>
     <!-- قسم البطل -->
     <section class="hero">
         <div class="container">
@@ -1707,6 +1710,30 @@
                 showError(result.message);
             }
         };
+
+// استدعاء مكتبة تلجرام
+const tg = window.Telegram.WebApp;
+
+// وظيفة لإغلاق المنظومة والتوجه للقناة
+function closeAndGoToChannel() {
+    // رابط قناتك الخاصة (استبدل username بيوزرنيم قناتك)
+    const channelLink = "https://t.me/+EBxBKWk30sMxMWEo"; 
+    
+    // إخبار تلجرام بفتح الرابط الخارجي (القناة)
+    tg.openTelegramLink(channelLink);
+    
+    // إغلاق نافذة المنظومة (Web App)
+    tg.close();
+}
+
+
+
+
+
     </script>
+
+
+
+    
 </body>
 </html>
