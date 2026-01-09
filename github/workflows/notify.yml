@@ -1,0 +1,14 @@
+name: Telegram Notification
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Message
+        run: |
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
+          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -d text="🚀 **تم تحديث المنظومة التعليمية بنجاح!**%0A%0Aيمكنكم الآن الدخول واستخدام المنظومة عبر الزر أدناه:" \
+          -d parse_mode="Markdown" \
+          -d reply_markup='{"inline_keyboard":[[{"text":"تشغيل المنظومة","url":"https://attaandtakadom.github.io/takadom/"}]]}'
