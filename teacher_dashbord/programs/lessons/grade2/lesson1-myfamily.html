@@ -2,10 +2,19 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>برنامج لغتي - مؤسسة التقدم والعطاء</title>
     <style>
         body { font-family: 'Arial', sans-serif; background-color: #e3f2fd; text-align: center; padding: 10px; margin: 0; }
-        .container { max-width: 800px; background: white; margin: 20px auto; padding: 30px; border-radius: 30px; border: 8px solid #2196F3; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .container { background: white;  border-radius: 30px;
+             border: 8px solid #2196F3; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    width: 80%;      /* ليأخذ مساحة الشاشة كاملة في النقال */
+    max-width: 900px; 
+    margin: 10px auto; 
+    padding: 20px; 
+    box-sizing: border-box; /* يمنع خروج المحتوى عن الحواف */
+}
         
         /* الشخصيات */
         .character-box { display: flex; justify-content: space-around; background: #fff9c4; padding: 15px; border-radius: 20px; margin-bottom: 20px; border: 2px solid #ffd54f; }

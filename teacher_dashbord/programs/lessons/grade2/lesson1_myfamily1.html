@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>برنامج لغتي - مؤسسة التقدم والعطاء</title>
+    <style>
+        body { 
+            font-family: 'Arial', sans-serif; 
+            background-color: #e3f2fd; 
+            text-align: center; 
+            padding: 5px; 
+            margin: 0; 
+            overflow-x: hidden; /* يمنع الاهتزاز يميناً ويساراً */
+        }
+        .container { 
+            width: 95%; 
+            max-width: 500px; 
+            background: white; 
+            margin: 10px auto; 
+            padding: 15px; 
+            border-radius: 20px; 
+            border: 4px solid #2196F3; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+        }
+        
+        .character-box { 
+            display: flex; 
+            justify-content: space-around; 
+            background: #fff9c4; 
+            padding: 10px; 
+            border-radius: 15px; 
+            margin-bottom: 15px; 
+        }
+
+        .big-text { 
+            font-size: 1.5rem; /* حجم خط كبير ومناسب للنقال */
+            font-weight: bold; 
+            line-height: 1.6; 
+            color: #2c3e50; 
+            margin: 15px 0; 
+        }
+        
+        .family-img { 
+            width: 100%; 
+            height: auto; 
+            border-radius: 15px; 
+            border: 2px solid #ddd; 
+        }
+
+        .btn { 
+            background: #4CAF50; 
+            color: white; 
+            padding: 15px; 
+            font-size: 1.2rem; 
+            border: none; 
+            border-radius: 15px; 
+            cursor: pointer; 
+            margin: 10px 0; 
+            width: 100%; /* الزر يأخذ عرض الشاشة لسهولة الضغط */
+            box-shadow: 0 4px #2e7d32; 
+        }
+
+        .btn-choice { 
+            width: 45%; /* وضع زرين بجانب بعضهما في النقال */
+            display: inline-block;
+            background: #2196F3;
+        }
+
+        input { 
+            font-size: 1.3rem; 
+            width: 100%; 
+            padding: 12px; 
+            margin: 10px 0; 
+            border: 2px solid #2196F3; 
+            border-radius: 10px; 
+            box-sizing: border-box; 
+        }
+
+        .home-btn { 
+            display: inline-block; 
+            padding: 10px 20px; 
+            background: #0d47a1; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 10px; 
+            margin-bottom: 10px; 
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="../../../../../teacher_dashbord/arabic_dashboard.html" class="home-btn">الرئيسية</a>
+    
+    <div class="character-box">
+        <div><h2 style="color: blue; margin:0; font-size: 1.1rem;">👦 أنس</h2></div>
+        <div><h2 style="color: #e91e63; margin:0; font-size: 1.1rem;">👧 بثينة</h2></div>
+    </div>
+
+    <div id="step1" class="step active">
+        <img src="../../images/myfamily.jpg" class="family-img">
+        <div class="big-text">
+            أنا أحب أمي<br>
+            أنا أحب أبي<br>
+            أنا أحب أخي
+        </div>
+        <button class="btn" onclick="goToStep(2)">ابدأ التمارين ➔</button>
+    </div>
+
+    <div id="step2" class="step" style="display:none;">
+        <div class="big-text">اختر الكلمة الصحيحة:</div>
+        <div class="big-text">..... أبي</div>
+        <button class="btn btn-choice" onclick="alert('صح!')">هذا</button>
+        <button class="btn btn-choice" onclick="alert('خطأ')">هذه</button>
+    </div>
+</div>
+
+<script>
+    function goToStep(n) {
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>

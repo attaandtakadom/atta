@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>درس عظات غالية - الصف الرابع</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 10px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 1.4rem;
+        }
+        .section {
+            border: 2px solid #e0e0e0;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        .quran-img {
+            display: block;
+            margin: 0 auto;
+            width: 100px;
+            border-radius: 10px;
+        }
+        .quran-text {
+            background-color: #fff9c4;
+            padding: 15px;
+            font-size: 1.1rem;
+            text-align: center;
+            border-right: 5px solid #fbc02d;
+            margin: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #4caf50;
+            color: white;
+        }
+        .exercise {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+        /* تصميم زر العودة للرئيسية */
+        .mhome {
+            display: block;
+            width: fit-content;
+            margin: 10px auto 20px;
+            padding: 10px 25px;
+            background: #0d47a1;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(13, 71, 161, 0.3);
+            text-align: center;
+        }
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="../../../../../teacher_dashbord/arabic_dashboard.html" class="mhome">🏠 العودة للرئيسية</a>
+
+    <h1>درس: عظات غالية</h1>
+
+    <div class="section">
+        <img src="https://cdn-icons-png.flaticon.com/512/2904/2904832.png" alt="مصحف شريف" class="quran-img">
+        <h2>سورة لقمان (الآيات 16 - 18)</h2>
+        <div class="quran-text">
+            يَا بُنَيَّ أَقِمِ الصَّلَاةَ وَأْمُرْ بِالْمَعْرُوفِ وَانْهَ عَنِ الْمُنكَرِ وَاصْبِرْ عَلَىٰ مَا أَصَابَكَ ۖ إِنَّ ذَٰلِكَ مِنْ **عَزْمِ الْأُمُورِ** (17) 
+            وَلَا **تُصَعِّرْ خَدَّكَ** لِلنَّاسِ وَلَا تَمْشِ فِي الْأَرْضِ مَرَحًا... **وَاقْصِدْ فِي مَشْيِكَ وَاغْضُضْ مِن صَوْتِكَ**...
+        </div>
+        
+        <div class="exercise">
+            <p><strong>تمرين سريع:</strong> ما اسم السورة التي درستها؟</p>
+            <input type="text" id="q1" placeholder="اكتب اسم السورة هنا">
+            <button onclick="checkAnswer('q1', 'لقمان', 'ans1')">تحقق ✅</button>
+            <p id="ans1" class="feedback"></p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>معاني الكلمات</h2>
+        <table>
+            <tr><th>الكلمة</th><th>المعنى</th></tr>
+            <tr><td>عزم الأمور</td><td>قوة الإرادة</td></tr>
+            <tr><td>لا تصعر خدك</td><td>لا تمل وجهك تكبراً</td></tr>
+            <tr><td>اقصد في مشيك</td><td>توسط واعتدل</td></tr>
+        </table>
+        
+        <div class="exercise">
+            <p><strong>تمرين:</strong> ما معنى "اغضض من صوتك"؟</p>
+            <button onclick="showFeedback('ans2', 'إجابة صحيحة! أحسنت', 'green')">اخفض صوتك</button>
+            <button onclick="showFeedback('ans2', 'حاول مرة أخرى', 'red')">ارفع صوتك</button>
+            <p id="ans2" class="feedback"></p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>الكلمة وضدها</h2>
+        <table>
+            <tr><th>الكلمة</th><th>الضد (العكس)</th></tr>
+            <tr><td>غالية</td><td>رخيصة</td></tr>
+            <tr><td>التواضع</td><td>التكبر</td></tr>
+        </table>
+        
+        <div class="exercise">
+            <p><strong>تمرين:</strong> ما هو عكس كلمة (التواضع)؟</p>
+            <input type="text" id="q3" placeholder="اكتب العكس هنا">
+            <button onclick="checkAnswer('q3', 'التكبر', 'ans3')">تحقق ✅</button>
+            <p id="ans3" class="feedback"></p>
+        </div>
+    </div>
+
+    <a href="../../../../../teacher_dashbord/arabic_dashboard.html" class="mhome">🏠 العودة للرئيسية</a>
+
+</div>
+
+<script>
+    function checkAnswer(inputId, correctValue, feedbackId) {
+        let val = document.getElementById(inputId).value;
+        let fb = document.getElementById(feedbackId);
+        fb.style.display = "block";
+        if (val.trim() === correctValue) {
+            fb.innerHTML = "ممتاز! إجابة صحيحة ⭐";
+            fb.style.color = "green";
+        } else {
+            fb.innerHTML = "حاول مرة أخرى يا بطل ❤️";
+            fb.style.color = "orange";
+        }
+    }
+
+    function showFeedback(id, text, color) {
+        let fb = document.getElementById(id);
+        fb.style.display = "block";
+        fb.innerHTML = text;
+        fb.style.color = color;
+    }
+</script>
+
+</body>
+</html>
