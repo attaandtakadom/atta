@@ -5,9 +5,17 @@ jobs:
   telegram_job:
     runs-on: ubuntu-latest
     steps:
-      - name: Send Clean Notification
+      - name: Send Notification with Commit Message
         run: |
+          # استخراج رسالة الكوميت الأخيرة
+          COMMIT_MSG=$(echo "${{ github.event.head_commit.message }}")
+          
+          # إرسال الرسالة إلى التلجرام مع إضافة لمسة جمالية
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
           -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-          -d text="🔔 **إشعار:** تم تحديث بيانات المنظومة بنجاح. يمكنك المتابعة عبر الرسالة المثبتة أعلاه 👆" \
+          -d text="🔔 **إشعار من قيت هاب:**
+          
+          📜 **التحديث:** $COMMIT_MSG
+          
+          ✅ تم رفع التعديلات بنجاح إلى المنظومة." \
           -d parse_mode="Markdown"
