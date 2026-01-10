@@ -1,0 +1,13 @@
+name: Telegram Notification
+on: [push]
+
+jobs:
+  telegram_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Clean Notification
+        run: |
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
+          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -d text="🔔 **إشعار:** تم تحديث بيانات المنظومة بنجاح. يمكنك المتابعة عبر الرسالة المثبتة أعلاه 👆" \
+          -d parse_mode="Markdown"
