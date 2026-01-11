@@ -5,17 +5,23 @@ jobs:
   telegram_job:
     runs-on: ubuntu-latest
     steps:
-      - name: Send Notification with Commit Message
+      - name: Send Clean Notification
         run: |
-          # استخراج رسالة الكوميت الأخيرة
-          COMMIT_MSG=$(echo "${{ github.event.head_commit.message }}")
+          # استخراج رسالة الكوميت
+          MSG="${{ github.event.head_commit.message }}"
           
-          # إرسال الرسالة إلى التلجرام مع إضافة لمسة جمالية
+          # شرط: إذا كانت الرسالة تحتوي على كلمة 'Merge' أو 'Update notify' فلا ترسل إشعاراً
+          if [[ "$MSG" == *"Merge"* ]] || [[ "$MSG" == *"Update notify"* ]]; then
+            echo "إشعار تقني - لن يتم الإرسال للتلجرام"
+            exit 0
+          fi
+
+          # إرسال الرسالة إذا كانت "مقبولة" وتعبر عن درس جديد
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
           -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-          -d text="🔔 **إشعار من قيت هاب:**
+          -d text="📚 **تحديث جديد في المنظومة التعليمية** 📚
           
-          📜 **التحديث:** $COMMIT_MSG
+          📝 **الإضافة:** $MSG
           
-          ✅ تم رفع التعديلات بنجاح إلى المنظومة." \
+          ✨ تم تحديث المحتوى بنجاح، يمكن للطلاب الاطلاع الآن." \
           -d parse_mode="Markdown"
